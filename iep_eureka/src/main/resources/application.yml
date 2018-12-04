@@ -1,0 +1,11 @@
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: iep-eureka  #eureka服务端的实例名称
+  client:
+    register-with-eureka: false #false 表示不向服务中心注册自己
+    fetch-registry: false #false 表示自己端就是注册中心,我的职责就是维护服务实例,并不需要去检索服务
+    service-url:
+      #单机 defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/       #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址（单机）。
+      defaultZone: http://127.0.0.1:7001/eureka/
