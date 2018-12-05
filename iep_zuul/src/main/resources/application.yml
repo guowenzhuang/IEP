@@ -4,6 +4,7 @@ server:
   servlet:
     session:
       timeout: 600s
+    #context-path: /api
 spring:
   application:
     name: iep-zuul #指定服务名

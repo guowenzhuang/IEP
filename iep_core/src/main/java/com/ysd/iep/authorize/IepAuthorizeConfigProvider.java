@@ -28,10 +28,13 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         SecurityConstants.DEFAULT_SESSION_INVALID_URL,
                         SecurityConstants.DEFAULT_SESSION_INVALID_URL + ".html",
                         securityProperties.getBrowser().getSignOutUrl(),
-                        "/oauth/regist",
-                        "/oauth/userRegist",
+                        "/api/oauth/regist",
+                        "/api/oauth/userRegist",
                         "/social/signUp",
-                        "/login")
+                        "/login",
+                        "/api/bbs/*",
+                        "/oauth/check_token",
+                        "/hello")
                 .permitAll()
                 //.antMatchers("/student/*").hasRole("学生")
                 .antMatchers("/teacher/*").hasRole("老师")

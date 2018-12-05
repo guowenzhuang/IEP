@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2018/11/12 8:55
  */
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/api/oauth")
 public class ValidateCodeController {
     @Autowired
    private Map<String, ValidateCodeProcessor> validateCodeProcessor;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/11/12 8:55
  */
 @SpringBootApplication
+@RestController
 @EnableEurekaClient
 public class ExamApplication {
     public static void main(String[] args) {

@@ -99,6 +99,8 @@ public class IepAuthorizationServerConfig extends AuthorizationServerConfigurerA
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 这里使用什么密码需要 根据上面配置client信息里面的密码类型决定
         // 目前上面配置的是无加密的密码
-        security.passwordEncoder(NoOpPasswordEncoder.getInstance());
+        security.passwordEncoder(NoOpPasswordEncoder.getInstance())
+                //开启判断token是否过期
+                .checkTokenAccess("permitAll()");
     }
 }

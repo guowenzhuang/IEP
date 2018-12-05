@@ -47,7 +47,7 @@ import java.util.UUID;
  * @date 2018/11/12 8:55
  */
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/api/oauth")
 @Slf4j
 public class UserController {
     @Autowired
