@@ -1,6 +1,5 @@
 package com.ysd.iep.social;
 
-import com.sun.deploy.association.utility.AppConstants;
 import com.ysd.iep.exception.AppsecretException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
