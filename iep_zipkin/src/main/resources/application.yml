@@ -6,9 +6,9 @@ spring:
   sleuth:
     enabled: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/zipkin?characterEncoding=utf8
+    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/zipkin?characterEncoding=utf8
     username: root
-    password: root
+    password: qq123456
     driverClassName: com.mysql.jdbc.Driver
 
 management:

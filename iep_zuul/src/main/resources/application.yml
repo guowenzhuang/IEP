@@ -8,29 +8,12 @@ server:
 spring:
   application:
     name: iep-zuul #指定服务名
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/iep-permission?useUnicode=true&characterEncoding=UTF8&useSSL=false
-    username: root
-    password: root
   jpa:
     database: MySQL
     show-sql: true
-  session:
-    store-type: redis
-  redis:
-    host: 127.0.0.1
-    port: 6379
-  zipkin:
-    base-url: http://localhost:9411
-  sleuth:
-    sampler:
-      probability: 1
 eureka:
   client:
     register-with-eureka: false
-    service-url:
-      defaultZone: http://127.0.0.1:7001/eureka/
   instance:
     instance-id: iep-zuul8060
     prefer-ip-address: true

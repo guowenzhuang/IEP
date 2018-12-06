@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      name: application #需要从github上读取的资源名称,注意没有yml后缀名
+      profile: dev #本次访问的配置项
+      label: master
+      uri: http://127.0.0.1:3344/
