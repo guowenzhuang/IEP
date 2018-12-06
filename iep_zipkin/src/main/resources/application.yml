@@ -1,0 +1,28 @@
+server:
+  port: 9411
+spring:
+  application:
+    name: iep-zipkin
+  sleuth:
+    enabled: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zipkin?characterEncoding=utf8
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+zipkin:
+  storage:
+    type: mysql
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/
+  instance:
+    instance-id: iep-zipkin9411
+    prefer-ip-address: true

@@ -17,6 +17,8 @@
         <module>iep_bbs</module>
         <module>iep_exam</module>
         <module>iep_student</module>
+        <module>iep_config</module>
+        <module>iep_zipkin</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

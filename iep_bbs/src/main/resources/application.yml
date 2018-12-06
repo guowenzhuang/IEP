@@ -16,6 +16,11 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  zipkin:
+    base-url: http://localhost:9411
+    sleuth:
+      sampler:
+      percentage: 1.0
 eureka:
   client:
     service-url:
@@ -23,6 +28,7 @@ eureka:
   instance:
     instance-id: iep-bbs9010
     prefer-ip-address: true
+
 #debug
 #logging:
 #  level:

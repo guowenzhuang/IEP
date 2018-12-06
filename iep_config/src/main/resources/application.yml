@@ -1,0 +1,21 @@
+server:
+  port: 3344
+spring:
+  application:
+    name: iep-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/guowenzhuang/iep-config.git
+          search-paths: /**
+          username: guowenzhuang
+          password: Qq123456..
+      label: master
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/
+  instance:
+    instance-id: iep-zuul8060
+    prefer-ip-address: true
