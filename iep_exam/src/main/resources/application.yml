@@ -10,7 +10,6 @@ spring:
   jpa:
     database: MySQL
     show-sql: true
-eureka:
   instance:
     instance-id: iep-exam9030
     prefer-ip-address: true
