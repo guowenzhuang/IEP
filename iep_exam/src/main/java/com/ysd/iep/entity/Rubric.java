@@ -1,15 +1,24 @@
 package com.ysd.iep.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.persistence.Table;
 
+/**
+ * @author exam
+ * @date 2018/12/6
+ * 题干表实体类
+ */
 @Data
 @Entity
 @Table(name = "rubrictb")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
