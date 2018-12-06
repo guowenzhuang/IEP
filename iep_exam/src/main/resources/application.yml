@@ -9,7 +9,7 @@ spring:
     name: iep-exam #指定服务名
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/iep-permission?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/iep-examination?useUnicode=true&characterEncoding=UTF8&useSSL=false
     username: root
     password: root
   jpa:
