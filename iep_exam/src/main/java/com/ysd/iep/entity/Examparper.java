@@ -11,7 +11,9 @@ import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Set;
  */
 @Data
 @Entity
-@Table(name = "examparpertb")
+@Table(name = "examparper_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Examparper {
@@ -30,7 +32,7 @@ public class Examparper {
     private String Id;//考试试卷id
     @Column(name = "Type", nullable = false, length = 50)
     private String Type;//考试类型
-    @Column(name = "Title", nullable = false, length = 50)
+    @Column(name = "Title", nullable = false, length = 200)
     private String Title;//考试标题
 
     @Column(name = "Subject", nullable = false, length = 50)
@@ -48,9 +50,9 @@ public class Examparper {
     private String TecherId;//教师id
 
     @Column(name = "createtime")
-    private Data createtime;//试卷生成时间
+    private Date createtime;//试卷生成时间
     @Column(name = "Examtime")
-    private Data Examtime;//开考时间
+    private Date Examtime;//开考时间
     @Column(name = "Radionum", nullable = false, length = 20)
     private Integer Radionum;//单选数量
 
@@ -61,15 +63,13 @@ public class Examparper {
     @Column(name = "Judgenum", nullable = false, length = 20)
     private Integer Judgenum;//判断数量
 
-    @Column(name = "Judgenum", nullable = false, length = 20)
+    @Column(name = "examshortesttime", nullable = false, length = 20)
     private Integer examshortesttime;//考试最短可交卷时间
 
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "examrubric_examparper_tb", joinColumns = {@JoinColumn(name = "examparperId")}, inverseJoinColumns = {@JoinColumn(name = "examrubricid")})
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Examrubric> roleSet = new HashSet<Examrubric>();//一张卷子可以有多到题干
+    @OneToMany(mappedBy = "examparper",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    private List<Examrubric> examrubrics;//一张卷子可以有多到题干
 
 
 }

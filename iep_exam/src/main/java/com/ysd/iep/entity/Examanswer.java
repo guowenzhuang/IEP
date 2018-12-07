@@ -34,7 +34,7 @@ public class Examanswer {
     @JsonIgnore
     @ManyToOne(targetEntity = Examrubric.class)
     @JoinColumn(name = "examanswer_rubric_id")
-    private Rubric examrubric;//答案所属的考试题干id
+    private Examrubric examrubric;//答案所属的考试题干id
 
 
 }

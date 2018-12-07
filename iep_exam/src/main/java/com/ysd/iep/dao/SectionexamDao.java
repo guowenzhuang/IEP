@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 章节测试表dao
  */
 public interface SectionexamDao extends JpaRepository<Sectionexamparper, String> {
+
+
 }

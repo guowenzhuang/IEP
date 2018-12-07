@@ -43,8 +43,8 @@ public class Rubric {
     @Column(name = "Rubricttype", nullable = false, length = 50)
     private String Rubricttype;//题干类型(单选,多选,判断,填空)
 
-    @JsonIgnore
+   // @JsonIgnore
     @OneToMany(mappedBy = "rubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Answer> answerlist = new ArrayList<>();//答案集合
+    private List<Answer> answer;//答案集合
 
 }

@@ -36,7 +36,7 @@ public class Examrubric {
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String AnswerId;//答案id
-    @Column(name = "Content", nullable = false, length = 50)
+    @Column(name = "Content", nullable = false, length = 200)
     private String Content;//题目内容
     @Column(name = "TrcherId", nullable = false, length = 50)
     private String TrcherId;//教师id
@@ -49,16 +49,15 @@ public class Examrubric {
     //@Column(name = "ExamparperId", nullable = false, length = 50)
     //private String ExamparperId;//考试试卷id
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "examrubric_examparper_tb", joinColumns = {@JoinColumn(name = "examrubricid")}, inverseJoinColumns = {@JoinColumn(name = "examparperId")})
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Examparper> roleSet = new HashSet<Examparper>();//一个题干可以被多张试卷应用
+   // @JsonIgnore
+    @ManyToOne(targetEntity = Examparper.class)
+    @JoinColumn(name="xamrubric_examparper_Id")
+    private Examparper examparper;//一个题干可以被多张试卷应用
 
 
-    @JsonIgnore
+   // @JsonIgnore
     @OneToMany(mappedBy = "examrubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Answer> examanswerlist = new ArrayList<>();//考试答案集合
+    private List<Examanswer> examanswers;//考试答案集合
 
 
 }

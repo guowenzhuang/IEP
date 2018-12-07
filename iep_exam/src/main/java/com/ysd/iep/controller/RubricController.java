@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RubricController {
     @Autowired
-    RubricDao rubricdao;
+    private RubricDao rubricdao;
 
 
     @RequestMapping(value = "/queryrubricall", method = RequestMethod.GET)

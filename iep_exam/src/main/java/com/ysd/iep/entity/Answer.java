@@ -33,7 +33,7 @@ public class Answer {
     //private String RubricId;//题干id
     @JsonIgnore
     @ManyToOne(targetEntity = Rubric.class)
-    @JoinColumn(name = "answer_rubric_id")
+    @JoinColumn(name="Answer_Rubric_Id")
     private Rubric rubric;//答案所属的题干id
 
 

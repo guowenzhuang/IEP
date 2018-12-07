@@ -8,7 +8,9 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "Sectionexam_tb")
+@Table(name = "sectionexamparper_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Sectionexamparper {
@@ -32,13 +34,11 @@ public class Sectionexamparper {
     @Column(name = "CourseId", nullable = false, length = 50)
     private String CourseId;//课程id
     @Column(name = "createtime")
-    private Data createtime;//试卷生成时间
+    private Date createtime;//试卷生成时间
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "examrubric_examparper_tb", joinColumns = {@JoinColumn(name = "examparperId")}, inverseJoinColumns = {@JoinColumn(name = "examrubricid")})
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Examrubric> roleSet = new HashSet<Examrubric>();//一张卷子可以有多到题干(考试试卷)
+    @OneToMany(mappedBy ="examparper",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    private List<Examrubric> examrubrics;//一张卷子可以有多到题干(考试试卷)
 
 
 }

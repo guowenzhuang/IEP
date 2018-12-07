@@ -8,15 +8,23 @@ spring:
   application:
     name: iep-exam #指定服务名
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep_exam?useUnicode=true&characterEncoding=UTF8&useSSL=false
-
+    username: root
+    password: qq123456
   jpa:
     database: MySQL
     show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   instance:
     instance-id: iep-exam9030
     prefer-ip-address: true
+  cloud:
+    config:
+      allow-override: true
+
+
 #debug
 #logging:
 #  level:

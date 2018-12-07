@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "answer_tb")
+@Table(name = "studentexamlog_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Studentexamlog {
