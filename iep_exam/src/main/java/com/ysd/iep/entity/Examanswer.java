@@ -24,8 +24,8 @@ public class Examanswer {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
     private String Id;//选项id
-    @Column(name = "Option", nullable = false, length = 50)
-    private String Option;//选项(ABCD)
+    @Column(name = "Optiones", nullable = false, length = 50)
+    private String Optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
     private String Content;//选项内容
 
