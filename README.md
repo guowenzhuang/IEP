@@ -28,3 +28,8 @@ iep_teacher 老师   白婷婷组
 10. 运行前端 [点这里](https://github.com/guowenzhuang/ieppage)
 
 4-9之间顺序可任意
+
+## 内存调优
+如果项目启动太大 设置一下启动的参数
+
+    -Xms256M -Xmx512M
