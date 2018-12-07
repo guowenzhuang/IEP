@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author  exam
+ * @author  gaozhognye
  * @date 2018/12/7
  * 考试记录表实体类
  */

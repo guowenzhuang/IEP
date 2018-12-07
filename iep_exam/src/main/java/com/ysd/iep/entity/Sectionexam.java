@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author exam
+ * @author gaozhongye
  * @date 2018/12/7
  * 章节测试表实体类
  */
