@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "rubrictb")
+@Table(name = "rubric_tb")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rubric {
