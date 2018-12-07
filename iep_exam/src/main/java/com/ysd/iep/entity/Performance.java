@@ -22,9 +22,13 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Performance {
     @Id
+    @Column(name = "Id",nullable =false ,length = 50)
     private String Id;//成绩表id
+    @Column(name = "StudentId",nullable =false ,length = 50)
     private String StudentId;//学生id
+    @Column(name = "Total",nullable =false ,length = 20)
     private Integer Total;//总分
+    @Column(name = "parperId",nullable =false ,length = 50)
     private String parperId;//考试试卷id(章节测试试卷id)
 
 

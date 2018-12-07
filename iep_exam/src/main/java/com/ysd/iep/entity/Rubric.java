@@ -1,6 +1,7 @@
 package com.ysd.iep.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gaozhongye
  * @date 2018/12/6
- * 题干表实体类
+ * 题干表实体类(对应Answer表)
  */
 @Data
 @Entity
@@ -40,5 +43,8 @@ public class Rubric {
     @Column(name = "Rubricttype", nullable = false, length = 50)
     private String Rubricttype;//题干类型(单选,多选,判断,填空)
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "rubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Answer> answerlist = new ArrayList<>();//答案集合
 
 }

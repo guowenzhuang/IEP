@@ -1,6 +1,6 @@
 package com.ysd.iep.dao;
 
-import com.ysd.iep.entity.Sectionexam;
+import com.ysd.iep.entity.Sectionexamparper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2018/12/7
  * 章节测试表dao
  */
-public interface SectionexamDao extends JpaRepository<Sectionexam, String> {
+public interface SectionexamDao extends JpaRepository<Sectionexamparper, String> {
 }

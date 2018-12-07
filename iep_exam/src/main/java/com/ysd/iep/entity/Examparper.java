@@ -1,13 +1,18 @@
 package com.ysd.iep.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author gaozhongye
@@ -58,6 +63,13 @@ public class Examparper {
 
     @Column(name = "Judgenum", nullable = false, length = 20)
     private Integer examshortesttime;//考试最短可交卷时间
+
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "examrubric_examparper_tb", joinColumns = {@JoinColumn(name = "examparperId")}, inverseJoinColumns = {@JoinColumn(name = "examrubricid")})
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Examrubric> roleSet = new HashSet<Examrubric>();//一张卷子可以有多到题干
 
 
 }
