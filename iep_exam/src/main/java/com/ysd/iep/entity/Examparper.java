@@ -1,15 +1,24 @@
 package com.ysd.iep.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author exam
+ * @date 2018/12/7
+ * 考试试卷表实体类
+ */
 @Data
 @Entity
 @Table(name = "examparpertb")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Examparper {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
@@ -34,7 +43,7 @@ public class Examparper {
     private String TecherId;//教师id
 
     @Column(name = "createtime")
-    private Data  createtime;//试卷生成时间
+    private Data createtime;//试卷生成时间
     @Column(name = "Examtime")
     private Data Examtime;//开考时间
     @Column(name = "Radionum", nullable = false, length = 20)
