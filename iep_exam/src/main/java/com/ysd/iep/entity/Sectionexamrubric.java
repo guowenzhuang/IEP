@@ -1,32 +1,29 @@
 package com.ysd.iep.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author gaozhongye
- * @date 2018/12/7
- * 考试题干表实体类
+ * @date 2018/12/8
+ * 章节测试题干表实体类
  */
-@Data
+
+
 @Entity
-@Table(name = "examrubric_tb")
+@Table(name = "sectionexamrubric_tb")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Examrubric {
-    @Id
+public class Sectionexamrubric {
+
+    @javax.persistence.Id
     @Column(name = "Id", nullable = false, length = 50)
     private String Id;//考试题干id
     @Column(name = "SectionId", nullable = false, length = 50)
@@ -46,17 +43,11 @@ public class Examrubric {
     private String Rubricttype;//题干类型(单选,多选,判断,填空)
 
 
-    //@Column(name = "ExamparperId", nullable = false, length = 50)
-    //private String ExamparperId;//考试试卷id
+    @ManyToOne(targetEntity = Sectionexamparper.class)
+    @JoinColumn(name = "sectionexamrubric_sectionexamparper_Id")
+    private Sectionexamparper sectionexamparper;//多道题干属于一张试卷
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Examparper.class)
-    @JoinColumn(name = "examrubric_examparper_Id")
-    private Examparper examparper;//多道题干属于一张试卷
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "examrubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Examanswer> examanswers;//考试答案集合
-
-
+    @OneToMany(mappedBy = "Sectionexamrubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Sectionexamanswer> examanswers;//考试答案集合
 }

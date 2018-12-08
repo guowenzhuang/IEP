@@ -1,27 +1,23 @@
 package com.ysd.iep.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
 import javax.persistence.*;
-import javax.persistence.Table;
 
 /**
  * @author gaozhongye
- * @date 2018/12/7
- * 考试选项表实体类
+ * @date 2018/12/8
+ * 章节测试选项表实体类
  */
-@Data
-@Entity
-@Table(name = "examanswer_tb")
-@AllArgsConstructor
-@NoArgsConstructor
-public class Examanswer {
 
-    @Id
+
+@Entity
+@Data
+@Table(name = "Sectionexamanswer_tb")
+public class Sectionexamanswer {
+    @javax.persistence.Id
     @Column(name = "Id", nullable = false, length = 50)
     private String Id;//选项id
     @Column(name = "Optiones", nullable = false, length = 50)
@@ -32,9 +28,9 @@ public class Examanswer {
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//考试题干id
     @JsonIgnore
-    @ManyToOne(targetEntity = Examrubric.class)
-    @JoinColumn(name = "examanswer_examrubric_id")
-    private Examrubric examrubric;//答案所属的考试题干id
+    @ManyToOne(targetEntity = Sectionexamrubric.class)
+    @JoinColumn(name = "sectionexamanswer_sectionexamrubric_id")
+    private Examrubric Sectionexamrubric;//答案所属的考试题干id
 
 
 }

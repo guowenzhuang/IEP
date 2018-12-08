@@ -68,8 +68,8 @@ public class Examparper {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "examparper",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-    private List<Examrubric> examrubrics;//一张卷子可以有多到题干
+    @OneToMany(mappedBy = "examparper", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Examrubric> examrubricslist;//一张卷子可以有多到题干
 
 
 }
