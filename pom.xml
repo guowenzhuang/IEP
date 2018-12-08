@@ -19,6 +19,7 @@
         <module>iep_student</module>
         <module>iep_config</module>
         <module>iep_zipkin</module>
+        <module>iep_oss</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

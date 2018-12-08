@@ -18,7 +18,7 @@ iep_teacher 老师   白婷婷组
 ## 启动项目
 1. 运行redis server
 2. 启动 iep_eureka
-3. 启动 iep_config
+3. 启动 iep_config (需要等config完全启动后再启动以下的微服务)
 4. 启动 iep_zipkin
 5. 启动 iep_student
 6. 启动 iep_teacher

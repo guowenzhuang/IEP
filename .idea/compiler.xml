@@ -14,6 +14,7 @@
         <module name="iep_core" />
         <module name="iep_eureka" />
         <module name="iep_exam" />
+        <module name="iep_oss" />
         <module name="iep_student" />
         <module name="iep_teacher" />
         <module name="iep_zipkin" />
@@ -34,6 +35,7 @@
       <module name="iep_core" options="-parameters" />
       <module name="iep_eureka" options="-parameters" />
       <module name="iep_exam" options="-parameters" />
+      <module name="iep_oss" options="-parameters" />
       <module name="iep_student" options="-parameters" />
       <module name="iep_teacher" options="-parameters" />
       <module name="iep_zipkin" options="-parameters" />

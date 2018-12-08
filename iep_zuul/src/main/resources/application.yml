@@ -31,6 +31,9 @@ zuul:
     student:
       serviceId: IEP-STUDENT
       path: /student/**
+    oss:
+      serviceId: IEP-OSS
+      path: /oss/**
   ignored-services: "*"
   prefix: "/api"
 #debug
