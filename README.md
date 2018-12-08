@@ -143,6 +143,15 @@ axios访问示例
                 "Authorization": "bearer "+你的token
             }
         })
+## 注意事项
+1. <font color="red">不要同时修改一个文件</font>
+2. <font color="red">不要提交其他组的文件</font>
+使用sts的 提交的时候默认会把.clss文件也提交 
+
+解决:
+
+下载群里的 .gitignore文件 拉到IEP项目下 就能解决提交.class的问题  
+     
 ## 疑问专区
 暂无 
 
