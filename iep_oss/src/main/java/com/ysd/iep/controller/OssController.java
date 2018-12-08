@@ -4,15 +4,10 @@ import com.ysd.iep.bean.Result;
 import com.ysd.iep.service.OssService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author 80795
@@ -30,7 +25,7 @@ public class OssController {
      * @param path  上传路径
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping(value = "/upload")
     public Result<String> uploadFile(MultipartFile file,String path) {
         try {
             if (null != file) {
@@ -45,6 +40,11 @@ public class OssController {
             return Result.error(e.getMessage());
         }
         return Result.error("文件为空");
+    }
+
+    @GetMapping("/download")
+    public InputStream downloadFile(String path){
+        return ossService.download(path);
     }
 
 }

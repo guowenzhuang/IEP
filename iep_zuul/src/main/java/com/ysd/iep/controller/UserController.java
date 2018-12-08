@@ -86,7 +86,6 @@ public class UserController {
      * @return
      */
     @GetMapping("/me")
-    //@PreAuthorize("hasRole('qwe')")
     public Object getCurrentUser(Authentication user,HttpServletRequest request) throws UnsupportedEncodingException {
         String authorization = request.getHeader("Authorization");
         return JwtUtil.tokenConvert(authorization);

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -26,7 +27,9 @@ import java.util.UUID;
 public class OssService {
 
     public OSSClient getClient(){
-        return new OSSClient(ConstantProperties.SPRING_OSS_ENDPOINT, ConstantProperties.SPRING_OSS_ACCESS_KEY_ID, ConstantProperties.SPRING_OSS_ACCESS_KEY_SECRET);
+        return new OSSClient(ConstantProperties.SPRING_OSS_ENDPOINT,
+                ConstantProperties.SPRING_OSS_ACCESS_KEY_ID,
+                ConstantProperties.SPRING_OSS_ACCESS_KEY_SECRET);
     }
     /**
      * 文件上传
@@ -40,7 +43,10 @@ public class OssService {
         }
         OSSClient ossClient =getClient();
         try {
-            PutObjectResult putObjectResult=ossClient.putObject(ConstantProperties.SPRING_OSS_BUCKET_NAME1,
+            if(path.startsWith("/") || path.startsWith("\\")){
+                path=path.substring(1);
+            }
+            PutObjectResult putObjectResult=ossClient.putObject(ConstantProperties.SPRING_OSS_BUCKET_NAME,
                     path, file.getInputStream());
         } catch (OSSException oe) {
             log.error(oe.getMessage());
@@ -55,7 +61,20 @@ public class OssService {
         return null;
     }
 
-    public  String down(){
+    public  InputStream download (String path){
+        log.info("=========>OSS文件下载开始：" + path);
+        OSSClient ossClient =getClient();
+        try {
+            OSSObject ossObject = ossClient.getObject(ConstantProperties.SPRING_OSS_BUCKET_NAME, path);
+            InputStream inputStream=ossObject.getObjectContent();
+            return inputStream;
+        }catch (OSSException oe) {
+            log.error(oe.getMessage());
+        } catch (ClientException ce) {
+            log.error(ce.getMessage());
+        } finally { //关闭
+            ossClient.shutdown();
+        }
         return null;
     }
 

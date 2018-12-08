@@ -6,12 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConstantProperties{
-    @Value("${spring.oss.endpoint}")
-    public static String SPRING_OSS_ENDPOINT;
-    @Value("${spring.oss.keyid}")
-    public static String SPRING_OSS_ACCESS_KEY_ID;
-    @Value("${spring.oss.keysecret}")
-    public static String SPRING_OSS_ACCESS_KEY_SECRET;
-    @Value("${spring.oss.bucketname1}")
-    public static String SPRING_OSS_BUCKET_NAME1;
+    public static String SPRING_OSS_ENDPOINT="oss-cn-beijing.aliyuncs.com";
+    public static String SPRING_OSS_ACCESS_KEY_ID="LTAIoZGQDu9vTi5j";
+    public static String SPRING_OSS_ACCESS_KEY_SECRET="48xaPufwan7t3o37USEwBMKJfGgmeq";
+    public static String SPRING_OSS_BUCKET_NAME="iep-oss";
 }

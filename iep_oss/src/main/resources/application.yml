@@ -10,12 +10,6 @@ spring:
   jpa:
     database: MySQL
     show-sql: true
-  oss:
-    endpoint: oss-cn-beijing.aliyuncs.com
-    keyid: LTAIoZGQDu9vTi5j
-    keysecret: 48xaPufwan7t3o37USEwBMKJfGgmeq
-    bucketname1: iep-oss
-
 eureka:
   instance:
     instance-id: iep-oss10200
