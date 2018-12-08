@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class Teachers  implements Serializable{
 	@Id
-	@Column(columnDefinition="int   comment '备注:教师Id'")
+	@Column(columnDefinition="int NOT NULL   comment '备注:教师Id'")
 	private Integer teaId;//教师Id
 	@Column(columnDefinition="int  NULL comment '备注:用戶Id(外键)'") 
 	private Integer teaUserid;//用戶Id(外键)

@@ -7,8 +7,8 @@ server:
 spring:
   application:
     name: iep-teacher #指定服务名
-    datasource:
-    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep-teacher?useUnicode=true&characterEncoding=UTF8&useSSL=false
+  datasource:
+    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep_teacher?useUnicode=true&characterEncoding=UTF8&useSSL=false
     username: root
     password: qq123456
   jpa:
@@ -16,6 +16,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
 eureka:
   instance:
     instance-id: iep-teacher8070
