@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Entity       //使用默认类名
+@Entity         //使用默认类名
 @Table(name = "chaptertb")
 @Data
 public class Chapters implements Serializable{
@@ -18,7 +18,7 @@ public class Chapters implements Serializable{
 	@GeneratedValue// 自动增长列
 	@Column(columnDefinition = "int unsigned NOT NULL  COMMENT '章节Id'")
 	private Integer chaId;
-	@Column(columnDefinition = "int unsigned NOT NULL DEFAULT 0 COMMENT '父模块Id'")
+	@Column(columnDefinition = "int NOT NULL DEFAULT 0 COMMENT '父模块Id'")
 	private Integer chaParentid;
 	@Column(columnDefinition = "varchar(50) DEFAULT NULL COMMENT '章节名称'")
 	private String chaName;
@@ -28,11 +28,11 @@ public class Chapters implements Serializable{
 	private String chaPpturl;
 	@Column(columnDefinition="varchar(100)  NULL comment '备注:章节文档地址'")
 	private String chaDocurl;//章节文档地址
-	@Column(columnDefinition="int  NULL comment '备注:课程id(外建)'")
+	@Column(columnDefinition="int null comment '备注:课程id(外建)'")
 	private Integer chaCourid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:视频时长'")
 	private String chaTime;//视频时长
-	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
+	@Column(columnDefinition="int NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 
 	private String Ext2;

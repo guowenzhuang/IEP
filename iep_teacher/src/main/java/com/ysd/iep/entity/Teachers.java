@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -11,8 +12,9 @@ import lombok.Data;
 @Table(name = "teachertb")
 @Data
 public class Teachers  implements Serializable{
-	@Column(columnDefinition="int  NULL comment '备注:教師Id'")
-	private Integer teaId;//教師Id
+	@Id
+	@Column(columnDefinition="int   comment '备注:教师Id'")
+	private Integer teaId;//教师Id
 	@Column(columnDefinition="int  NULL comment '备注:用戶Id(外键)'") 
 	private Integer teaUserid;//用戶Id(外键)
 	@Column(columnDefinition="int  NULL comment '备注:教师工号'") 
