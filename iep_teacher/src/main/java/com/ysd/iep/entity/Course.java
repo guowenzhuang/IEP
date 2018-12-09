@@ -16,7 +16,7 @@ import lombok.Data;
 public class Course implements Serializable{
 	@Id
 	@GeneratedValue// 自动增长列
-	@Column(columnDefinition = "int unsigned  COMMENT '课程ID'", nullable = false)
+	@Column(columnDefinition = "int unsigned  AUTO_INCREMENT COMMENT '课程ID'", nullable = false)
 	private Integer courId;  //课程ID
 	@Column(columnDefinition = "varchar(50) NOT NULL COMMENT '课程名称'")
 	private String courName;

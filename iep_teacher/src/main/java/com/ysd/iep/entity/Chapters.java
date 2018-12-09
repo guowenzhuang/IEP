@@ -16,7 +16,7 @@ import lombok.Data;
 public class Chapters implements Serializable{
 	@Id
 	@GeneratedValue// 自动增长列
-	@Column(columnDefinition = "int unsigned NOT NULL  COMMENT '章节Id'")
+	@Column(columnDefinition = "int unsigned AUTO_INCREMENT NOT NULL  COMMENT '章节Id'")
 	private Integer chaId;
 	@Column(columnDefinition = "int NOT NULL DEFAULT 0 COMMENT '父模块Id'")
 	private Integer chaParentid;
@@ -38,6 +38,4 @@ public class Chapters implements Serializable{
 	private String Ext2;
 	
 	
-	
-
 }
