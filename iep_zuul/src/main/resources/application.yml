@@ -36,6 +36,16 @@ zuul:
       path: /oss/**
   ignored-services: "*"
   prefix: "/api"
+  host:
+    socketTimeoutMillis: 800000
+    max-total-connections: 800000
+    connectTimeoutMillis: 80000
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  eureka:
+    enabled: true
+
 #debug
 #logging:
 #  level:

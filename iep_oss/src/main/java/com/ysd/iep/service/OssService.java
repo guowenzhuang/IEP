@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.ysd.iep.bean.ConstantProperties;
+import com.ysd.iep.config.MyOSSClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -26,8 +28,9 @@ import java.util.UUID;
 @Slf4j
 public class OssService {
 
-    public OSSClient getClient(){
-        return new OSSClient(ConstantProperties.SPRING_OSS_ENDPOINT,
+
+    protected MyOSSClient getClient(){
+        return new MyOSSClient(ConstantProperties.SPRING_OSS_ENDPOINT,
                 ConstantProperties.SPRING_OSS_ACCESS_KEY_ID,
                 ConstantProperties.SPRING_OSS_ACCESS_KEY_SECRET);
     }
@@ -48,6 +51,12 @@ public class OssService {
             }
             PutObjectResult putObjectResult=ossClient.putObject(ConstantProperties.SPRING_OSS_BUCKET_NAME,
                     path, file.getInputStream());
+            /**
+             * 过期时间为一小时
+             */
+            Date expiration = new Date(new Date().getTime() + 3600 * 1000);
+            URL url = ossClient.generatePresignedUrl(ConstantProperties.SPRING_OSS_BUCKET_NAME, path,expiration);
+            return url.toString();
         } catch (OSSException oe) {
             log.error(oe.getMessage());
         } catch (ClientException ce) {
@@ -61,6 +70,11 @@ public class OssService {
         return null;
     }
 
+    /**
+     * 文件下载
+     * @param path
+     * @return
+     */
     public  InputStream download (String path){
         log.info("=========>OSS文件下载开始：" + path);
         OSSClient ossClient =getClient();
