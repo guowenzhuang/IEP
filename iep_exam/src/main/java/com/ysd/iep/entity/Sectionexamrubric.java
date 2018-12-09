@@ -26,16 +26,16 @@ public class Sectionexamrubric {
     @javax.persistence.Id
     @Column(name = "Id", nullable = false, length = 50)
     private String Id;//考试题干id
-    @Column(name = "SectionId", nullable = false, length = 50)
+    @Column(name = "SectionId", nullable = true, length = 50)
     private String SectionId;//章节id
-    @Column(name = "CourseId", nullable = false, length = 50)
+    @Column(name = "CourseId", nullable = true, length = 50)
     private String CourseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String AnswerId;//答案id
     @Column(name = "Content", nullable = false, length = 200)
     private String Content;//题目内容
-    @Column(name = "TrcherId", nullable = false, length = 50)
+    @Column(name = "TrcherId", nullable = true, length = 50)
     private String TrcherId;//教师id
     @Column(name = "Score", nullable = false, length = 20)
     private Integer Score;//分值
@@ -47,7 +47,7 @@ public class Sectionexamrubric {
     @JoinColumn(name = "sectionexamrubric_sectionexamparper_Id")
     private Sectionexamparper sectionexamparper;//多道题干属于一张试卷
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "Sectionexamrubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Sectionexamanswer> examanswers;//考试答案集合
 }

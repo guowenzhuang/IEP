@@ -26,24 +26,24 @@ public class Rubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
     private String Id;//题干id
-    @Column(name = "SectionId", nullable = false, length = 50)
+    @Column(name = "SectionId", nullable = true, length = 50)
     private String SectionId; //章节ID
-    @Column(name = "CourseId", nullable = false, length = 50)
+    @Column(name = "CourseId", nullable = true, length = 50)
     private String CourseId; //课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String AnswerId;//答案id
     @Column(name = "Content", nullable = false, length = 50)
     private String Content;//题干内容
-    @Column(name = "TrcherId", nullable = false, length = 50)
+    @Column(name = "TrcherId", nullable = true, length = 50)
     private String TrcherId;//教师id
 
-    @Column(name = "Score", nullable = false, length = 20)
+    @Column(name = "Score", nullable = true, length = 20)
     private Integer Score;//分值
     @Column(name = "Rubricttype", nullable = false, length = 50)
     private String Rubricttype;//题干类型(单选,多选,判断,填空)
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "rubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Answer> answer;//答案集合
 

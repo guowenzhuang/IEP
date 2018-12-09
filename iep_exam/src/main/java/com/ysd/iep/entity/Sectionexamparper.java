@@ -36,7 +36,7 @@ public class Sectionexamparper {
     @Column(name = "createtime")
     private Date createtime;//试卷生成时间
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "sectionexamparper", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Sectionexamrubric> sectionexamrubricslist;//一张卷子可以有多到题干(考试试卷)
 
