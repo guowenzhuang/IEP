@@ -20,6 +20,7 @@
         <module>iep_config</module>
         <module>iep_zipkin</module>
         <module>iep_oss</module>
+        <module>iep_admin</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

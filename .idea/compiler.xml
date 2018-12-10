@@ -27,6 +27,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="iep_admin" options="-parameters" />
       <module name="iep_app" options="-parameters" />
       <module name="iep_authorize" options="-parameters" />
       <module name="iep_bbs" options="-parameters" />
