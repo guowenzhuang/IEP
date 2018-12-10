@@ -40,7 +40,7 @@ public class Examparper {
     @Column(name = "Duration", nullable = false, length = 20)
     private Integer Duration;//考试时长
     @Column(name = "State", nullable = false, length = 50)
-    private String State;//考试状态
+    private String State;//考试状态(默认初始未开考)
 
     @Column(name = "Total", nullable = false, length = 20)
     private Integer Total;//卷子总分
@@ -67,7 +67,7 @@ public class Examparper {
     private Integer examshortesttime;//考试最短可交卷时间
 
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "examparper", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Examrubric> examrubricslist;//一张卷子可以有多到题干
 

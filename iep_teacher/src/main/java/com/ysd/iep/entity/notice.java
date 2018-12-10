@@ -16,7 +16,7 @@ import lombok.Data;
 public class notice implements Serializable{
 	@Id
 	@GeneratedValue    //   自动增长列
-	@Column(columnDefinition = "int unsigned NOT NULL  COMMENT '公告Id'")
+	@Column(columnDefinition = "int unsigned NOT NULL AUTO_INCREMENT  COMMENT '公告Id'")
 	private Integer noId;
 	@Column(columnDefinition = "int  NOT NULL DEFAULT 0 COMMENT '课程id(外键)'")
 	private Integer noCourid;

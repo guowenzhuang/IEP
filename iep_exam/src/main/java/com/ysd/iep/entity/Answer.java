@@ -22,8 +22,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Answer {
     @Id
-    @Column(name = "Id", nullable = false, length = 20)
-    private Integer Id;//选项id
+    @Column(name = "Id", nullable = false, length = 50)
+    private String Id;//选项id
     @Column(name = "Optiones", nullable = false, length = 50)
     private String Optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
@@ -33,7 +33,7 @@ public class Answer {
     //private String RubricId;//题干id
     @JsonIgnore
     @ManyToOne(targetEntity = Rubric.class)
-    @JoinColumn(name="Answer_Rubric_Id")
+    @JoinColumn(name = "Answer_Rubric_Id")
     private Rubric rubric;//答案所属的题干id
 
 
