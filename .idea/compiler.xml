@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="iep_admin" />
         <module name="iep_app" />
         <module name="iep_bbs" />
         <module name="iep_browser" />
