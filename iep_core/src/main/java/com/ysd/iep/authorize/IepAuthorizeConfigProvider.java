@@ -34,7 +34,9 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/login",
                         "/api/bbs/*",
                         "/oauth/check_token",
-                        "/hello")
+                        "/hello",
+                        "/student/*",
+                        "/home/*")
                 .permitAll()
                 //.antMatchers("/student/*").hasRole("学生")
                 .antMatchers("/teacher/*").hasRole("老师")
