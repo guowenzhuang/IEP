@@ -39,11 +39,11 @@ public class ModulesDB implements Serializable {
     private List<RolesDB> rolesDBS;
 
     /**子组织*/
-    @OneToMany(cascade= CascadeType.ALL,mappedBy = "parent")
+    @OneToMany(cascade= CascadeType.ALL,mappedBy = "parent",fetch=FetchType.LAZY)
     private List<ModulesDB> children;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="ParentId",insertable = false,updatable = false)
     private ModulesDB parent;
 

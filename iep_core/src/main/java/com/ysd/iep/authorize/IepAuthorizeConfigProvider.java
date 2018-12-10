@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
     @Autowired
     private SecurityProperties securityProperties;
+
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
@@ -35,8 +36,12 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/api/bbs/*",
                         "/oauth/check_token",
                         "/hello",
-                        "/student/*",
-                        "/home/*")
+                        "/api/student/**",
+                        "/home/*",
+                        "/swagger-ui.html",
+                         "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v2/**")
                 .permitAll()
                 //.antMatchers("/student/*").hasRole("学生")
                 .antMatchers("/teacher/*").hasRole("老师")

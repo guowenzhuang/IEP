@@ -16,6 +16,6 @@ public interface ModulesDao extends BaseDao<ModulesDB,Integer> {
      * @param parentId
      * @return
      */
-    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name=:name))",nativeQuery = true)
+    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name=:roleName))",nativeQuery = true)
     List<ModulesDB> getByParentIdAndRolesName(@Param("parentId") Integer parentId,@Param("roleName") String roleName);
 }

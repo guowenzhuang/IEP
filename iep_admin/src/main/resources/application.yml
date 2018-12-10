@@ -18,15 +18,14 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  instance:
-    instance-id: iep-admin10300
-    prefer-ip-address: true
   cloud:
     config:
       allow-override: true
-
-
 #debug
 #logging:
 #  level:
+eureka:
+  instance:
+    instance-id: iep-admin10300
+    prefer-ip-address: true
 #    root: debug
