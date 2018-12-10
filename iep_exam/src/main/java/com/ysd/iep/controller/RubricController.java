@@ -16,19 +16,35 @@ public class RubricController extends Cors {
     @Autowired
     private RubricDao rubricdao;
 
+    /**
+     * 新增一道题干,以及选项
+     *
+     * @param rubric
+     * @return
+     */
     @RequestMapping(value = "/addrubric", method = RequestMethod.POST)
     public Object addrubric(Rubric rubric) {
+
         String Id = UUIDUtils.getUUID();
         rubric.setId(Id);
 
         return rubricdao.save(rubric);
     }
 
+    /**
+     * @return 获取所有的题干以及选项
+     */
     @RequestMapping(value = "/queryrubric", method = RequestMethod.POST)
     public Object queryrubric() {
         return rubricdao.findAll();
     }
 
+    /**
+     * 删除题干以及选项
+     *
+     * @param id
+     * @return Result
+     */
     @RequestMapping(value = "/deleteredicbyid", method = RequestMethod.POST)
     public Object deleteredicbyid(String id) {
         System.out.println(id);
