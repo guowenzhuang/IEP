@@ -17,12 +17,13 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  instance:
-    instance-id: iep-exam9030
-    prefer-ip-address: true
   cloud:
     config:
       allow-override: true
+eureka:
+    instance:
+      instance-id: iep-exam9030
+      prefer-ip-address: true
 
 
 #debug
