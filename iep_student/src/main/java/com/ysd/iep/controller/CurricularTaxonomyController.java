@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @Api(value="/CurricularTaxonomy", tags="课程分类页面")
 @RestController
-@RequestMapping("/CurricularTaxonomy")
+@RequestMapping("/curricularTaxonomy")
 public class CurricularTaxonomyController {
 
     @Autowired

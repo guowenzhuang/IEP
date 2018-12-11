@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @author ASUS
  *
  */
-@FeignClient("")
+
 public class HomeService {
 	
 	

@@ -44,7 +44,7 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/v2/**",
                         "/depart/get",
                         "/depart/getTop7",
-                        "/CurricularTaxonomy/**")
+                        "/curricularTaxonomy/**")
                 .permitAll();
                 //.antMatchers("/student/*").hasRole("学生")
     }

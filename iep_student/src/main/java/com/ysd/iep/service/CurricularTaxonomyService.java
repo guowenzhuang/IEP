@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface CurricularTaxonomyService {
 
     @RequestMapping("/depart/get")
-    public Result getCurricularTaxonomy();
+    Result getCurricularTaxonomy();
 }
