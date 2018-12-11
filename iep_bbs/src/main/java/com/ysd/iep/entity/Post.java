@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,13 +33,10 @@ public class Post {
 
 	@Id
 	@GeneratedValue	//自动增长列
-	@OrderBy
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:自动增长主键' ")
 	private Integer postId;
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:帖子标题' ")
 	private String postTitle;
-	@Column(columnDefinition="varchar(20) NOT NULL comment '备注:帖子状态' ")
-	private String postStatus;
 	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否置顶' ")
 	private String postIsstick;
 	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否精选' ")
@@ -53,9 +50,8 @@ public class Post {
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Posttype> posttypeList; //帖子分类列表
 	
-	
-	
-	
+	@Transient
+	private String posttypeName;  //帖子分类名称		
 	
 	
 }

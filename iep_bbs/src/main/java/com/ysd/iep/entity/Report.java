@@ -30,11 +30,13 @@ public class Report {
 	private Integer reportId;
 	@Column(columnDefinition="int NOT NULL comment '备注:用户id' ")
 	private Integer userId;
+	
 	@JsonIgnore
 	@JsonUnwrapped
-	@ManyToOne(targetEntity = Post.class)
+	@ManyToOne(targetEntity = Reply.class)
 	@JoinColumn(name="reply_id")
 	private Reply reply;   //回复
+	
 	@Column(columnDefinition="varchar(100) NOT NULL comment '备注:举报理由' ")
 	private String reportReason;
 

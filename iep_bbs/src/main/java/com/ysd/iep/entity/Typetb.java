@@ -29,7 +29,6 @@ import lombok.Data;
 public class Typetb {
 	@Id
 	@GeneratedValue	//自动增长列
-	@OrderBy
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:自动增长主键' ")
 	private Integer typeId;
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:类型名称' ")
@@ -41,5 +40,4 @@ public class Typetb {
 	@OneToMany(mappedBy="type",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Posttype> posttypeList; //帖子分类列表
 	
-
 }

@@ -28,9 +28,9 @@ public class Posttype {
 	
 	@Id	//实体类的主键
 	@GeneratedValue	//自动增长列
-	@OrderBy	//数据加载顺序
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:自动增长主键'  ")
 	private Integer ptId;
+	
 	@JsonIgnore
 	@JsonUnwrapped
 	@ManyToOne(targetEntity = Post.class)
@@ -39,7 +39,7 @@ public class Posttype {
 	
 	@JsonIgnore
 	@JsonUnwrapped
-	@ManyToOne(targetEntity = Post.class)
+	@ManyToOne(targetEntity = Typetb.class)
 	@JoinColumn(name="type_id")	//副表中的外键字段名称
 	private Typetb type;	//所属分类id
 	

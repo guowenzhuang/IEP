@@ -31,7 +31,6 @@ import lombok.Data;
 public class Reply {
 	@Id
 	@GeneratedValue	//自动增长列
-	@OrderBy
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:自动增长主键' ")
 	private Integer replyId;
 	@Column(columnDefinition="text NOT NULL comment '备注:回复内容' ")
@@ -44,6 +43,8 @@ public class Reply {
 	private Integer userId;
 	@Column(columnDefinition="int NOT NULL comment '备注:回复的评论id' ")
 	private Integer replyParentid;
+	@Column(columnDefinition="int DEFAULT 0 comment '备注:点赞数' ")
+	private Integer replyLikenum;
 	
 	@JsonIgnore
 	@JsonUnwrapped

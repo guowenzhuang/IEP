@@ -22,7 +22,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name="typetb")
+@Table(name="liketb")
 public class Like {
 	@Id
 	@GeneratedValue	//自动增长列
@@ -33,7 +33,7 @@ public class Like {
 	
 	@JsonIgnore
 	@JsonUnwrapped
-	@ManyToOne(targetEntity = Post.class)
+	@ManyToOne(targetEntity = Reply.class)
 	@JoinColumn(name="reply_id")	//副表中的外键字段名称
 	private Reply reply; //回复
 

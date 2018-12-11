@@ -17,6 +17,7 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+eureka:
   instance:
     instance-id: iep-bbs9030
     prefer-ip-address: true
