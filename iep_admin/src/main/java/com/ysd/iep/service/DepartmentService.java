@@ -19,7 +19,7 @@ public class DepartmentService {
     private DepartmentDao departmentDao;
 
     public  List<DepartmentDTO> department(){
-        List<DepartmentDB> departmentDB=departmentDao.findOrderByWeight();
+        List<DepartmentDB> departmentDB=departmentDao.findOrderWeight(7);
         List<DepartmentDTO> departmentDTOS= BeanConverterUtil.copyList(departmentDB,DepartmentDTO.class);
         return departmentDTOS;
     }

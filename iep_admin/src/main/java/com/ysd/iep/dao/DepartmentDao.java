@@ -1,6 +1,8 @@
 package com.ysd.iep.dao;
 
 import com.ysd.iep.entity.po.DepartmentDB;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -9,5 +11,7 @@ import java.util.List;
  * @date 2018/11/12 8:55
  */
 public interface DepartmentDao extends BaseDao<DepartmentDB,String> {
-    List<DepartmentDB> findOrderByWeight();
+
+    @Query(value = "select departmentId,name,weight from department order by weight desc  limit 0,:rows",nativeQuery = true)
+    List<DepartmentDB> findOrderWeight(@Param("rows") Integer rows);
 }
