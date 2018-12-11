@@ -34,6 +34,9 @@ zuul:
     oss:
       serviceId: IEP-OSS
       path: /oss/**
+    admin:
+      serviceId: IEP-ADMIN
+      path: /admin/**
   ignored-services: "*"
   prefix: "/api"
   host:

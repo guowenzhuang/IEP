@@ -1,0 +1,31 @@
+server:
+  port: 10300
+  servlet:
+    session:
+      timeout: 600s
+spring:
+  application:
+    name: iep-admin #指定服务名
+  datasource:
+    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep-permission?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: root
+    password: qq123456
+  jpa:
+    database: MySQL
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  cloud:
+    config:
+      allow-override: true
+#debug
+#logging:
+#  level:
+eureka:
+  instance:
+    instance-id: iep-admin10300
+    prefer-ip-address: true
+#    root: debug
