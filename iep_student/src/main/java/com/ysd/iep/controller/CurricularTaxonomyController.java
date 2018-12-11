@@ -19,7 +19,7 @@ public class CurricularTaxonomyController {
      * @return
      */
 
-    @ApiOperation(value = "获取全部课程分类")
+   @ApiOperation(value = "获取全部课程分类")
     @RequestMapping("/getCurricularTaxonomy")
     public Result getCurricularTaxonomy(){
         return curricularTaxonomyService.getCurricularTaxonomy();
