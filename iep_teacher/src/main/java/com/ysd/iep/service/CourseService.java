@@ -1,6 +1,7 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Course;
+import com.ysd.iep.entity.dto.Result;
 import org.springframework.data.domain.Page;
 
 public interface CourseService {
@@ -12,5 +13,8 @@ public interface CourseService {
      * @return
      */
     Page<Course> getPaginate(int page, int pageSize, String courName);
-
+    /**
+     * 删除课程
+     */
+     void deleteById(Integer courId);
 }
