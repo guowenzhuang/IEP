@@ -43,7 +43,8 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/webjars/**",
                         "/v2/**",
                         "/depart/get",
-                        "/depart/getTop7")
+                        "/depart/getTop7",
+                        "/CurricularTaxonomy/**")
                 .permitAll();
                 //.antMatchers("/student/*").hasRole("学生")
     }
