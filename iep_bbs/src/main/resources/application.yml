@@ -1,15 +1,30 @@
 server:
-  port: 9010
+  port: 9030
+  # port: 80 qq登录
+  servlet:
+    session:
+      timeout: 600s
 spring:
   application:
-    name: iep-bbs #指定服务名
+    name: iep_bbs #指定服务名
+  datasource:
+    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep_bbs?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: root
+    password: qq123456
   jpa:
     database: MySQL
     show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 eureka:
   instance:
-    instance-id: iep-bbs9010
+    instance-id: iep-bbs9030
     prefer-ip-address: true
+  cloud:
+    config:
+      allow-override: true
+
 
 #debug
 #logging:
