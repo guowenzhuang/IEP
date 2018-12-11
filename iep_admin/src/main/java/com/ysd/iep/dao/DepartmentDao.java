@@ -13,5 +13,8 @@ import java.util.List;
 public interface DepartmentDao extends BaseDao<DepartmentDB,String> {
 
     @Query(value = "select departmentId,name,weight from department order by weight desc  limit 0,:rows",nativeQuery = true)
-    List<DepartmentDB> findOrderWeight(@Param("rows") Integer rows);
+    List<DepartmentDB> findOrderWeightTop7(@Param("rows") Integer rows);
+
+    @Query(value = "select departmentId,name,weight from department order by weight desc",nativeQuery = true)
+    List<DepartmentDB> findOrderWeight();
 }

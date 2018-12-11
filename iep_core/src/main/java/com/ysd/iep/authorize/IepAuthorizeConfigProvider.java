@@ -42,7 +42,8 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                          "/swagger-resources/**",
                         "/webjars/**",
                         "/v2/**",
-                        "/depart/get")
+                        "/depart/get",
+                        "/depart/getTop7")
                 .permitAll();
                 //.antMatchers("/student/*").hasRole("学生")
     }

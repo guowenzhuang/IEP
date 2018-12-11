@@ -26,6 +26,12 @@ public class DepartMentController {
     private DepartmentService departmentService;
 
     @ApiOperation("查询前七个院系")
+    @GetMapping("/getTop7")
+    private Result<List<DepartmentDTO>> departTop7(){
+        return new Result<List<DepartmentDTO>>(true,departmentService.departmentTop7());
+    }
+
+    @ApiOperation("查询全部院系")
     @GetMapping("/get")
     private Result<List<DepartmentDTO>> depart(){
         return new Result<List<DepartmentDTO>>(true,departmentService.department());
