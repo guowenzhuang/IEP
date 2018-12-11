@@ -21,6 +21,7 @@ public class IepJwtTokenEnhancer implements TokenEnhancer {
         Map<String,Object> info=new HashMap<>();
         info.put("company","iep");
         info.put("authorities",oAuth2Authentication.getAuthorities());
+        info.put("user_name",oAuth2Authentication.getName());
         Collection<GrantedAuthority> authorities= oAuth2Authentication.getAuthorities();
         ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(info);
         return oAuth2AccessToken;

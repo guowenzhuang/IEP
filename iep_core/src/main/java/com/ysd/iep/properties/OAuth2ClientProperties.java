@@ -10,5 +10,5 @@ import lombok.Data;
 public class OAuth2ClientProperties {
     private String clientId;
     private String clientSecret;
-    private int accessTokenValiditySeconds=7200;
+    private int accessTokenValiditySeconds=9000;
 }

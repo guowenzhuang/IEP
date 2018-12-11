@@ -1,9 +1,7 @@
 package com.ysd.iep.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.ysd.iep.dao.ModulesDao;
 import com.ysd.iep.entity.dto.ModulesDTO;
-import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.po.ModulesDB;
 import com.ysd.iep.util.BeanConverterUtil;
 import lombok.extern.slf4j.Slf4j;

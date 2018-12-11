@@ -31,6 +31,25 @@ public class BeanConverterUtil {
     }
 
     /**
+     * 复制单个对象
+     *
+     * @param source 复制的对象
+     * @param clazz 被复制的class
+     */
+    public static Object copyObject(Object source,Class clazz){
+        try {
+            Object target=clazz.newInstance();
+            copyObject(source, target);
+            return target;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 复制单个对象并转成result
      *
      * @param source 复制的对象

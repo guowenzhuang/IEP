@@ -2,6 +2,7 @@ package com.ysd.iep.service.impl;
 
 import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
+import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,11 @@ public class CourseServiceImpl implements CourseService {
 
 
     }
+
+    @Override
+    public void deleteById(Integer courId) {
+        coursedao.deleteById(courId);
+    }
+
+
 }
