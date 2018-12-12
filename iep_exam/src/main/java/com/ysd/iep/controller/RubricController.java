@@ -40,7 +40,7 @@ public class RubricController extends Cors {
      * @return
      */
     @RequestMapping(value = "/queryrubricer", method = RequestMethod.POST)
-    public Object queryrubricer(RubricQuery rubricquery) {
+    public Object queryrubricer(RubricQuery rubricquery, Integer page, Integer rows) {
 
 
         return rubricService.queryUserByuserQuery(rubricquery);
