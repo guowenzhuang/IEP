@@ -7,6 +7,7 @@ import com.ysd.iep.service.ExamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,8 @@ public class ExamparperServiceImpl implements ExamparperService {
     @Override
     public Page<Examparper> queryqueryByDynamicSQLPageExpaerper(ExamParperSerch examParperSerch) {
         SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-       // String time=formatter.format(examParperSerch.getCreatetime());
-      //  Sort sort=new Sort(Sort.Direction.DESC,time);
-        System.out.println("第几页===>"+examParperSerch.getPage());
-        System.out.println("第几页===>"+examParperSerch.getSubject());
-        PageRequest pageable=PageRequest.of(examParperSerch.getPage()-1,examParperSerch.getRows());
+        Sort sort=new Sort(Sort.Direction.DESC,"createtime");
+        PageRequest pageable=PageRequest.of(examParperSerch.getPage()-1,examParperSerch.getRows(),sort);
         return examparperDao.findAll(this.getWhereClause(examParperSerch),pageable);
     }
 

@@ -23,7 +23,6 @@ public class ExamParperController {
         Page<Examparper> page=examparperService.queryqueryByDynamicSQLPageExpaerper(examParperSerch);
         Long total = page.getTotalElements();
         List<Examparper> list=page.getContent();
-        System.out.println("rows==>"+list);
         for (Examparper examparper : list) {
             examparper.setExamrubricslist(null);
         }
