@@ -13,8 +13,18 @@ public interface CourseService {
      * @return
      */
     Page<Course> getPaginate(int page, int pageSize, String courName);
+
     /**
      * 删除课程
+     * @param courId 课程id
      */
      void deleteById(Integer courId);
+
+    /**
+     * 新增课程
+     * @param course
+     * @return
+     */
+    Result insertCourse(Course course);
+
 }

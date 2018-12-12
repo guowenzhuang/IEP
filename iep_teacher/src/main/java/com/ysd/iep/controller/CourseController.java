@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value="/course", tags="课程")
 @RestController
@@ -42,10 +39,21 @@ public class CourseController {
         return adminFeign.getMenu();
     }
     @ApiOperation(value = "删除课程")
-     @DeleteMapping("/deleteCourseById")
-    public void deleteC(Integer courId){
-        courseService.deleteById(courId);
-    }
+     @RequestMapping("/deleteCourseById")
+    public Result deleteC(Integer courId) {
 
+        try {
+            courseService.deleteById(courId);
+        } catch (Exception e) {
+           return new Result(false, "删除失败");
+        }
+      return new Result();
+     }
+    @ApiOperation(value = "增加课程")
+     @PostMapping("addCourseAll")
+    public Result addCourse(Course course){
+        Result add = courseService.insertCourse(course);
+        return  new Result();
+    }
 }
 
