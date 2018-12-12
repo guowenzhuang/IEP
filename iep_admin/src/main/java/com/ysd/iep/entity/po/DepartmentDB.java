@@ -22,4 +22,5 @@ public class DepartmentDB {
     @GeneratedValue(generator="idGenerator")
     private String departmentId;
     private String name;
+    private Integer weight;
 }
