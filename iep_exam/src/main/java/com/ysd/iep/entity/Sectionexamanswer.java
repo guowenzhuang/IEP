@@ -19,11 +19,11 @@ import javax.persistence.*;
 public class Sectionexamanswer {
     @javax.persistence.Id
     @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//选项id
+    private String id;//选项id
     @Column(name = "Optiones", nullable = false, length = 50)
-    private String Optiones;//选项(ABCD)
+    private String optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
-    private String Content;//选项内容
+    private String content;//选项内容
 
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//考试题干id

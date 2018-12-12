@@ -23,11 +23,11 @@ import javax.persistence.Table;
 public class Performance {
     @Id
     @Column(name = "Id",nullable =false ,length = 50)
-    private String Id;//成绩表id
+    private String id;//成绩表id
     @Column(name = "StudentId",nullable =false ,length = 50)
-    private String StudentId;//学生id
+    private String studentId;//学生id
     @Column(name = "Total",nullable =false ,length = 20)
-    private Integer Total;//总分
+    private Integer total;//总分
     @Column(name = "parperId",nullable =false ,length = 50)
     private String parperId;//考试试卷id(章节测试试卷id)
 

@@ -23,18 +23,18 @@ import javax.persistence.Table;
 public class Studentexamlog {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//考试记录表id
+    private String id;//考试记录表id
     @Column(name = "StudentId", nullable = false, length = 50)
-    private String StudentId;//学生id
+    private String studentId;//学生id
     @Column(name = "SelectId", nullable = false, length = 50)
-    private String SelectId;//学生所选选项id
+    private String selectId;//学生所选选项id
 
     @Column(name = "ExamparperId", nullable = false, length = 50)
-    private String ExamparperId;//考试试卷id
+    private String examparperId;//考试试卷id
     @Column(name = "performance", nullable = false, length = 50)
     private String performance;//测试题成绩
     @Column(name = "ExamrubricId", nullable = false, length = 50)
-    private String ExamrubricId;//考试题干id
+    private String examrubricId;//考试题干id
 
 
 }
