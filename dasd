@@ -1,0 +1,305 @@
+[33mcommit a6ae41ccc889a6d41172d6f70e2ee675e0a9e707[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Merge: 1c764f6 39c3e8a
+Author: zmzuimei <15978827730@163.com>
+Date:   Tue Dec 11 22:18:37 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 1c764f6d0aa41357af4ea14383e4ba39324f8bb7[m
+Author: zmzuimei <15978827730@163.com>
+Date:   Tue Dec 11 22:17:05 2018 +0800
+
+    课程分类查询
+
+[33mcommit 39c3e8ab7212e21d86c6c711e57b42d9e62fcd0a[m
+Merge: 8d2eab2 b71ca0f
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 22:15:17 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       iep_student/src/main/java/com/ysd/iep/service/HomeService.java
+
+[33mcommit 8d2eab23195143ecfbf54fcf7d9cf13cad5e8e00[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 22:13:41 2018 +0800
+
+    院系获取
+
+[33mcommit b71ca0f913693c438f440aaa78a5fa3ec475d5dc[m
+Author: Jie <18790943013@163.com>
+Date:   Tue Dec 11 21:59:26 2018 +0800
+
+    更新
+
+[33mcommit fc19ba038c297f24ca8d4e7ede2a208454611319[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 19:07:39 2018 +0800
+
+    院系获取
+
+[33mcommit aa8c9266b5704c3ef7ca034764e2169a2097ff8d[m
+Author: zmzuimei <15978827730@163.com>
+Date:   Tue Dec 11 18:44:35 2018 +0800
+
+    课程分类查询
+
+[33mcommit 29b9f136a471fd82fec1474d3b81644cadcaa394[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 18:20:08 2018 +0800
+
+    g
+
+[33mcommit f971970fe296c733b84352174dbf9a327ba98ceb[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 16:43:14 2018 +0800
+
+    院系分类
+
+[33mcommit 572608240c911b6aa66dc4df3253f995142c76ec[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 16:29:08 2018 +0800
+
+    院系分类
+
+[33mcommit ea7edae424b4d1990b413da0bb26385cec5e934f[m
+Merge: e563ea9 e51afca
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 15:09:25 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit e563ea92789d1f3ee4b395cdf1a8ef42d0b021de[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Tue Dec 11 15:09:00 2018 +0800
+
+    idin
+
+[33mcommit e51afcad78ba4690f73ec179956aab02cfbbb3fa[m
+Author: 孟劭华 <1340050895@qq.com>
+Date:   Tue Dec 11 14:56:15 2018 +0800
+
+    dfdf
+
+[33mcommit 9ddde76fdf621f9866b66a723f37767f00e6ede4[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 22:51:02 2018 +0800
+
+    老师菜单
+
+[33mcommit fed10b2618122012fe86c5aa4e3b7095f35ba381[m
+Merge: 5f5f203 ffb6de6
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 20:15:21 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 5f5f203003c7d00771d5cb482ec05b3ed1a2c743[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 20:14:55 2018 +0800
+
+    admin权限
+
+[33mcommit ffb6de651a44f238e1f386aa0ebc225f26e5bbd1[m
+Merge: 6e9cb1c 0f1efc2
+Author: SuperheroMovie00 <15638590102@163.com>
+Date:   Mon Dec 10 20:10:28 2018 +0800
+
+    Merge branch 'master' of https://github.com/guowenzhuang/IEP
+
+[33mcommit 6e9cb1c510ebc362c9ba450142355731b2716e5c[m
+Author: SuperheroMovie00 <15638590102@163.com>
+Date:   Mon Dec 10 20:09:49 2018 +0800
+
+    2018/12/10
+
+[33mcommit 0f1efc28119d09ab7e35805dc4a4a4fcf7fb7a33[m
+Author: Jie <18790943013@163.com>
+Date:   Mon Dec 10 15:55:17 2018 +0800
+
+    sda
+
+[33mcommit d711bc6593dc6749b9d24a8ad7beb1ac258ec6a4[m
+Author: Lemon <1730392988@qq.com>
+Date:   Mon Dec 10 15:05:38 2018 +0800
+
+    分页查询
+
+[33mcommit 7ad0d2fac72a8dbfdcb536c2232cf561e336beb8[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 10:54:30 2018 +0800
+
+    admin权限创建
+
+[33mcommit ff351ece4f008e8b720d4c9b2f58f752b0bd5a30[m
+Merge: 0b4866a 9120184
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 10:53:42 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       .idea/compiler.xml
+
+[33mcommit 0b4866a3ec8e99d92dcc0752469ba88b9f589186[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Mon Dec 10 10:52:08 2018 +0800
+
+    admin权限创建
+
+[33mcommit 9120184bfa53998440269e00cfedbc53bd4db426[m
+Merge: 69b5a20 bdaa7c2
+Author: SuperheroMovie00 <15638590102@163.com>
+Date:   Sun Dec 9 23:42:40 2018 +0800
+
+    Merge branch 'master' of https://github.com/guowenzhuang/IEP
+
+[33mcommit 69b5a20f55674b4b51a70939e59c04cb88c14c25[m
+Author: SuperheroMovie00 <15638590102@163.com>
+Date:   Sun Dec 9 23:42:26 2018 +0800
+
+    删除试题
+
+[33mcommit bdaa7c28be1a460e028320f45774ddb264b1093f[m
+Author: TingTing <TingTing@DESKTOP-K5J8LF5.lan>
+Date:   Sun Dec 9 23:29:17 2018 +0800
+
+    dao层
+
+[33mcommit ed12adac08cc08ecbd67972c9f493009904a8062[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sun Dec 9 21:51:50 2018 +0800
+
+    单文件上传下载 大文件的上传
+
+[33mcommit 30da173e606dbeec1d0f14e44a88dba2c0c15254[m
+Author: 孟劭华 <1340050895@qq.com>
+Date:   Sun Dec 9 15:20:56 2018 +0800
+
+    实体类修改
+
+[33mcommit f3657a04380acdbfc36e985d247267747dc376e2[m
+Author: 孟劭华 <1340050895@qq.com>
+Date:   Sun Dec 9 15:19:16 2018 +0800
+
+    实体类修改
+
+[33mcommit 46d1e3ffdb14aff859eca6c9f5b841cdf8383ad9[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 23:03:32 2018 +0800
+
+    完善介绍
+
+[33mcommit 4c7d218d2bb3e8bc45de7abb76d3f1fd7d901a5b[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 23:00:22 2018 +0800
+
+    完善介绍
+
+[33mcommit edaeb299f47e12af877f1fd92960b5e122e49c50[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 22:52:55 2018 +0800
+
+    完善介绍
+
+[33mcommit 7d025ba7b4b1280948db8cb486af1233509a4bf6[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 22:44:37 2018 +0800
+
+    帮助sb改错
+
+[33mcommit 8a529669fe2ab898b5ae94fcaf482f0d84417ada[m
+Merge: 736e76b 2ea9b83
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 22:07:28 2018 +0800
+
+    Merge branch 'master' of https://github.com/guowenzhuang/IEP
+
+[33mcommit 736e76b183792e3d5ee3d9a450f7f2c3198b668f[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 21:51:13 2018 +0800
+
+    帮助sb改错
+
+[33mcommit 2ea9b837670f61976b21fad1eb36f8738efb0843[m
+Author: Jie <18790943013@163.com>
+Date:   Sat Dec 8 21:49:02 2018 +0800
+
+    配置文件
+
+[33mcommit 14d5c8c913d804e62623c99e0dea0f37a67aee82[m
+Author: Lemon <1730392988@qq.com>
+Date:   Sat Dec 8 21:24:20 2018 +0800
+
+    一次sb的提交
+
+[33mcommit 874e0988e7dd905404c0094778af60c809ba90f8[m
+Author: TingTing <TingTing@DESKTOP-K5J8LF5.lan>
+Date:   Sat Dec 8 17:45:26 2018 +0800
+
+    # WARNING: head commit changed in the meantime
+    
+    教师实体类
+
+[33mcommit 8af99d313593fe640c2958743f58c5386d3b55b0[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 16:16:10 2018 +0800
+
+    oss
+
+[33mcommit 448b786ab11087a894683bc3ca2c5ea0a39a0a96[m
+Merge: b9729b7 27b79f9
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 12:13:46 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit b9729b7bf70ca59d0a0f8d967fd6b4a46492a25a[m
+Author: guowenzhuang <80795289@qq.com>
+Date:   Sat Dec 8 12:13:17 2018 +0800
+
+    oss
+
+[33mcommit 27b79f98a400307d4a9c7e974ad1bf7773b224d0[m
+Author: haha <15638590102@163.com>
+Date:   Sat Dec 8 11:31:23 2018 +0800
+
+    实体类修改
+
+[33mcommit 589e9f521d32ee0b68e1eb882a26419f238e13d8[m
+Author: cuiyijie <980880304@qq.com>
+Date:   Sat Dec 8 00:41:14 2018 +0800
+
+    创建实体类
+
+[33mcommit a25acd7e0a00ef785736266cbf1c5bfb4784ffd7[m
+Author: cuiyijie <980880304@qq.com>
+Date:   Sat Dec 8 00:29:28 2018 +0800
+
+    修改数据库的配置文件
+
+[33mcommit d69b2bfd34dbb336ec8ebccfdad1c68e924ab32b[m
+Merge: 1b83e76 9ff84a2
+Author: cuiyijie <980880304@qq.com>
+Date:   Fri Dec 7 21:01:31 2018 +0800
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 1b83e760825798ef369d0274e50ba0af56c3aadd[m
+Author: cuiyijie <980880304@qq.com>
+Date:   Fri Dec 7 21:00:38 2018 +0800
+
+    修改数据库的配置文件
+
+[33mcommit 9ff84a2e84645325b8b0cade150dd02211fc8997[m
+Author: haha <15638590102@163.com>
+Date:   Fri Dec 7 20:51:02 2018 +0800
+
+    Dao层
+
+[33mcommit 38aa080e5c88274f3f6a82a3ded2462b8f28aa58[m
+Author: haha <15638590102@163.com>
+Date:   Fri Dec 7 14:35:00 2018 +0800
+
+ 

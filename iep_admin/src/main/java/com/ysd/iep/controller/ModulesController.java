@@ -26,8 +26,15 @@ public class ModulesController {
      */
     @ApiOperation(value = "获取老师菜单",notes="根据老师角色获取老师的菜单")
     @GetMapping("/getMenuByTearch")
-    public Result getMenuByTearch(){
+    public Result<List<ModulesDTO>> getMenuByTearch(){
         List<ModulesDTO> list=modulesService.getByRole("老师");
         return new Result<List<ModulesDTO>>(true).setMessage(list);
+    }
+
+    @GetMapping("/getMenuByRole")
+    public Result<List<ModulesDTO>> getMenuByRole(String rolenames){
+        List<ModulesDTO> list=modulesService.getByRole(rolenames.split(","));
+        return new Result<List<ModulesDTO>>(true).setMessage(list);
+
     }
 }

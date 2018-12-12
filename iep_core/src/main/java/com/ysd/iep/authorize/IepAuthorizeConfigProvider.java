@@ -37,6 +37,8 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/oauth/check_token",
                         "/hello",
                         "/api/student/**",
+                        "/api/bbs/**",
+                        "/post/getAllPost",
                         "/home/*",
                         "/swagger-ui.html",
                          "/swagger-resources/**",
