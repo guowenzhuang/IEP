@@ -7,6 +7,7 @@ import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
+import com.ysd.iep.entity.vo.UsersVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class UsersService {
     private UsersDao usersDao;
 
 
-    public PagingResult<UsersDB> query(UsersQuery usersQuery) {
+    public PagingResult<UsersVo> query(UsersQuery usersQuery) {
         Specification<UsersDB> specification= new Specification<UsersDB>() {
             @Override
             public Predicate toPredicate(Root<UsersDB> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -87,10 +88,11 @@ public class UsersService {
             pageable = PageRequest.of(usersQuery.getPage()-1, usersQuery.getRows());
         }
         Page<UsersDB> users = usersDao.findAll(specification, pageable);
-        PagingResult<UsersDB> pagingResult=new PagingResult<UsersDB>();
+        List<UsersDB> usersDBS=users.getContent();
+        PagingResult<UsersVo> pagingResult=new PagingResult<UsersVo>();
         pagingResult
                 .setTotal(users.getTotalElements())
-                .setRows(users.getContent());
+                .setRows(BeanConverterUtil.copyList(usersDBS,UsersVo.class));
         return pagingResult;
     }
 

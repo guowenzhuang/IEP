@@ -1,12 +1,10 @@
 package com.ysd.iep.controller;
 
-import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.UsersDTO;
-import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
-import com.ysd.iep.service.ModulesService;
+import com.ysd.iep.entity.vo.UsersVo;
 import com.ysd.iep.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author 80795
@@ -42,7 +37,7 @@ public class UsersController {
     }
 
     @GetMapping(value="query")
-    public PagingResult<UsersDB> query(UsersQuery usersQuery){
+    public PagingResult<UsersVo> query(UsersQuery usersQuery){
         return usersService.query(usersQuery);
     }
 }
