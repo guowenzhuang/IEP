@@ -32,7 +32,10 @@ public class HomeController {
 	 * 获取分类
 	 * @return
 	 */
-	
+    /**
+     * http://localhost:8060/api/student/home/getMenu
+     * @return
+     */
 	@GetMapping("/getCategory")
 	public Object getCategory() {
 		

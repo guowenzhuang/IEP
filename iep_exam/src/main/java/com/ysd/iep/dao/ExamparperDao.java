@@ -2,6 +2,7 @@ package com.ysd.iep.dao;
 
 import com.ysd.iep.entity.Examparper;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * @author gaozhongye
@@ -9,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 考试试卷dao
  */
 
-public interface ExamparperDao extends JpaRepository<Examparper, String> {
+public interface ExamparperDao extends JpaRepository<Examparper, String>, JpaSpecificationExecutor<Examparper> {
 }

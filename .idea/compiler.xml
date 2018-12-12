@@ -3,45 +3,6 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="iep_admin" />
-        <module name="iep_app" />
-        <module name="iep_bbs" />
-        <module name="iep_browser" />
-        <module name="iep_config" />
-        <module name="iep_core" />
-        <module name="iep_eureka" />
-        <module name="iep_exam" />
-        <module name="iep_oss" />
-        <module name="iep_student" />
-        <module name="iep_teacher" />
-        <module name="iep_zipkin" />
-        <module name="iep_zuul" />
-      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="iep_authorize" target="1.8" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="iep_admin" options="" />
-      <module name="iep_app" options="" />
-      <module name="iep_authorize" options="-parameters" />
-      <module name="iep_bbs" options="" />
-      <module name="iep_browser" options="" />
-      <module name="iep_config" options="" />
-      <module name="iep_core" options="" />
-      <module name="iep_eureka" options="" />
-      <module name="iep_exam" options="" />
-      <module name="iep_oss" options="" />
-      <module name="iep_student" options="" />
-      <module name="iep_teacher" options="" />
-      <module name="iep_zipkin" options="" />
-      <module name="iep_zuul" options="" />
-    </option>
   </component>
 </project>
