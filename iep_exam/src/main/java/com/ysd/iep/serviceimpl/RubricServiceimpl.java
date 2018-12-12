@@ -6,6 +6,9 @@ import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.service.RubricService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +30,9 @@ public class RubricServiceimpl implements RubricService {
 
 
     @Override
-    public List<Rubric> queryUserByuserQuery(RubricQuery rubricquery) {
-
-
-        return rubricdao.findAll(this.getWhereClause(rubricquery));
+    public Page<Rubric> queryUserByuserQuery(RubricQuery rubricquery, Integer page, Integer rows) {
+        Pageable pageable = new PageRequest(page, rows);
+        return rubricdao.findAll(this.getWhereClause(rubricquery), pageable);
     }
 
 
@@ -46,19 +48,19 @@ public class RubricServiceimpl implements RubricService {
                 List<Expression<Boolean>> exList = predicate.getExpressions();//动态SQL表达式集合
 
                 if (rubricquery.getRubric() != null && !"".equals(rubricquery.getRubric())) {
-                    exList.add(cb.like(root.get("Content"), "%" + rubricquery.getRubric() + "%"));
+                    exList.add(cb.like(root.get("content"), "%" + rubricquery.getRubric() + "%"));
 
                 }
                 if (rubricquery.getType() != null && !"".equals(rubricquery.getType())) {
-                    exList.add(cb.equal(root.get("Rubricttype").as(String.class), rubricquery.getType()));
+                    exList.add(cb.equal(root.get("rubricttype").as(String.class), rubricquery.getType()));
 
                 }
                 if (rubricquery.getSection() != null && !"".equals(rubricquery.getSection())) {
-                    exList.add(cb.equal(root.get("SectionId").as(String.class), rubricquery.getSection()));
-                  
+                    exList.add(cb.equal(root.get("sectionId").as(String.class), rubricquery.getSection()));
+
                 }
                 if (rubricquery.getCourse() != null && !"".equals(rubricquery.getCourse())) {
-                    exList.add(cb.equal(root.get("CourseId").as(String.class), rubricquery.getCourse()));
+                    exList.add(cb.equal(root.get("courseId").as(String.class), rubricquery.getCourse()));
 
                 }
 

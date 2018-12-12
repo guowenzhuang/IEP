@@ -13,7 +13,7 @@ public interface RubricService {
      *
      * @return
      */
-    List<Rubric> queryUserByuserQuery(RubricQuery rubricquery);
+    Page<Rubric> queryUserByuserQuery(RubricQuery rubricquery, Integer page, Integer rows);
 
  /*   public List<Rubric> queryByDynamicSQL(RubricQuery rubricquery);*/
 

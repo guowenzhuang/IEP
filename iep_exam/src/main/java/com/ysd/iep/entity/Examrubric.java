@@ -28,22 +28,22 @@ import java.util.Set;
 public class Examrubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//考试题干id
+    private String id;//考试题干id
     @Column(name = "SectionId", nullable = true, length = 50)
-    private String SectionId;//章节id
+    private String sectionId;//章节id
     @Column(name = "CourseId", nullable = true, length = 50)
-    private String CourseId;//课程id
+    private String courseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
-    private String AnswerId;//答案id
+    private String answerId;//答案id
     @Column(name = "Content", nullable = false, length = 200)
-    private String Content;//题目内容
+    private String content;//题目内容
     @Column(name = "TrcherId", nullable = true, length = 50)
-    private String TrcherId;//教师id
+    private String trcherId;//教师id
     @Column(name = "Score", nullable = false, length = 20)
-    private Integer Score;//分值
+    private Integer score;//分值
     @Column(name = "Rubricttype", nullable = false, length = 50)
-    private String Rubricttype;//题干类型(单选,多选,判断,填空)
+    private String rubricttype;//题干类型(单选,多选,判断,填空)
 
 
     //@Column(name = "ExamparperId", nullable = false, length = 50)

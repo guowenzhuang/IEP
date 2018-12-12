@@ -4,12 +4,16 @@ package com.ysd.iep.controller;
 import com.ysd.iep.dao.RubricDao;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.Result;
+import com.ysd.iep.entity.parameter.RubricFan;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.Cors;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/rubric")
@@ -28,6 +32,8 @@ public class RubricController extends Cors {
     @RequestMapping(value = "/addrubric", method = RequestMethod.POST)
     public Object addrubric(Rubric rubric) {
 
+
+
         String Id = UUIDUtils.getUUID();
         rubric.setId(Id);
 
@@ -41,9 +47,11 @@ public class RubricController extends Cors {
      */
     @RequestMapping(value = "/queryrubricer", method = RequestMethod.POST)
     public Object queryrubricer(RubricQuery rubricquery, Integer page, Integer rows) {
+        Page<Rubric> rubric = rubricService.queryUserByuserQuery(rubricquery, page, rows);
+        Integer total = (int) rubric.getTotalElements();
+        List<Rubric> list = rubric.getContent();
 
-
-        return rubricService.queryUserByuserQuery(rubricquery);
+        return new RubricFan(total, list);
     }
 
     /**
