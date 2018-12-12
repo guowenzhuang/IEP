@@ -1,19 +1,15 @@
 package com.ysd.iep.controller;
 
 
-import com.sun.scenario.effect.Crop;
 import com.ysd.iep.dao.RubricDao;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricFan;
+import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.Cors;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/rubric")
@@ -39,17 +35,15 @@ public class RubricController extends Cors {
     }
 
     /**
-     * @return 获取所有的题干以及选项
+     * 查询所有试题
+     *
+     * @return
      */
-    @RequestMapping(value = "/queryrubric", method = RequestMethod.POST)
-    public Object queryrubric(Integer currentPage, Integer pagesize) {
-        System.out.println(currentPage);
-        System.out.println(pagesize);
-        Page<Rubric> rubriclist = rubricService.queryUserByuserQuery(currentPage, pagesize);
-        Integer total = (int) rubriclist.getTotalElements();
-        List<Rubric> list = rubriclist.getContent();
-        RubricFan rubricfan = new RubricFan(total, list);
-        return rubricfan;
+    @RequestMapping(value = "/queryrubricer", method = RequestMethod.POST)
+    public Object queryrubricer(RubricQuery rubricquery) {
+
+
+        return rubricService.queryUserByuserQuery(rubricquery);
     }
 
     /**
