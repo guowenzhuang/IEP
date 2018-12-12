@@ -24,8 +24,8 @@ public class ModulesService {
      * @param roleName
      * @return
      */
-    public List<ModulesDTO>  getByRole(String roleName){
-        log.info("查询老师模菜单开始");
+    public List<ModulesDTO>  getByRole(String... roleName){
+        log.info("查询模块菜单开始");
         List<ModulesDB> topModules=modulesDao.getByParentIdAndRolesName(0,roleName);
         List<ModulesDTO> modulesDTOS= BeanConverterUtil.copyList(topModules,ModulesDTO.class);
         modulesDTOS.forEach(item -> {
@@ -33,7 +33,14 @@ public class ModulesService {
         });
         return modulesDTOS;
     }
-    private void getByParent(ModulesDTO parentModules,String roleName){
+
+
+    /**
+     * 根据父级模块和角色名称查询子级模块
+     * @param parentModules 父级模块
+     * @param roleName 角色名称
+     */
+    private void getByParent(ModulesDTO parentModules,String... roleName){
         log.info("查询子级模块 父级模块为:{}",parentModules.getName());
         List<ModulesDB> childrenModules=modulesDao.getByParentIdAndRolesName(parentModules.getId(),roleName);
         List<ModulesDTO> childrenModuleDTOS= BeanConverterUtil.copyList(childrenModules,ModulesDTO.class);
