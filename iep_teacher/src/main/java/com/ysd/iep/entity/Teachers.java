@@ -16,11 +16,10 @@ import lombok.Data;
 @Data
 public class Teachers  implements Serializable{
 	@Id
-	@GeneratedValue
-	@Column(columnDefinition="int NOT NULL AUTO_INCREMENT   comment '备注:教师Id'")
-	private Integer teaId;//教师Id
-	@Column(columnDefinition="varchar(100)  NULL comment '备注:用戶Id(外键)'") 
-	private Integer teaUserid;//用戶Id(外键)
+	@Column(name = "teaId", nullable = false, length = 100)
+    @GenericGenerator(name="idGenerator", strategy="uuid")
+	@GeneratedValue(generator="idGenerator")
+	private String teaId;//教师Id
 	@Column(columnDefinition="int  NULL comment '备注:教师工号'") 
 	private Integer teaNumber;//教师工号
 	@Column(columnDefinition="varchar(20)  NULL comment '备注:教师头像'") 

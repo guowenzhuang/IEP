@@ -17,4 +17,14 @@ public interface CourseService {
      * 删除课程
      */
      void deleteById(Integer courId);
+     
+     /**
+      * 课程的分页查询(前台)
+      * @param depId
+      * @param page
+      * @param size
+      * @return
+      */
+     public Page<Course> queryCourseDepidAllPage(String depId,Integer page,Integer size);
+     
 }
