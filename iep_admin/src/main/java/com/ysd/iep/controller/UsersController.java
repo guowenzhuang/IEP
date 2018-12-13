@@ -7,6 +7,7 @@ import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

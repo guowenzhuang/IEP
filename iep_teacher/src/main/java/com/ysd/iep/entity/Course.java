@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,6 +27,8 @@ public class Course implements Serializable{
 	private String courName;
 	@Column(columnDefinition="int not NULL comment '备注:课程所属用户(教师)'")
 	private Integer courTeaid;
+	@Column(columnDefinition="varchar(100)  not null comment '备注:院系Id(外键)'")
+	private String courDepid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:课程图片地址'")
 	private String courPicurl;
 	@Column(columnDefinition="double  NULL  DEFAULT 0.0 comment '备注:课程价格'")

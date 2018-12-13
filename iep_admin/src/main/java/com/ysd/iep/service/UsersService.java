@@ -1,7 +1,9 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.dto.StudentDTO;
 import com.ysd.iep.entity.dto.UsersDTO;
 import com.ysd.iep.entity.dto.UsersUpdateDTO;
 import com.ysd.iep.entity.po.RolesDB;
@@ -10,6 +12,7 @@ import com.ysd.iep.entity.properties.SystemProperties;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import com.ysd.iep.util.PasswordEncrypt;
@@ -38,6 +41,10 @@ import java.util.stream.Collectors;
 public class UsersService {
     @Autowired
     private UsersDao usersDao;
+    @Autowired
+    private RolesDao rolesDao;
+    @Autowired
+    private StudentFeign studentFeign;
 
 
     public PagingResult<UsersVo> query(UsersQuery usersQuery) {
@@ -143,12 +150,21 @@ public class UsersService {
         //新增角色
         if (direction.equals("right")) {
             for (String id : ids) {
+                RolesDB rolesDB=rolesDao.findById(id).get();
+                if(rolesDB.getName().equals("学生")){
+                    StudentDTO studentDTO=new StudentDTO().setSid(uuid);
+                    studentFeign.add(studentDTO);
+                }
                 usersDao.addRole(uuid, id);
             }
         }
         //移除角色
         else {
             for (String id : ids) {
+                RolesDB rolesDB=rolesDao.findById(id).get();
+                if(rolesDB.getName().equals("学生")){
+                    studentFeign.delete(uuid);
+                }
                 usersDao.deleteRole(uuid, id);
             }
         }
