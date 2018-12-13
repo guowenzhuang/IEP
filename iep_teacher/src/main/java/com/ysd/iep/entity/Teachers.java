@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
-@Entity       //使用默认类名
+@Entity       //使用默认  类名
 @Table(name = "teachertb")
 @Data
 public class Teachers  implements Serializable{

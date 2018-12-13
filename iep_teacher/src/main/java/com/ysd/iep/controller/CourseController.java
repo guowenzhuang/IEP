@@ -59,9 +59,6 @@ public class CourseController {
     @ApiOperation(value = "前台课程分页")
     @RequestMapping("/getCourUIPage")
     public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
-    	System.out.println("sssssssssss"+depId);
-    	System.out.println("aaaaaaaaaaaa"+page);
-    	System.out.println("sssssssaaaaaawwww"+size);
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 

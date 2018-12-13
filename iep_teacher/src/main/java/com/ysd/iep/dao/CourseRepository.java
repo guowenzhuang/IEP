@@ -15,7 +15,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 * 分页查询课程(前台)
 	 * @param DepId
 	 * @param pageable
-	 * @return
+	 * @return Page<Course>
 	 */
 	public Page<Course> findByCourDepid(String DepId,Pageable pageable);
 }

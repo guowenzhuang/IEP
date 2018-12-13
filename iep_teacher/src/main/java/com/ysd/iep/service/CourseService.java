@@ -23,7 +23,7 @@ public interface CourseService {
       * @param depId
       * @param page
       * @param size
-      * @return
+      * @return  Page<Course>
       */
      public Page<Course> queryCourseDepidAllPage(String depId,Integer page,Integer size);
      

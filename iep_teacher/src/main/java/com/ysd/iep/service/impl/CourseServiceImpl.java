@@ -53,7 +53,7 @@ public class CourseServiceImpl implements CourseService {
         coursedao.deleteById(courId);
     }
 
-	@Override
+    @Override
 	public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
 		Sort sort = new Sort(Sort.Direction.ASC, "courId"); 
 	    Pageable pageable = new PageRequest(page-1, size, sort);
