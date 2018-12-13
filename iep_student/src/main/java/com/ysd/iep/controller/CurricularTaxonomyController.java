@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 @Api(value="/CurricularTaxonomy", tags="课程分类页面")
 @RestController
@@ -40,7 +39,7 @@ public class CurricularTaxonomyController {
      */
     @ApiOperation(value = "根据课程分类Id显示课程")
     @GetMapping("/getCourse")
-    public Result getCourse(String depId, Integer page,Integer size){
+    public Result getCourse(String depId,Integer page, Integer size){
         return courseFeign.getCourseAll(depId,page,size);
     }
 }
