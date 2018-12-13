@@ -18,9 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Chapters implements Serializable{
 	@Id
-	//@GeneratedValue// 自动增长列
-	@GenericGenerator(name="idGenerator",strategy = "uuid")
-	@GeneratedValue(generator = "idGenerator")// 自动增长列
+	@GeneratedValue// 自动增长列
 	@Column(columnDefinition = "int unsigned AUTO_INCREMENT NOT NULL  COMMENT '章节Id'")
 	private Integer chaId;
 	@Column(columnDefinition = "int NOT NULL DEFAULT 0 COMMENT '父模块Id'")
