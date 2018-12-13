@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.dao.UsersDao;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.UsersDTO;
+import com.ysd.iep.entity.dto.UsersUpdateDTO;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
  * @date 2018/11/12 8:55
  */
 @Service
+@SuppressWarnings("AlibabaTransactionMustHaveRollback")
 public class UsersService {
     @Autowired
     private UsersDao usersDao;
@@ -74,8 +76,8 @@ public class UsersService {
                     Path<String> emailPath = root.get("email");
                     predicates.add(criteriaBuilder.like(emailPath, "%" + usersQuery.getProtectEMail() + "%"));
                 }
-                Path<String> deletePath = root.get("delete");
-                predicates.add(criteriaBuilder.equal(deletePath, "0"));
+                Path<String> statusPath = root.get("status");
+                predicates.add(criteriaBuilder.equal(statusPath, "0"));
                 Predicate[] p = new Predicate[predicates.size()];
                 return criteriaBuilder.and(predicates.toArray(p));
             }
@@ -126,6 +128,10 @@ public class UsersService {
             usersDB.setIsLockout(fieldValue);
             usersDB.setPsdWrongTime(0);
             result.setSuccess(true);
+        } else if (fieldName.equals("password")) {
+            String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
+            usersDB.setPassword(password);
+            result.setSuccess(true);
         }
         usersDao.save(usersDB);
         return result;
@@ -157,13 +163,32 @@ public class UsersService {
     public void add(UsersDB usersDB) {
         String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
         usersDB.setPassword(password);
+        usersDB.setStatus(0);
         usersDB.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        System.out.println(usersDB.getCreateTime());
         usersDao.save(usersDB);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param uuid
+     */
     @Transactional
     public void delete(String uuid) {
         usersDao.deleteStatus(uuid);
+    }
+
+    /**
+     * 修改用户
+     *
+     * @param usersUpdateDTO
+     */
+    @Transactional
+    public void update(UsersUpdateDTO usersUpdateDTO) {
+        UsersDB usersDB = usersDao.findTopByLoginName(usersUpdateDTO.getLoginName());
+        usersDB.setProtectEMail(usersUpdateDTO.getProtectEMail());
+        usersDB.setProtectMTel(usersUpdateDTO.getProtectMTel());
     }
 
 }
