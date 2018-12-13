@@ -39,8 +39,8 @@ public class ExamParperController {
 
         return map;
     }
-    @RequestMapping("/updateStartExamtime")
-    public Result updateStartExamtime( Examparper examparper){
+    @PutMapping("updateStartExamtime")
+    public Result updateStartExamtime(Examparper examparper){
       return   examparperService.updateStartExamtime(examparper);
     }
 }
