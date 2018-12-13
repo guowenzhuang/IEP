@@ -1,5 +1,5 @@
 server:
-  port: 9030
+  port: 9010
   # port: 80 qq登录
   servlet:
     session:
