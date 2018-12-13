@@ -7,10 +7,10 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/guowenzhuang/iep-config.git
+          uri: https://gitee.com/guowenzhuang/iep-config.git
           search-paths: /**
-          username: guowenzhuang
-          password: Qq123456..
+          username: 80795289@qq.com
+          password: qq123456
       label: master
 eureka:
   client:

@@ -51,5 +51,11 @@ public class CourseServiceImpl implements CourseService {
         coursedao.deleteById(courId);
     }
 
+    @Override
+    public Result insertCourse(Course course) {
+           coursedao.save(course);
+           return new Result();
+    }
+
 
 }
