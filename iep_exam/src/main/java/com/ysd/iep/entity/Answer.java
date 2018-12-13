@@ -19,7 +19,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "answer_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 public class Answer {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
@@ -32,9 +31,14 @@ public class Answer {
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//题干id
     @JsonIgnore
-    @ManyToOne(targetEntity = Rubric.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Rubric.class)
     @JoinColumn(name = "Answer_Rubric_Id")
     private Rubric rubric;//答案所属的题干id
 
 
+    public Answer(String id, String optiones, String content) {
+        this.id = id;
+        this.optiones = optiones;
+        this.content = content;
+    }
 }
