@@ -10,7 +10,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 public interface TeacherService {
 	
 	/**
-	 * 
+	 * 获取课程
 	 */
+	
 
 }
