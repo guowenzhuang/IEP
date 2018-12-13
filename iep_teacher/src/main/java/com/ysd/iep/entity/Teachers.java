@@ -2,20 +2,18 @@ package com.ysd.iep.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity       //使用默认类名
 @Table(name = "teachertb")
 @Data
 public class Teachers  implements Serializable{
 	@Id
-	//@GeneratedValue
-	@GenericGenerator(name="idGenerator",strategy = "uuid")
-	@GeneratedValue(generator = "idGenerator")// 自动增长列
-	@Column(columnDefinition="int NOT NULL AUTO_INCREMENT  comment '备注:教师Id'")
+	@Column(columnDefinition="int NOT NULL   comment '备注:教师Id'")
 	private Integer teaId;//教师Id
 	@Column(columnDefinition="varchar(100)  NULL comment '备注:用戶Id(外键)'") 
 	private Integer teaUserid;//用戶Id(外键)

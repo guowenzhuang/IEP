@@ -23,8 +23,6 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private AdminFeign adminFeign;
-    @Autowired
-    private TeachersService teachersService;
     /**
      * @param page
      * @param pageSize
@@ -45,32 +43,10 @@ public class CourseController {
         return adminFeign.getMenu();
     }
     @ApiOperation(value = "删除课程")
-     @RequestMapping("/deleteCourseById")
-    public Result deleteC(@ApiParam(name="courId",value="课程id",required=true)Integer courId) {
-
-        try {
-            courseService.deleteById(courId);
-        } catch (Exception e) {
-           return new Result(false, "删除失败");
-        }
-      return new Result();
-     }
-    @ApiOperation(value = "增加课程")
-     @PostMapping("addCourseAll")
-    public Result addCourse(Course course){
-       // UUID.randomUUID().toString();
-        Result add = courseService.insertCourse(course);
-        //teachersService.insertTeacher(teachers);
-        return  new Result(true);
+     @DeleteMapping("/deleteCourseById")
+    public void deleteC(Integer courId){
+        courseService.deleteById(courId);
     }
-
-/*    @ApiOperation(value = "修改课程")
-    @PostMapping("updateCourseAll")
-    public Result updateCourse(Course course){
-        Result update = courseService.updateCourse(course);
-
-        return  new Result(true);
-    }*/
 
 }
 

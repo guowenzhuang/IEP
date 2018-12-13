@@ -8,9 +8,11 @@ import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Sort;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +54,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
+        return null;
+    }
+
+    @Override
     public Result insertCourse(Course course) {
-           coursedao.save(course);
-           return new Result(true);
+        return null;
     }
 
     @Override
     public Result updateCourse(Course course) {
-        coursedao.save(course);
-        return new Result(true);
+        return null;
     }
 
 
