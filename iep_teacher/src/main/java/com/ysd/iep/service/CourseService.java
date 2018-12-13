@@ -22,7 +22,7 @@ public interface CourseService {
       * 课程的分页查询(前台)
       * @param depId
       * @param page
-      * @param size
+      * @param   size  
       * @return  Page<Course>
       */
      public Page<Course> queryCourseDepidAllPage(String depId,Integer page,Integer size);

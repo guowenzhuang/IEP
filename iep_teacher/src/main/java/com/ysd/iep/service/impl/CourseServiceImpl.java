@@ -53,6 +53,9 @@ public class CourseServiceImpl implements CourseService {
         coursedao.deleteById(courId);
     }
 
+    /**
+     * 
+     */
     @Override
 	public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
 		Sort sort = new Sort(Sort.Direction.ASC, "courId"); 

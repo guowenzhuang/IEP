@@ -50,7 +50,7 @@ public class CourseController {
     
     /**
      * course/getCourUIPage
-     * 课程的分页查询(前台)
+     * 课程的分页查询(前台 )
      * @param depId
      * @param page
      * @param size

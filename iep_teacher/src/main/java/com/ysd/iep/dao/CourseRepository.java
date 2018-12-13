@@ -12,7 +12,7 @@ import com.ysd.iep.entity.Course;
 public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpecificationExecutor<Course> {
 
 	/**
-	 * 分页查询课程(前台)
+	 * 分页查询  课程(前台)
 	 * @param DepId
 	 * @param pageable
 	 * @return Page<Course>
