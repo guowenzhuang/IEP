@@ -26,7 +26,6 @@ public class RolesService {
      * @return
      */
     public UserRoleVo queryUnAndNoqueryUn(String uuid) {
-        System.out.println("uuid==>"+uuid);
         List<RolesDB> beLogedRoles = rolesDB.findByUserId(uuid);
         List<String> names = beLogedRoles.stream().map(RolesDB::getName).collect(Collectors.toList());
         List<RolesDB> roles = rolesDB.findAll();

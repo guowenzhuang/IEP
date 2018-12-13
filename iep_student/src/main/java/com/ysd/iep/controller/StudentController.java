@@ -1,10 +1,7 @@
 package com.ysd.iep.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ysd.iep.entity.Student;
 import com.ysd.iep.service.StudentService;
@@ -21,7 +18,7 @@ public class StudentController {
 	 * 添加
 	 */
 	@PostMapping("/addStudent")
-	public Object addStudent(Student student) {
+	public Object addStudent(@RequestBody  Student student) {
 		try {
 			studentService.addStudent(student);
 			
@@ -37,8 +34,8 @@ public class StudentController {
 	 * 移除
 	 */
 	@DeleteMapping("/deleteStudent")
-	public Object deleteStudent(String sid) {
-		
+	public Object deleteStudent(@RequestParam("sid") String sid) {
+		System.out.println(sid);
 		try {
 			studentService.deleteStudent(sid);
 			return new Result(true, "删除成功");
