@@ -24,6 +24,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +37,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +59,18 @@ public class UserController {
     private SecurityProperties securityProperties;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ConsumerTokenServices consumerTokenServices;
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
+    @DeleteMapping("/logout")
+    public Result revokeToken(Principal principal, String access_token){
+        System.out.println("access_token==>"+access_token);
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+        OAuth2AccessToken accessToken = authorizationServerTokenServices.getAccessToken(oAuth2Authentication);
+        return new Result().setSuccess(true).setMessage("ss");
+    }
     @PostMapping("/userRegist")
     public Result userRegist(UserRegistInfo userRegistInfo){
         String sql="insert into users(id,LoginName,`Password`,ProtectEMail,protectMTel,CreateTime) values(?,?,?,?,?,?)";

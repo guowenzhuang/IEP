@@ -37,6 +37,24 @@ public class UsersController {
         return new Result<UsersDTO>(true,usersService.userByName(name));
     }
 
+    @PostMapping
+    public Result<String> add(@RequestBody UsersDB usersDB){
+        usersService.add(usersDB);
+        return new Result<String>(true,"成功");
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<String> delete(@PathVariable("id") String id){
+        usersService.delete(id);
+        return new Result<String>(true).setMessage("成功");
+    }
+
+    @PutMapping
+    public Result<String> update(@RequestBody UsersUpdateDTO usersUpdateDTO){
+        usersService.update(usersUpdateDTO);
+        return new Result<String>(true).setMessage("成功");
+    }
+
     @GetMapping(value="query")
     public PagingResult<UsersVo> query(UsersQuery usersQuery){
         return usersService.query(usersQuery);
@@ -53,20 +71,4 @@ public class UsersController {
         return new Result<String>(true);
     }
 
-    @PostMapping
-    public Result<String> add(@RequestBody UsersDB usersDB){
-        usersService.add(usersDB);
-        return new Result<String>(true,"成功");
-    }
-
-    @DeleteMapping("/{id}")
-    public Result<String> delete(@PathVariable("id") String id){
-        usersService.delete(id);
-        return new Result<String>(true).setMessage("成功");
-    }
-    @PutMapping
-    public Result<String> update(@RequestBody UsersUpdateDTO usersUpdateDTO){
-        usersService.update(usersUpdateDTO);
-        return new Result<String>(true).setMessage("成功");
-    }
 }

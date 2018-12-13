@@ -1,6 +1,7 @@
 package com.ysd.iep.util;
 
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * 空判断工具类
@@ -41,4 +42,5 @@ public class EmptyUtil {
         }
         return true;
     }
+
 }
