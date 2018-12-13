@@ -8,6 +8,11 @@ server:
 spring:
   application:
     name: iep-zuul #指定服务名
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://cdb-8umc2fk3.gz.tencentcdb.com:10020/iep-permission?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: root
+    password: qq123456
   jpa:
     database: MySQL
     show-sql: true
