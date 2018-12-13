@@ -1,18 +1,14 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.dao.RolesDao;
-import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.po.RolesDB;
-import com.ysd.iep.entity.po.UsersDB;
-import com.ysd.iep.entity.vo.RolesVo;
+import com.ysd.iep.entity.vo.RolesTransferVo;
 import com.ysd.iep.entity.vo.UserRoleVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -29,15 +25,16 @@ public class RolesService {
      * @param uuid
      * @return
      */
-    public Result queryUnAndNoqueryUn(String uuid) {
+    public UserRoleVo queryUnAndNoqueryUn(String uuid) {
+        System.out.println("uuid==>"+uuid);
         List<RolesDB> beLogedRoles = rolesDB.findByUserId(uuid);
         List<String> names = beLogedRoles.stream().map(RolesDB::getName).collect(Collectors.toList());
-        List<RolesDB> noBeLogedRoles = rolesDB.findByNameNotIn(names);
-        List<RolesVo> beLogedRolesVo = BeanConverterUtil.copyList(beLogedRoles, RolesVo.class);
-        List<RolesVo> noBeLogedRolesVo = BeanConverterUtil.copyList(noBeLogedRoles, RolesVo.class);
+        List<RolesDB> roles = rolesDB.findAll();
+        List<RolesTransferVo> beLogedRolesTransferVo = BeanConverterUtil.copyList(beLogedRoles, RolesTransferVo.class);
+        List<RolesTransferVo> rolesTransferVos = BeanConverterUtil.copyList(roles, RolesTransferVo.class);
         UserRoleVo userRoleVo = new UserRoleVo()
-                .setUserRole(beLogedRolesVo)
-                .setUserNoRole(noBeLogedRolesVo);
-        return new Result(true, userRoleVo);
+                .setUserRole(beLogedRolesTransferVo)
+                .setRoles(rolesTransferVos);
+        return userRoleVo;
     }
 }

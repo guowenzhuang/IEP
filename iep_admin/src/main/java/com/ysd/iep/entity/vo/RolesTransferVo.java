@@ -1,5 +1,6 @@
 package com.ysd.iep.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,7 +11,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class RolesVo {
+public class RolesTransferVo {
+    @JsonProperty("key")
     private String id;
+    @JsonProperty("label")
     private String name;
 }

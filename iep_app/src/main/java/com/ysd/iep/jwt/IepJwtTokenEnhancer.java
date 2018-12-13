@@ -1,5 +1,8 @@
 package com.ysd.iep.jwt;
 
+import com.ysd.iep.service.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -16,12 +19,15 @@ import java.util.Map;
  * @date 2018/11/12 8:55
  */
 public class IepJwtTokenEnhancer implements TokenEnhancer {
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String,Object> info=new HashMap<>();
-        info.put("company","iep");
         info.put("authorities",oAuth2Authentication.getAuthorities());
-        info.put("user_name",oAuth2Authentication.getName());
+        String name=oAuth2Authentication.getName();
+        UserInfo userInfo= (UserInfo) redisTemplate.opsForValue().get("login_"+name);
+        info.put("info",userInfo);
         Collection<GrantedAuthority> authorities= oAuth2Authentication.getAuthorities();
         ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(info);
         return oAuth2AccessToken;

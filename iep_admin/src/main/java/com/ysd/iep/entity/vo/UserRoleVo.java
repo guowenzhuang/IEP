@@ -15,9 +15,9 @@ public class UserRoleVo {
     /**
      * 属于用户的角色
      */
-    private List<RolesVo> userRole;
+    private List<RolesTransferVo> userRole;
     /**
      * 不属于用户的角色
      */
-    private List<RolesVo> userNoRole;
+    private List<RolesTransferVo> roles;
 }

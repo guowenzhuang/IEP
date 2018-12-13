@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,6 +41,8 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     private PasswordEncoder passwordEncoder;
     @Resource
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -84,7 +87,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     }
 
     private SocialUserDetails buildUser(UserInfo userInfo) {
-
+        redisTemplate.opsForValue().set("login_"+userInfo.getName(),userInfo);
         StringBuffer permissStringBuffer = new StringBuffer();
         String rolesSql = "select id, name from  roles where id in (select RoleId from userroles where userid=?)";
         jdbcTemplate.query(rolesSql, new Object[]{userInfo.getId()}, (RowMapper<String>) (rs, rowNum) -> {
