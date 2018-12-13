@@ -38,6 +38,4 @@ public class Chapters implements Serializable{
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 
 	private String Ext2;
-	
-	
 }
