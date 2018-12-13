@@ -30,7 +30,7 @@ public class HomeController {
 	 * @return
 	 */
     /**
-     * http://localhost:8060/api/student/home/getMenu
+     * http://localhost:8060/api/student/home/getCategory
      * @return
      */
 	@GetMapping("/getCategory")
