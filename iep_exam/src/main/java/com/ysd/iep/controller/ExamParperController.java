@@ -25,7 +25,7 @@ public class ExamParperController {
      * @param examParperSerch
      * @return
      */
-    @PostMapping("getqueryqueryByDynamicSQLPageExpaerper")
+    @GetMapping ("getqueryqueryByDynamicSQLPageExpaerper")
     private Object getqueryqueryByDynamicSQLPageExpaerper(ExamParperSerch examParperSerch){
         Page<Examparper> page=examparperService.queryqueryByDynamicSQLPageExpaerper(examParperSerch);
         Long total = page.getTotalElements();
@@ -39,8 +39,20 @@ public class ExamParperController {
 
         return map;
     }
+
+    /***
+     * 点击开始考试按钮
+     * @param examparper
+     * @return
+     */
     @PutMapping("updateStartExamtime")
     public Result updateStartExamtime(Examparper examparper){
       return   examparperService.updateStartExamtime(examparper);
+    }
+    @PostMapping("addRandomExamparper")
+    public Result addRandomExamparper(ExamParperSerch ExamParperSerch){
+        System.out.println("6666"+ExamParperSerch);
+
+        return null;
     }
 }
