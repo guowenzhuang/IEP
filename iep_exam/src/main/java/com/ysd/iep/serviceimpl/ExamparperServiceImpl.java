@@ -79,9 +79,6 @@ public class ExamparperServiceImpl implements ExamparperService {
                 if (examParperSerch.getTitle() != null && !"".equals(examParperSerch.getTitle())) {
                     exceptonList.add(criteriaBuilder.like(root.<String>get("title"), "%" + examParperSerch.getTitle() + "%"));
                 }
-                if (examParperSerch.getType() != null && !" ".equals(examParperSerch.getType())) {
-                    exceptonList.add(criteriaBuilder.like(root.<String>get("type"), "%" + examParperSerch.getType() + "%"));
-                }
                 if (examParperSerch.getState() != null && !"".equals(examParperSerch.getState())) {
                     exceptonList.add(criteriaBuilder.like(root.<String>get("state"), "%" + examParperSerch.getState() + "%"));
                 }
