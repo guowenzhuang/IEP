@@ -70,6 +70,13 @@ public class CourseController {
     }
 
 
+/*    @ApiOperation(value = "修改课程")
+    @PostMapping("updateCourseAll")
+    public Result updateCourse(Course course){
+        Result update = courseService.updateCourse(course);
+
+        return  new Result(true);
+    }*/
 
 
 }
