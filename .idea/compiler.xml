@@ -27,7 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="iep_admin" options="-parameters" />
       <module name="iep_app" options="-parameters" />
-      <module name="iep_bbs" options="-parameters" />
+      <module name="iep_bbs" options="" />
       <module name="iep_browser" options="-parameters" />
       <module name="iep_config" options="-parameters" />
       <module name="iep_core" options="-parameters" />
