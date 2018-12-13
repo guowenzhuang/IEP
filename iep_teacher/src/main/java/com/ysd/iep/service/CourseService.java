@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.Result;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CourseService {
     /**
@@ -27,7 +28,7 @@ public interface CourseService {
       * @param   size
       * @return  Page<Course>
       */
-     public Page<Course> queryCourseDepidAllPage(String depId,Integer page,Integer size);
+     public Page<Course> queryCourseDepidAllPage(@RequestParam("depId")String depId,@RequestParam("page")Integer page, @RequestParam("size")Integer size);
 
 
     /**
