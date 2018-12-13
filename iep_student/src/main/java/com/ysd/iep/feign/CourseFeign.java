@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CourseFeign {
 
     @RequestMapping("/course/getCourUIPage")
-    Result getCourseAll(@RequestParam("depId")String depId, @RequestParam("page")Integer page, @RequestParam("size")Integer size);
+    Result getCourseAll(@RequestParam("depId")  String depId, @RequestParam("page") Integer page, @RequestParam("size") Integer size);
 }
