@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.ysd.iep.entity.notice;
 
 public interface NoticeRepository extends JpaRepository<notice, Integer>{
-	 @Query(value = "SELECT n.* FROM notice n LEFT JOIN course c ON n.noCourid=c.courId WHERE c.courId=2", nativeQuery = true)
+	 @Query(value = "SELECT n.* FROM noticetb n LEFT JOIN coursetb c ON n.no_courid=c.cour_id WHERE c.cour_id=?1", nativeQuery = true)
 		public List<notice> queryNoticeByCourId(Integer courId);
 }
