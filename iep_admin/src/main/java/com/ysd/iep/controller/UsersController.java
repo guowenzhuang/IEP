@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 80795
@@ -39,5 +36,10 @@ public class UsersController {
     @GetMapping(value="query")
     public PagingResult<UsersVo> query(UsersQuery usersQuery){
         return usersService.query(usersQuery);
+    }
+
+    @PutMapping("/updateUserField/{uuid}")
+    public Result updateUserField(@PathVariable("uuid") String uuid,String fieldName,String fieldValue){
+        return usersService.updateUserField(uuid,fieldName,fieldValue);
     }
 }

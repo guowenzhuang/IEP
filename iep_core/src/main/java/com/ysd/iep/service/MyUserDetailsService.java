@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,6 +107,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
                     true, true, true, false,
                     AuthorityUtils.commaSeparatedStringToAuthorityList(permissString));
         }
+        jdbcTemplate.update("update users set lastLoginTime=? WHERE Id=?",new Object[]{new Date(),userInfo.getId()});
         return new SocialUser(userInfo.getName(), userInfo.getPassword(),
                 true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissString));

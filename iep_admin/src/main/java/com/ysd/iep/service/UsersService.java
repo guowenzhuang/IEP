@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -106,4 +107,25 @@ public class UsersService {
         UsersDTO usersDTO= (UsersDTO) BeanConverterUtil.copyObject(usersDB,UsersDTO.class);
         return usersDTO;
     }
+
+    /**
+     * 修改用户某一列的值
+     * @param uuid
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
+    @Transactional
+    public Result updateUserField(String uuid,String fieldName,String fieldValue) {
+        UsersDB usersDB=usersDao.findById(uuid).get();
+        Result result=new Result().setSuccess(false);
+        if(fieldName.equals("isLockout")){
+            usersDB.setIsLockout(fieldValue);
+            usersDB.setPsdWrongTime(0);
+            result.setSuccess(true);
+        }
+        usersDao.save(usersDB);
+        return result;
+    }
+
 }
