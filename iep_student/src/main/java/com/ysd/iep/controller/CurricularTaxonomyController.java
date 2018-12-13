@@ -1,6 +1,7 @@
 package com.ysd.iep.controller;
+import com.ysd.iep.feign.CourseFeign;
+import com.ysd.iep.feign.CurricularFeign;
 import com.ysd.iep.util.Result;
-import com.ysd.iep.service.CurricularTaxonomyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class CurricularTaxonomyController {
 
     @Autowired
-    private CurricularTaxonomyService curricularTaxonomyService;
+    private CurricularFeign curricularTaxonomyFeign;
+    @Autowired
+    private CourseFeign courseFeign;
     /**
      * 获取全部课程分类
      *http://127.0.0.1:8060/api/student/curricularTaxonomy/getCurricularTaxonomy
@@ -23,9 +26,20 @@ public class CurricularTaxonomyController {
    @ApiOperation(value = "获取全部课程分类")
     @GetMapping("/getCurricularTaxonomy")
     public Result getCurricularTaxonomy(){
-        return curricularTaxonomyService.getCurricularTaxonomy();
+        return curricularTaxonomyFeign.getCurricularTaxonomy();
     }
-    public void getCourse(){
-      //zx
+
+    /**
+     * 根据课程分类Id显示课程
+     * http://127.0.0.1:8060/api/student/curricularTaxonomy/getCourse
+     * @param depId
+     * @param page
+     * @param size
+     * @return Result
+     */
+    @ApiOperation(value = "根据课程分类Id显示课程")
+    @GetMapping("/getCourse")
+    public Result getCourse(String depId,Integer page, Integer size){
+        return courseFeign.getCourseAll(depId,page,size);
     }
 }
