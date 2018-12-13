@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 @Entity       //使用默认类名
@@ -13,7 +16,8 @@ import lombok.Data;
 @Data
 public class Teachers  implements Serializable{
 	@Id
-	@Column(columnDefinition="int NOT NULL   comment '备注:教师Id'")
+	@GeneratedValue
+	@Column(columnDefinition="int NOT NULL AUTO_INCREMENT   comment '备注:教师Id'")
 	private Integer teaId;//教师Id
 	@Column(columnDefinition="varchar(100)  NULL comment '备注:用戶Id(外键)'") 
 	private Integer teaUserid;//用戶Id(外键)
@@ -21,6 +25,8 @@ public class Teachers  implements Serializable{
 	private Integer teaNumber;//教师工号
 	@Column(columnDefinition="varchar(20)  NULL comment '备注:教师头像'") 
 	private String teaPhoto;//教师头像
+	@Column(columnDefinition="char(2)   NULL comment '备注:老师性别'") 
+	private String teaSex;//老师性别
 	@Column(columnDefinition="int   NULL comment '备注:教师所属院系'") 
 	private Integer teaDepartmentid;//教师所属院系
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:教师描述'") 
@@ -31,9 +37,6 @@ public class Teachers  implements Serializable{
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 
 	private String Ext2;
-	
-	
-	
 	
 
 }
