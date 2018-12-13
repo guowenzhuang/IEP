@@ -47,7 +47,14 @@ public class CourseController {
     public void deleteC(Integer courId){
         courseService.deleteById(courId);
     }
-    
+    @ApiOperation(value = "增加课程")
+    @PostMapping("addCourseAll")
+    public Result addCourse(Course course){
+        // UUID.randomUUID().toString();
+        Result add = courseService.insertCourse(course);
+        //teachersService.insertTeacher(teachers);
+        return  new Result(true);
+    }
     /**
      * course/getCourUIPage
      * 课程的分页查询(前台 )

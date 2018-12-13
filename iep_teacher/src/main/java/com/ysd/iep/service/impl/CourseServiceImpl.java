@@ -67,13 +67,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Result insertCourse(Course course) {
-        return null;
+        coursedao.save(course);
+        return new Result(true);
     }
 
-    @Override
-    public Result updateCourse(Course course) {
-        return null;
-    }
+
 
 
 }
