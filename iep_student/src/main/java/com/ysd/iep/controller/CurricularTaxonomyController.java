@@ -25,4 +25,7 @@ public class CurricularTaxonomyController {
     public Result getCurricularTaxonomy(){
         return curricularTaxonomyService.getCurricularTaxonomy();
     }
+    public void getCourse(){
+      //zx
+    }
 }
