@@ -40,6 +40,7 @@ public class CurricularTaxonomyController {
     @ApiOperation(value = "根据课程分类Id显示课程")
     @GetMapping("/getCourse")
     public Result getCourse(String depId,Integer page, Integer size){
+    	
         return courseFeign.getCourseAll(depId,page,size);
     }
 }
