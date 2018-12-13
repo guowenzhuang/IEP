@@ -54,7 +54,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Result insertCourse(Course course) {
            coursedao.save(course);
-           return new Result();
+           return new Result(true);
+    }
+
+    @Override
+    public Result updateCourse(Course course) {
+        coursedao.save(course);
+        return new Result(true);
     }
 
 

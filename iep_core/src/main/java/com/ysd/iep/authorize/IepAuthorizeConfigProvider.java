@@ -33,20 +33,16 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/api/oauth/userRegist",
                         "/social/signUp",
                         "/login",
-                        "/api/bbs/*",
                         "/oauth/check_token",
                         "/hello",
                         "/api/student/**",
                         "/api/bbs/**",
-                        "/post/getAllPost",
-                        "/home/*",
                         "/swagger-ui.html",
                          "/swagger-resources/**",
                         "/webjars/**",
                         "/v2/**",
                         "/depart/get",
-                        "/depart/getTop7",
-                        "/curricularTaxonomy/**")
+                        "/depart/getTop7")
                 .permitAll();
                 //.antMatchers("/student/*").hasRole("学生")
     }

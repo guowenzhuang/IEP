@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.UsersDTO;
+import com.ysd.iep.entity.dto.UsersUpdateDTO;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
@@ -60,6 +61,11 @@ public class UsersController {
     @DeleteMapping("/{id}")
     public Result<String> delete(@PathVariable("id") String id){
         usersService.delete(id);
+        return new Result<String>(true).setMessage("成功");
+    }
+    @PutMapping
+    public Result<String> update(@RequestBody UsersUpdateDTO usersUpdateDTO){
+        usersService.update(usersUpdateDTO);
         return new Result<String>(true).setMessage("成功");
     }
 }

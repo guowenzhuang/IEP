@@ -18,7 +18,7 @@ public class Student {
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:学生表主键'  ")
 	private String sid;//学生id
 	
-	@Column(columnDefinition="varchar(2) NOT NULL comment '备注:学生性别'  ")
+	@Column(columnDefinition="varchar(2) NULL comment '备注:学生性别'  ")
 	private String sex;//学生性别
 	
 	@Column(columnDefinition="varchar(50) NULL comment '备注:学生头像'  ")
@@ -30,7 +30,5 @@ public class Student {
 	@Column(columnDefinition="int NULL comment '备注:所属班级id'  ")
 	private Integer cid;//所属班级id
 	
-	@Column(columnDefinition="varchar(50) NULL comment '备注:用户id' ")
-	private String uid;//用户id
 
 }

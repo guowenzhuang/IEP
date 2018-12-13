@@ -35,8 +35,12 @@ public interface UsersDao extends BaseDao<UsersDB,String> {
     @Query(value = "delete from userroles where UserId=:uuid and RoleId=:roleId",nativeQuery = true)
     void deleteRole(@Param("uuid") String uuid,@Param("roleId") String roleId);
 
+    /**
+     * 删除用户
+     * @param uuid 用户id
+     */
     @Modifying
-    @Query(value = "update users set `delete`=1 where id=:uuid",nativeQuery = true)
+    @Query(value = "update users set `status`=1 where id=:uuid",nativeQuery = true)
     void deleteStatus(@Param("uuid") String uuid);
 
 }
