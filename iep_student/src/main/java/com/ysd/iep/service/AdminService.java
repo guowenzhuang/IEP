@@ -12,7 +12,16 @@ import com.ysd.iep.util.Result;
 @FeignClient("IEP-ADMIN")
 public interface AdminService {
 	
+	/**
+	 * 获取课程分类
+	 * @return
+	 */
 	@RequestMapping("/depart/getTop7")
 	public Result getCategory();
+	
+	/**
+	 * 获取推荐课程
+	 */
+	
 
 }

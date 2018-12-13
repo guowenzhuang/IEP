@@ -19,6 +19,8 @@ public class HomeController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	
 	/**
 	 * @GetMapping 查询
 	 * @PutMapping 修改
