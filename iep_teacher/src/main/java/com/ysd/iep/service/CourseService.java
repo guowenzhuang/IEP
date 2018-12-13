@@ -27,4 +27,10 @@ public interface CourseService {
      */
     Result insertCourse(Course course);
 
+    /**
+     * 修改课程
+     * @param course
+     * @return
+     */
+    Result updateCourse(Course course);
 }

@@ -35,7 +35,7 @@
       <module name="iep_exam" options="-parameters" />
       <module name="iep_oss" options="-parameters" />
       <module name="iep_student" options="-parameters" />
-      <module name="iep_teacher" options="-parameters" />
+      <module name="iep_teacher" options="" />
       <module name="iep_zipkin" options="-parameters" />
       <module name="iep_zuul" options="-parameters" />
     </option>
