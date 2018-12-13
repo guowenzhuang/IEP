@@ -8,20 +8,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity          //使用默认类名
 @Table(name = "coursetb")
 @Data
 public class Course implements Serializable{
 	@Id
-	@GeneratedValue// 自动增长列
+	@GeneratedValue
 	@Column(columnDefinition = "int unsigned  AUTO_INCREMENT COMMENT '课程ID'", nullable = false)
 	private Integer courId;  //课程ID
 	@Column(columnDefinition = "varchar(50) NOT NULL COMMENT '课程名称'")
 	private String courName;
 	@Column(columnDefinition="int not NULL comment '备注:课程所属用户(教师)'")
 	private Integer courTeaid;
+	@Column(columnDefinition="varchar(100)  not null comment '备注:院系Id(外键)'")
+	private String courDepid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:课程图片地址'")
 	private String courPicurl;
 	@Column(columnDefinition="double  NULL  DEFAULT 0.0 comment '备注:课程价格'")

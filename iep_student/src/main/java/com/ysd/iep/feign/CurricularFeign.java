@@ -1,12 +1,10 @@
-package com.ysd.iep.service;
-
+package com.ysd.iep.feign;
 
 import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient("IEP-ADMIN")
-public interface CurricularTaxonomyService {
-
+public interface CurricularFeign {
     @RequestMapping("/depart/get")
     Result getCurricularTaxonomy();
 }

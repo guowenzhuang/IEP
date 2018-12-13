@@ -8,9 +8,11 @@ import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Sort;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,26 @@ public class CourseServiceImpl implements CourseService {
     public void deleteById(Integer courId) {
         coursedao.deleteById(courId);
     }
+
+    /**
+     * 
+     * 前台课程显示
+     */
+    @Override
+    public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
+    	Sort sort = new Sort(Sort.Direction.ASC, "courId"); 
+	    Pageable pageable = new PageRequest(page-1, size, sort);
+	    return coursedao.findByCourDepid(depId, pageable);
+
+    }
+
+    @Override
+    public Result insertCourse(Course course) {
+        coursedao.save(course);
+        return new Result(true);
+    }
+
+
 
 
 }

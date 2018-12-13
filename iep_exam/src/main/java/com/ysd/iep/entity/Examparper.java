@@ -30,41 +30,41 @@ import java.util.Set;
 @NoArgsConstructor
 public class Examparper {
     @Id
-    @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//考试试卷id
+    @Column(name = "id", nullable = false, length = 50)
+    private String id;//考试试卷id
     @Column(name = "Type",  length = 50)
-    private String Type;//考试类型
+    private String type;//考试类型
     @Column(name = "Title",  length = 200)
-    private String Title;//考试标题
+    private String title;//考试标题
 
     @Column(name = "Subject",  length = 50)
-    private String Subject;//考试科目
+    private String subject;//考试科目
     @Column(name = "Duration", length = 20)
-    private Integer Duration;//考试时长
+    private Integer duration;//考试时长
     @Column(name = "State",  length = 50)
-    private String State;//考试状态(默认初始未开考)
+    private String state;//考试状态(默认初始未开考)
 
     @Column(name = "Total",  length = 20)
-    private Integer Total;//卷子总分
+    private Integer total;//卷子总分
     @Column(name = "Num",  length = 20)
-    private Integer Num;//考试试题数量
+    private Integer num;//考试试题数量
     @Column(name = "TecherId", length = 50)
-    private String TecherId;//教师id
+    private String techerId;//教师id
     @Column(name = "createtime")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;//试卷生成时间
     @Column(name = "Examtime")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date examtime;//开考时间
     @Column(name = "Radionum",  length = 20)
-    private Integer Radionum;//单选数量
+    private Integer radionum;//单选数量
 
     @Column(name = "Multiplenum",  length = 20)
-    private Integer Multiplenum;//多选数量
+    private Integer multiplenum;//多选数量
     @Column(name = "Fillnum",  length = 20)
-    private Integer Fillnum;//填空数量
+    private Integer fillnum;//填空数量
     @Column(name = "Judgenum", length = 20)
-    private Integer Judgenum;//判断数量
+    private Integer judgenum;//判断数量
 
     @Column(name = "examshortesttime",  length = 20)
     private Integer examshortesttime;//考试最短可交卷时间

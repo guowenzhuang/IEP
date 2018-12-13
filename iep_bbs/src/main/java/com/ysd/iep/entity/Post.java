@@ -1,6 +1,7 @@
 package com.ysd.iep.entity;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class Post {
 	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否精选' ")
 	private String postIsselect;
 	
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="post",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Reply> replyList;	//回复列表
@@ -51,7 +53,9 @@ public class Post {
 	private List<Posttype> posttypeList; //帖子分类列表
 	
 	@Transient
-	private String posttypeName;  //帖子分类名称		
+	private String posttypeName;  //帖子分类名称
+	
+	
 	
 	
 }

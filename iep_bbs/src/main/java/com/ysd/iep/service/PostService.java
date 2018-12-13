@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.ysd.iep.entity.Post;
-import com.ysd.iep.entity.PostPage;
+import com.ysd.iep.entity.PostQuery;
+import com.ysd.iep.entity.Reply;
 
 
 public interface PostService {
@@ -16,7 +17,7 @@ public interface PostService {
 	 * @param size
 	 * @return
 	 */
-	public Page<PostPage> queryAllPage(PostPage postPage,Integer page,Integer size);
+	public Page<Reply> queryAllPage(PostQuery postQuery, Integer page, Integer size);
 	/**
 	 * 获取帖子点赞数
 	 * @param userId
@@ -30,5 +31,22 @@ public interface PostService {
 	 * @return
 	 */
 	public Integer updateLikeNum(Integer replyId,Integer likeNum);
+	/**
+	 * 根据postid查询帖子
+	 * @param postId
+	 * @return
+	 */
+	public Post queryPostByPostId(Integer postId);
+	/**
+	 * 发表帖子
+	 * @param post
+	 * @return
+	 */
+	public Reply insertPost(Reply reply); 
+	/**
+	 * 删除帖子
+	 * @return
+	 */
+	public Integer deletePost(Integer postId);
 
 }
