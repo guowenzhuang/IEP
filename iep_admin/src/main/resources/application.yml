@@ -21,11 +21,11 @@ spring:
   cloud:
     config:
       allow-override: true
-#debug
-#logging:
-#  level:
 eureka:
   instance:
     instance-id: iep-admin10300
     prefer-ip-address: true
+#debug
+#logging:
+#  level:
 #    root: debug

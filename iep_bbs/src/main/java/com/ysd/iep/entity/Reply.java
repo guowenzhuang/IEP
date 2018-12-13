@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -45,6 +46,17 @@ public class Reply {
 	private Integer replyParentid;
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:点赞数' ")
 	private Integer replyLikenum;
+	@Column(columnDefinition="int DEFAULT 0 comment '备注:举报数' ")
+	private Integer replyReportnum;
+	
+	@Transient
+	private Integer postId;
+	@Transient
+	private String postTitle;
+	@Transient
+	private String postIsstick;
+	@Transient
+	private String postIsselect;
 	
 	@JsonIgnore
 	@JsonUnwrapped
@@ -59,5 +71,15 @@ public class Reply {
 	@JsonIgnore
 	@OneToMany(mappedBy="reply",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Report> reportList;  //举报记录列表
+	
+	
+	@Override
+	public String toString() {
+		return "Reply [replyId=" + replyId + ", replyContent=" + replyContent + ", replyTime=" + replyTime
+				+ ", replyBrowse=" + replyBrowse + ", userId=" + userId + ", replyParentid=" + replyParentid
+				+ ", replyLikenum=" + replyLikenum + ", replyReportnum=" + replyReportnum + ", postTitle=" + postTitle
+				+ ", postIsstick=" + postIsstick + ", postIsselect=" + postIsselect + ", post="  + ", likeList="
+				+ likeList + ", reportList=" + reportList + "]";
+	}
 
 }
