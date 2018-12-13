@@ -17,9 +17,6 @@ import lombok.Data;
 @Data
 public class notice implements Serializable{
 	@Id
-	//@GeneratedValue    //   自动增长列
-	@GenericGenerator(name="idGenerator",strategy = "uuid")
-	@GeneratedValue(generator = "idGenerator")// 自动增长列
 	@GeneratedValue  //   自动增长列
 	@Column(columnDefinition = "int unsigned NOT NULL AUTO_INCREMENT  COMMENT '公告Id'")
 	private Integer noId;
