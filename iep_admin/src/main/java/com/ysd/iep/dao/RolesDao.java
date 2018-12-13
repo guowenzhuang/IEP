@@ -16,7 +16,7 @@ public interface RolesDao extends BaseDao<RolesDB,String> {
      * @param uuid
      * @return
      */
-    @Query(value = "SELECT id,name from roles where id in (select roleid from userroles where userid=:uuid)",nativeQuery = true)
+    @Query(value = "SELECT * from roles where id in (select roleid from userroles where userid=:uuid)",nativeQuery = true)
     List<RolesDB> findByUserId(String uuid);
 
     /**
@@ -25,4 +25,5 @@ public interface RolesDao extends BaseDao<RolesDB,String> {
      * @return
      */
     List<RolesDB> findByNameNotIn(List<String> names);
+
 }

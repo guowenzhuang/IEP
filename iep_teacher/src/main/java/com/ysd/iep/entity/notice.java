@@ -9,13 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
 @Entity       //使用默认类名
 @Table(name = "noticetb")
 @Data
 public class notice implements Serializable{
 	@Id
-	@GeneratedValue    //   自动增长列
+	@GeneratedValue  //   自动增长列
 	@Column(columnDefinition = "int unsigned NOT NULL AUTO_INCREMENT  COMMENT '公告Id'")
 	private Integer noId;
 	@Column(columnDefinition = "int  NOT NULL DEFAULT 0 COMMENT '课程id(外键)'")

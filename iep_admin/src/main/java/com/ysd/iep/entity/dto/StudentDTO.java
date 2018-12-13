@@ -1,8 +1,7 @@
-package com.ysd.iep.entity.vo;
+package com.ysd.iep.entity.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-
 
 /**
  * @author 80795
@@ -10,7 +9,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class RolesVo {
-    private String id;
-    private String name;
+public class StudentDTO {
+    private String sid;
 }

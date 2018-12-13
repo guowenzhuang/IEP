@@ -2,15 +2,19 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.UsersDTO;
+import com.ysd.iep.entity.dto.UsersUpdateDTO;
+import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,6 +37,24 @@ public class UsersController {
         return new Result<UsersDTO>(true,usersService.userByName(name));
     }
 
+    @PostMapping
+    public Result<String> add(@RequestBody UsersDB usersDB){
+        usersService.add(usersDB);
+        return new Result<String>(true,"成功");
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<String> delete(@PathVariable("id") String id){
+        usersService.delete(id);
+        return new Result<String>(true).setMessage("成功");
+    }
+
+    @PutMapping
+    public Result<String> update(@RequestBody UsersUpdateDTO usersUpdateDTO){
+        usersService.update(usersUpdateDTO);
+        return new Result<String>(true).setMessage("成功");
+    }
+
     @GetMapping(value="query")
     public PagingResult<UsersVo> query(UsersQuery usersQuery){
         return usersService.query(usersQuery);
@@ -42,4 +64,11 @@ public class UsersController {
     public Result updateUserField(@PathVariable("uuid") String uuid,String fieldName,String fieldValue){
         return usersService.updateUserField(uuid,fieldName,fieldValue);
     }
+
+    @PostMapping("/setRole/{uuid}")
+    public Result<String> setRole(@PathVariable("uuid") String uuid,String roleIds,String direction){
+        usersService.setRoles(uuid, roleIds, direction);
+        return new Result<String>(true);
+    }
+
 }

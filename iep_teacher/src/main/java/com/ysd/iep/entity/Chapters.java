@@ -8,7 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity         //使用默认类名
 @Table(name = "chaptertb")
@@ -36,6 +39,4 @@ public class Chapters implements Serializable{
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 
 	private String Ext2;
-	
-	
 }

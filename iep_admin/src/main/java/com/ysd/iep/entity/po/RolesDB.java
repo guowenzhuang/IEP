@@ -20,9 +20,9 @@ public class RolesDB {
     private String id;
     @Column(name = "Name", nullable = false, length = 50)
     private String name;
-    @Column(name = "Int0", nullable = true)
+    @Column(name = "Int0")
     private Integer int0;
-    @Column(name = "String0", nullable = true, length = 50)
+    @Column(name = "String0", length = 50)
     private String string0;
     @ManyToMany(mappedBy = "rolesDBS",fetch = FetchType.EAGER)
     private List<UsersDB> usersDBS;

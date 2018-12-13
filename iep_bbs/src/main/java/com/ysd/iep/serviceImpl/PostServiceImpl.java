@@ -10,6 +10,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,13 +21,14 @@ import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.LikeRepository;
 import com.ysd.iep.dao.PostRepository;
-import com.ysd.iep.dao.PostpageRepository;
 import com.ysd.iep.dao.ReplyRepository;
 import com.ysd.iep.entity.Post;
-import com.ysd.iep.entity.PostPage;
+import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.Typetb;
 import com.ysd.iep.service.PostService;
+
+import net.minidev.json.writer.BeansMapper.Bean;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -36,26 +38,23 @@ public class PostServiceImpl implements PostService {
 	private LikeRepository likeRepository;
 	@Autowired
 	private ReplyRepository replyRepository;
-	@Autowired
-	private PostpageRepository postpageRepository;
 	
 	@Override
-	public Page<PostPage> queryAllPage(PostPage postPage, Integer page, Integer size) {
-		Sort sort = new Sort(Sort.Direction.DESC, "publicTime");
+	public Page<Reply> queryAllPage(PostQuery postQuery, Integer page, Integer size) {
+		Sort sort = new Sort(Sort.Direction.DESC, "replyTime");
 		Pageable pageable = new PageRequest(page - 1, size,sort);
-		System.out.println("pageable=>"+this.getWhereClause(postPage));
-		//return postpageRepository.findAll(pageable);
-		return postpageRepository.findAll(this.getWhereClause(postPage), pageable);
+		System.out.println("pageable=>"+this.getWhereClause(postQuery));
+		return replyRepository.findAll(this.getWhereClause(postQuery), pageable);
 	}
 
-	private Specification<PostPage> getWhereClause(final PostPage postPage) {
-		return new Specification<PostPage>() {
+	private Specification<Reply> getWhereClause(final PostQuery postQuery) {
+		//BeanUtils.copyProperties();
+		return new Specification<Reply>() {
 			@Override
-			public Predicate toPredicate(Root<PostPage> root, CriteriaQuery<?> queryy, CriteriaBuilder cb) {
-				Join<Reply, Post> join = root.join("post", JoinType.INNER);
+			public Predicate toPredicate(Root<Reply> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();
 				List<Expression<Boolean>> exList = predicate.getExpressions();
-				exList.add(cb.equal(join.<Integer>get("replyParentid"), postPage.getReplyParentid()));
+				exList.add(cb.equal(root.<Integer>get("replyParentid"), 0));	//回复的parentid为0的是帖子,此处是查询所有的帖子对象
 
 				return predicate;
 			}
@@ -78,6 +77,38 @@ public class PostServiceImpl implements PostService {
 	public Integer updateLikeNum(Integer replyId,Integer likeNum) {
 		// TODO Auto-generated method stub
 		return replyRepository.updateLikeNum(replyId,likeNum);
+	}
+
+	/**
+	 * 根据帖子id查询帖子
+	 */
+	@Override
+	public Post queryPostByPostId(Integer postId) {
+		return postRepository.queryPostByPostId(postId);
+	}
+
+	/**
+	 * 发表帖子
+	 */
+	@Override
+	public Reply insertPost(Reply reply) {
+		Post post1=new Post();
+		post1.setPostTitle(reply.getPostTitle());
+		Post post2=postRepository.save(post1);
+		reply.setPostId(post2.getPostId());
+		Reply reply2=replyRepository.save(reply);
+		return reply2;
+		
+	}
+
+	/**
+	 * 删除帖子
+	 */
+	@Override
+	public Integer deletePost(Integer postId) {
+		//查询该帖子是否有回复
+		//List<Reply> reply=replyRepository.
+		return null;
 	}
 
 }

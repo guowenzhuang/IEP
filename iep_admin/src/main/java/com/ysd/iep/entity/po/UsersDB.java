@@ -36,6 +36,8 @@ public class UsersDB {
     private String protectMTel;
     @Column(name = "createTime",insertable=false, nullable = true)
     private Timestamp createTime;
+    @Column(name = "status",columnDefinition = "int default 0")
+    private Integer status;
 
     @ManyToMany
     @JoinTable(name = "userroles",joinColumns = @JoinColumn(name = "userId"),

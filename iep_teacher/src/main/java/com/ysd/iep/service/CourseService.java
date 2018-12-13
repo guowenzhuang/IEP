@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.Result;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CourseService {
     /**
@@ -20,11 +21,22 @@ public interface CourseService {
      */
      void deleteById(Integer courId);
 
+     /**
+      * 课程的分页查询(前台)
+      * @param depId
+      * @param page
+      * @param   size
+      * @return  Page<Course>
+      */
+     public Page<Course> queryCourseDepidAllPage(@RequestParam("depId")String depId,@RequestParam("page")Integer page, @RequestParam("size")Integer size);
+
+
     /**
      * 新增课程
      * @param course
      * @return
      */
     Result insertCourse(Course course);
+
 
 }
