@@ -71,6 +71,19 @@ public class CourseController {
 
         return  new Result(true);
     }*/
+    /**
+     * course/getCourUIPage
+     * 课程的分页查询(前台 )
+     * @param depId
+     * @param page
+     * @param size
+     * @return
+     */
+    @ApiOperation(value = "前台课程分页")
+    @RequestMapping("/getCourUIPage")
+    public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
+        return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
+    }
 
 }
 
