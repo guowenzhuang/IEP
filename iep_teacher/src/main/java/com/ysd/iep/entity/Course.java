@@ -9,13 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity          //使用默认类名
 @Table(name = "coursetb")
 @Data
 public class Course implements Serializable{
 	@Id
-	@GeneratedValue// 自动增长列
+	@GenericGenerator(name="idGenerator",strategy = "uuid")
+	@GeneratedValue(generator = "idGenerator")// 自动增长列
+	//@GeneratedValue
 	@Column(columnDefinition = "int unsigned  AUTO_INCREMENT COMMENT '课程ID'", nullable = false)
 	private Integer courId;  //课程ID
 	@Column(columnDefinition = "varchar(50) NOT NULL COMMENT '课程名称'")
