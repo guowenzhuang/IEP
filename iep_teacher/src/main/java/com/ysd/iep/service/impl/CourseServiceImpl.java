@@ -71,6 +71,35 @@ public class CourseServiceImpl implements CourseService {
         return new Result(true);
     }
 
+    @Override
+    public List<Course> findByCourseId(String courId) {
+        List<Course> dd=new ArrayList<Course>();
+       if (courId != null && courId != "") {
+            String[] s=courId.split(",");
+           int[] idss=new int[s.length];
+           for (int i=0;i<s.length;i++){
+                idss[i]=Integer.parseInt(s[i]);
+             }
+           for (Integer id : idss) {
+               Course dingyi =  coursedao.findByCourseId(id);
+               dd.add(dingyi);
+           }
+
+        }
+                 return dd;
+    }
+    /**
+     * 根据教师Id查询课程
+     */
+    @Override
+    public List<Course> queryCourByteaId(String teaId) {
+        List<Course> list = null;
+        if (EmptyUtil.stringE(teaId)) {
+            list = coursedao.findByCourTeaid(teaId);
+        }
+        return list;
+
+    }
 
 
 

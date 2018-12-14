@@ -1,15 +1,17 @@
 package com.ysd.iep.controller;
 
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.StudentPart;
+import com.ysd.iep.entity.StudentPartCid;
 import com.ysd.iep.service.StudentPartService;
 import com.ysd.iep.util.Result;
 
@@ -28,6 +30,19 @@ public class StudentPartController {
 
 	@Autowired
 	private StudentPartService s;
+	
+	/**
+	 * 根据学生id查询报名表返回课程id集合
+	 * @param sid
+	 * @return
+	 */
+	@GetMapping("/query")
+	public Object queryStudentPart(@RequestParam("sid")String sid) {
+		List<StudentPartCid> cidList=s.queryStudentPart(sid);	
+		return cidList;
+		
+	}
+	
 
 	/**
 	 * 报名课程

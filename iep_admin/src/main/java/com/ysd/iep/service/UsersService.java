@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * @date 2018/11/12 8:55
  */
 @Service
-@SuppressWarnings("AlibabaTransactionMustHaveRollback")
+@SuppressWarnings({"ALL", "AlibabaTransactionMustHaveRollback"})
 public class UsersService {
     @Autowired
     private UsersDao usersDao;

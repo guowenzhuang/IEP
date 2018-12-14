@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Api(value="/course", tags="课程")
@@ -64,18 +65,30 @@ public class CourseController {
      * @return
      */
     @ApiOperation(value = "前台课程分页")
-    @RequestMapping("/getCourUIPage")
+    @GetMapping("/getCourUIPage")
     public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
-/*    @ApiOperation(value = "修改课程")
-    @PostMapping("updateCourseAll")
-    public Result updateCourse(Course course){
-        Result update = courseService.updateCourse(course);
+   @ApiOperation(value = "根据课程id查询课程信息")
+     @GetMapping("/findCourseById")
+    public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true) @RequestParam("courId") String courId){
+        return courseService.findByCourseId(courId);
 
-        return  new Result(true);
-    }*/
+    }
+    /**
+     * 根据教师Id查询课程
+     * @param teaId
+     * @return
+     */
+    @ApiOperation(value = "根据教师Id查询课程")
+    @GetMapping("queryCourByteaId")
+    public Result<List<Course>> queryCourByteaId(@ApiParam(name="teaId",value="老师Id",required=true)@RequestParam("teaId")String teaId){
+        System.out.println("我的教师Id"+teaId);
+        List<Course> list = courseService.queryCourByteaId(teaId);
+         System.out.println("我的list"+list);
+        return new Result<List<Course>>(true,list);
+    }
 
 
 }

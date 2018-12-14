@@ -5,6 +5,8 @@ import com.ysd.iep.entity.dto.Result;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 public interface CourseService {
     /**
      * 课程的分页查询
@@ -38,5 +40,18 @@ public interface CourseService {
      */
     Result insertCourse(Course course);
 
+    /**
+     *
+     * @param courId
+     * @return
+     */
+
+    List<Course> findByCourseId(String courId);
+    /**
+     * 根据教师Id查询课程
+     * @param teaId
+     * @return
+     */
+    public List<Course> queryCourByteaId(String teaId);
 
 }
