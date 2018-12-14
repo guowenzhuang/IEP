@@ -36,6 +36,7 @@ public class StudentPartServiceImpl implements StudentPartService {
 	// 删除学生课程报名信息
 	public void delete(StudentPart studentPart) {
          
-	};
+	}
+
 
 }

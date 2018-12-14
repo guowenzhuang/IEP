@@ -1,15 +1,12 @@
 package com.ysd.iep.service;
 
-import com.ysd.iep.entity.StudentPart;
+import java.util.List;
 
-/*
- * 
- */
+import com.ysd.iep.entity.StudentPart;
 
 public interface StudentPartService {
 	//查询当前学生是否已经报名该课程
-	public StudentPart queryStudentPart(Integer cid, String sid);
-	
+	public List<Integer> queryStudentPart(String sid);
 	
     //添加学生课程报名信息
 	public void add(Integer courId, String sid); 
