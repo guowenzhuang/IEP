@@ -49,10 +49,25 @@ public class ExamParperController {
     public Result updateStartExamtime(Examparper examparper){
       return   examparperService.updateStartExamtime(examparper);
     }
-    @PostMapping("addRandomExamparper")
-    public Result addRandomExamparper(ExamParperSerch ExamParperSerch){
-        System.out.println("6666"+ExamParperSerch);
 
-        return null;
+    /***
+     * 随机生成试卷
+     * @param examParperSerch
+     * @return
+     */
+    @PostMapping("addRandomExamparper")
+    public Result addRandomExamparper(ExamParperSerch examParperSerch){
+        return examparperService.addRandomExamparper(examParperSerch);
     }
+
+    /***
+     * 根据试卷id删除试卷
+     * @param id
+     * @return
+     */
+    @DeleteMapping("deleteExamparper/{id}")
+    public Result deleteExamparper(@PathVariable("id") String id){
+   return examparperService.deleteExamparper(id);
+    }
+
 }

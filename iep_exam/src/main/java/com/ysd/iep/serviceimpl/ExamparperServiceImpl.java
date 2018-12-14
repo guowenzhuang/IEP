@@ -5,6 +5,7 @@ import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.service.ExamparperService;
+import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +18,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ExamparperServiceImpl implements ExamparperService {
@@ -51,6 +54,7 @@ public class ExamparperServiceImpl implements ExamparperService {
         } else {
             Examparper examparper1 = examparperDao.findById(examparper.getId()).orElse(null);
             examparper1.setExamtime(examparper.getExamtime());
+            examparper1.setState("未开考");
             try {
                 examparperDao.save(examparper1);
                 return new Result(true, "设置成功", null);
@@ -88,5 +92,55 @@ public class ExamparperServiceImpl implements ExamparperService {
             }
         };
     }
+
+    /***
+     * 随机生成试卷
+     * @param examParperSerch
+     * @return
+     */
+    public Result addRandomExamparper(ExamParperSerch examParperSerch){
+        String id= UUIDUtils.getUUID();
+        Examparper examparper=new Examparper()
+                .setId(id)
+                .setTitle(examParperSerch.getTitle())
+                .setTotal(examParperSerch.getTotal())
+                .setState("未开放")
+                .setSubject(examParperSerch.getSubject())
+                .setDuration(examParperSerch.getDuration())
+                .setExamshortesttime(examParperSerch.getExamshortesttime())
+                .setRadionum(examParperSerch.getRadionum())
+                .setJudgenum(examParperSerch.getJudgenum())
+                .setFillnum(examParperSerch.getFillnum())
+                .setMultiplenum(examParperSerch.getMultiplenum())
+                .setCreatetime(new Date());
+
+        try {
+            examparperDao.save(examparper);
+            return new Result(true,"创建试卷成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"创建试卷失败",null);
+        }
+
+
+    }
+
+    /***
+     * 根据id删除试卷
+     * @param id
+     * @return
+     */
+    @Override
+    public Result deleteExamparper(String id) {
+
+        try {
+            examparperDao.deleteById(id);
+            return new Result(true,"删除成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"删除失败",null);
+        }
+    }
+
 
 }
