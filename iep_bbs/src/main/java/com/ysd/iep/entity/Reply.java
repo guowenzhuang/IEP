@@ -72,14 +72,5 @@ public class Reply {
 	@OneToMany(mappedBy="reply",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Report> reportList;  //举报记录列表
 	
-	
-	@Override
-	public String toString() {
-		return "Reply [replyId=" + replyId + ", replyContent=" + replyContent + ", replyTime=" + replyTime
-				+ ", replyBrowse=" + replyBrowse + ", userId=" + userId + ", replyParentid=" + replyParentid
-				+ ", replyLikenum=" + replyLikenum + ", replyReportnum=" + replyReportnum + ", postTitle=" + postTitle
-				+ ", postIsstick=" + postIsstick + ", postIsselect=" + postIsselect + ", post="  + ", likeList="
-				+ likeList + ", reportList=" + reportList + "]";
-	}
 
 }

@@ -36,5 +36,6 @@ public class Like {
 	@ManyToOne(targetEntity = Reply.class)
 	@JoinColumn(name="reply_id")	//副表中的外键字段名称
 	private Reply reply; //回复
+	
 
 }

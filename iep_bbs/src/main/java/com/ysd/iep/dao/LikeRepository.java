@@ -8,7 +8,7 @@ import com.ysd.iep.entity.Like;
 
 public interface LikeRepository extends JpaRepository<Like, Integer>{
 	
-	@Query(value = "SELECT COUNT(*) FROM liketb WHERE user_id=?1 AND reply_id=?2", nativeQuery = true)
-	public Integer getLikeNum(Integer userId,Integer replyId);
+	@Query(value = "SELECT COUNT(*) FROM liketb WHERE reply_id=?1", nativeQuery = true)
+	public Integer getLikeNum(Integer replyId);
 
 }
