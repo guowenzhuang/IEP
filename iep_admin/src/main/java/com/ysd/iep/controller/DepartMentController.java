@@ -5,6 +5,8 @@ import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,13 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author 80795
  * @date 2018/11/12 8:55
  */
-@Api(value="/depart", tags="院系API")
+@Api(value = "/depart", tags = "院系API")
 @RestController
 @RequestMapping("/depart")
 public class DepartMentController {
@@ -27,13 +30,14 @@ public class DepartMentController {
 
     @ApiOperation("查询前七个院系")
     @GetMapping("/getTop7")
-    private Result<List<DepartmentDTO>> departTop7(){
-        return new Result<List<DepartmentDTO>>(true,departmentService.departmentTop7());
+    private Result<List<DepartmentDTO>> departTop7() {
+        return new Result<List<DepartmentDTO>>(true, departmentService.departmentTop7());
     }
 
     @ApiOperation("查询全部院系")
     @GetMapping("/get")
-    private Result<List<DepartmentDTO>> depart(){
-        return new Result<List<DepartmentDTO>>(true,departmentService.department());
+    private Result<List<DepartmentDTO>> depart() {
+        return new Result<List<DepartmentDTO>>(true, departmentService.department());
     }
+
 }
