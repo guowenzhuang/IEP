@@ -15,5 +15,6 @@ public class PostQuery {
 	private Integer likeNum;	//点赞数
 	private Integer reportNum;  	//举报数
 	private String orderBy;		//排序
+	private String postTitle;
 
 }
