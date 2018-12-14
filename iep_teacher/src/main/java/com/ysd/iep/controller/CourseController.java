@@ -65,15 +65,15 @@ public class CourseController {
      * @return
      */
     @ApiOperation(value = "前台课程分页")
-    @RequestMapping("/getCourUIPage")
+    @GetMapping("/getCourUIPage")
     public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
    @ApiOperation(value = "根据课程id查询课程信息")
-    @GetMapping("findCourseById")
-    public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true)String courId){
-      return courseService.findByCourseId(courId);
+    @GetMapping("/findCourseById")
+    public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true) @RequestParam("courId") String courId){
+        return courseService.findByCourseId(courId);
 
     }
 
