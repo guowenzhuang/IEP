@@ -72,9 +72,9 @@ public class CourseController {
 
    @ApiOperation(value = "根据课程id查询课程信息")
     @PostMapping("findCourseById")
-    public List<Course> updateCourse(@ApiParam(name="courId",value="课程id",required=true)Integer courId){
-       List<Course> cc = courseService.findByCourseId(courId);
-       return  cc;
+    public List<Course> updateCourse(@ApiParam(name="courId",value="课程id",required=true)String courId){
+      return courseService.findByCourseId(courId);
+
     }
 
 

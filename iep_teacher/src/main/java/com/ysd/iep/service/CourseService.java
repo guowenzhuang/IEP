@@ -41,11 +41,11 @@ public interface CourseService {
     Result insertCourse(Course course);
 
     /**
-     * 提供  根据课程id查询课程信息
+     *
      * @param courId
      * @return
      */
 
-    List<Course> findByCourseId(Integer courId);
+    List<Course> findByCourseId(String courId);
 
 }
