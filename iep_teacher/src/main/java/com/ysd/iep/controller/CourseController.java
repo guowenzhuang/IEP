@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Api(value="/course", tags="课程")
@@ -69,13 +70,12 @@ public class CourseController {
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
-/*    @ApiOperation(value = "修改课程")
-    @PostMapping("updateCourseAll")
-    public Result updateCourse(Course course){
-        Result update = courseService.updateCourse(course);
-
-        return  new Result(true);
-    }*/
+   @ApiOperation(value = "根据课程id查询课程信息")
+    @PostMapping("findCourseById")
+    public List<Course> updateCourse(@ApiParam(name="courId",value="课程id",required=true)Integer courId){
+       List<Course> cc = courseService.findByCourseId(courId);
+       return  cc;
+    }
 
 
 }

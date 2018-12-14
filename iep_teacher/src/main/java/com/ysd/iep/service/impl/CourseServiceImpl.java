@@ -71,7 +71,10 @@ public class CourseServiceImpl implements CourseService {
         return new Result(true);
     }
 
-
+    @Override
+    public List<Course> findByCourseId(Integer courId) {
+        return coursedao.findByCourseId(courId);
+    }
 
 
 }

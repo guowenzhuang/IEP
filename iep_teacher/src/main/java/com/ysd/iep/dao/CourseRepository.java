@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.ysd.iep.entity.Course;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpecificationExecutor<Course> {
 
@@ -19,4 +22,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 */
 	public Page<Course> findByCourDepid(String DepId,Pageable pageable);
 
+	/**
+	 * 提供  根据课程id查询课程信息
+	 * @return
+	 */
+	@Query(value="select * from coursetb where cour_id in (1) ",nativeQuery=true)
+	public List<Course> findByCourseId(Integer courId);
 }
