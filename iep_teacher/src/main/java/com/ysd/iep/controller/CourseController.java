@@ -69,14 +69,15 @@ public class CourseController {
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
-
-/*    @ApiOperation(value = "修改课程")
+   @ApiOperation(value = "修改课程")
     @PostMapping("updateCourseAll")
     public Result updateCourse(Course course){
         Result update = courseService.updateCourse(course);
 
         return  new Result(true);
-    }*/
+    }
+
+
 
 
 }
