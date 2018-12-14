@@ -61,7 +61,7 @@ public class CourseServiceImpl implements CourseService {
     public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
     	Sort sort = new Sort(Sort.Direction.ASC, "courId"); 
 	    Pageable pageable = new PageRequest(page-1, size, sort);
-	    return coursedao.findByCourDepid("%"+depId+"%", pageable);
+	     return coursedao.findByCourDepid("%"+depId+"%", pageable);
 
     }
 
