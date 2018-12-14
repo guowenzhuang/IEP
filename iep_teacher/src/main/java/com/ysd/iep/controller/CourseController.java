@@ -71,7 +71,7 @@ public class CourseController {
     }
 
    @ApiOperation(value = "根据课程id查询课程信息")
-    @GetMapping("/findCourseById")
+     @GetMapping("/findCourseById")
     public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true) @RequestParam("courId") String courId){
         return courseService.findByCourseId(courId);
 
