@@ -26,6 +26,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 * 提供  根据课程id查询课程信息
 	 * @return
 	 */
-	@Query(value="select * from coursetb where cour_id in (1) ",nativeQuery=true)
-	public List<Course> findByCourseId(Integer courId);
+	@Query(value="select * from coursetb where cour_id in (?1) ",nativeQuery=true)
+	public Course findByCourseId(Integer courId);
 }

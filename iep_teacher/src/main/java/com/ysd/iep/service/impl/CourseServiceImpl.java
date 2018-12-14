@@ -72,8 +72,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findByCourseId(Integer courId) {
-        return coursedao.findByCourseId(courId);
+    public List<Course> findByCourseId(String courId) {
+        List<Course> dd=new ArrayList<Course>();
+        String[] s=courId.split(",");
+      int[] idss=new int[s.length];
+      for (int i=0;i<s.length;i++){
+          idss[i]=Integer.parseInt(s[i]);
+      }
+       for (Integer id : idss) {
+           Course dingyi =  coursedao.findByCourseId(id);
+           dd.add(dingyi);
+        }
+             return dd;
     }
 
 
