@@ -19,15 +19,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "answer_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 public class Answer {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//选项id
+    private String id;//选项id
     @Column(name = "Optiones", nullable = false, length = 50)
-    private String Optiones;//选项(ABCD)
+    private String optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
-    private String Content;//选项内容
+    private String content;//选项内容
 
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//题干id
@@ -37,4 +36,9 @@ public class Answer {
     private Rubric rubric;//答案所属的题干id
 
 
+    public Answer(String id, String optiones, String content) {
+        this.id = id;
+        this.optiones = optiones;
+        this.content = content;
+    }
 }

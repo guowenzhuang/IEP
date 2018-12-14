@@ -25,6 +25,9 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT * FROM replytb WHERE post_id=?1", nativeQuery = true)
 	public List<Reply> queryPostIsReply(Integer postId);
 	
-	//public void deleteByPostId(Integer postId);
+	@Query(value = "UPDATE replytb SET reply_content=?1 WHERE reply_id=?2", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer deleteByReplyId(String content,Integer replyId);
 
 }
