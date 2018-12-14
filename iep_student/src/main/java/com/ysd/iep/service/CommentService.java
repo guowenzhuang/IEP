@@ -1,5 +1,6 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.entity.CommentDTO;
 import org.springframework.data.domain.Page;
 
 import com.ysd.iep.entity.StudentComment;
@@ -12,7 +13,7 @@ public interface CommentService {
 	 * @param size
 	 * @return
 	 */
-	Page<StudentComment> queryAllPage(Integer page,Integer size); 
+	Page<CommentDTO> queryAllPage(Integer page, Integer size, String orderBy);
 	
 
 }
