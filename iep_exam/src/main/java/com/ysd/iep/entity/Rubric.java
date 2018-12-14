@@ -21,30 +21,40 @@ import java.util.List;
 @Entity
 @Table(name = "rubric_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 public class Rubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
-    private String Id;//题干id
-    @Column(name = "SectionId", nullable = true, length = 50)
-    private String SectionId; //章节ID
-    @Column(name = "CourseId", nullable = true, length = 50)
-    private String CourseId; //课程id
+    private String id;//题干id
+    @Column(name = "SectionId", length = 50)
+    private String sectionId; //章节ID
+    @Column(name = "CourseId", length = 50)
+    private String courseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
-    private String AnswerId;//答案id
+    private String answerId;//答案id
     @Column(name = "Content", nullable = false, length = 50)
-    private String Content;//题干内容
-    @Column(name = "TrcherId", nullable = true, length = 50)
-    private String TrcherId;//教师id
+    private String content;//题干内容
+    @Column(name = "TrcherId", length = 50)
+    private String trcherId;//教师id
 
-    @Column(name = "Score", nullable = true, length = 20)
-    private Integer Score;//分值
+    @Column(name = "Score", length = 20)
+    private Integer score;//分值
     @Column(name = "Rubricttype", nullable = false, length = 50)
-    private String Rubricttype;//题干类型(单选,多选,判断,填空)
+    private String rubricttype;//题干类型(单选,多选,判断,填空)
 
     //@JsonIgnore
     @OneToMany(mappedBy = "rubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Answer> answer;//答案集合
 
+
+    public Rubric(String id, String sectionId, String courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
+        this.id = id;
+        this.sectionId = sectionId;
+        this.courseId = courseId;
+        this.answerId = answerId;
+        this.content = content;
+        this.trcherId = trcherId;
+        this.score = score;
+        this.rubricttype = rubricttype;
+    }
 }

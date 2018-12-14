@@ -11,9 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RubricFan {
-
     private Integer total;
-    private List<Rubric> rubricList;
-
-
+    private List<Rubric>  page;
 }

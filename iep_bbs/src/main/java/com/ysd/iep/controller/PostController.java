@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.Post;
@@ -31,7 +32,7 @@ public class PostController {
 	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(value="getAllPost")
+	@RequestMapping(value="getAllPost",method=RequestMethod.POST)
 	public Object getAllPost(PostQuery postQuery,Integer page,Integer rows) {
 		
 		Page<Reply> posts = postService.queryAllPage(postQuery, page, rows);
@@ -39,12 +40,11 @@ public class PostController {
 		long total = posts.getTotalElements();
 		List<Reply> list = posts.getContent();
 		for (Reply reply : list) {	//循环从点赞记录表中查询每个帖子的点赞数并添加到属性里
-			int likeNum=postService.getLikeNum(reply.getUserId(), reply.getReplyId());
+			int likeNum=postService.getLikeNum(reply.getReplyId());
 			reply.setReplyLikenum(likeNum);
 			Post post2=reply.getPost();
 			BeanUtils.copyProperties(post2,reply);
 		}
-		System.out.println("list==>" + list);
 		map.put("total", total);
 		map.put("rows", list);
 		return map;
@@ -61,6 +61,16 @@ public class PostController {
 			return new Result(false,"发表失败");
 		}
 		
+	}
+	
+	@RequestMapping(value="deletePost")
+	public Object deletePost(Integer replyId) {
+		int n=postService.deletePost("该帖子已被删除", replyId);
+		if(n>0) {
+			return new Result(true,"删除成功");
+		}else {
+			return new Result(false,"删除失败");
+		}
 	}
 
 }

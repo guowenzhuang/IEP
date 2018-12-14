@@ -24,7 +24,7 @@ public interface PostService {
 	 * @param replyId
 	 * @return
 	 */	
-	public Integer getLikeNum(Integer userId,Integer replyId);
+	public Integer getLikeNum(Integer replyId);
 	/**
 	 * 更新帖子点赞数
 	 * @param replyId
@@ -44,9 +44,9 @@ public interface PostService {
 	 */
 	public Reply insertPost(Reply reply); 
 	/**
-	 * 删除帖子
+	 * 删除帖子(管理员操作)
 	 * @return
 	 */
-	public Integer deletePost(Integer postId);
+	public Integer deletePost(String content,Integer replyId);
 
 }

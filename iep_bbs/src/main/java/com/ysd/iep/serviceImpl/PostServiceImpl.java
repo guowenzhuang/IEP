@@ -25,10 +25,8 @@ import com.ysd.iep.dao.ReplyRepository;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
-import com.ysd.iep.entity.Typetb;
 import com.ysd.iep.service.PostService;
 
-import net.minidev.json.writer.BeansMapper.Bean;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -38,45 +36,52 @@ public class PostServiceImpl implements PostService {
 	private LikeRepository likeRepository;
 	@Autowired
 	private ReplyRepository replyRepository;
-	
+
 	@Override
 	public Page<Reply> queryAllPage(PostQuery postQuery, Integer page, Integer size) {
-		Sort sort = new Sort(Sort.Direction.DESC, "replyTime");
-		Pageable pageable = new PageRequest(page - 1, size,sort);
-		System.out.println("pageable=>"+this.getWhereClause(postQuery));
+		Sort sort = null;
+		if ("replyLikenum".equals(postQuery.getOrderBy())) {
+			sort = new Sort(Sort.Direction.DESC, "replyLikenum");
+		} else if ("replyReportNum".equals(postQuery.getOrderBy())) {
+			sort = new Sort(Sort.Direction.DESC, "replyReportnum");
+		} else {
+			sort = new Sort(Sort.Direction.DESC, "replyTime");// 排序
+		}
+		Pageable pageable = new PageRequest(page - 1, size, sort);
+		System.out.println("pageable=>" + this.getWhereClause(postQuery));
 		return replyRepository.findAll(this.getWhereClause(postQuery), pageable);
 	}
 
 	private Specification<Reply> getWhereClause(final PostQuery postQuery) {
-		//BeanUtils.copyProperties();
+		// BeanUtils.copyProperties();
 		return new Specification<Reply>() {
 			@Override
 			public Predicate toPredicate(Root<Reply> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();
 				List<Expression<Boolean>> exList = predicate.getExpressions();
-				exList.add(cb.equal(root.<Integer>get("replyParentid"), 0));	//回复的parentid为0的是帖子,此处是查询所有的帖子对象
-
+				exList.add(cb.equal(root.<Integer>get("replyParentid"), 0)); // 回复的parentid为0的是帖子,此处是查询所有的帖子对象
 				return predicate;
 			}
 
 		};
 	}
-	
+
 	/**
-	 * 根据用户id和回复id获取点赞数
+	 * 根据回复id获取点赞数
 	 */
 	@Override
-	public Integer getLikeNum(Integer userId, Integer replyId) {
+	public Integer getLikeNum(Integer replyId) {
 		// TODO Auto-generated method stub
-		return likeRepository.getLikeNum(userId, replyId);
+		return likeRepository.getLikeNum(replyId);
 	}
+
 	/**
 	 * 根据回复id更新点赞数
 	 */
 	@Override
-	public Integer updateLikeNum(Integer replyId,Integer likeNum) {
+	public Integer updateLikeNum(Integer replyId, Integer likeNum) {
 		// TODO Auto-generated method stub
-		return replyRepository.updateLikeNum(replyId,likeNum);
+		return replyRepository.updateLikeNum(replyId, likeNum);
 	}
 
 	/**
@@ -92,23 +97,22 @@ public class PostServiceImpl implements PostService {
 	 */
 	@Override
 	public Reply insertPost(Reply reply) {
-		Post post1=new Post();
+		Post post1 = new Post();
 		post1.setPostTitle(reply.getPostTitle());
-		Post post2=postRepository.save(post1);
+		Post post2 = postRepository.save(post1);
 		reply.setPostId(post2.getPostId());
-		Reply reply2=replyRepository.save(reply);
+		Reply reply2 = replyRepository.save(reply);
 		return reply2;
-		
+
 	}
 
 	/**
-	 * 删除帖子
+	 * 删除帖子（管理员操作）
 	 */
 	@Override
-	public Integer deletePost(Integer postId) {
-		//查询该帖子是否有回复
-		//List<Reply> reply=replyRepository.
-		return null;
+	public Integer deletePost(String content,Integer replyId) {
+		 Integer n=replyRepository.deleteByReplyId(content, replyId);
+		return n;
 	}
 
 }
