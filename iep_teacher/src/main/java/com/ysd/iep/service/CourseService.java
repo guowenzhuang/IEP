@@ -47,5 +47,11 @@ public interface CourseService {
      */
 
     List<Course> findByCourseId(String courId);
+    /**
+     * 根据教师Id查询课程
+     * @param teaId
+     * @return
+     */
+    public List<Course> queryCourByteaId(String teaId);
 
 }

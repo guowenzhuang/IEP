@@ -88,6 +88,19 @@ public class CourseServiceImpl implements CourseService {
         }
                  return dd;
     }
+    /**
+     * 根据教师Id查询课程
+     */
+    @Override
+    public List<Course> queryCourByteaId(String teaId) {
+        List<Course> list = null;
+        if (EmptyUtil.stringE(teaId)) {
+            list = coursedao.findByCourTeaid(teaId);
+        }
+        return list;
+
+    }
+
 
 
 }

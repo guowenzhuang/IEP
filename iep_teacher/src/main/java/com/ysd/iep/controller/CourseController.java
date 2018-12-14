@@ -76,6 +76,19 @@ public class CourseController {
         return courseService.findByCourseId(courId);
 
     }
+    /**
+     * 根据教师Id查询课程
+     * @param teaId
+     * @return
+     */
+    @ApiOperation(value = "根据教师Id查询课程")
+    @GetMapping("queryCourByteaId")
+    public Result<List<Course>> queryCourByteaId(@ApiParam(name="teaId",value="老师Id",required=true)@RequestParam("teaId")String teaId){
+        System.out.println("我的教师Id"+teaId);
+        List<Course> list = courseService.queryCourByteaId(teaId);
+         System.out.println("我的list"+list);
+        return new Result<List<Course>>(true,list);
+    }
 
 
 }
