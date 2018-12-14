@@ -182,38 +182,69 @@ public class RubricServiceimpl implements RubricService {
      */
     @Override
     public Object addrubric(AddrubricQuery addrubricquery) {
-        String answerid = null;
-        List<String> idlist = new ArrayList<>();
-        //生成五个UUId
-        for (int i = 0; i <= 4; i++) {
-            idlist.add(UUIDUtils.getUUID());
-        }
+        if (addrubricquery.getRubrictype().equals("选择题")) {
+            String answerid = null;
+            List<String> idlist = new ArrayList<>();
+            //生成五个UUId
+            for (int i = 0; i <= 4; i++) {
+                idlist.add(UUIDUtils.getUUID());
+            }
 
-        List<Answer> answers = new ArrayList<>();
-        answers.add(new Answer(idlist.get(0), "A", addrubricquery.getAnswerA()));
-        answers.add(new Answer(idlist.get(1), "B", addrubricquery.getAnswerB()));
-        answers.add(new Answer(idlist.get(2), "C", addrubricquery.getAnswerC()));
-        answers.add(new Answer(idlist.get(3), "D", addrubricquery.getAnswerD()));
-        try {
+            List<Answer> answers = new ArrayList<>();
+            answers.add(new Answer(idlist.get(0), "A", addrubricquery.getAnswerA()));
+            answers.add(new Answer(idlist.get(1), "B", addrubricquery.getAnswerB()));
+            answers.add(new Answer(idlist.get(2), "C", addrubricquery.getAnswerC()));
+            answers.add(new Answer(idlist.get(3), "D", addrubricquery.getAnswerD()));
+            try {
 
-            for (int j = 0; j < answers.size(); j++) {
-                if (addrubricquery.getAnswerid().equals(answers.get(j).getOptiones())) {
-                    answerid = answers.get(j).getId();
+                for (int j = 0; j < answers.size(); j++) {
+                    if (addrubricquery.getAnswerid().equals(answers.get(j).getOptiones())) {
+                        answerid = answers.get(j).getId();
+                    }
                 }
-            }
-            Rubric rubric = new Rubric(idlist.get(4), null, null, answerid, addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype());
-            Rubric rubric1 = rubricdao.save(rubric);
+                Rubric rubric = new Rubric(idlist.get(4), null, null, answerid, addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype());
+                Rubric rubric1 = rubricdao.save(rubric);
 
-            for (int k = 0; k < answers.size(); k++) {
-                answers.get(k).setRubric(rubric1);
-                answerdao.save(answers.get(k));
-            }
-            return new Result(true, "添加成功", null);
+                for (int k = 0; k < answers.size(); k++) {
+                    answers.get(k).setRubric(rubric1);
+                    answerdao.save(answers.get(k));
+                }
+                return new Result(true, "添加成功", null);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false, "添加失败", null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "添加失败", null);
+            }
+        } else if (addrubricquery.getRubrictype().equals("填空题")) {
+            try {
+                /*新增填空题*/
+                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype(), null);
+                rubricdao.save(rubric);
+                return new Result(true, "新增填空题成功", null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "新增填空题失败", null);
+            }
+        } else {
+            try {
+                String answerid = "";
+                if (addrubricquery.getAnswerid().equals("true")) {
+                    answerid = "正确";
+                } else if (addrubricquery.getAnswerid().equals("false")) {
+                    answerid = "错误";
+                }
+
+                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, answerid, addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype(), null);
+                rubricdao.save(rubric);
+                return new Result(true, "新增判断题成功", null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(true, "新增判断题失败", null);
+
+            }
+
         }
+
 
     }
 

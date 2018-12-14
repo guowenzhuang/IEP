@@ -1,6 +1,5 @@
 package com.ysd.iep.service.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ysd.iep.entity.StudentPart;
+import com.ysd.iep.entity.StudentPartCid;
 import com.ysd.iep.repository.StudentPartRepository;
 import com.ysd.iep.service.StudentPartService;
 
@@ -18,7 +18,7 @@ public class StudentPartServiceImpl implements StudentPartService {
 	private StudentPartRepository partRepository;
 	
 	//查询当前学生是否已经报名该课程
-	public List<Integer> queryStudentPart(String sid) {
+	public List<StudentPartCid> queryStudentPart(String sid) {
 		
 		return partRepository.findBySid(sid);
 	}
