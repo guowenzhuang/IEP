@@ -1,11 +1,11 @@
 package com.ysd.iep.controller;
 
 
-import com.sun.scenario.effect.Crop;
+import com.ysd.iep.dao.AnswerDao;
 import com.ysd.iep.dao.RubricDao;
+import com.ysd.iep.entity.Answer;
 import com.ysd.iep.entity.Rubric;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricFan;
+import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.Cors;
 import com.ysd.iep.util.UUIDUtils;
@@ -13,43 +13,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/rubric")
-public class RubricController extends Cors {
+public class RubricController {
     @Autowired
     private RubricDao rubricdao;
+    @Autowired
+    private AnswerDao answerdao;
     @Autowired
     private RubricService rubricService;
 
     /**
      * 新增一道题干,以及选项
      *
-     * @param rubric
+     * @param addrubricquery
      * @return
      */
     @RequestMapping(value = "/addrubric", method = RequestMethod.POST)
-    public Object addrubric(Rubric rubric) {
+    public Object addrubric(AddrubricQuery addrubricquery) {
+        return rubricService.addrubric(addrubricquery);
 
-        String Id = UUIDUtils.getUUID();
-        rubric.setId(Id);
-
-        return rubricdao.save(rubric);
     }
 
     /**
-     * @return 获取所有的题干以及选项
+     * 查询所有试题
+     *
+     * @return
      */
-    @RequestMapping(value = "/queryrubric", method = RequestMethod.POST)
-    public Object queryrubric(Integer currentPage, Integer pagesize) {
-        System.out.println(currentPage);
-        System.out.println(pagesize);
-        Page<Rubric> rubriclist = rubricService.queryUserByuserQuery(currentPage, pagesize);
-        Integer total = (int) rubriclist.getTotalElements();
-        List<Rubric> list = rubriclist.getContent();
-        RubricFan rubricfan = new RubricFan(total, list);
-        return rubricfan;
+    @RequestMapping(value = "/queryrubricer", method = RequestMethod.POST)
+    public Object queryrubricer(RubricQuery rubricquery, Integer page, Integer rows) {
+
+        Page<Rubric> rubric = rubricService.queryUserByuserQuery(rubricquery, page, rows);
+        Integer total = (int) rubric.getTotalElements();
+        List<Rubric> list = rubric.getContent();
+
+        list.forEach(item -> {
+            item.getAnswer().forEach(t -> {
+                t.setRubric(null);
+            });
+        });
+        System.out.println(list);
+
+        return new RubricFan(total, list);
     }
 
     /**
@@ -60,14 +68,18 @@ public class RubricController extends Cors {
      */
     @RequestMapping(value = "/deleteredicbyid", method = RequestMethod.POST)
     public Object deleteredicbyid(String id) {
-        System.out.println(id);
-        try {
-            rubricdao.deleteById(id);
-            return new Result(true, "删除成功", null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false, "删除失败", null);
-        }
+        return rubricService.deleteredicbyid(id);
+    }
+
+
+    /**
+     * 修改试题(三种试题的修改)
+     */
+    @RequestMapping(value = "/updateredicbyid", method = RequestMethod.POST)
+    public Object updateredicbyid(UpdaterubricQuery updaterubricquery) {
+
+
+        return rubricService.updateredicbyid(updaterubricquery);
     }
 
 

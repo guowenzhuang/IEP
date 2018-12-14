@@ -22,11 +22,10 @@ public class RubricQuery {
      * 章节试题所在的课程的章节(课程选择之后可以选择章节)
      * 题干的内容模糊查询
      */
-
-    private String Rubricttype;
-    private String CourseId;
-    private String SectionId;
-    private String Content;
+    private String rubric;
+    private String type;
+    private String course;
+    private String section;
 
 
 }
