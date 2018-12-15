@@ -3,6 +3,7 @@ package com.ysd.iep.service.impl;
 import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,27 +22,32 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     @Autowired
    private CourseRepository coursedao;
+    
     @Override
     /**
      * 课程的分页查询
      */
-    public Page<Course> getPaginate(int page, int pageSize, String courName) {
+    public Page<Course> getPaginate(CourseQuery courseQuery) {
         Specification<Course>  specification = new Specification<Course>() {
             @Override
             public Predicate toPredicate(Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<Predicate>();
                 //名称模糊查询
                 Path<String> cardNoPath = root.get("courName");
-                if (EmptyUtil.stringE(courName)) {
-                    predicates.add(cb.like(cardNoPath, "%" + courName + "%"));
+                if (EmptyUtil.stringE(courseQuery.getCourName())) {
+                    predicates.add(cb.like(cardNoPath, "%" + courseQuery.getCourName() + "%"));
                 }
                 Predicate[] p = new Predicate[predicates.size()];
                 return cb.and(predicates.toArray(p));
 
             }
         };
-        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-
+        // FIXME 怎么办
+        // 课程表  + 评论数量 浏览数量 倒叙 升序
+        // 浏览数量+1
+        // 有人在课程评论   评论属性+1
+        Sort sort=new Sort(Sort.Direction.DESC,courseQuery.getOrderBy());
+        PageRequest pageRequest =PageRequest.of(courseQuery.getPage(),courseQuery.getRows(),sort);
         Page<Course> c = coursedao.findAll(specification, pageRequest);
         return c;
 
