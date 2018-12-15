@@ -72,4 +72,9 @@ public class CourseDTO {
      * 是否上架
      */
     private String courIsputaway;
+    /**
+     * 课程评价
+     */
+    private Integer courCommentcount;
+
 }
