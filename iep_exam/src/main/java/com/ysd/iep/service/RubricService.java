@@ -8,6 +8,13 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+/**
+ * 试题的 service层
+ *
+ * @author gaozhongye
+ * @date 2018/12/6
+ */
+
 public interface RubricService {
 
     /**

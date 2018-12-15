@@ -27,6 +27,12 @@ import javax.persistence.criteria.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 试题的 service层的实现类 impl
+ *
+ * @author gaozhongye
+ * @date 2018/12/6
+ */
 
 @Service
 public class RubricServiceimpl implements RubricService {
@@ -251,7 +257,7 @@ public class RubricServiceimpl implements RubricService {
                         answerid = answers.get(j).getId();
                     }
                 }
-                Rubric rubric = new Rubric(idlist.get(4), null, null, answerid, addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype());
+                Rubric rubric = new Rubric(idlist.get(4), null, null, answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), null, addrubricquery.getRubrictype());
                 Rubric rubric1 = rubricdao.save(rubric);
 
                 for (int k = 0; k < answers.size(); k++) {
@@ -295,7 +301,7 @@ public class RubricServiceimpl implements RubricService {
                 answerid.delete(answerid.length() - 1, answerid.length());
 
 
-                Rubric rubric = new Rubric(idlist.get(4), null, null, answerid.toString(), addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype());
+                Rubric rubric = new Rubric(idlist.get(4), null, null, answerid.toString(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), null, addrubricquery.getRubrictype());
                 Rubric rubric1 = rubricdao.save(rubric);
 
                 for (int k = 0; k < answers.size(); k++) {
@@ -313,7 +319,7 @@ public class RubricServiceimpl implements RubricService {
         } else if (addrubricquery.getRubrictype().equals("填空题")) {
             try {
                 /*新增填空题*/
-                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype(), null);
+                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), null, addrubricquery.getRubrictype(), null);
                 rubricdao.save(rubric);
                 return new Result(true, "新增填空题成功", null);
             } catch (Exception e) {
@@ -329,7 +335,7 @@ public class RubricServiceimpl implements RubricService {
                     answerid = "错误";
                 }
 
-                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, answerid, addrubricquery.getAddrubric(), null, null, addrubricquery.getRubrictype(), null);
+                Rubric rubric = new Rubric(UUIDUtils.getUUID(), null, null, answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), null, addrubricquery.getRubrictype(), null);
                 rubricdao.save(rubric);
                 return new Result(true, "新增判断题成功", null);
             } catch (Exception e) {
@@ -358,6 +364,12 @@ public class RubricServiceimpl implements RubricService {
                     cb) {
                 Predicate predicate = cb.conjunction();//动态SQL表达式
                 List<Expression<Boolean>> exList = predicate.getExpressions();//动态SQL表达式集合
+
+                if (rubricquery.getUserid() != null && !"".equals(rubricquery.getUserid())) {
+
+                    exList.add(cb.equal(root.get("trcherId").as(String.class), rubricquery.getUserid()));
+
+                }
 
                 if (rubricquery.getRubric() != null && !"".equals(rubricquery.getRubric())) {
                     exList.add(cb.like(root.get("content"), "%" + rubricquery.getRubric() + "%"));
