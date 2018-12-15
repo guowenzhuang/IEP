@@ -44,5 +44,7 @@ public class StudentComment {
 	
 	@Column(columnDefinition="varchar(10) NULL comment '备注：预留字段'  ")
 	private String ext1;//预留字段
+	
+	
 
 }
