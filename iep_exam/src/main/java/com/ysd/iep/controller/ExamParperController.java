@@ -3,6 +3,8 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entitySerch.ExamParperSerch;
+import com.ysd.iep.feign.Course;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.ExamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,20 +22,23 @@ public class ExamParperController {
     @Autowired
     private ExamparperService examparperService;
 
+    @Autowired
+    private TeacherFeign teacherFeign;
+
     /***
      * 试卷管理的多条件分页显示
      * @param examParperSerch
      * @return
      */
-    @GetMapping ("getqueryqueryByDynamicSQLPageExpaerper")
-    private Object getqueryqueryByDynamicSQLPageExpaerper(ExamParperSerch examParperSerch){
-        Page<Examparper> page=examparperService.queryqueryByDynamicSQLPageExpaerper(examParperSerch);
+    @GetMapping("getqueryqueryByDynamicSQLPageExpaerper")
+    private Object getqueryqueryByDynamicSQLPageExpaerper(ExamParperSerch examParperSerch) {
+        Page<Examparper> page = examparperService.queryqueryByDynamicSQLPageExpaerper(examParperSerch);
         Long total = page.getTotalElements();
-        List<Examparper> list=page.getContent();
+        List<Examparper> list = page.getContent();
         for (Examparper examparper : list) {
             examparper.setExamrubricslist(null);
         }
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("total", total);
         map.put("rows", list);
 
@@ -46,8 +51,8 @@ public class ExamParperController {
      * @return
      */
     @PutMapping("updateStartExamtime")
-    public Result updateStartExamtime(Examparper examparper){
-      return   examparperService.updateStartExamtime(examparper);
+    public Result updateStartExamtime(Examparper examparper) {
+        return examparperService.updateStartExamtime(examparper);
     }
 
     /***
@@ -56,7 +61,7 @@ public class ExamParperController {
      * @return
      */
     @PostMapping("addRandomExamparper")
-    public Result addRandomExamparper(ExamParperSerch examParperSerch){
+    public Result addRandomExamparper(ExamParperSerch examParperSerch) {
         return examparperService.addRandomExamparper(examParperSerch);
     }
 
@@ -66,8 +71,19 @@ public class ExamParperController {
      * @return
      */
     @DeleteMapping("deleteExamparper/{id}")
-    public Result deleteExamparper(@PathVariable("id") String id){
-   return examparperService.deleteExamparper(id);
+    public Result deleteExamparper(@PathVariable("id") String id) {
+        return examparperService.deleteExamparper(id);
     }
+
+    /***
+     * 获取当前登录老师下的所有课程
+     * @param userid
+     * @return
+     */
+    @GetMapping("queryCourByteaId")
+    public com.ysd.iep.util.Result<List<Course>> getCouse(String userid) {
+        return teacherFeign.getCouse(userid);
+    }
+
 
 }
