@@ -26,7 +26,7 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private AdminFeign adminFeign;.
+    private AdminFeign adminFeign;
 
     /**
      * @param courseQuery
