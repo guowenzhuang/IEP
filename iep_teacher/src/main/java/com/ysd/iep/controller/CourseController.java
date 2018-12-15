@@ -2,7 +2,9 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.Teachers;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.service.TeachersService;
@@ -13,28 +15,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Api(value="/course", tags="课程")
 @RestController
 @RequestMapping("/course")
+//我是傻逼
 public class CourseController {
     @Autowired
     private CourseService courseService;
     @Autowired
     private AdminFeign adminFeign;
+
     /**
-     * @param page
-     * @param pageSize
-     * @param courName
+     * @param courseQuery
      * @return
      */
     @ApiOperation(value = "课程分页")
     @GetMapping("/getPaginate")
-    public Page<Course> getPaginate(@ApiParam(name="page",value="页码",required=true) int page,
-                                    @ApiParam(name="pageSize",value="条数",required=true) int pageSize,
-                                    @ApiParam(name="courName",value="课程名称",required=false) String courName) {
-        return courseService.getPaginate(page, pageSize, courName);
+    public Page<Course> getPaginate(CourseQuery courseQuery) {
+        System.out.println(courseQuery);
+        return courseService.getPaginate(courseQuery);
+    }
+
+    /**
+     * @param courseQuery
+     * @return
+     */
+    @GetMapping("/queryDTO")
+     public PagingResult<Course> queryDTO(CourseQuery courseQuery) {
+        System.out.println(courseQuery);
+        Page<Course> pages=courseService.getPaginate(courseQuery);
+        return new PagingResult<Course>().setTotal(pages.getTotalElements()).setRows(pages.getContent());
     }
 
     @ApiOperation(value = "获取老师菜单")
@@ -64,31 +77,30 @@ public class CourseController {
      * @return
      */
     @ApiOperation(value = "前台课程分页")
-    @RequestMapping("/getCourUIPage")
+    @GetMapping("/getCourUIPage")
     public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
-/*    @ApiOperation(value = "修改课程")
-    @PostMapping("updateCourseAll")
-    public Result updateCourse(Course course){
-        Result update = courseService.updateCourse(course);
+   @ApiOperation(value = "根据课程id查询课程信息")
+     @GetMapping("/findCourseById")
+    public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true) @RequestParam("courId") String courId){
+        return courseService.findByCourseId(courId);
 
-        return  new Result(true);
-    }*/
+    }
     /**
-     * course/getCourUIPage
-     * 课程的分页查询(前台 )
-     * @param depId
-     * @param page
-     * @param size
+     * 根据教师Id查询课程
+     * @param teaId
      * @return
      */
-   /* @ApiOperation(value = "前台课程分页")
-    @RequestMapping("/getCourUIPage")
-    public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
-        return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
-    }*/
+    @ApiOperation(value = "根据教师Id查询课程")
+    @GetMapping("queryCourByteaId")
+    public Result<List<Course>> queryCourByteaId(@ApiParam(name="teaId",value="老师Id",required=true)@RequestParam("teaId")String teaId){
+        System.out.println("我的教师Id"+teaId);
+        List<Course> list = courseService.queryCourByteaId(teaId);
+         System.out.println("我的list"+list);
+        return new Result<List<Course>>(true,list);
+    }
 
 
 }

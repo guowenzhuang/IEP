@@ -23,8 +23,8 @@ public class Course implements Serializable{
 	private Integer courId;  //课程ID
 	@Column(columnDefinition = "varchar(50) NOT NULL COMMENT '课程名称'")
 	private String courName;
-	@Column(columnDefinition="int not NULL comment '备注:课程所属用户(教师)'")
-	private Integer courTeaid;
+	@Column(columnDefinition="varchar(100) not NULL comment '备注:课程所属用户(教师)'")
+	private String courTeaid;
 	@Column(columnDefinition="varchar(100)  not null comment '备注:院系Id(外键)'")
 	private String courDepid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:课程图片地址'")
@@ -49,6 +49,8 @@ public class Course implements Serializable{
 	private String courPropaedeutics;//预备知识
 	@Column(columnDefinition="char(2) DEFAULT 0  NULL comment '备注:是否上架(0:否 1:是)'")
 	private String courIsputaway;//是否上架
+	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'")
+	private Integer courCommentcount;//课程评价数量
 	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 

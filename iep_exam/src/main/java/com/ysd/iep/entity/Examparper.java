@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +29,7 @@ import java.util.Set;
 @Table(name = "examparper_tb")
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class Examparper {
     @Id
     @Column(name = "id", nullable = false, length = 50)
@@ -36,14 +38,12 @@ public class Examparper {
     private String type;//考试类型
     @Column(name = "Title",  length = 200)
     private String title;//考试标题
-
     @Column(name = "Subject",  length = 50)
     private String subject;//考试科目
     @Column(name = "Duration", length = 20)
     private Integer duration;//考试时长
     @Column(name = "State",  length = 50)
     private String state;//考试状态(默认初始未开考)
-
     @Column(name = "Total",  length = 20)
     private Integer total;//卷子总分
     @Column(name = "Num",  length = 20)
@@ -69,10 +69,8 @@ public class Examparper {
     @Column(name = "examshortesttime",  length = 20)
     private Integer examshortesttime;//考试最短可交卷时间
 
-
     //@JsonIgnore
     @OneToMany(mappedBy = "examparper", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Examrubric> examrubricslist;//一张卷子可以有多到题干
-
 
 }
