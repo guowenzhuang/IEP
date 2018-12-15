@@ -19,7 +19,7 @@ public class CourseQuery {
     /**
      * 第几页 条数  偏移量
      */
-    private int page,rows,offsex;
+    private int page,pageSize,offsex;
 
     public int getPage() {
         return page;
@@ -27,18 +27,18 @@ public class CourseQuery {
 
     public void setPage(int page) {
         this.page = page;
-        if(this.rows!=0)
-            this.offsex=(page-1)*rows;
+        if(this.pageSize!=0)
+            this.offsex=(page-1)*pageSize;
     }
 
-    public int getRows() {
-        return rows;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setRows(int rows) {
-        this.rows = rows;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
         if(this.page!=0)
-            this.offsex=(page-1)*rows;
+            this.offsex=(page-1)*pageSize;
     }
 
 }
