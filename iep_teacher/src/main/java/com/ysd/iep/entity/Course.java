@@ -49,6 +49,8 @@ public class Course implements Serializable{
 	private String courPropaedeutics;//预备知识
 	@Column(columnDefinition="char(2) DEFAULT 0  NULL comment '备注:是否上架(0:否 1:是)'")
 	private String courIsputaway;//是否上架
+	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'")
+	private Integer courCommentcount;//课程评价数量
 	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 

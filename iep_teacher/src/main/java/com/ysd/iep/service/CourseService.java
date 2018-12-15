@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.CourseQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,7 +16,7 @@ public interface CourseService {
      * @param courName
      * @return
      */
-    Page<Course> getPaginate(int page, int pageSize, String courName);
+    Page<Course> getPaginate(CourseQuery courseQuery);
 
     /**
      * 删除课程
