@@ -1,7 +1,12 @@
 package com.ysd.iep.serviceImpl;
 
+import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -10,16 +15,17 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.ysd.iep.dao.LikeRepository;
 import com.ysd.iep.dao.PostRepository;
 import com.ysd.iep.dao.ReplyRepository;
 import com.ysd.iep.entity.Post;
@@ -27,43 +33,68 @@ import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.service.PostService;
 
-
 @Service
 public class PostServiceImpl implements PostService {
 	@Autowired
 	private PostRepository postRepository;
 	@Autowired
-	private LikeRepository likeRepository;
-	@Autowired
 	private ReplyRepository replyRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Override
-	public Page<Reply> queryAllPage(PostQuery postQuery, Integer page, Integer size) {
-		Sort sort = null;
-		if ("replyLikenum".equals(postQuery.getOrderBy())) {
-			sort = new Sort(Sort.Direction.DESC, "replyLikenum");
-		} else if ("replyReportNum".equals(postQuery.getOrderBy())) {
-			sort = new Sort(Sort.Direction.DESC, "replyReportnum");
-		} else {
-			sort = new Sort(Sort.Direction.DESC, "replyTime");// 排序
+	public Page<Post> queryAllPage(PostQuery postQuery, Pageable pageable) {
+
+		StringBuilder dataSql = new StringBuilder(
+				"SELECT * FROM posttypetb pt JOIN posttb p " + "ON pt.post_id=p.post_id JOIN typetb t "
+						+ "ON pt.type_id=t.type_id JOIN replytb r " + "ON p.post_id=r.post_id");
+		StringBuilder countSql = new StringBuilder(
+				"SELECT COUNT(1) FROM posttypetb pt JOIN posttb p " + "ON pt.post_id=p.post_id JOIN typetb t "
+						+ "ON pt.type_id=t.type_id JOIN replytb r " + "ON p.post_id=r.post_id");
+		// 拼接where条件
+		StringBuilder whereSql = new StringBuilder(" WHERE 1 = 1 AND r.reply_parentid = 0 ");
+		if (StringUtils.isNotEmpty(postQuery.getPostTitle())) {
+			whereSql.append(" AND p.post_title = like concat %" + postQuery.getPostTitle() + "%");
 		}
-		Pageable pageable = new PageRequest(page - 1, size, sort);
-		System.out.println("pageable=>" + this.getWhereClause(postQuery));
-		return replyRepository.findAll(this.getWhereClause(postQuery), pageable);
+		if (StringUtils.isNotEmpty(postQuery.getTypeName())) {
+			whereSql.append(" AND t.type_name = like concat %" + postQuery.getTypeName() + "%");
+		}
+		if (StringUtils.isNotEmpty(postQuery.getUserName())) {
+			whereSql.append(" AND u.user_name = like concat %" + postQuery.getUserName() + "%");
+		}
+		// 拼接orderBy条件
+		StringBuilder orderBySql = new StringBuilder();
+		if ("replyTime".equals(postQuery.getOrderBy())) {
+			orderBySql = new StringBuilder(" order by r.replyTime desc");
+		}
+		if ("replyLikenum".equals(postQuery.getOrderBy())) {
+			orderBySql = new StringBuilder(" order by r.replyLikenum desc");
+		}
+		if ("replyReportnum".equals(postQuery.getOrderBy())) {
+			orderBySql = new StringBuilder(" order by r.replyReportnum desc");
+		}
+		// 组装sql语句
+		dataSql.append(whereSql).append(orderBySql);
+		countSql.append(whereSql);
+
+		Query dataQuery = entityManager.createNativeQuery(dataSql.toString(), Post.class);
+		Query countQuery = entityManager.createNativeQuery(countSql.toString());
+
+		// 设置分页
+		dataQuery.setFirstResult((int) pageable.getOffset());
+		dataQuery.setMaxResults(pageable.getPageSize());
+		BigInteger count = (BigInteger) countQuery.getSingleResult();
+		Long total = count.longValue();
+		List<Post> content2 = total > pageable.getOffset() ? dataQuery.getResultList() : Collections.<Post>emptyList();
+		return new PageImpl<>(content2, pageable, total);
+
 	}
 
-	private Specification<Reply> getWhereClause(final PostQuery postQuery) {
-		// BeanUtils.copyProperties();
-		return new Specification<Reply>() {
-			@Override
-			public Predicate toPredicate(Root<Reply> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				Predicate predicate = cb.conjunction();
-				List<Expression<Boolean>> exList = predicate.getExpressions();
-				exList.add(cb.equal(root.<Integer>get("replyParentid"), 0)); // 回复的parentid为0的是帖子,此处是查询所有的帖子对象
-				return predicate;
-			}
-
-		};
+	/**
+	 * 获取帖子详情
+	 */
+	public Reply getPostDetails(Integer postId, Integer parentId) {
+		return replyRepository.getPostDetails(postId, parentId);
 	}
 
 	/**
@@ -71,8 +102,7 @@ public class PostServiceImpl implements PostService {
 	 */
 	@Override
 	public Integer getLikeNum(Integer replyId) {
-		// TODO Auto-generated method stub
-		return likeRepository.getLikeNum(replyId);
+		return replyRepository.getLikeNum(replyId);
 	}
 
 	/**
@@ -80,8 +110,21 @@ public class PostServiceImpl implements PostService {
 	 */
 	@Override
 	public Integer updateLikeNum(Integer replyId, Integer likeNum) {
-		// TODO Auto-generated method stub
 		return replyRepository.updateLikeNum(replyId, likeNum);
+	}
+	/**
+	 * 获取举报数
+	 */
+	@Override
+	public Integer getReportNum(Integer replyId) {
+		return replyRepository.getReportNum(replyId);
+	}
+	/**
+	 * 更新举报数
+	 */
+	@Override
+	public Integer updateReportNum(Integer replyId, Integer reportNum) {
+		return replyRepository.updateReportNum(replyId, reportNum);
 	}
 
 	/**
@@ -96,23 +139,18 @@ public class PostServiceImpl implements PostService {
 	 * 发表帖子
 	 */
 	@Override
-	public Reply insertPost(Reply reply) {
-		Post post1 = new Post();
-		post1.setPostTitle(reply.getPostTitle());
-		Post post2 = postRepository.save(post1);
-		reply.setPostId(post2.getPostId());
-		Reply reply2 = replyRepository.save(reply);
-		return reply2;
-
+	public Integer publicPost(String title, String content, Integer parentId, Integer postId, String userId) {
+		int n = postRepository.insertPort(title);
+		int m = replyRepository.insertPortDetails(userId, postId, content, parentId);
+		if (n > 0 & m > 0) {
+			return 1;
+		}else {
+			return 0;
+		}
 	}
 
-	/**
-	 * 删除帖子（管理员操作）
-	 */
-	@Override
-	public Integer deletePost(String content,Integer replyId) {
-		 Integer n=replyRepository.deleteByReplyId(content, replyId);
-		return n;
-	}
+	
+
+	
 
 }

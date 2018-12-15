@@ -18,6 +18,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -54,7 +56,23 @@ public class Post {
 	
 	@Transient
 	private String posttypeName;  //帖子分类名称
-	
+	@Transient
+	private Integer replyId;
+	@Transient
+	private String replyContent;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,pattern = "yyyy-MM-dd HH:mm:ss")
+	@Transient
+	private Timestamp replyTime;
+	@Transient
+	private Integer replyBrowse;
+	@Transient
+	private String userId;
+	@Transient
+	private Integer replyParentid;
+	@Transient
+	private Integer replyLikenum;
+	@Transient
+	private Integer replyReportnum;
 	
 	
 	
