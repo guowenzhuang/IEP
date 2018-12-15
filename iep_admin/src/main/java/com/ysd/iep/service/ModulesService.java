@@ -3,6 +3,8 @@ package com.ysd.iep.service;
 import com.ysd.iep.dao.ModulesDao;
 import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.po.ModulesDB;
+import com.ysd.iep.entity.po.RolesDB;
+import com.ysd.iep.entity.vo.ModuleTreeVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,38 @@ import java.util.List;
 public class ModulesService {
     @Autowired
     private ModulesDao modulesDao;
+
+
+    /**
+     * 获取所有模块并选中角色拥有的模块
+     * @param roleid  角色id
+     * @return
+     */
+    public ModuleTreeVo getAllCheckRole(String roleid){
+        //最高级模块
+        List<ModulesDB> modulesDBS=modulesDao.findByParentId(0);
+        //转换类型
+        List<ModulesDTO> modulesDTOS=BeanConverterUtil.copyList(modulesDBS,ModulesDTO.class);
+        //获取角色id拥有的模块id集合
+        List<Integer> mIds=modulesDao.findModuleIds(roleid);
+        for (ModulesDTO modulesDTO:modulesDTOS) {
+            getChidren(modulesDTO);
+        }
+        ModuleTreeVo moduleTreeVo=new ModuleTreeVo();
+        moduleTreeVo.setMids(mIds);
+        moduleTreeVo.setModules(modulesDTOS);
+        return moduleTreeVo;
+    }
+    private void getChidren(ModulesDTO parentModule){
+        //获取子级模块
+        List<ModulesDB> modulesDBS=modulesDao.findByParentId(parentModule.getId());
+        //转换类型
+        List<ModulesDTO> modulesDTOS=BeanConverterUtil.copyList(modulesDBS,ModulesDTO.class);
+        parentModule.setChildren(modulesDTOS);
+        for (ModulesDTO modulesDTO:modulesDTOS) {
+            getChidren(modulesDTO);
+        }
+    }
     /**
      * 根据角色名获取模块(树级)
      * @param roleName

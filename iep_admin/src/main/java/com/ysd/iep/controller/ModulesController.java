@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.vo.ModuleTreeVo;
 import com.ysd.iep.service.ModulesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,9 @@ public class ModulesController {
     public Result<List<ModulesDTO>> getMenuByRole(String rolenames){
         List<ModulesDTO> list=modulesService.getByRole(rolenames.split(","));
         return new Result<List<ModulesDTO>>(true).setMessage(list);
-
+    }
+    @GetMapping("/getAllCheckRole")
+    public ModuleTreeVo getAllCheckRole(String roleid){
+        return modulesService.getAllCheckRole(roleid);
     }
 }
