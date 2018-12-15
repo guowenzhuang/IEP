@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(value="/tea", tags="教师")
@@ -28,7 +29,7 @@ public class TeachersController {
     }
     @ApiOperation(value = "根据id删除老师")
     @DeleteMapping("/deleteTeacherById")
-    public Result<String> deleteTeacherById(String teacherId) {
+    public Result<String> deleteTeacherById(@RequestParam("teacherId")String teacherId) {
     	teachersService.deleteTeacherById(teacherId);
 		return new Result(true).setMessage("成功");
     	
