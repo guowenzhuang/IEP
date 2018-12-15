@@ -9,6 +9,10 @@ import lombok.Data;
 @Data
 public class CourseQuery {
     /**
+     * 院系Id
+     */
+    private String courDepid;
+    /**
      * 课程名称
      */
     private String courName;

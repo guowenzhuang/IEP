@@ -69,10 +69,31 @@ public class CourseServiceImpl implements CourseService {
      * 前台课程显示
      */
     @Override
-    public Page<Course> queryCourseDepidAllPage(String depId, Integer page, Integer size) {
-        Sort sort = new Sort(Sort.Direction.ASC, "courId");
-        Pageable pageable = new PageRequest(page - 1, size, sort);
-        return coursedao.findByCourDepid("%" + depId + "%", pageable);
+     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
+        Specification<Course> specification = new Specification<Course>() {
+
+            @Override
+            public Predicate toPredicate(Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<Predicate>();
+                // 名称模糊查询
+                if (EmptyUtil.stringE(courseQuery.getCourDepid())) {
+                    Path<String> namePath = root.get("courDepid");
+                    predicates.add(criteriaBuilder.like(namePath, "%" + courseQuery.getCourDepid() + "%"));
+                }
+                Predicate[] p = new Predicate[predicates.size()];
+                return criteriaBuilder.and(predicates.toArray(p));
+            }
+        };
+        Pageable pageable = null;
+        if (EmptyUtil.stringE(courseQuery.getOrderBy())) {
+            Sort sort = new Sort(Sort.Direction.ASC, courseQuery.getOrderBy());
+            pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize(), sort);
+        } else {
+            pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
+        }
+        Page<Course> course = coursedao.findAll(specification, pageable);
+         return  course;
+
 
     }
 
