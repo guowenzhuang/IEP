@@ -70,6 +70,7 @@ public class CourseController {
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
 
+
    @ApiOperation(value = "根据课程id查询课程信息")
      @GetMapping("/findCourseById")
     public List<Course> findCourseById(@ApiParam(name="courId",value="课程id",required=true) @RequestParam("courId") String courId){
