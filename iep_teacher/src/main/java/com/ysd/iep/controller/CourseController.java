@@ -3,7 +3,6 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
-import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.service.TeachersService;
@@ -26,14 +25,17 @@ public class CourseController {
     @Autowired
     private AdminFeign adminFeign;
     /**
-     * @param courseQuery
+     * @param page
+     * @param pageSize
+     * @param courName
      * @return
      */
     @ApiOperation(value = "课程分页")
     @GetMapping("/getPaginate")
-    public Page<Course> getPaginate(CourseQuery courseQuery) {
-        System.out.println(courseQuery);
-        return courseService.getPaginate(courseQuery);
+    public Page<Course> getPaginate(@ApiParam(name="page",value="页码",required=true) int page,
+                                    @ApiParam(name="pageSize",value="条数",required=true) int pageSize,
+                                    @ApiParam(name="courName",value="课程名称",required=false) String courName) {
+        return courseService.getPaginate(page, pageSize, courName);
     }
 
     @ApiOperation(value = "获取老师菜单")
@@ -67,7 +69,6 @@ public class CourseController {
     public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
     	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
     }
-
 
    @ApiOperation(value = "根据课程id查询课程信息")
      @GetMapping("/findCourseById")
