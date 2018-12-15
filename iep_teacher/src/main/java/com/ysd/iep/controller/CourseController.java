@@ -42,7 +42,7 @@ public class CourseController {
      * @return
      */
     @GetMapping("/queryDTO")
-    public PagingResult<Course> queryDTO(CourseQuery courseQuery) {
+     public PagingResult<Course> queryDTO(CourseQuery courseQuery) {
         System.out.println(courseQuery);
         Page<Course> pages=courseService.getPaginate(courseQuery);
         return new PagingResult<Course>().setTotal(pages.getTotalElements()).setRows(pages.getContent());
