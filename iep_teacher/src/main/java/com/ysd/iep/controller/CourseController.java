@@ -21,6 +21,7 @@ import java.util.UUID;
 @Api(value="/course", tags="课程")
 @RestController
 @RequestMapping("/course")
+//我是傻逼
 public class CourseController {
     @Autowired
     private CourseService courseService;
