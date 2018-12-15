@@ -23,8 +23,9 @@ public class TeachersServiceImpl implements TeachersService {
     //根据老师id删除老师
 	@Override
 	public Result deleteTeacherById(String teacherId) {
-		teacherRepository.deleteById(teacherId);
+		if (teacherId != null && teacherId != "") {
+			teacherRepository.deleteById(teacherId);
+		}
 		 return new Result(true);
-		
 	}
 }

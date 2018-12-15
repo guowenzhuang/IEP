@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("IEP-TEACHER")
 public interface CourseFeign {
     /**
-     * 课程的分页查询
+               * 课程的分页查询
      * @param depId
      * @param page
      * @param size
@@ -16,4 +16,12 @@ public interface CourseFeign {
      */
     @RequestMapping("/course/getCourUIPage")
     Result getCourseAll(@RequestParam("depId")  String depId, @RequestParam("page") Integer page, @RequestParam("size") Integer size);
+   /**
+            * 课程详情页
+    * @param courId
+    * @return
+    */
+    
+    @RequestMapping("/course/findCourseById")
+    public Object getCoursedetails(@RequestParam("courId") String courId);
 }

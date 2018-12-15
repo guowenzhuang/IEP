@@ -28,7 +28,7 @@ public class TeachersController {
     }
     @ApiOperation(value = "根据id删除老师")
     @DeleteMapping("/deleteTeacherById")
-    public Result<String> deleteTeacherById(@PathVariable("id") String teacherId) {
+    public Result<String> deleteTeacherById(String teacherId) {
     	teachersService.deleteTeacherById(teacherId);
 		return new Result(true).setMessage("成功");
     	
