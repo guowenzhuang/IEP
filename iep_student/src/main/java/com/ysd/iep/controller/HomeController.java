@@ -35,7 +35,7 @@ public class HomeController {
      */
 	@GetMapping("/getCategory")
 	public Object getCategory() {
-		
+		System.out.println("sb");
 		return adminService.getCategory();
 	}
 	

@@ -54,7 +54,7 @@ public class StudentPartController {
 		try {
 			s.add(courId,sid);
 			return new Result<String>(true, "报名成功");
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			return new Result<String>(false, "报名失败");
 		}
 	}

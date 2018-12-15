@@ -1,10 +1,17 @@
 package com.ysd.iep.service;
 
-import com.ysd.iep.entity.CommentDTO;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
+import com.ysd.iep.entity.CommentDTO;
 import com.ysd.iep.entity.StudentComment;
 
+/**
+ * 课程评价
+ * @author ASUS
+ *
+ */
 public interface CommentService {
 	
 	/**
@@ -14,6 +21,18 @@ public interface CommentService {
 	 * @return
 	 */
 	Page<CommentDTO> queryAllPage(Integer page, Integer size, String orderBy);
+	
+	/**
+	 * 根据课程id查询当前课程的评价
+	 */
+	public Page<StudentComment> queryCommentByCid(Integer cid,Integer page,Integer size);
+	
+		
+	/**
+	 * 学生发表评价
+	 */
+	public void addComment(StudentComment comment);
+	
 	
 
 }
