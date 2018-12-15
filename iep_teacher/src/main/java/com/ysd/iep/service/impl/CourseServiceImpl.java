@@ -69,7 +69,7 @@ public class CourseServiceImpl implements CourseService {
      * 前台课程显示
      */
     @Override
-    public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
+     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
         Specification<Course> specification = new Specification<Course>() {
 
             @Override
