@@ -152,7 +152,7 @@ public class UsersService {
 
     @Transactional(rollbackOn = Exception.class)
     public void setRoles(String uuid, String roleIds, String direction) {
-        System.out.println(uuid);
+        System.out.println("uuid==>"+uuid);
         String[] ids = roleIds.split(",");
         //新增角色
         if (direction.equals("right")) {
@@ -165,7 +165,7 @@ public class UsersService {
                 else if(rolesDB.getName().equals("老师")){
                     TeacherDTO teacherDTO=new TeacherDTO().setTeaId(uuid);
                     System.out.println(teacherDTO);
-                    teacherFeign.AddTeacher(teacherDTO);
+                    teacherFeign.AddTeacher(uuid);
                 }
                 usersDao.addRole(uuid, id);
             }
