@@ -108,7 +108,7 @@ public class UsersService {
     }
 
     /**
-     * 根据哟用户名查找用户
+     * 根据用户名查找用户
      *
      * @param name
      * @return
@@ -117,6 +117,12 @@ public class UsersService {
         UsersDB usersDB = usersDao.findTopByLoginName(name);
         UsersDTO usersDTO = (UsersDTO) BeanConverterUtil.copyObject(usersDB, UsersDTO.class);
         return usersDTO;
+    }
+
+    public List<UsersDTO> userById(String ids) {
+        List<UsersDB> usersDB = usersDao.findAllById(Arrays.asList(ids.split(",")));
+        List<UsersDTO> usersDTOS=BeanConverterUtil.copyList(usersDB,UsersDTO.class);
+        return usersDTOS;
     }
 
     /**
@@ -150,9 +156,9 @@ public class UsersService {
         //新增角色
         if (direction.equals("right")) {
             for (String id : ids) {
-                RolesDB rolesDB=rolesDao.findById(id).get();
-                if(rolesDB.getName().equals("学生")){
-                    StudentDTO studentDTO=new StudentDTO().setSid(uuid);
+                RolesDB rolesDB = rolesDao.findById(id).get();
+                if (rolesDB.getName().equals("学生")) {
+                    StudentDTO studentDTO = new StudentDTO().setSid(uuid);
                     studentFeign.add(studentDTO);
                 }
                 usersDao.addRole(uuid, id);
@@ -161,8 +167,8 @@ public class UsersService {
         //移除角色
         else {
             for (String id : ids) {
-                RolesDB rolesDB=rolesDao.findById(id).get();
-                if(rolesDB.getName().equals("学生")){
+                RolesDB rolesDB = rolesDao.findById(id).get();
+                if (rolesDB.getName().equals("学生")) {
                     studentFeign.delete(uuid);
                 }
                 usersDao.deleteRole(uuid, id);
