@@ -35,9 +35,19 @@ public interface TeacherFeign {
     @GetMapping("/course/getPaginate")
     Page<CourseDTO> getPaginate(@RequestParam Map<String, Object> map);
 
+    /**
+     * 新增老师
+     * @param teacherDTO
+     * @return
+     */
     @PostMapping("/tea/addTeacher")
     Result<String> AddTeacher(TeacherDTO teacherDTO);
 
+    /**
+     * 删除老师
+     * @param teacherId
+     * @return
+     */
     @DeleteMapping("/tea/deleteTeacherById")
-    Result<String> deleteTeacherById(@PathVariable("id") String teacherId);
+    Result<String> deleteTeacherById(@RequestParam("teacherId") String teacherId);
 }
