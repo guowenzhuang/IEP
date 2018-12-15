@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.Teachers;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CourseService;
@@ -36,6 +37,17 @@ public class CourseController {
                                     @ApiParam(name="pageSize",value="条数",required=true) int pageSize,
                                     @ApiParam(name="courName",value="课程名称",required=false) String courName) {
         return courseService.getPaginate(page, pageSize, courName);
+    }
+
+    /**
+     * @param courseQuery
+     * @return
+     */
+    @GetMapping("/queryDTO")
+     public PagingResult<Course> queryDTO(CourseQuery courseQuery) {
+        System.out.println(courseQuery);
+        Page<Course> pages=courseService.getPaginate(courseQuery);
+        return new PagingResult<Course>().setTotal(pages.getTotalElements()).setRows(pages.getContent());
     }
 
     @ApiOperation(value = "获取老师菜单")
