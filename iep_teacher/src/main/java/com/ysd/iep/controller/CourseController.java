@@ -27,7 +27,6 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private AdminFeign adminFeign;
-
     /**
      * @param courseQuery
      * @return
@@ -71,15 +70,15 @@ public class CourseController {
     /**
      * course/getCourUIPage
      * 课程的分页查询(前台 )
-     * @param depId
-     * @param page
-     * @param size
+     * @param
+     * @param
+     * @param
      * @return
      */
     @ApiOperation(value = "前台课程分页")
     @GetMapping("/getCourUIPage")
-    public Result<Page<Course>> getCourUIPage(String depId,Integer page, Integer size){
-    	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(depId,page,size));
+    public Result<Page<Course>> getCourUIPage(CourseQuery courseQuery){
+    	 return new Result<Page<Course>>(true,courseService.queryCourseDepidAllPage(courseQuery));
     }
 
    @ApiOperation(value = "根据课程id查询课程信息")

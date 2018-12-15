@@ -31,7 +31,7 @@ public interface CourseService {
       * @param   size
       * @return  Page<Course>
       */
-     public Page<Course> queryCourseDepidAllPage(@RequestParam("depId")String depId,@RequestParam("page")Integer page, @RequestParam("size")Integer size);
+     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery);
 
 
     /**
@@ -42,7 +42,7 @@ public interface CourseService {
     Result insertCourse(Course course);
 
     /**
-     *
+     *根据课程id查询课程
      * @param courId
      * @return
      */
