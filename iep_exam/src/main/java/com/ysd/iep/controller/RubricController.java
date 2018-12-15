@@ -28,7 +28,7 @@ public class RubricController {
     private AnswerDao answerdao;
     @Autowired
     private RubricService rubricService;
-    @Autowired
+    @Autowired(required = false)
     private TeacherFeign teacherFeign;
 
     /**
