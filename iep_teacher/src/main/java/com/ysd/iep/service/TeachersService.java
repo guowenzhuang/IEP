@@ -9,4 +9,5 @@ public interface TeachersService {
     
     //根据老师id删除老师
     Result deleteTeacherById(String teacherId);
+    //genjulaoshi=
 }

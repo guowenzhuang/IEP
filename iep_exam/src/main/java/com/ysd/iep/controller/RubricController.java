@@ -71,7 +71,6 @@ public class RubricController {
         return rubricService.deleteredicbyid(id);
     }
 
-
     /**
      * 修改试题(三种试题的修改)
      */
