@@ -24,14 +24,14 @@ public class RolesDB {
     private Integer int0;
     @Column(name = "String0", length = 50)
     private String string0;
-    @ManyToMany(mappedBy = "rolesDBS",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "rolesDBS",fetch = FetchType.LAZY)
     private List<UsersDB> usersDBS;
-    @JsonIgnore
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rolemodules",joinColumns = @JoinColumn(name = "roleId"),
             inverseJoinColumns = @JoinColumn(name = "moduleId"))
     private List<ModulesDB> modulesDBS;
-    @JsonIgnore
+
     @ManyToMany
     @JoinTable(name = "rolepermission",joinColumns = @JoinColumn(name = "roleId"),
             inverseJoinColumns = @JoinColumn(name = "permissionId"))

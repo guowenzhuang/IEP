@@ -33,5 +33,5 @@ public class StudentPart {
 	@Column(columnDefinition="datetime NOT NULL comment '备注:报名时间'  ")
 	private Date parttime;//报名时间
 	
-
+   
 }

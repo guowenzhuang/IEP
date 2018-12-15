@@ -20,6 +20,59 @@ import java.util.function.Function;
  * @author 郭文壮
  */
 public class BeanConverterUtil {
+
+    /**
+     * 对象转map
+     * @param o
+     * @return
+     */
+    public static Map objectToMap(Object o){
+        try {
+            return org.apache.commons.beanutils.BeanUtils.describe(o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return new HashMap();
+    }
+
+    /**
+     * map转bean
+     * @param map
+     * @param o
+     */
+    public static void mapToBean(Map map,Object o){
+        try {
+            org.apache.commons.beanutils.BeanUtils.populate(o,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * map转bean
+     * @param map
+     * @param claszz
+     */
+    public static void mapToBean(Map map,Class claszz){
+        try {
+            Object o=claszz.newInstance();
+            org.apache.commons.beanutils.BeanUtils.populate(o,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * 复制单个对象
      *

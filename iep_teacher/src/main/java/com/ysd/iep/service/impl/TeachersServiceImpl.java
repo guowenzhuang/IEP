@@ -12,9 +12,19 @@ import org.springframework.stereotype.Service;
 public class TeachersServiceImpl implements TeachersService {
     @Autowired
     private TeacherRepository teacherRepository;
+    
+    //添加
     @Override
     public Result insertTeacher(Teachers teachers) {
         teacherRepository.save(teachers);
         return new Result(true);
     }
+    
+    //根据老师id删除老师
+	@Override
+	public Result deleteTeacherById(String teacherId) {
+		teacherRepository.deleteById(teacherId);
+		 return new Result(true);
+		
+	}
 }

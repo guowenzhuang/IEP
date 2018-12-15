@@ -2,6 +2,9 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.DepartmentDTO;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.RolesQuery;
+import com.ysd.iep.entity.vo.PagingResult;
+import com.ysd.iep.entity.vo.RolesVo;
 import com.ysd.iep.entity.vo.UserRoleVo;
 import com.ysd.iep.service.DepartmentService;
 import com.ysd.iep.service.RolesService;
@@ -29,5 +32,15 @@ public class RoleController {
         return new Result<UserRoleVo>(true, userRoleVo);
     }
 
+    @GetMapping
+    public PagingResult<RolesVo> role(RolesQuery rolesQuery){
+        return rolesService.queryRolesPaging(rolesQuery);
+    }
+
+    @PostMapping
+    public Result add(@RequestParam("name") String name){
+        rolesService.add(name);
+        return new Result(true);
+    }
 
 }

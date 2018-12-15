@@ -23,4 +23,18 @@ public interface ExamparperService {
      * @return
      */
   Result updateStartExamtime(Examparper examparper);
+
+    /***
+     * 随机生成试卷
+     * @param examParperSerch
+     * @return
+     */
+  Result addRandomExamparper(ExamParperSerch examParperSerch);
+
+  /***
+   * 根据id删除试卷
+   * @param id
+   * @return
+   */
+  Result deleteExamparper(String id);
 }
