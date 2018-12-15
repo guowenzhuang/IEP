@@ -22,6 +22,24 @@ import java.util.function.Function;
 public class BeanConverterUtil {
 
     /**
+     * 对象转map
+     * @param o
+     * @return
+     */
+    public static Map objectToMap(Object o){
+        try {
+            return org.apache.commons.beanutils.BeanUtils.describe(o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return new HashMap();
+    }
+
+    /**
      * map转bean
      * @param map
      * @param o
