@@ -12,6 +12,10 @@ public interface StudentPartRepository extends JpaRepository<StudentPart, Intege
 	
 	@Query(value=" SELECT s.cid FROM StudentPart as s ")
 	public List<StudentPartCid> findBySid(String sid);
+
+	//报名此课程的人数
+	@Query(value=" SELECT COUNT(*) FROM  StudentPart s WHERE s.cid=?1 ")
+	public int count(Integer cid);
 	
 
 	
