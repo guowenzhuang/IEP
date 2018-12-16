@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,6 +125,29 @@ public class ModulesService {
     }
 
     public void update(ModulesDB modulesDB) {
+        modulesDB.setStatus(0);
         modulesDao.save(modulesDB);
+    }
+
+    public List<Integer> get(Integer mid) {
+        List<Integer> ids=new ArrayList<>();
+        getParentId(mid,ids);
+        return ids;
+    }
+    public  void getParentId(Integer mid,List<Integer> ids){
+        if(mid==0){
+            return ;
+        }
+        ids.add(0,mid);
+        ModulesDB m=modulesDao.findById(mid).get();
+        getParentId(m.getParentId(),ids);
+    }
+
+    /**
+     * 删除模块id
+     * @param id
+     */
+    public void del(Integer id) {
+
     }
 }
