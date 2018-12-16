@@ -32,7 +32,7 @@ public class Examrubric {
     @Column(name = "SectionId", nullable = true, length = 50)
     private String sectionId;//章节id
     @Column(name = "CourseId", nullable = true, length = 50)
-    private String courseId;//课程id
+    private Integer courseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String answerId;//答案id
