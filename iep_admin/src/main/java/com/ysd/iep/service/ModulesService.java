@@ -144,8 +144,8 @@ public class ModulesService {
     }
 
     /**
-     * 删除模块id
-     * @param id
+     * 根据id删除模块
+     * @param id 模块id
      */
     public void del(Integer id) {
 
