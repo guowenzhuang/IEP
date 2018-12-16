@@ -1,6 +1,8 @@
 package com.ysd.iep.controller;
 
 
+import com.ysd.iep.service.TeacherService;
+import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +18,13 @@ import com.ysd.iep.service.AdminService;
 @RestController
 @RequestMapping("/home")
 public class HomeController {
-	
+
 	@Autowired
 	private AdminService adminService;
-	
-	
+
+	@Autowired
+	private TeacherService teacherService;
+
 	/**
 	 * @GetMapping 查询
 	 * @PutMapping 修改
@@ -35,11 +39,31 @@ public class HomeController {
      */
 	@GetMapping("/getCategory")
 	public Object getCategory() {
-		System.out.println("sb");
 		return adminService.getCategory();
 	}
-	
-	
+
+	/**
+	 *获取课程推荐
+	 */
+	@GetMapping("/")
+	public Object queryTuiJian(){
+
+		return "";
+	}
+
+
+
+	/**
+	 * 查询老师
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@GetMapping("/getTeachers")
+	public Object getTeachers(int page,int size){
+
+		return "";
+	}
 	
 
 }

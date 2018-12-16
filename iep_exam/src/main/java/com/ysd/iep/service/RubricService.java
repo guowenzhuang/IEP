@@ -33,6 +33,12 @@ public interface RubricService {
     Object deleteredicbyid(String id);
 
     /**
+     * 根据试题类型查询试题
+     */
+    List<Rubric> selectrubricfortype(RubricQuery rubricquery);
+
+
+    /**
      * 新增试题
      *
      * @param addrubricquery

@@ -28,7 +28,7 @@ public class Rubric {
     @Column(name = "SectionId", length = 50)
     private String sectionId; //章节ID
     @Column(name = "CourseId", length = 50)
-    private String courseId;//课程id
+    private Integer courseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String answerId;//答案id
@@ -47,7 +47,7 @@ public class Rubric {
     private List<Answer> answer;//答案集合
 
 
-    public Rubric(String id, String sectionId, String courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
+    public Rubric(String id, String sectionId, Integer courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
         this.id = id;
         this.sectionId = sectionId;
         this.courseId = courseId;

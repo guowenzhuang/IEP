@@ -17,4 +17,5 @@ public class AddrubricQuery {
     private String answerD;
     private String rubrictype;
     private String userid;
+    private Integer course;
 }
