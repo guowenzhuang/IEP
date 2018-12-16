@@ -148,6 +148,11 @@ public class ModulesService {
      * @param id 模块id
      */
     public void del(Integer id) {
-
+        modulesDao.deleteModule(id);//调用方法,修改状态
+        List<ModulesDB> modulesDBS=modulesDao.findByParentId(id);
+        modulesDBS.forEach(item ->{
+            del(item.getId());
+        });
     }
+
 }
