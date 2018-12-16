@@ -33,6 +33,8 @@ public class ModulesDB implements Serializable {
     private String ops;
     @Column(name = "Int0", nullable = true)
     private Integer int0;
+    @Column(name = "status",columnDefinition = "int default 0")
+    private Integer status;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "modulesDBS")

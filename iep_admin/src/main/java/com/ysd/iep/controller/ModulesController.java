@@ -2,6 +2,8 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.po.ModulesDB;
+import com.ysd.iep.entity.vo.ModuleCascaderVo;
 import com.ysd.iep.entity.vo.ModuleTreeVo;
 import com.ysd.iep.service.ModulesService;
 import io.swagger.annotations.Api;
@@ -40,5 +42,29 @@ public class ModulesController {
     @GetMapping("/getAllCheckRole")
     public ModuleTreeVo getAllCheckRole(String roleid){
         return modulesService.getAllCheckRole(roleid);
+    }
+
+    @GetMapping
+    public List<ModulesDTO> get(){
+        return modulesService.getAll();
+    }
+
+    @GetMapping("/getToCascader")
+    public List<ModuleCascaderVo> getToCascader(){
+        return modulesService.getAllToCascader();
+    }
+
+    @PostMapping
+    public Result add(ModulesDB modulesDB){
+        System.out.println(modulesDB);
+        modulesService.add(modulesDB);
+        return new Result(true,"新增成功");
+    }
+
+    @PutMapping
+    public Result update(ModulesDB modulesDB){
+        System.out.println(modulesDB);
+        modulesService.update(modulesDB);
+        return new Result(true,"新增成功");
     }
 }

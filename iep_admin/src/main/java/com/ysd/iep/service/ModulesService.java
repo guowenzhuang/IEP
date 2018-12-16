@@ -4,12 +4,14 @@ import com.ysd.iep.dao.ModulesDao;
 import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.po.ModulesDB;
 import com.ysd.iep.entity.po.RolesDB;
+import com.ysd.iep.entity.vo.ModuleCascaderVo;
 import com.ysd.iep.entity.vo.ModuleTreeVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -22,48 +24,84 @@ public class ModulesService {
     @Autowired
     private ModulesDao modulesDao;
 
+    @Transactional(rollbackOn = Exception.class)
+
+    public void  add(ModulesDB modulesDB){
+        modulesDB.setStatus(0);
+        modulesDao.save(modulesDB);
+    }
+
+    public List<ModuleCascaderVo> getAllToCascader(){
+        //最高级模块
+        List<ModulesDB> modulesDBS = modulesDao.findByParentId(0);
+        //转换类型
+        List<ModuleCascaderVo> moduleCascaderVos = BeanConverterUtil.copyList(modulesDBS, ModuleCascaderVo.class);
+        for (ModuleCascaderVo moduleCascaderVo : moduleCascaderVos) {
+            getChidren(moduleCascaderVo);
+        }
+        return moduleCascaderVos;
+    }
+    private void getChidren(ModuleCascaderVo parentModule) {
+        //获取子级模块
+        List<ModulesDB> modulesDBS = modulesDao.findByParentId(parentModule.getId());
+        //转换类型
+        List<ModuleCascaderVo> moduleCascaderVos = BeanConverterUtil.copyList(modulesDBS, ModuleCascaderVo.class);
+        parentModule.setChildren(moduleCascaderVos);
+        for (ModuleCascaderVo moduleCascaderVo : moduleCascaderVos) {
+            getChidren(moduleCascaderVo);
+        }
+    }
 
     /**
      * 获取所有模块并选中角色拥有的模块
-     * @param roleid  角色id
+     *
+     * @param roleid 角色id
      * @return
      */
-    public ModuleTreeVo getAllCheckRole(String roleid){
-        //最高级模块
-        List<ModulesDB> modulesDBS=modulesDao.findByParentId(0);
-        //转换类型
-        List<ModulesDTO> modulesDTOS=BeanConverterUtil.copyList(modulesDBS,ModulesDTO.class);
+    public ModuleTreeVo getAllCheckRole(String roleid) {
         //获取角色id拥有的模块id集合
-        List<Integer> mIds=modulesDao.findModuleIds(roleid);
-        for (ModulesDTO modulesDTO:modulesDTOS) {
-            getChidren(modulesDTO);
-        }
-        ModuleTreeVo moduleTreeVo=new ModuleTreeVo();
+        List<Integer> mIds = modulesDao.findModuleIds(roleid);
+        List<ModulesDTO> modulesDTOS=getAll();
+        ModuleTreeVo moduleTreeVo = new ModuleTreeVo();
         moduleTreeVo.setMids(mIds);
         moduleTreeVo.setModules(modulesDTOS);
         return moduleTreeVo;
     }
-    private void getChidren(ModulesDTO parentModule){
-        //获取子级模块
-        List<ModulesDB> modulesDBS=modulesDao.findByParentId(parentModule.getId());
+
+    public List<ModulesDTO> getAll() {
+        //最高级模块
+        List<ModulesDB> modulesDBS = modulesDao.findByParentId(0);
         //转换类型
-        List<ModulesDTO> modulesDTOS=BeanConverterUtil.copyList(modulesDBS,ModulesDTO.class);
+        List<ModulesDTO> modulesDTOS = BeanConverterUtil.copyList(modulesDBS, ModulesDTO.class);
+        for (ModulesDTO modulesDTO : modulesDTOS) {
+            getChidren(modulesDTO);
+        }
+        return modulesDTOS;
+    }
+
+    private void getChidren(ModulesDTO parentModule) {
+        //获取子级模块
+        List<ModulesDB> modulesDBS = modulesDao.findByParentId(parentModule.getId());
+        //转换类型
+        List<ModulesDTO> modulesDTOS = BeanConverterUtil.copyList(modulesDBS, ModulesDTO.class);
         parentModule.setChildren(modulesDTOS);
-        for (ModulesDTO modulesDTO:modulesDTOS) {
+        for (ModulesDTO modulesDTO : modulesDTOS) {
             getChidren(modulesDTO);
         }
     }
+
     /**
      * 根据角色名获取模块(树级)
+     *
      * @param roleName
      * @return
      */
-    public List<ModulesDTO>  getByRole(String... roleName){
+    public List<ModulesDTO> getByRole(String... roleName) {
         log.info("查询模块菜单开始");
-        List<ModulesDB> topModules=modulesDao.getByParentIdAndRolesName(0,roleName);
-        List<ModulesDTO> modulesDTOS= BeanConverterUtil.copyList(topModules,ModulesDTO.class);
+        List<ModulesDB> topModules = modulesDao.getByParentIdAndRolesName(0, roleName);
+        List<ModulesDTO> modulesDTOS = BeanConverterUtil.copyList(topModules, ModulesDTO.class);
         modulesDTOS.forEach(item -> {
-            this.getByParent(item,roleName);
+            this.getByParent(item, roleName);
         });
         return modulesDTOS;
     }
@@ -71,16 +109,21 @@ public class ModulesService {
 
     /**
      * 根据父级模块和角色名称查询子级模块
+     *
      * @param parentModules 父级模块
-     * @param roleName 角色名称
+     * @param roleName      角色名称
      */
-    private void getByParent(ModulesDTO parentModules,String... roleName){
-        log.info("查询子级模块 父级模块为:{}",parentModules.getName());
-        List<ModulesDB> childrenModules=modulesDao.getByParentIdAndRolesName(parentModules.getId(),roleName);
-        List<ModulesDTO> childrenModuleDTOS= BeanConverterUtil.copyList(childrenModules,ModulesDTO.class);
+    private void getByParent(ModulesDTO parentModules, String... roleName) {
+        log.info("查询子级模块 父级模块为:{}", parentModules.getName());
+        List<ModulesDB> childrenModules = modulesDao.getByParentIdAndRolesName(parentModules.getId(), roleName);
+        List<ModulesDTO> childrenModuleDTOS = BeanConverterUtil.copyList(childrenModules, ModulesDTO.class);
         parentModules.setChildren(childrenModuleDTOS);
         childrenModuleDTOS.forEach(item -> {
-            this.getByParent(item,roleName);
+            this.getByParent(item, roleName);
         });
+    }
+
+    public void update(ModulesDB modulesDB) {
+        modulesDao.save(modulesDB);
     }
 }
