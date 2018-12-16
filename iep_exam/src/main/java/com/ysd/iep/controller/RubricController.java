@@ -51,6 +51,7 @@ public class RubricController {
         return teacherFeign.getCouse(teaId);
     }
 
+
     /**
      * 查询所有试题
      *

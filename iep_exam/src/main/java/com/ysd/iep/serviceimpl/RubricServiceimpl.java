@@ -41,6 +41,10 @@ public class RubricServiceimpl implements RubricService {
     @Autowired
     AnswerDao answerdao;
 
+/**
+ *根据试题类型查询试题
+ */
+
 
     /**
      * 多条件分页查询
@@ -72,6 +76,16 @@ public class RubricServiceimpl implements RubricService {
             return new Result(false, "删除失败", null);
         }
     }
+
+
+    /**
+     * 根据试题类型查询试题
+     */
+    @Override
+    public List<Rubric> selectrubricfortype(RubricQuery rubricquery) {
+        return rubricdao.findAll(this.getWhereClause(rubricquery));
+    }
+
 
     /**
      * 修改试题(三种试题)
