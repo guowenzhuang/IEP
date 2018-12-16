@@ -1,6 +1,7 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.CommentDTO;
+import com.ysd.iep.entity.StudentComment;
 import com.ysd.iep.service.CommentService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,18 @@ public class CommentController {
     public Page<CommentDTO> queryOrder(@RequestParam("page") Integer page,@RequestParam("size") Integer size,@RequestParam("orderBy") String orderBy){
         return commentService.queryAllPage(page, size, orderBy);
     }
+
+    /**
+     * 查询课程评价
+     */
+    @GetMapping("/queryCommentByCid")
+    public Page<StudentComment> queryCommentByCid(Integer cid, Integer page, Integer size){
+
+        return commentService.queryCommentByCid(cid,page,size);
+
+    }
+
+
+
+
 }
