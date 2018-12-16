@@ -28,7 +28,7 @@ public class RubricController {
     private AnswerDao answerdao;
     @Autowired
     private RubricService rubricService;
-    @Autowired
+    @Autowired(required = false)
     private TeacherFeign teacherFeign;
 
     /**
@@ -50,6 +50,7 @@ public class RubricController {
     private Result<List<Course>> getCouse(@RequestParam("teaId") String teaId) {
         return teacherFeign.getCouse(teaId);
     }
+
 
     /**
      * 查询所有试题

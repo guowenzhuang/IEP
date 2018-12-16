@@ -23,9 +23,14 @@ public class TeachersController {
   private TeachersService teachersService;
     @ApiOperation(value = "增加老师")
     @PostMapping("/addTeacher")
-    public Result<String> AddTeacher(@RequestBody Teachers teachers){
-    	teachersService.insertTeacher(teachers);
-        return new Result(true,"成功");
+    public Result<String> AddTeacher(@RequestParam("teaId") String teaId){
+    	if (teaId != null && teaId != "") {
+    		teachersService.insertTeacher(teaId);
+    		return new Result(true,"成功");
+    	}else {
+    		return new Result(false,"失败");
+    	}
+        
     }
     @ApiOperation(value = "根据id删除老师")
     @DeleteMapping("/deleteTeacherById")

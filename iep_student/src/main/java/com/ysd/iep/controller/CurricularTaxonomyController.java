@@ -1,6 +1,7 @@
 package com.ysd.iep.controller;
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.query.CourseQuery;
+import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.feign.CourseFeign;
 import com.ysd.iep.feign.CurricularFeign;
 import com.ysd.iep.service.CourseService;
@@ -19,6 +20,8 @@ public class CurricularTaxonomyController {
     private CurricularFeign curricularTaxonomyFeign;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private CourseFeign courseFeign;
     /**
      * 获取全部课程分类
      *http://127.0.0.1:8060/api/student/curricularTaxonomy/getCurricularTaxonomy
@@ -44,5 +47,18 @@ public class CurricularTaxonomyController {
     public Result getCourse(CourseQuery courseQuery){
         System.out.println("courseQuery==>"+courseQuery);
         return courseService.getCourseAll(courseQuery);
+    }
+    /**
+     * http://127.0.0.1:8060/api/student/curricularTaxonomy/getCoursedetails
+     *
+     * 课程详情页
+     * @param courId
+     * @return
+     */
+    @ApiOperation(value = "根据课程Id显示课程详情")
+    @GetMapping("/getCoursedetails")
+    public Object getCoursedetails(@RequestParam("courId") String courId) {
+        System.out.print("查询的数据"+courseFeign.getCoursedetails(courId));
+    	return courseFeign.getCoursedetails(courId);
     }
 }

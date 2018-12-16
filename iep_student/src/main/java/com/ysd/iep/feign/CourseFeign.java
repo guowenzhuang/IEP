@@ -13,7 +13,7 @@ import java.util.Map;
 @FeignClient("IEP-TEACHER")
 public interface CourseFeign {
     /**
-     * 课程的分页查询
+               * 课程的分页查询
      * @param depId
      * @param page
      * @param size
@@ -21,4 +21,12 @@ public interface CourseFeign {
      */
     @GetMapping ("/course/getCourUIPage")
     Result getCourseAll(@RequestParam Map<String, Object> map);
+    /**
+            * 课程详情页
+    * @param courId
+    * @return
+    */
+
+    @RequestMapping("/course/findCourseById")
+    public Object getCoursedetails(@RequestParam("courId") String courId);
 }

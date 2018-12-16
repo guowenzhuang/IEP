@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.StudentPart;
 import com.ysd.iep.entity.StudentPartCid;
+import com.ysd.iep.repository.StudentPartRepository;
 import com.ysd.iep.service.StudentPartService;
 import com.ysd.iep.util.Result;
 
@@ -42,7 +43,16 @@ public class StudentPartController {
 		return cidList;
 		
 	}
-	
+	/**
+	 * http://127.0.0.1:80/api/student/studentPart/querypeople
+	 * 报名此课程的人数
+	 * @param cid
+	 * @return
+	 */
+	@GetMapping("/querypeople")
+	public Integer querypeople(@RequestParam("cid")Integer cid) {
+		return s.count(cid);
+	}
 
 	/**
 	 * 报名课程
@@ -53,10 +63,11 @@ public class StudentPartController {
 	public Object add(@RequestParam("courId")Integer courId,@RequestParam("sid")String sid) {	
 		try {
 			s.add(courId,sid);
-			return new Result<String>(true, "报名成功");
+			return new Result<String>(true, "已参加，立即学习");
 		} catch (Exception e) {
-			return new Result<String>(false, "报名失败");
+			return new Result<String>(false, "报名失败,请先登录");
 		}
+		
 	}
 	
     /**
