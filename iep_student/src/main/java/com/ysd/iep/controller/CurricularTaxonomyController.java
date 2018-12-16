@@ -51,8 +51,9 @@ public class CurricularTaxonomyController {
      * @return
      */
     @ApiOperation(value = "根据课程Id显示课程详情")
-    @RequestMapping("/getCoursedetails")
+    @GetMapping("/getCoursedetails")
     public Object getCoursedetails(@RequestParam("courId") String courId) {
+        System.out.print("查询的数据"+courseFeign.getCoursedetails(courId));
     	return courseFeign.getCoursedetails(courId);
-    };
+    }
 }
