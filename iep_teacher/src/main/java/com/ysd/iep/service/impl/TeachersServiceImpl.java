@@ -15,16 +15,19 @@ public class TeachersServiceImpl implements TeachersService {
     
     //添加
     @Override
-    public Result insertTeacher(Teachers teachers) {
-        teacherRepository.save(teachers);
-        return new Result(true);
+    public Integer insertTeacher(String teaId){
+    	 
+		return teacherRepository.addTecherById(teaId);
+		
+        
     }
     
     //根据老师id删除老师
 	@Override
 	public Result deleteTeacherById(String teacherId) {
-		teacherRepository.deleteById(teacherId);
+		if (teacherId != null && teacherId != "") {
+			teacherRepository.deleteById(teacherId);
+		}
 		 return new Result(true);
-		
 	}
 }

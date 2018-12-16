@@ -20,7 +20,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 * @param pageable
 	 * @return Page<Course>
 	 */
-	public Page<Course> findByCourDepid(String DepId,Pageable pageable);
+	public Page<Course> findByCourDepidLike(String DepId,Pageable pageable);
 
 	/**
 	 * 提供  根据课程id查询课程信息
@@ -28,4 +28,12 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 */
 	@Query(value="select * from coursetb where cour_id in (?1) ",nativeQuery=true)
 	public Course findByCourseId(Integer courId);
+	/**
+	 * 根据教师Id查询课程
+	 * @param teaId
+	 * @return
+	 */
+
+	public List<Course> findByCourTeaid(String teaId);
+
 }

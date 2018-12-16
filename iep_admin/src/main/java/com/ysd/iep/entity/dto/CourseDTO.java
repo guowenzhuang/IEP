@@ -11,7 +11,7 @@ import javax.persistence.Column;
  */
 @Data
 @Accessors(chain = true)
-public class CourceDTO {
+public class CourseDTO {
     /**
      * 课程id
      */

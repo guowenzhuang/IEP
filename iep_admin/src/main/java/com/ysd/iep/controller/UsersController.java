@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -35,6 +37,15 @@ public class UsersController {
     @GetMapping
     private Result<UsersDTO> user(@RequestParam("name") String name){
         return new Result<UsersDTO>(true,usersService.userByName(name));
+    }
+
+    @ApiOperation("根据用户id获取用户的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ids",value = "用户id 多个id用,号分割",required = true,paramType = "query",dataType = "String")
+    })
+    @GetMapping("/getUserById")
+    public Result<List<UsersDTO>> getUserById(@RequestParam("ids") String ids){
+        return new Result<List<UsersDTO>>(true,usersService.userById(ids));
     }
 
     @PostMapping
