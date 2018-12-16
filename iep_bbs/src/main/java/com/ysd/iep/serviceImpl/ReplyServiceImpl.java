@@ -36,6 +36,29 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<Reply> queryReplyByPostId(Integer postId) {
 		return replyRepository.queryReplyByPostId(postId);
 	}
+	/**
+	 * 更新浏览数
+	 * @param replyId
+	 * @return
+	 */
+	@Override
+	public Integer updateBrowse(Integer replyId) {
+		return replyRepository.updateBrowse(replyId);
+	}
+	/**
+	 * 点赞
+	 */
+	@Override
+	public Integer replyLike(Integer replyId, Integer userId) {
+		return replyRepository.replyLike(replyId, userId);
+	}
+	/**
+	 * 回复帖子
+	 */
+	@Override
+	public Reply insertReply(Reply reply) {
+		return replyRepository.save(reply);
+	}
 
 
 }

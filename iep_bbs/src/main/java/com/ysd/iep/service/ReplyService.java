@@ -13,5 +13,26 @@ public interface ReplyService {
 	 * @return
 	 */
 	public List<Reply> queryReplyByPostId(Integer postId);
+	/**
+	 * 更新浏览数
+	 * @param replyId
+	 * @return
+	 */
+	public Integer updateBrowse(Integer replyId);
+	
+	/**
+	 *   点赞
+	 * @param replyId
+	 * @param userId
+	 * @return
+	 */
+	public Integer replyLike(Integer replyId,Integer userId);
+	
+	/**
+	 *  回复帖子
+	 * @param reply
+	 * @return
+	 */
+	public Reply insertReply(Reply reply);
 
 }

@@ -42,6 +42,15 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT * FROM replytb WHERE post_id=1 ORDER BY reply_time DESC", nativeQuery = true)
 	public List<Reply> queryReplyByPostId(Integer postId);
 	
+	@Query(value = "UPDATE replytb SET reply_browse=reply_browse + 1  WHERE  reply_id=1", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer updateBrowse(Integer replyId);
+	
+	@Query(value = "INSERT INTO liketb(user_id,reply_id) VALUES(?2,?1)", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer replyLike(Integer replyId,Integer userId);
 	
 
 }

@@ -54,24 +54,24 @@ public class PostServiceImpl implements PostService {
 		// 拼接where条件
 		StringBuilder whereSql = new StringBuilder(" WHERE 1 = 1 AND r.reply_parentid = 0 ");
 		if (StringUtils.isNotEmpty(postQuery.getPostTitle())) {
-			whereSql.append(" AND p.post_title = like concat %'" + postQuery.getPostTitle() + "'%");
+			whereSql.append(" AND p.post_title like '%" + postQuery.getPostTitle() + "%' ");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getTypeName())) {
-			whereSql.append(" AND t.type_name = like concat %'" + postQuery.getTypeName() + "'%");
+			whereSql.append(" AND t.type_name like  '%" + postQuery.getTypeName() + "%' ");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getUserName())) {
-			whereSql.append(" AND u.user_name = like concat %'" + postQuery.getUserName() + "'%");
+			whereSql.append(" AND u.user_name like '%" + postQuery.getUserName() + "%'");
 		}
 		// 拼接orderBy条件
-		StringBuilder orderBySql = new StringBuilder();
+		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1");
 		if ("replyTime".equals(postQuery.getOrderBy())) {
-			orderBySql = new StringBuilder(" order by r.replyTime desc");
+			orderBySql.append(" AND r.reply_time desc");
 		}
 		if ("replyLikenum".equals(postQuery.getOrderBy())) {
-			orderBySql = new StringBuilder(" order by r.replyLikenum desc");
+			orderBySql.append(" AND r.reply_likenum desc");
 		}
 		if ("replyReportnum".equals(postQuery.getOrderBy())) {
-			orderBySql = new StringBuilder(" order by r.replyReportnum desc");
+			orderBySql.append(" AND r.reply_reportnum desc");
 		}
 		// 组装sql语句
 		dataSql.append(whereSql).append(orderBySql);
@@ -148,9 +148,5 @@ public class PostServiceImpl implements PostService {
 			return 0;
 		}
 	}
-
-	
-
-	
 
 }
