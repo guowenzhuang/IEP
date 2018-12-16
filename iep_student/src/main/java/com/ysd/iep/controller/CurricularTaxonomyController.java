@@ -46,7 +46,7 @@ public class CurricularTaxonomyController {
     /**
      * http://127.0.0.1:8060/api/student/curricularTaxonomy/getCoursedetails
      * 
-               * 课程详情页
+     * 课程详情页
      * @param courId
      * @return
      */
