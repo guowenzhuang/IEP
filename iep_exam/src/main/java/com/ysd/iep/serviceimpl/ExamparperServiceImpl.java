@@ -1,7 +1,9 @@
 package com.ysd.iep.serviceimpl;
 
 import com.ysd.iep.dao.ExamparperDao;
+import com.ysd.iep.dao.RubricDao;
 import com.ysd.iep.entity.Examparper;
+import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.service.ExamparperService;
@@ -26,7 +28,8 @@ import java.util.UUID;
 public class ExamparperServiceImpl implements ExamparperService {
     @Autowired
     private ExamparperDao examparperDao;
-
+   @Autowired
+   private RubricDao rubricDao;
     /***
      * 多条件分页查询试卷显示
      * @param examParperSerch
@@ -94,6 +97,23 @@ public class ExamparperServiceImpl implements ExamparperService {
     }
 
     /***
+     * 根据id删除试卷
+     * @param id
+     * @return
+     */
+    @Override
+    public Result deleteExamparper(String id) {
+
+        try {
+            examparperDao.deleteById(id);
+            return new Result(true,"删除成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"删除失败",null);
+        }
+    }
+
+    /***
      * 随机生成试卷
      * @param examParperSerch
      * @return
@@ -115,7 +135,10 @@ public class ExamparperServiceImpl implements ExamparperService {
                 .setCreatetime(new Date());
 
         try {
-            examparperDao.save(examparper);
+           Examparper examparper1 =examparperDao.save(examparper);
+
+
+
             return new Result(true,"创建试卷成功",null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,23 +146,6 @@ public class ExamparperServiceImpl implements ExamparperService {
         }
 
 
-    }
-
-    /***
-     * 根据id删除试卷
-     * @param id
-     * @return
-     */
-    @Override
-    public Result deleteExamparper(String id) {
-
-        try {
-            examparperDao.deleteById(id);
-            return new Result(true,"删除成功",null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false,"删除失败",null);
-        }
     }
 
 
