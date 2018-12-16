@@ -11,6 +11,7 @@ import com.ysd.iep.service.RolesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,18 @@ public class RoleController {
     public Result add(@RequestParam("name") String name){
         rolesService.add(name);
         return new Result(true);
+    }
+
+    @PostMapping("/setModule/{roleiId}")
+    public Result<String> setModule(@PathVariable("roleiId") String roleiId,@RequestParam("mids") String mids){
+        rolesService.setModule(roleiId,mids);
+        return new Result(true,"成功");
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<String> delete(@PathVariable("id") String id){
+        rolesService.delete(id);
+        return new Result<String>(true).setMessage("成功");
     }
 
 }

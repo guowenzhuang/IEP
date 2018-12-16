@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +32,27 @@ public class RolesService {
     private RolesDao rolesDao;
 
     /**
+     * 角色设置模块
+     *
+     * @param roleId 角色id
+     * @param midS   模块id集合
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public void setModule(String roleId, String midS) {
+        rolesDao.deleteModuleByRolesId(roleId);
+        String[] midsArr = midS.split(",");
+        for (String mid : midsArr) {
+            if (EmptyUtil.stringE(mid)) {
+                rolesDao.insertModule(roleId, mid);
+            }
+
+        }
+
+    }
+
+    /**
      * 查询属于用户的角色和不属于用户的角色
+     *
      * @param uuid
      * @return
      */
@@ -48,7 +69,7 @@ public class RolesService {
     }
 
     public PagingResult queryRolesPaging(RolesQuery rolesQuery) {
-        Specification<RolesDB> specification= new Specification<RolesDB>() {
+        Specification<RolesDB> specification = new Specification<RolesDB>() {
             @Override
             public Predicate toPredicate(Root<RolesDB> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<Predicate>();
@@ -57,20 +78,27 @@ public class RolesService {
                     Path<String> namePath = root.get("name");
                     predicates.add(criteriaBuilder.like(namePath, "%" + rolesQuery.getName() + "%"));
                 }
+                Path<String> statusPath = root.get("status");
+                predicates.add(criteriaBuilder.equal(statusPath, "0"));
                 Predicate[] p = new Predicate[predicates.size()];
                 return criteriaBuilder.and(predicates.toArray(p));
             }
         };
-        Pageable pageable = PageRequest.of(rolesQuery.getPage()-1, rolesQuery.getRows());
+        Pageable pageable = PageRequest.of(rolesQuery.getPage() - 1, rolesQuery.getRows());
         Page<RolesDB> rolesDBS = rolesDao.findAll(specification, pageable);
-        PagingResult<RolesVo> pagingResult=new PagingResult<RolesVo>()
+        PagingResult<RolesVo> pagingResult = new PagingResult<RolesVo>()
                 .setTotal(rolesDBS.getTotalElements())
-                .setRows(BeanConverterUtil.copyList(rolesDBS.getContent(),RolesVo.class));
+                .setRows(BeanConverterUtil.copyList(rolesDBS.getContent(), RolesVo.class));
         return pagingResult;
     }
 
-    public void add(String name){
-        RolesDB rolesDB=new RolesDB().setName(name);
+    @Transactional(rollbackOn = Exception.class)
+    public void add(String name) {
+        RolesDB rolesDB = new RolesDB().setName(name).setStatus(0);
         rolesDao.save(rolesDB);
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public void delete(String uuid) {
+        rolesDao.deleteStatus(uuid);
     }
 }

@@ -2,10 +2,7 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
-import com.ysd.iep.entity.dto.Result;
-import com.ysd.iep.entity.dto.StudentDTO;
-import com.ysd.iep.entity.dto.UsersDTO;
-import com.ysd.iep.entity.dto.UsersUpdateDTO;
+import com.ysd.iep.entity.dto.*;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
@@ -13,6 +10,7 @@ import com.ysd.iep.entity.query.UsersQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
 import com.ysd.iep.feign.StudentFeign;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import com.ysd.iep.util.PasswordEncrypt;
@@ -45,6 +43,8 @@ public class UsersService {
     private RolesDao rolesDao;
     @Autowired
     private StudentFeign studentFeign;
+    @Autowired
+    private TeacherFeign teacherFeign;
 
 
     public PagingResult<UsersVo> query(UsersQuery usersQuery) {
@@ -150,8 +150,9 @@ public class UsersService {
         return result;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void setRoles(String uuid, String roleIds, String direction) {
+        System.out.println("uuid==>"+uuid);
         String[] ids = roleIds.split(",");
         //新增角色
         if (direction.equals("right")) {
@@ -160,6 +161,11 @@ public class UsersService {
                 if (rolesDB.getName().equals("学生")) {
                     StudentDTO studentDTO = new StudentDTO().setSid(uuid);
                     studentFeign.add(studentDTO);
+                }
+                else if(rolesDB.getName().equals("老师")){
+                    TeacherDTO teacherDTO=new TeacherDTO().setTeaId(uuid);
+                    System.out.println(teacherDTO);
+                    teacherFeign.AddTeacher(uuid);
                 }
                 usersDao.addRole(uuid, id);
             }
@@ -170,6 +176,9 @@ public class UsersService {
                 RolesDB rolesDB = rolesDao.findById(id).get();
                 if (rolesDB.getName().equals("学生")) {
                     studentFeign.delete(uuid);
+                }
+                else if(rolesDB.getName().equals("老师")){
+                    teacherFeign.deleteTeacherById(uuid);
                 }
                 usersDao.deleteRole(uuid, id);
             }

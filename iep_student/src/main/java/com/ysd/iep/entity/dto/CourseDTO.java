@@ -3,8 +3,6 @@ package com.ysd.iep.entity.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -72,9 +70,4 @@ public class CourseDTO {
      * 是否上架
      */
     private String courIsputaway;
-    /**
-     * 课程评价
-     */
-    private Integer courCommentcount;
-
 }

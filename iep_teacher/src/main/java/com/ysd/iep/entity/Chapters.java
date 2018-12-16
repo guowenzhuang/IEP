@@ -1,15 +1,16 @@
 package com.ysd.iep.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -35,6 +36,10 @@ public class Chapters implements Serializable{
 	private Integer chaCourid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:视频时长'")
 	private String chaTime;//视频时长
+	@Transient
+//	@JsonInclude(Include.NON_NULL)
+	// 如果该属性为NULL则不参与序列化
+	private List<Chapters> children;
 	@Column(columnDefinition="int NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 

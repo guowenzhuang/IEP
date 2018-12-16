@@ -13,10 +13,6 @@ public class CourseQuery {
      */
     private String courDepid;
     /**
-     * 课程名称
-     */
-    private String courName;
-    /**
      * 排序字段
      */
     private String orderBy;

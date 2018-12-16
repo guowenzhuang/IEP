@@ -19,4 +19,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<StudentComment, Integer>, JpaSpecificationExecutor<StudentComment> {
     @Query(value = "select new com.ysd.iep.entity.CommentDTO(c.cid,count(c.mid)) from StudentComment c group by cid")
     Page<CommentDTO> queryCommentPagingOrder(Pageable pageable);
+
+    Page<StudentComment> findByCid(Integer cid,Pageable pageable);
+    
 }

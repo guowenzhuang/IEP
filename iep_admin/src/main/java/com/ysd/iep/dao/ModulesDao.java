@@ -16,7 +16,7 @@ public interface ModulesDao extends BaseDao<ModulesDB,Integer> {
      * @param parentId 父级id
      * @return
      */
-    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name=:roleName))",nativeQuery = true)
+    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name=:roleName) and status=0)",nativeQuery = true)
     List<ModulesDB> getByParentIdAndRolesName(@Param("parentId") Integer parentId,@Param("roleName") String roleName);
 
     /**
@@ -25,6 +25,22 @@ public interface ModulesDao extends BaseDao<ModulesDB,Integer> {
      * @param roleNames 角色名称数组
      * @return
      */
-    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name in (:roleNames)))",nativeQuery = true)
+    @Query(value = "select * from modules where ParentId=:parentId and Id in (select ModuleId FROM rolemodules where RoleId=(select id from roles where name in (:roleNames)) and status=0)",nativeQuery = true)
     List<ModulesDB> getByParentIdAndRolesName(@Param("parentId") Integer parentId,@Param("roleNames") String[] roleNames);
+
+    /**
+     * 根据父级id查询子模块
+     * @param parentId
+     * @return
+     */
+    @Query(value = "from ModulesDB where parentId=:parentId and status=0")
+    List<ModulesDB> findByParentId(@Param("parentId") Integer parentId);
+
+    /**
+     * 根据角色id查询所有的模块id
+     * @param roleId
+     * @return
+     */
+    @Query(value = "select ModuleId from rolemodules where RoleId=:roleId",nativeQuery = true)
+    List<Integer> findModuleIds(@Param(("roleId")) String roleId);
 }
