@@ -1,9 +1,14 @@
 package com.ysd.iep.feign;
 
+import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 @FeignClient("IEP-TEACHER")
 public interface CourseFeign {
@@ -14,14 +19,14 @@ public interface CourseFeign {
      * @param size
      * @return
      */
-    @RequestMapping("/course/getCourUIPage")
-    Result getCourseAll(@RequestParam("depId")  String depId, @RequestParam("page") Integer page, @RequestParam("size") Integer size);
-   /**
+    @GetMapping ("/course/getCourUIPage")
+    Result getCourseAll(@RequestParam Map<String, Object> map);
+    /**
             * 课程详情页
     * @param courId
     * @return
     */
-    
+
     @RequestMapping("/course/findCourseById")
     public Object getCoursedetails(@RequestParam("courId") String courId);
 }
