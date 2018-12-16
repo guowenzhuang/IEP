@@ -54,13 +54,13 @@ public class PostServiceImpl implements PostService {
 		// 拼接where条件
 		StringBuilder whereSql = new StringBuilder(" WHERE 1 = 1 AND r.reply_parentid = 0 ");
 		if (StringUtils.isNotEmpty(postQuery.getPostTitle())) {
-			whereSql.append(" AND p.post_title = like concat %" + postQuery.getPostTitle() + "%");
+			whereSql.append(" AND p.post_title = like concat %'" + postQuery.getPostTitle() + "'%");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getTypeName())) {
-			whereSql.append(" AND t.type_name = like concat %" + postQuery.getTypeName() + "%");
+			whereSql.append(" AND t.type_name = like concat %'" + postQuery.getTypeName() + "'%");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getUserName())) {
-			whereSql.append(" AND u.user_name = like concat %" + postQuery.getUserName() + "%");
+			whereSql.append(" AND u.user_name = like concat %'" + postQuery.getUserName() + "'%");
 		}
 		// 拼接orderBy条件
 		StringBuilder orderBySql = new StringBuilder();

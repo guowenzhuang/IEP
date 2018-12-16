@@ -27,39 +27,15 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Autowired
 	private ReplyRepository replyRepository;
-
+	/**
+	 * 查询回复列表
+	 * @param postId 所属帖子id
+	 * @return
+	 */
 	@Override
-	public Page<Reply> queryAllReplyPage(ReplyQuery replyQuery, Integer page, Integer size) {
-		Sort sort = null;
-		if ("replyLikenum".equals(replyQuery.getOrderBy())) {
-			sort = new Sort(Sort.Direction.DESC, "replyLikenum");
-		} else if ("replyReportNum".equals(replyQuery.getOrderBy())) {
-			sort = new Sort(Sort.Direction.DESC, "replyReportnum");
-		} else {
-			sort = new Sort(Sort.Direction.DESC, "replyTime");// 排序
-		}
-		Pageable pageable = new PageRequest(page - 1, size,sort);
-		System.out.println("pageable=>"+this.getWhereClause(replyQuery));
-		return replyRepository.findAll(this.getWhereClause(replyQuery), pageable);
+	public List<Reply> queryReplyByPostId(Integer postId) {
+		return replyRepository.queryReplyByPostId(postId);
 	}
-	
-	private Specification<Reply> getWhereClause(final ReplyQuery replyQuery) {
-		
-		return new Specification<Reply>() {
-			@Override
-			public Predicate toPredicate(Root<Reply> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				Predicate predicate = cb.conjunction();
-				List<Expression<Boolean>> exList = predicate.getExpressions();
-				
-				exList.add(cb.greaterThan(root.<Integer>get("replyParentid"), 0));
-				if (replyQuery.getUserName()!=null&&"".equals(replyQuery.getUserName())) {
-					exList.add(cb.like(root.<String>get("userName"), "%" + replyQuery.getUserName() + "%"));
-				}
 
-				return predicate;
-			}
-
-		};
-	}
 
 }

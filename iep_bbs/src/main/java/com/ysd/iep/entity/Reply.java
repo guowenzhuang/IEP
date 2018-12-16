@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
@@ -38,7 +39,8 @@ public class Reply {
 	private Integer replyId;
 	@Column(columnDefinition="text NOT NULL comment '备注:回复内容' ")
 	private String replyContent;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,pattern = "yyyy-MM-dd HH:mm:ss")
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	@Column(columnDefinition="timestamp NOT NULL comment '备注:回复时间' ")
 	private Timestamp replyTime;
 	@Column(columnDefinition="int DEFAULT 0 NOT NULL comment '备注:浏览数' ")

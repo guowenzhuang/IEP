@@ -2,6 +2,7 @@ package com.ysd.iep.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -37,7 +38,10 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Transactional
 	public Integer insertPortDetails(String userId, Integer postId, String replyContent, Integer parentId);
 	
-	@Query(value = "SELECT * FROM replytb WHERE post_id=?1", nativeQuery = true)
-	public List<Reply> queryPostIsReply(Integer postId);
+	
+	@Query(value = "SELECT * FROM replytb WHERE post_id=1 ORDER BY reply_time DESC", nativeQuery = true)
+	public List<Reply> queryReplyByPostId(Integer postId);
+	
+	
 
 }

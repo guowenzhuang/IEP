@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -40,10 +41,8 @@ public class Post {
 	private Integer postId;
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:帖子标题' ")
 	private String postTitle;
-	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否置顶' ")
-	private String postIsstick;
-	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否精选' ")
-	private String postIsselect;
+	@Column(columnDefinition="tinyint(1) DEFAULT '0'  NOT NULL comment '备注:是否置顶' ")
+	private boolean postIsstick;
 	
 	
 	@JsonIgnore
@@ -60,7 +59,7 @@ public class Post {
 	private Integer replyId;
 	@Transient
 	private String replyContent;
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME,pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	@Transient
 	private Timestamp replyTime;
 	@Transient

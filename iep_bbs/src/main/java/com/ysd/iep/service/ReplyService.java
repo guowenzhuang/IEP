@@ -1,12 +1,17 @@
 package com.ysd.iep.service;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 
 import com.ysd.iep.entity.Reply;
-import com.ysd.iep.entity.ReplyQuery;
+
 
 public interface ReplyService {
-	
-	public Page<Reply> queryAllReplyPage(ReplyQuery replyQuery,Integer page,Integer size);
+	/**
+	 * 查询回复列表
+	 * @param postId 所属帖子id
+	 * @return
+	 */
+	public List<Reply> queryReplyByPostId(Integer postId);
 
 }
