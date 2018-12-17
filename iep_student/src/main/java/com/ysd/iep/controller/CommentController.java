@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -28,11 +30,14 @@ public class CommentController {
 
     /**
      * 查询课程评价
+     * http://localhost:80/api/student/comment/queryCommentByCid
      */
     @GetMapping("/queryCommentByCid")
-    public Page<StudentComment> queryCommentByCid(Integer cid, Integer page, Integer size){
+    public Object queryCommentByCid(Integer cid, Integer page, Integer size){
+        Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
+        List<StudentComment> rows=pageStu.getContent();
 
-        return commentService.queryCommentByCid(cid,page,size);
+        return rows;
 
     }
 

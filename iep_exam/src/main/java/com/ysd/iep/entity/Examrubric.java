@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -24,6 +25,8 @@ import java.util.Set;
 @Entity
 @Table(name = "examrubric_tb")
 @AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
 public class Examrubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
