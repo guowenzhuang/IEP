@@ -98,7 +98,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * @return
      */
     @Override
-    public Object addexamrubric(AddrubricQuery addrubricquery) {
+    public Result addexamrubric(AddrubricQuery addrubricquery) {
         if (addrubricquery.getRubrictype().equals("单选题")) {
             String idanswer = "";
             String id = "";
@@ -318,7 +318,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
 
     }
-
 
 
 }

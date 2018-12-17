@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.AddrubricQuery;
+import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.entity.parameter.UpdaterubricQuery;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public interface RubricService {
      * @param addrubricquery
      * @return
      */
-    Object addrubric(AddrubricQuery addrubricquery);
+    Result addrubric(AddrubricQuery addrubricquery);
 
     /**
      * 修改试题(三种试题)

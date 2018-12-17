@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @date 2018/12/7
  * 考试题干dao
  */
-public interface ExamrubricDao extends JpaRepository<Examrubric, String> {
+public interface ExamrubricDao extends JpaRepository<Examrubric, String>, JpaSpecificationExecutor<Examrubric> {
 
     @Query(value = "delete from examrubric_tb where id=?1", nativeQuery = true)
     @Modifying

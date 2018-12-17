@@ -19,7 +19,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "examanswer_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 @Accessors(chain = true)
 public class Examanswer {
 
@@ -41,5 +40,8 @@ public class Examanswer {
         this.id = id;
         this.optiones = optiones;
         this.content = content;
+    }
+
+    public Examanswer() {
     }
 }

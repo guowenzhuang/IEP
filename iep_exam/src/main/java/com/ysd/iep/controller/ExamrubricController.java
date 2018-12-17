@@ -76,13 +76,19 @@ public class ExamrubricController {
     /**
      * 新增考试试题(三中试题) 同时向题库中插入数据
      */
-    @RequestMapping(value = "/deleteexamrubric", method = RequestMethod.POST)
+    @RequestMapping(value = "/addexamrubricdouble", method = RequestMethod.POST)
     public Result addexamrubricdouble(AddrubricQuery addrubricquery) {
 
-        /* rubricservice.addrubric(addrubricquery);*/
-        /* Object ccc = examrubricservice.addexamrubric(addrubricquery);*/
+        Result rubricresult = rubricservice.addrubric(addrubricquery);
+        Result examrubricresult = examrubricservice.addexamrubric(addrubricquery);
 
-        return null;
+        /*examrubricresult.isSuccess();*/
+        if (rubricresult.isSuccess() || examrubricresult.isSuccess()) {
+            return new Result(true, "新增考试以及新增题库题成功!!!!", null);
+        } else {
+            return new Result(false, "新增考试以及新增题库题失败!!!!", null);
+
+        }
 
     }
 

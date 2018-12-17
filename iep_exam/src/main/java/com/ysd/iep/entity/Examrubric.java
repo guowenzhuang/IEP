@@ -25,7 +25,6 @@ import java.util.Set;
 @Entity
 @Table(name = "examrubric_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 @Accessors(chain = true)
 public class Examrubric {
     @Id
@@ -71,5 +70,8 @@ public class Examrubric {
         this.score = score;
         this.rubricttype = rubricttype;
 
+    }
+
+    public Examrubric() {
     }
 }
