@@ -9,6 +9,7 @@ import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.service.ExamrubricService;
+import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,8 @@ public class ExamrubricController {
 
     @Autowired
     ExamrubricService examrubricservice;
+    @Autowired
+    RubricService rubricservice;
 
 
     /**
@@ -54,11 +57,32 @@ public class ExamrubricController {
 
 
     /**
-     * 多条件分页查询所有考试试题
+     * 新增试题
      */
     @RequestMapping(value = "/addexamrubric", method = RequestMethod.POST)
     public Object addexamrubric(AddrubricQuery addrubricquery) {
         return examrubricservice.addexamrubric(addrubricquery);
+
+    }
+
+    /**
+     * 删除考试试题中的试题(根据id)
+     */
+    @RequestMapping(value = "/deleteexamrubric", method = RequestMethod.POST)
+    public Object deleteexamrubric(String examrubricid) {
+        return examrubricservice.deleteexamrubric(examrubricid);
+    }
+
+    /**
+     * 新增考试试题(三中试题) 同时向题库中插入数据
+     */
+    @RequestMapping(value = "/deleteexamrubric", method = RequestMethod.POST)
+    public Result addexamrubricdouble(AddrubricQuery addrubricquery) {
+
+        /* rubricservice.addrubric(addrubricquery);*/
+        /* Object ccc = examrubricservice.addexamrubric(addrubricquery);*/
+
+        return null;
 
     }
 

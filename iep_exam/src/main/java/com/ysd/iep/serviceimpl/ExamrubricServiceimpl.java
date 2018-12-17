@@ -37,7 +37,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     @Autowired
     ExamparperDao examparperdao;
 
-
+    /**
+     * 多条件分页查询考试试题
+     *
+     * @param rubricquery
+     * @param page
+     * @param rows
+     * @return
+     */
     @Override
     public Page<Examrubric> queryExamrubricByuserQuery(RubricQuery rubricquery, Integer page, Integer rows) {
         Pageable pageable = new PageRequest(page - 1, rows);
@@ -83,7 +90,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             }
         };
     }
-
 
     /**
      * 新增题目
@@ -295,6 +301,24 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
 
     }
+
+    /**
+     * 考试试题的删除
+     */
+    @Override
+    public Object deleteexamrubric(String examrubricid) {
+
+        Examrubric examrubric = examrubricdao.findById(examrubricid).get();
+        Integer r = examrubricdao.deletforexamrubricid(examrubricid);
+        if (r > 0) {
+            return new Result(true, "移除试题成功", null);
+        } else {
+            return new Result(false, "移除试题失败", null);
+
+        }
+
+    }
+
 
 
 }
