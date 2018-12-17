@@ -150,8 +150,16 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             }
         } else if (addrubricquery.getRubrictype().equals("多选题")) {
             try {
+                /**
+                 * 声明一个StringBuilder类型的变量,
+                 * 用来存储将id以逗号分隔连起来的字符串 就是这样 UUID,UUID
+                 */
 
                 StringBuilder answerid = new StringBuilder();
+                /**
+                 * 定义一个实体类ABCD,
+                 * 用来存放前台传来的在题库中的答案的id=>放在list集合中
+                 */
 
                 List<ABCD> ABCD = new ArrayList<>();
                 ABCD.add(new ABCD("A", addrubricquery.getAid()));
@@ -161,9 +169,18 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
 
                 StringBuilder list = new StringBuilder();
+                /**
+                 * 将前台传来的原来的正确答案的id(以逗号分隔的UUID)
+                 * 以逗号为标识截开放在String[]数组中,
+                 */
+
                 String ids = addrubricquery.getAnswerid();
                 String[] split = ids.split(",");
-
+                /**
+                 * 将ABCD遍历,然后拿其中的项的id也就是UUID 与  Strign[]数组中的项进行比较,
+                 *                 如果相等,将相等的ABCD中的这一项 的answer 也就是ABCD 取出
+                 *                 然后以逗号分隔形成一个StringBuilder的list
+                 */
                 for (int j = 0; j < ABCD.size(); j++) {
                     for (int l = 0; l < split.length; l++) {
 
@@ -192,8 +209,18 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 answers.add(new Examanswer(idlist.get(2), "C", addrubricquery.getAnswerC()));
                 answers.add(new Examanswer(idlist.get(3), "D", addrubricquery.getAnswerD()));
 
+                /**
+                 * 将上边的形成的以逗号隔开的型如 A,B,C,D 的list
+                 * 以逗号截取开然后形成一个 String 数组 cccc
+                 */
                 String[] cccc = list.toString().split(",");
 
+                /**
+                 * 将list遍历 然后拿 cccc中的项 与 answers项的 optiones 也就是ABCD进行比较,
+                 * 如果相等 将answers 中的这一项取出来,以逗号分隔,形成一个 形如  UUID,UUID,UUID
+                 * 的新的正确答案的字符串
+                 * id
+                 */
                 for (int p = 0; p < cccc.length; p++) {
                     for (int q = 0; q < answers.size(); q++) {
                         if (cccc[p].equals(answers.get(q).getOptiones())) {
