@@ -42,7 +42,6 @@ public class StudentPartController {
 		return cidList;
 		
 	}
-	
 
 	/**
 	 * 报名课程

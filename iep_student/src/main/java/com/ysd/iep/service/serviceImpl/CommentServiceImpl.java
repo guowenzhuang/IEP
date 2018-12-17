@@ -43,8 +43,7 @@ public class CommentServiceImpl implements CommentService {
 		Pageable pageable=PageRequest.of(page-1,size,	sort);
 		return commentRepository.findByCid(cid,pageable);
 	}
-    
-	
+
 	//针对某课程发表评价
 	@Override
 	public void addComment(StudentComment comment) {	
