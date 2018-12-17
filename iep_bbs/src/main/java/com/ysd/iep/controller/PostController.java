@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,15 +37,26 @@ public class PostController {
 	@RequestMapping(value="getAllPost",method=RequestMethod.POST)
 	public Object getAllPost(PostQuery postQuery,Integer page,Integer rows) {
 		
-		Page<Reply> posts = postService.queryAllPage(postQuery, page, rows);
+		Pageable pageable = new PageRequest(page - 1, rows);
+		Page<Post> posts = postService.queryAllPage(postQuery, pageable);
+		System.out.println("posts==>"+posts);
 		Map<String, Object> map = new HashMap<String, Object>();
 		long total = posts.getTotalElements();
-		List<Reply> list = posts.getContent();
-		for (Reply reply : list) {	//循环从点赞记录表中查询每个帖子的点赞数并添加到属性里
-			int likeNum=postService.getLikeNum(reply.getReplyId());
-			reply.setReplyLikenum(likeNum);
-			Post post2=reply.getPost();
-			BeanUtils.copyProperties(post2,reply);
+		List<Post> list = posts.getContent();
+		for (Post post : list) {
+			//查询出帖子详情添加进帖子对象
+			Reply postDetails=postService.getPostDetails(post.getPostId(), 0);
+			BeanUtils.copyProperties(postDetails,post);
+			//从点赞记录表中查询每个帖子的点赞数添加到属性里
+			int likeNum=postService.getLikeNum(post.getReplyId());			
+			post.setReplyLikenum(likeNum);
+			System.out.println("replyid"+post.getReplyId()+"  "+likeNum);
+			//将点赞数更新到数据库的字段里
+			postService.updateLikeNum(post.getReplyId(), likeNum);
+			//查询每个帖子举报数
+			int reportNum=postService.getReportNum(post.getReplyId());
+			post.setReplyReportnum(reportNum);
+			postService.updateReportNum(post.getReplyId(), reportNum);
 		}
 		map.put("total", total);
 		map.put("rows", list);
@@ -53,24 +66,14 @@ public class PostController {
 	 * 发表帖子
 	 */
 	@RequestMapping(value="insertPost")
-	public Object insertPost(Reply reply) {
-		Reply reply2=postService.insertPost(reply);
-		if(reply2!=null) {
+	public Object insertPost(String title, String content, Integer parentId, Integer postId, String userId) {
+		int n=postService.publicPost(title, content, parentId, postId, userId);
+		if(n>0) {
 			return new Result(true,"发表成功");
 		}else {
 			return new Result(false,"发表失败");
 		}
 		
-	}
-	
-	@RequestMapping(value="deletePost")
-	public Object deletePost(Integer replyId) {
-		int n=postService.deletePost("该帖子已被删除", replyId);
-		if(n>0) {
-			return new Result(true,"删除成功");
-		}else {
-			return new Result(false,"删除失败");
-		}
 	}
 
 }

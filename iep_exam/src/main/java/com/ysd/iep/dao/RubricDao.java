@@ -15,12 +15,7 @@ import java.util.List;
 
 public interface RubricDao extends JpaRepository<Rubric, String>, JpaSpecificationExecutor<Rubric> {
 
-    /**
-     * 根据试题类型查询试题
-     *
-     * @param rubricttype
-     * @return
-     */
+
 
 
 }

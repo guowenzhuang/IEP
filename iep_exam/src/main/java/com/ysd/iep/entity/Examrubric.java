@@ -61,4 +61,15 @@ public class Examrubric {
     private List<Examanswer> examanswers;//考试答案集合
 
 
+    public Examrubric(String id, String sectionId, Integer courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
+        this.id = id;
+        this.sectionId = sectionId;
+        this.courseId = courseId;
+        this.answerId = answerId;
+        this.content = content;
+        this.trcherId = trcherId;
+        this.score = score;
+        this.rubricttype = rubricttype;
+
+    }
 }

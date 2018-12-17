@@ -9,8 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @FeignClient("IEP-ADMIN")
 public interface AdminService {
-	
+	/**
+	 * 获取分类
+	 * @return
+	 */
 	@RequestMapping("/depart/getTop7")
 	public Object getCategory();
+	
+	/**
+	 *获取课程推荐
+	 */
+	
+	
 
 }

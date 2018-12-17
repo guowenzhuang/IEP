@@ -38,5 +38,9 @@ public class Examanswer {
     @JoinColumn(name = "examanswer_examrubric_id")
     private Examrubric examrubric;//答案所属的考试题干id
 
-
+    public Examanswer(String id, String optiones, String content) {
+        this.id = id;
+        this.optiones = optiones;
+        this.content = content;
+    }
 }

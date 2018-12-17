@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.StudentPart;
 import com.ysd.iep.entity.StudentPartCid;
-import com.ysd.iep.repository.StudentPartRepository;
 import com.ysd.iep.service.StudentPartService;
 import com.ysd.iep.util.Result;
 
@@ -67,6 +66,7 @@ public class StudentPartController {
 		} catch (Exception e) {
 			return new Result<String>(false, "报名失败");
 		}
+		
 	}
 	
     /**

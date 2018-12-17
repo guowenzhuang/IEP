@@ -26,6 +26,8 @@ public class RolesDB {
     private String string0;
     @ManyToMany(mappedBy = "rolesDBS",fetch = FetchType.LAZY)
     private List<UsersDB> usersDBS;
+    @Column(name = "status",columnDefinition = "int default 0")
+    private Integer status;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rolemodules",joinColumns = @JoinColumn(name = "roleId"),
