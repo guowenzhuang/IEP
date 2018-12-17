@@ -25,5 +25,10 @@ public interface ExamrubricService {
      */
     Object addexamrubric(AddrubricQuery addrubricquery);
 
+    /**
+     * 考试试题的删除
+     */
+    Object deleteexamrubric(String examrubricid);
+
 
 }
