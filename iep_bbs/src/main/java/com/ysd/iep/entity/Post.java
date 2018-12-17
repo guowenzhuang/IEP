@@ -18,6 +18,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -38,10 +41,8 @@ public class Post {
 	private Integer postId;
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:帖子标题' ")
 	private String postTitle;
-	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否置顶' ")
-	private String postIsstick;
-	@Column(columnDefinition="varchar(2) DEFAULT '否'  NOT NULL comment '备注:是否精选' ")
-	private String postIsselect;
+	@Column(columnDefinition="tinyint(1) DEFAULT '0'  NOT NULL comment '备注:是否置顶' ")
+	private boolean postIsstick;
 	
 	
 	@JsonIgnore
@@ -54,7 +55,23 @@ public class Post {
 	
 	@Transient
 	private String posttypeName;  //帖子分类名称
-	
+	@Transient
+	private Integer replyId;
+	@Transient
+	private String replyContent;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@Transient
+	private Timestamp replyTime;
+	@Transient
+	private Integer replyBrowse;
+	@Transient
+	private String userId;
+	@Transient
+	private Integer replyParentid;
+	@Transient
+	private Integer replyLikenum;
+	@Transient
+	private Integer replyReportnum;
 	
 	
 	

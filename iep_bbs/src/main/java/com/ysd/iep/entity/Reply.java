@@ -16,6 +16,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
@@ -36,12 +39,14 @@ public class Reply {
 	private Integer replyId;
 	@Column(columnDefinition="text NOT NULL comment '备注:回复内容' ")
 	private String replyContent;
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	@Column(columnDefinition="timestamp NOT NULL comment '备注:回复时间' ")
 	private Timestamp replyTime;
 	@Column(columnDefinition="int DEFAULT 0 NOT NULL comment '备注:浏览数' ")
 	private Integer replyBrowse;
-	@Column(columnDefinition="int NOT NULL comment '备注:回复人id' ")
-	private Integer userId;
+	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:回复人id' ")
+	private String userId;
 	@Column(columnDefinition="int NOT NULL comment '备注:回复的评论id' ")
 	private Integer replyParentid;
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:点赞数' ")
@@ -49,14 +54,6 @@ public class Reply {
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:举报数' ")
 	private Integer replyReportnum;
 	
-	@Transient
-	private Integer postId;
-	@Transient
-	private String postTitle;
-	@Transient
-	private String postIsstick;
-	@Transient
-	private String postIsselect;
 	
 	@JsonIgnore
 	@JsonUnwrapped

@@ -23,7 +23,6 @@ public class CourseService {
     public PagingResult<CourseDTO> query(CourseQuery courseQuery){
         System.out.println("courseQuery==>"+courseQuery);
         Map map= BeanConverterUtil.objectToMap(courseQuery);
-        Page<CourseDTO> paginate = teacherFeign.getPaginate(map);
-        return new PagingResult<CourseDTO>().setTotal(paginate.getTotalElements()).setRows(paginate.getContent());
+        return teacherFeign.getPaginate(map);
     }
 }
