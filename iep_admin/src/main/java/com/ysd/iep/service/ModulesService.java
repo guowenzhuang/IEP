@@ -26,7 +26,6 @@ public class ModulesService {
     private ModulesDao modulesDao;
 
     @Transactional(rollbackOn = Exception.class)
-
     public void  add(ModulesDB modulesDB){
         modulesDB.setStatus(0);
         modulesDao.save(modulesDB);
@@ -147,8 +146,10 @@ public class ModulesService {
      * 根据id删除模块
      * @param id 模块id
      */
+    @Transactional(rollbackOn = Exception.class)
     public void del(Integer id) {
-        modulesDao.deleteModule(id);//调用方法,修改状态
+        //调用方法,修改状态
+        modulesDao.deleteModule(id);
         List<ModulesDB> modulesDBS=modulesDao.findByParentId(id);
         modulesDBS.forEach(item ->{
             del(item.getId());
