@@ -30,7 +30,6 @@ public class Examanswer {
     private String optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
     private String content;//选项内容
-
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//考试题干id
     @JsonIgnore
