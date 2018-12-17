@@ -15,7 +15,16 @@ public class AddrubricQuery {
     private String answerB;
     private String answerC;
     private String answerD;
+
+    private String Aid;
+    private String Bid;
+    private String Cid;
+    private String Did;
+
+
     private String rubrictype;
     private String userid;
     private Integer course;
+    private Integer score;
+    private String parperid;
 }
