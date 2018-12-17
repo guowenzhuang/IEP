@@ -24,7 +24,6 @@ import java.util.Set;
 @Entity
 @Table(name = "examrubric_tb")
 @AllArgsConstructor
-@NoArgsConstructor
 public class Examrubric {
     @Id
     @Column(name = "Id", nullable = false, length = 50)
@@ -32,7 +31,7 @@ public class Examrubric {
     @Column(name = "SectionId", nullable = true, length = 50)
     private String sectionId;//章节id
     @Column(name = "CourseId", nullable = true, length = 50)
-    private String courseId;//课程id
+    private Integer courseId;//课程id
 
     @Column(name = "AnswerId", nullable = false, length = 50)
     private String answerId;//答案id
@@ -59,4 +58,15 @@ public class Examrubric {
     private List<Examanswer> examanswers;//考试答案集合
 
 
+    public Examrubric(String id, String sectionId, Integer courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
+        this.id = id;
+        this.sectionId = sectionId;
+        this.courseId = courseId;
+        this.answerId = answerId;
+        this.content = content;
+        this.trcherId = trcherId;
+        this.score = score;
+        this.rubricttype = rubricttype;
+
+    }
 }

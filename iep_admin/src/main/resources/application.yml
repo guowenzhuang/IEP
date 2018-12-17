@@ -25,6 +25,8 @@ eureka:
   instance:
     instance-id: iep-admin10300
     prefer-ip-address: true
+ribbon.ReadTimeout: 120000
+ribbon.ConnectTimeout: 30000
 #debug
 #logging:
 #  level:

@@ -3,6 +3,9 @@ package com.ysd.iep.dao;
 import com.ysd.iep.entity.Rubric;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author gaozhongye
@@ -11,4 +14,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 
 public interface RubricDao extends JpaRepository<Rubric, String>, JpaSpecificationExecutor<Rubric> {
+
+
+
+
 }

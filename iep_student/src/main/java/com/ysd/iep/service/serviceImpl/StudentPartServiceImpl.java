@@ -38,5 +38,11 @@ public class StudentPartServiceImpl implements StudentPartService {
          
 	}
 
+	@Override
+	public int count(Integer cid) {
+		// TODO Auto-generated method stub
+		return partRepository.count(cid);
+	}
+
 
 }

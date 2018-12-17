@@ -28,8 +28,8 @@ public class Like {
 	@GeneratedValue	//自动增长列
 	@Column(columnDefinition="int unsigned NOT NULL comment '备注:自动增长主键' ")
 	private Integer likeId;
-	@Column(columnDefinition="int NOT NULL comment '备注:用户id' ")
-	private Integer userId;
+	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:用户id' ")
+	private String userId;
 	
 	@JsonIgnore
 	@JsonUnwrapped

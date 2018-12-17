@@ -4,6 +4,7 @@ import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
 import com.ysd.iep.entity.query.CourseQuery;
+import com.ysd.iep.entity.vo.PagingResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
@@ -32,16 +33,16 @@ public interface TeacherFeign {
      *
      * @return
      */
-    @GetMapping("/course/getPaginate")
-    Page<CourseDTO> getPaginate(@RequestParam Map<String, Object> map);
+    @GetMapping("/course/queryDTO")
+    PagingResult<CourseDTO> getPaginate(@RequestParam Map<String, Object> map);
 
     /**
      * 新增老师
-     * @param teacherDTO
+     * @param tepId
      * @return
      */
     @PostMapping("/tea/addTeacher")
-    Result<String> AddTeacher(TeacherDTO teacherDTO);
+    Result<String> AddTeacher(@RequestParam("teaId")String tepId);
 
     /**
      * 删除老师
