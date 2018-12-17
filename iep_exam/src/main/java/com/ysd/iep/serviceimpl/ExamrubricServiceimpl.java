@@ -185,6 +185,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     idlist.add(UUIDUtils.getUUID());
                 }
 
+
                 List<Examanswer> answers = new ArrayList<>();
                 answers.add(new Examanswer(idlist.get(0), "A", addrubricquery.getAnswerA()));
                 answers.add(new Examanswer(idlist.get(1), "B", addrubricquery.getAnswerB()));

@@ -32,10 +32,10 @@ public class ExamParperControllerEr {
     public Object addparper(ExamParperSerch examParperSerch) {
         try {
             String id = UUIDUtils.getUUID();
-            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), null, "未开考", examParperSerch.getTotal(), null, null, new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
+            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), null, "未开放", examParperSerch.getTotal(), null, null, new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
 
             examparper.setExamrubricslist(null);
-            
+
 
             return new Result(true, "添加试卷成功", id);
 
