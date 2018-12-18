@@ -36,9 +36,7 @@ public class CommentController {
     public Object queryCommentByCid(Integer cid, Integer page, Integer size){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
-
         return rows;
-
     }
 
 

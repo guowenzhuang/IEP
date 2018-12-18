@@ -1,14 +1,16 @@
 package com.ysd.iep.controller;
 
 
+import com.ysd.iep.entity.Recommend;
+import com.ysd.iep.entity.dto.RecommendIndexDTO;
+import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
-import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysd.iep.service.AdminService;
+import java.util.List;
 
 /**
  * 首页控制器
@@ -45,8 +47,11 @@ public class HomeController {
 	/**
 	 *获取课程推荐
 	 */
-	@GetMapping("/")
+	@GetMapping("/queryTuiJian")
 	public Object queryTuiJian(){
+		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
+		List<Recommend> recommends001=recommendIndexDTO.getRecommend001();
+		System.out.println("一号位数据："+recommends001.size());
 
 		return "";
 	}
