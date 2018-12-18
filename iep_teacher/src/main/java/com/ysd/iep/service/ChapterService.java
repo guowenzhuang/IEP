@@ -8,5 +8,5 @@ public interface ChapterService {
 	/**
 	 * 查询章节
 	 */
-	public List<Chapters> querychapterTree();
+	public List<Chapters> querychapterTree(Integer courid);
 }
