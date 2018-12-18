@@ -1,8 +1,10 @@
 package com.ysd.iep.service;
 
-import com.ysd.iep.util.Result;
+import com.ysd.iep.entity.dto.Course;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 /**
  * 老师服务
@@ -11,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @FeignClient("IEP-TEACHER")
 public interface TeacherService {
+	/**
+	 * 获取推荐课程
+	 */
+	@GetMapping("/course/findCourseById")
+	public List<Course> findCourseById(List<String> courId);
+
 
 	/**
 	 * 获取老师

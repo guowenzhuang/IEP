@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 
 import com.ysd.iep.entity.Recommend;
+import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
 import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
@@ -46,22 +47,41 @@ public class HomeController {
 	}
 
 	/**
-	 *获取课程推荐
+	 *获取首页轮播
 	 */
-	@GetMapping("/queryTuiJian")
-	public Object queryTuiJian(){
+	@GetMapping("/queryShuffling")
+	public Object queryShuffling(){
 		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
 		List<Recommend> recommends001=recommendIndexDTO.getRecommend001();
 		System.out.println("一号位数据："+recommends001.size());
 
-		List<Integer> r1Ids= new ArrayList<Integer>();
+		List<String> r1Ids= new ArrayList<String>();
 		for (Recommend r1 : recommends001) {
-			r1Ids.add(r1.getCoursetId());
+			r1Ids.add(String.valueOf(r1.getCoursetId()));
 		}
+		System.out.println(r1Ids);
+		List<Course> list=teacherService.findCourseById(r1Ids);
+		return list;
+	}
 
+	/**
+	 * 获取首页课程推荐
+	 */
+	@GetMapping("/getRecommended")
+	public Object getRecommended(){
+		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
+		List<Recommend> recommends002=recommendIndexDTO.getRecommend002();
+		List<Integer> r2Ids= new ArrayList<Integer>();
+		for (Recommend r2 : recommends002) {
+			r2Ids.add(r2.getCoursetId());
+		}
+		System.out.println(r2Ids);
 
 		return "";
 	}
+
+
+
 
 	/**
 	 * 查询老师
