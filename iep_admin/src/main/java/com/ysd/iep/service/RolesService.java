@@ -1,5 +1,7 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.query.RolesQuery;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
  * @author 80795
  * @date 2018/11/12 8:55
  */
+@PermissionType("角色")
 @Service
 public class RolesService {
     @Autowired
@@ -38,6 +42,8 @@ public class RolesService {
      * @param midS   模块id集合
      */
     @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('role:setModule')")
+    @PermissionMethod("设置模块")
     public void setModule(String roleId, String midS) {
         rolesDao.deleteModuleByRolesId(roleId);
         String[] midsArr = midS.split(",");
@@ -56,6 +62,8 @@ public class RolesService {
      * @param uuid
      * @return
      */
+    @PreAuthorize("hasAuthority('role:queryUnAndNoqueryUn')")
+    @PermissionMethod("查询属于用户的角色和不属于用户的角色")
     public UserRoleVo queryUnAndNoqueryUn(String uuid) {
         List<RolesDB> beLogedRoles = rolesDao.findByUserId(uuid);
         List<String> names = beLogedRoles.stream().map(RolesDB::getName).collect(Collectors.toList());
@@ -68,6 +76,8 @@ public class RolesService {
         return userRoleVo;
     }
 
+    @PreAuthorize("hasAuthority('role:query')")
+    @PermissionMethod("角色查询")
     public PagingResult queryRolesPaging(RolesQuery rolesQuery) {
         Specification<RolesDB> specification = new Specification<RolesDB>() {
             @Override
@@ -93,11 +103,15 @@ public class RolesService {
     }
 
     @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('role:add')")
+    @PermissionMethod("角色新增")
     public void add(String name) {
         RolesDB rolesDB = new RolesDB().setName(name).setStatus(0);
         rolesDao.save(rolesDB);
     }
     @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('role:delete')")
+    @PermissionMethod("角色删除")
     public void delete(String uuid) {
         rolesDao.deleteStatus(uuid);
     }

@@ -40,7 +40,12 @@ public interface CourseService {
      * @return
      */
     Result insertCourse(Course course);
-
+    /**
+     * 修改课程
+     * @param course
+     * @return
+     */
+    Result updateCourse(Course course);
     /**
      *根据课程id查询课程
      * @param courId

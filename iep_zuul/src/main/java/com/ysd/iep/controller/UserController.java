@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -99,6 +100,7 @@ public class UserController {
      */
     @GetMapping("/me")
     public Object getCurrentUser(Authentication user,HttpServletRequest request) throws UnsupportedEncodingException {
+        System.out.println(user);
         String authorization = request.getHeader("Authorization");
         return JwtUtil.tokenConvert(authorization);
     }

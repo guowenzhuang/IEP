@@ -1,5 +1,7 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.ModulesDao;
 import com.ysd.iep.entity.dto.ModulesDTO;
 import com.ysd.iep.entity.po.ModulesDB;
@@ -9,6 +11,7 @@ import com.ysd.iep.entity.vo.ModuleTreeVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +22,7 @@ import java.util.List;
  * @author 80795
  * @date 2018/11/12 8:55
  */
+@PermissionType("模块")
 @Service
 @Slf4j
 public class ModulesService {
@@ -26,11 +30,15 @@ public class ModulesService {
     private ModulesDao modulesDao;
 
     @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('module:add')")
+    @PermissionMethod("模块新增")
     public void  add(ModulesDB modulesDB){
         modulesDB.setStatus(0);
         modulesDao.save(modulesDB);
     }
 
+    @PreAuthorize("hasAuthority('module:getToCascader')")
+    @PermissionMethod("模块查询级联框")
     public List<ModuleCascaderVo> getAllToCascader(){
         //最高级模块
         List<ModulesDB> modulesDBS = modulesDao.findByParentId(0);
@@ -58,6 +66,8 @@ public class ModulesService {
      * @param roleid 角色id
      * @return
      */
+    @PreAuthorize("hasAuthority('module:getAllCheckRole')")
+    @PermissionMethod("模块查询选中角色拥有")
     public ModuleTreeVo getAllCheckRole(String roleid) {
         //获取角色id拥有的模块id集合
         List<Integer> mIds = modulesDao.findModuleIds(roleid);
@@ -68,6 +78,8 @@ public class ModulesService {
         return moduleTreeVo;
     }
 
+    @PreAuthorize("hasAuthority('module:get')")
+    @PermissionMethod("模块查询")
     public List<ModulesDTO> getAll() {
         //最高级模块
         List<ModulesDB> modulesDBS = modulesDao.findByParentId(0);
@@ -92,7 +104,6 @@ public class ModulesService {
 
     /**
      * 根据角色名获取模块(树级)
-     *
      * @param roleName
      * @return
      */
@@ -123,11 +134,15 @@ public class ModulesService {
         });
     }
 
+    @PreAuthorize("hasAuthority('module:update')")
+    @PermissionMethod("模块修改")
     public void update(ModulesDB modulesDB) {
         modulesDB.setStatus(0);
         modulesDao.save(modulesDB);
     }
 
+    @PreAuthorize("hasAuthority('module:getParentId')")
+    @PermissionMethod("根据id查询所有的父级id")
     public List<Integer> get(Integer mid) {
         List<Integer> ids=new ArrayList<>();
         getParentId(mid,ids);
@@ -146,7 +161,9 @@ public class ModulesService {
      * 根据id删除模块
      * @param id 模块id
      */
+    @PreAuthorize("hasAuthority('module:del')")
     @Transactional(rollbackOn = Exception.class)
+    @PermissionMethod("模块删除")
     public void del(Integer id) {
         //调用方法,修改状态
         modulesDao.deleteModule(id);

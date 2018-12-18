@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,4 +24,5 @@ public class UserInfo implements Serializable {
     private String protectEMail;
     @JsonIgnore
     private String protectMTel;
+    private ArrayList<String> roleNames=new ArrayList<>();
 }
