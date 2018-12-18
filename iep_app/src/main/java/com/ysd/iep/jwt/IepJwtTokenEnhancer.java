@@ -24,7 +24,6 @@ public class IepJwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String,Object> info=new HashMap<>();
-        info.put("authorities",oAuth2Authentication.getAuthorities());
         String name=oAuth2Authentication.getName();
         UserInfo userInfo= (UserInfo) redisTemplate.opsForValue().get("login_"+name);
         info.put("info",userInfo);

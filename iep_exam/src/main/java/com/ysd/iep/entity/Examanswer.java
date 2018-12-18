@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "examanswer_tb")
 @AllArgsConstructor
-
+@Accessors(chain = true)
 public class Examanswer {
 
     @Id
@@ -28,7 +29,6 @@ public class Examanswer {
     private String optiones;//选项(ABCD)
     @Column(name = "Content", nullable = false, length = 50)
     private String content;//选项内容
-
     //@Column(name = "RubricId", nullable = false, length = 50)
     //private String RubricId;//考试题干id
     @JsonIgnore
@@ -40,5 +40,8 @@ public class Examanswer {
         this.id = id;
         this.optiones = optiones;
         this.content = content;
+    }
+
+    public Examanswer() {
     }
 }

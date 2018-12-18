@@ -55,8 +55,8 @@ public class CourseController {
         return adminFeign.getMenu();
     }
     @ApiOperation(value = "删除课程")
-     @DeleteMapping("/deleteCourseById")
-    public void deleteC(Integer courId){
+     @RequestMapping("/deleteCourseById")
+    public void deleteC(@RequestParam("courId")Integer courId){
         courseService.deleteById(courId);
     }
     @ApiOperation(value = "增加课程")
@@ -65,6 +65,12 @@ public class CourseController {
         // UUID.randomUUID().toString();
         Result add = courseService.insertCourse(course);
         //teachersService.insertTeacher(teachers);
+        return  new Result(true);
+    }
+    @ApiOperation(value = "修改课程")
+    @PostMapping("updateCourseAll")
+    public Result updateCourseAll(Course course){
+        Result add = courseService.updateCourse(course);
         return  new Result(true);
     }
     /**

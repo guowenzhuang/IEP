@@ -20,10 +20,8 @@ public class PermissionDB {
     private String permissionId;
     @Column(name = "permissionValue", nullable = true, length = 50)
     private String permissionValue;
-    @Column(name = "permissionModule", nullable = true, length = 50)
-    private String permissionModule;
-    @Column(name = "permissionName", nullable = true, length = 50)
-    private String permissionName;
+    private String typeName;
+    private String methodName;
     @Column(name = "permissionLastUpdateTime", nullable = true,insertable=false)
     private Timestamp permissionLastUpdateTime;
 

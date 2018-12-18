@@ -1,5 +1,7 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
 import com.ysd.iep.entity.dto.*;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +37,8 @@ import java.util.stream.Collectors;
  * @author 80795
  * @date 2018/11/12 8:55
  */
+@PermissionType("用户")
 @Service
-@SuppressWarnings({"ALL", "AlibabaTransactionMustHaveRollback"})
 public class UsersService {
     @Autowired
     private UsersDao usersDao;
@@ -47,6 +50,8 @@ public class UsersService {
     private TeacherFeign teacherFeign;
 
 
+    @PreAuthorize("hasAuthority('user:query')")
+    @PermissionMethod("查询")
     public PagingResult<UsersVo> query(UsersQuery usersQuery) {
         Specification<UsersDB> specification = new Specification<UsersDB>() {
             @Override
@@ -133,7 +138,9 @@ public class UsersService {
      * @param fieldValue
      * @return
      */
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('user:updateUserField')")
+    @PermissionMethod("修改某一字段")
     public Result updateUserField(String uuid, String fieldName, String fieldValue) {
         UsersDB usersDB = usersDao.findById(uuid).get();
         Result result = new Result().setSuccess(false);
@@ -151,6 +158,8 @@ public class UsersService {
     }
 
     @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('user:setRole')")
+    @PermissionMethod("设置角色")
     public void setRoles(String uuid, String roleIds, String direction) {
         System.out.println("uuid==>"+uuid);
         String[] ids = roleIds.split(",");
@@ -190,7 +199,9 @@ public class UsersService {
      *
      * @param usersDB
      */
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('user:add')")
+    @PermissionMethod("新增用户")
     public void add(UsersDB usersDB) {
         String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
         usersDB.setPassword(password);
@@ -205,7 +216,9 @@ public class UsersService {
      *
      * @param uuid
      */
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('user:delete')")
+    @PermissionMethod("用户删除")
     public void delete(String uuid) {
         usersDao.deleteStatus(uuid);
     }
@@ -215,7 +228,9 @@ public class UsersService {
      *
      * @param usersUpdateDTO
      */
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('user:update')")
+    @PermissionMethod("用户修改")
     public void update(UsersUpdateDTO usersUpdateDTO) {
         UsersDB usersDB = usersDao.findTopByLoginName(usersUpdateDTO.getLoginName());
         usersDB.setProtectEMail(usersUpdateDTO.getProtectEMail());

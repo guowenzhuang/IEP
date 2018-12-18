@@ -14,6 +14,13 @@ public interface ChapterRepository extends JpaRepository<Chapters, Integer>{
 	 * @param parentId
 	 * @return
 	 */
-	@Query(value = "SELECT * FROM chaptertb WHERE cha_parentid=?1  ORDER BY cha_id asc", nativeQuery = true)
-	public List<Chapters> queryTreeChildrenById(Integer parentId);
+	@Query(value = "SELECT * FROM chaptertb WHERE cha_parentid=?1 and cha_courid=?2   ORDER BY cha_id asc", nativeQuery = true)
+	public List<Chapters> queryTreeChildrenById(Integer parentId,Integer courId);
+	
+	/**
+	 * 根据课程Id查章节
+	 * @param chaCourid
+	 * @return
+	 */
+	List<Chapters> findByChaCourid(Integer courid);
 }
