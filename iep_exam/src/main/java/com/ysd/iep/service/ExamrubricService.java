@@ -27,6 +27,11 @@ public interface ExamrubricService {
     Result addexamrubric(AddrubricQuery addrubricquery);
 
     /**
+     * 新增考试题干(新增考试题(仅对新增多选单选))
+     */
+    Result addexamrubricjudegepack(AddrubricQuery addrubricquery);
+
+    /**
      * 考试试题的删除
      */
     Object deleteexamrubric(String examrubricid);

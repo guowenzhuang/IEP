@@ -78,18 +78,23 @@ public class ExamrubricController {
      */
     @RequestMapping(value = "/addexamrubricdouble", method = RequestMethod.POST)
     public Result addexamrubricdouble(AddrubricQuery addrubricquery) {
+        Result examrubricresult = null;
+        Result examrubricresultdouble = null;
 
         Result rubricresult = rubricservice.addrubric(addrubricquery);
-        Result examrubricresult = examrubricservice.addexamrubric(addrubricquery);
+
+        if (addrubricquery.getRubrictype() == "填空题" && addrubricquery.getRubrictype() == "判断题") {
+            examrubricresult = examrubricservice.addexamrubric(addrubricquery);
+        } else {
+            examrubricresultdouble = examrubricservice.addexamrubricjudegepack(addrubricquery);
+        }
 
         /*examrubricresult.isSuccess();*/
-        if (rubricresult.isSuccess() || examrubricresult.isSuccess()) {
+        if (rubricresult.isSuccess() || examrubricresult.isSuccess() || examrubricresultdouble.isSuccess()) {
             return new Result(true, "新增考试以及新增题库题成功!!!!", null);
         } else {
             return new Result(false, "新增考试以及新增题库题失败!!!!", null);
-
         }
-
     }
 
 
