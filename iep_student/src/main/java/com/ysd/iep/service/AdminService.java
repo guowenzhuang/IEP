@@ -2,9 +2,8 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 /**
  * 调管理员服务
@@ -23,7 +22,7 @@ public interface AdminService {
 	/**
 	 *获取课程推荐id
 	 */
-	@RequestMapping("/recommend/index")
+	@GetMapping("/recommend/index")
 	public RecommendIndexDTO getRecommentIndex();
 	
 

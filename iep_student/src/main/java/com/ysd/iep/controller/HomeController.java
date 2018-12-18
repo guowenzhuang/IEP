@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,10 +54,14 @@ public class HomeController {
 		List<Recommend> recommends001=recommendIndexDTO.getRecommend001();
 		System.out.println("一号位数据："+recommends001.size());
 
+		List<Integer> r1Ids= new ArrayList<Integer>();
+		for (Recommend r1 : recommends001) {
+			r1Ids.add(r1.getCoursetId());
+		}
+
+
 		return "";
 	}
-
-
 
 	/**
 	 * 查询老师
@@ -69,6 +74,5 @@ public class HomeController {
 
 		return "";
 	}
-	
 
 }
