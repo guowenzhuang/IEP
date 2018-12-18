@@ -19,14 +19,10 @@ public class ChapterServiceImpl implements ChapterService{
 	 * @return
 	 */
 	@Override
-	public List<Chapters> querychapterTree() {
-		List<Chapters> rootList =null;
-		rootList = chaperRepo.findAll();
-		//查询出所有根菜单
-		rootList = chaperRepo.queryTreeChildrenById(0);
-		// 递归设置子菜单
-		this.setTreeChildrens(rootList);
-		System.out.println("rootList==>" + rootList);
+	public List<Chapters> querychapterTree(Integer courid) {
+		List<Chapters> rootList = chaperRepo.queryTreeChildrenById(0,courid);
+		System.out.println("查询出所有根菜单rootList==>" + rootList);
+		this.setTreeChildrens(rootList,courid);
 		return rootList;
 	}
 
@@ -34,10 +30,10 @@ public class ChapterServiceImpl implements ChapterService{
 	 * 给菜单模块 设置孩子
 	 * @param parentList
 	 */
-	private void setTreeChildrens(List<Chapters> parentList) {
+	private void setTreeChildrens(List<Chapters> parentList,Integer courId) {
 		for (Chapters c : parentList) {
 			//查出子菜单
-			List<Chapters> childrenList=chaperRepo.queryTreeChildrenById(c.getChaId());
+			List<Chapters> childrenList=chaperRepo.queryTreeChildrenById(c.getChaId(),courId);
 			// 如果没有子菜单则递归结束
 			if (childrenList == null || childrenList.isEmpty()) {// 有子菜单
 			} else {
@@ -45,7 +41,7 @@ public class ChapterServiceImpl implements ChapterService{
 				System.out.println("设置的子菜单是=>" + childrenList);
 				c.setChildren(childrenList);
 				// 如果有子菜单则继续递归设置子菜单
-				this.setTreeChildrens(childrenList);
+				this.setTreeChildrens(childrenList,courId);
 			}
 		}
 		

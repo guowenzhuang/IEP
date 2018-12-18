@@ -49,7 +49,7 @@ public class Course implements Serializable{
 	private String courIsputaway;//是否上架
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:开课时间'")
 	private String courOpentime;//开课时间
-	@Column(columnDefinition="varchar(50)  NULL comment '备注:学时'")
+	@Column(columnDefinition="varchar(50)  NULL comment '备注:学 时'")
 	private String courClasshour;//学时
 	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'") 
 	private Integer courCommentcount;//课程评价数量
