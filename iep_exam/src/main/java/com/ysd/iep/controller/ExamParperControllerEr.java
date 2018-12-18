@@ -30,12 +30,15 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/addparper", method = RequestMethod.POST)
     public Object addparper(ExamParperSerch examParperSerch) {
+
+        System.out.println("********************" + examParperSerch.getDuration());
         try {
             String id = UUIDUtils.getUUID();
-            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), null, "未开考", examParperSerch.getTotal(), null, null, new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
-
+            /*弄出来一个新的考试试卷对象*/
+            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), examParperSerch.getDuration(), "未开放", examParperSerch.getTotal(), null, null, new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
+            /*将考试试卷的考试试题集合置空*/
             examparper.setExamrubricslist(null);
-            
+
 
             return new Result(true, "添加试卷成功", id);
 

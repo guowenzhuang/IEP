@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.AddrubricQuery;
+import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import org.springframework.data.domain.Page;
 
@@ -23,7 +24,17 @@ public interface ExamrubricService {
     /**
      * 新增考试题干
      */
-    Object addexamrubric(AddrubricQuery addrubricquery);
+    Result addexamrubric(AddrubricQuery addrubricquery);
+
+    /**
+     * 新增考试题干(新增考试题(仅对新增多选单选))
+     */
+    Result addexamrubricjudegepack(AddrubricQuery addrubricquery);
+
+    /**
+     * 考试试题的删除
+     */
+    Object deleteexamrubric(String examrubricid);
 
 
 }
