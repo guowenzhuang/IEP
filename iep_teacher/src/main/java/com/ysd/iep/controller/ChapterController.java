@@ -28,8 +28,9 @@ public class ChapterController {
 	     */
 	    @ApiOperation(value = "查询章节")
 	    @GetMapping("/queryChapter")
-	    public List<Chapters> queryChapter() {
-			return chapterService.querychapterTree();
+	    public List<Chapters> queryChapter(Integer courId) {
+	    	System.out.println("课程id>>>>>>>>>>"+courId);
+			return chapterService.querychapterTree(courId);
 	    	
 	    }
 }
