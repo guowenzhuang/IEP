@@ -6,11 +6,9 @@ import com.ysd.iep.service.CommentService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -36,10 +34,24 @@ public class CommentController {
     public Object queryCommentByCid(Integer cid, Integer page, Integer size){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
-
         return rows;
+    }
+
+    /**
+     * 发表评论
+     * http://localhost:80/api/student/comment/addComment
+     * @param comment
+     * @return
+     */
+    @PostMapping("/addComment")
+    public Object postCommentByCid(StudentComment comment ){
+        System.out.println("评论"+comment);
+      return commentService.addComment(comment);
+
+
 
     }
+
 
 
 
