@@ -1,5 +1,6 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.PagingResult;
@@ -27,6 +28,8 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private AdminFeign adminFeign;
+    @Autowired
+    private CourseRepository courseRepository;
     /**
      * @param courseQuery
      * @return
@@ -107,6 +110,10 @@ public class CourseController {
         return new Result<List<Course>>(true,list);
     }
 
-
+       @ApiOperation(value = "提供 根据课程id修改报名人数")
+       @PutMapping("updateCourStudypeople")
+        public void updateCourStudypeople(@RequestParam("courId")Integer courId){
+          courseRepository.updateCourStudypeople(courId);
+      }
 }
 

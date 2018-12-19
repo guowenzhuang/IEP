@@ -25,6 +25,7 @@ public class ExamParperSerch {
     private Integer fillnumresource;//填空题每题分数
     private Integer multiplenum;//多选题数量
     private Integer multiplenumresource;//多选题每题分数
+    private String teacherId;//教师id
     private Integer page;
     private Integer rows;
 }

@@ -70,7 +70,7 @@ public class Examparper {
     private Integer examshortesttime;//考试最短可交卷时间
 
     //@JsonIgnore
-    @OneToMany(mappedBy = "examparper", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "examparper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Examrubric> examrubricslist;//一张卷子可以有多到题干
 
 }
