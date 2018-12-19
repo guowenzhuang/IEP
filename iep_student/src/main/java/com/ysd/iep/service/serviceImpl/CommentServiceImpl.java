@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
+import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,14 +47,18 @@ public class CommentServiceImpl implements CommentService {
 
 	//针对某课程发表评价
 	@Override
-	public void addComment(StudentComment comment) {	
+	public Result addComment(StudentComment comment) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		try {
-			Date time=df.parse(df.format(new Date()));
-			comment.setMtime(time);	
+			Date time=df.parse(df.format(new Date()));//发表评价的时间
+			comment.setMtime(time);
+			comment.setPraise(comment.getPraise()+1);
 			commentRepository.save(comment);
+			System.out.println("commentService"+comment);
+			return new Result(true,"发表成功");
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return new Result(false,"发表失败");
 		}
 	}
 	
