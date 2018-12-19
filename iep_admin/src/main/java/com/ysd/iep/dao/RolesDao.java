@@ -64,9 +64,13 @@ public interface RolesDao extends BaseDao<RolesDB, String> {
      * @param roleId
      * @param permissionId
      */
-    @Transactional
+
     @Modifying
     @Query(value = "insert into rolepermission (RoleId, permissionId) values (:roleId,:permissionId);", nativeQuery = true)
     void insertPermission(@Param("roleId") String roleId, @Param("permissionId") String permissionId);
+
+    @Modifying
+    @Query(value = "delete from rolepermission where roleId=:roleId",nativeQuery = true)
+    void deletePermissionByRolesId(@Param("roleId") String roleId);
 
 }

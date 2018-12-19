@@ -1,5 +1,8 @@
 package com.ysd.iep;
 
+import com.ysd.iep.service.ModulesService;
+
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,12 +13,10 @@ import java.util.Set;
 public class Test {
     @org.junit.Test
     public void testset(){
-        Set<String> roleSet = new HashSet<>();
-        roleSet.add("{authority=ROLE_ADMIN}");
-        String defaultedRole="{authority=ROLE_ADMIN}";
-        if (roleSet.contains(defaultedRole)) {
-            System.out.println("as");
+        Class z=ModulesService.class;
+        Method[] methods=z.getDeclaredMethods();
+        for (Method method:methods) {
+            System.out.println(method);
         }
-        System.out.println("false");
     }
 }
