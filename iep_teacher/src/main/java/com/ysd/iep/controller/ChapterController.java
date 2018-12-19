@@ -3,9 +3,7 @@ package com.ysd.iep.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.dto.Result;
@@ -33,4 +31,11 @@ public class ChapterController {
 			return chapterService.querychapterTree(courId);
 	    	
 	    }
+	@ApiOperation(value = "增加章节")
+	@PostMapping("addChapters")
+	public Result addChapters(Chapters chapters){
+		chapterService.insertChapters(chapters);
+		return new Result(true);
+	}
+
 }
