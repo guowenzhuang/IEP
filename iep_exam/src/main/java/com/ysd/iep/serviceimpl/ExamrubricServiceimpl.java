@@ -306,8 +306,10 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      */
     @Override
     public Result addexamrubricjudegepack(AddrubricQuery addrubricquery) {
-        if (addrubricquery.getRubrictype().equals("单选题")) {
 
+
+        if (addrubricquery.getRubrictype().equals("单选题")) {
+            System.out.println(addrubricquery);
             String id = "";
 
             List<String> idlist = new ArrayList<>();
@@ -323,13 +325,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             answers.add(new Examanswer(idlist.get(3), "D", addrubricquery.getAnswerD()));
 
             for (int j = 0; j < answers.size(); j++) {
-
-                if (addrubricquery.getAnswerid() == answers.get(j).getOptiones()) {
+                if (addrubricquery.getAnswerid().equals(answers.get(j).getOptiones())) {
                     id = answers.get(j).getId();
                 }
             }
+            System.out.println("单选答案id*******************" + id);
             try {
                 Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+
                 rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
                 Examrubric rubric1 = examrubricdao.save(rubric);
 
@@ -421,11 +424,13 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
     }
 
+
     /**
      * 考试试题的删除
      */
     @Override
     public Object deleteexamrubric(String examrubricid) {
+
 
         Examrubric examrubric = examrubricdao.findById(examrubricid).get();
         Integer r = examrubricdao.deletforexamrubricid(examrubricid);
