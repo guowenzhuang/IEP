@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 		try {
 			Date time=df.parse(df.format(new Date()));//发表评价的时间
 			comment.setMtime(time);
-			comment.setPraise(comment.getPraise()+1);
+			//comment.setPraise(comment.getPraise()+1);
 			commentRepository.save(comment);
 			System.out.println("commentService"+comment);
 			return new Result(true,"发表成功");

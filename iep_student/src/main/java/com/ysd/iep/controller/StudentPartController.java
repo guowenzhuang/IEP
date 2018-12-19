@@ -30,13 +30,14 @@ public class StudentPartController {
 	private TeacherService teacherService;
 	
 	/**
+	 * http://127.0.0.1:80/api/student/studentPart/query
 	 * 根据学生id查询报名表返回课程id集合
 	 * @param sid
 	 * @return
 	 */
 	@GetMapping("/query")
 	public Object queryStudentPart(@RequestParam("sid")String sid) {
-		List<StudentPartCid> cidList=s.queryStudentPart(sid);	
+		List<StudentPartCid> cidList=s.queryStudentPart(sid);
 		return cidList;
 		
 	}
@@ -57,15 +58,15 @@ public class StudentPartController {
 	 * @param sid    http://127.0.0.1:80/api/student/studentPart/add
 	 */
 	@PostMapping("/add")
-	public Object add(@RequestParam("courId")Integer courId,@RequestParam("sid")String sid) {	
+	public Object add(@RequestParam("courId")Integer courId,@RequestParam("sid")String sid) {
 		try {
 			s.add(courId,sid);
 			teacherService.updateStudypeople(courId);
-			return new Result<String>(true, "报名成功");
+			return new Result<String>(true, "进入学习");
 		} catch (Exception e) {
 			return new Result<String>(false, "报名失败");
 		}
-		
+
 	}
 	
     /**

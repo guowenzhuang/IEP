@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.entity.dto.Course;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,8 +25,8 @@ public interface TeacherService {
 	/**
 	 * 报名参加时修改课程报名人数
 	 */
-	@RequestMapping("/course/updateCourStudypeople")
-	public void updateStudypeople(Integer courId);
+	@PutMapping("/course/updateCourStudypeople")
+	public void updateStudypeople(@RequestParam("courId")Integer courId);
 
 
 	/**

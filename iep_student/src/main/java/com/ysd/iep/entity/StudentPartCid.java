@@ -5,7 +5,6 @@ package com.ysd.iep.entity;
  *
  */
 public interface StudentPartCid {
-	
 	Integer getCid();
 
 }

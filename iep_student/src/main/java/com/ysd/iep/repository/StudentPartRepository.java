@@ -14,7 +14,7 @@ import com.ysd.iep.entity.StudentPartCid;
  */
 public interface StudentPartRepository extends JpaRepository<StudentPart, Integer> {
 	
-	@Query(value=" SELECT s.cid FROM StudentPart as s ")
+	@Query(value=" SELECT s.cid as cid FROM StudentPart as s ")
 	public List<StudentPartCid> findBySid(String sid);
 
 	//报名此课程的人数
