@@ -41,7 +41,7 @@ public class Post {
 	private Integer postId;
 	@Column(columnDefinition="varchar(50) NOT NULL comment '备注:帖子标题' ")
 	private String postTitle;
-	@Column(columnDefinition="tinyint(1) DEFAULT '0'  NOT NULL comment '备注:是否置顶' ")
+	@Column(columnDefinition="tinyint(1) DEFAULT 0  NOT NULL comment '备注:是否置顶' ")
 	private boolean postIsstick;
 	
 	

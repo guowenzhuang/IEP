@@ -56,4 +56,10 @@ public class RoleController {
         return new Result<String>(true).setMessage("成功");
     }
 
+    @PostMapping("/setPermission/{roleiId}")
+    public Result<String> setPermission(@PathVariable("roleiId") String roleiId,@RequestParam("pids") String pids){
+        rolesService.setPermission(roleiId,pids);
+        return new Result(true,"成功");
+    }
+
 }
