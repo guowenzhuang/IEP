@@ -104,6 +104,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Result updateCourse(Course course) {
+
+        Course c=coursedao.getOne(course.getCourId());
+        c.setCourName(course.getCourName());
+        c.setCourPrice(course.getCourPrice());
+        coursedao.save(c);
+        return new Result(true);
+    }
+
+    @Override
     public List<Course> findByCourseId(String courId) {
         List<Course> dd = new ArrayList<Course>();
         if (courId != null && courId != "") {

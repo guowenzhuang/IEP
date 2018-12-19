@@ -15,6 +15,9 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 public class Recommend {
+    /**
+     * id
+     */
     @Id
     @Column(name = "id", nullable = false, length = 100)
     @GenericGenerator(name="idGenerator", strategy="uuid")
@@ -28,4 +31,8 @@ public class Recommend {
      * 推荐位置id
      */
     private String positionId;
+    /**
+     * 权重
+     */
+    private Integer weight;
 }

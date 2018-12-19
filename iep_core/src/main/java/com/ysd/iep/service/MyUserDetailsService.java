@@ -87,10 +87,10 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     }
 
     private SocialUserDetails buildUser(UserInfo userInfo) {
-        redisTemplate.opsForValue().set("login_"+userInfo.getName(),userInfo);
         StringBuffer permissStringBuffer = new StringBuffer();
         String rolesSql = "select id, name from  roles where id in (select RoleId from userroles where userid=?)";
         jdbcTemplate.query(rolesSql, new Object[]{userInfo.getId()}, (RowMapper<String>) (rs, rowNum) -> {
+                    userInfo.getRoleNames().add(rs.getString("name"));
                     permissStringBuffer.append("ROLE_" + rs.getString("name") + ",");
                     String qxSql = "select permissionValue from permission WHERE permissionId in (select permissionId FROM rolepermission where roleId=?)";
                     jdbcTemplate.query(qxSql, new Object[]{rs.getString("id")}, (RowMapper<String>) (qrs, qrowNum) -> {
@@ -100,17 +100,18 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
                     return "";
                 }
         );
+        redisTemplate.opsForValue().set("login_" + userInfo.getName(), userInfo);
         String permissString = permissStringBuffer.toString();
-        if(!permissString.trim().equals("")){
+        if (!permissString.trim().equals("")) {
             permissString = permissString.substring(0, permissString.length() - 1);
         }
 
-        if(userInfo.getIsLockout().equals("是")){
+        if (userInfo.getIsLockout().equals("是")) {
             return new SocialUser(userInfo.getName(), userInfo.getPassword(),
                     true, true, true, false,
                     AuthorityUtils.commaSeparatedStringToAuthorityList(permissString));
         }
-        jdbcTemplate.update("update users set lastLoginTime=? WHERE Id=?",new Object[]{new Date(),userInfo.getId()});
+        jdbcTemplate.update("update users set lastLoginTime=? WHERE Id=?", new Object[]{new Date(), userInfo.getId()});
         return new SocialUser(userInfo.getName(), userInfo.getPassword(),
                 true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissString));
