@@ -4,6 +4,7 @@ import com.ysd.iep.entity.po.DepartmentDB;
 import com.ysd.iep.entity.po.PermissionDB;
 import com.ysd.iep.entity.vo.PermissionChildrenVo;
 import com.ysd.iep.entity.vo.PermissionVo;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,5 +24,9 @@ public interface PermissionDao extends BaseDao<PermissionDB, String> {
 
     @Query(value = "select permissionId from rolepermission where roleId =:roleId",nativeQuery = true)
     List<String> findByRoleId(@Param("roleId")String roleId);
+
+    @Modifying
+    @Query(value = "insert into permission(permissionId, permissionValue, typeName, methodName) values (:#{#p.permissionId},:#{#p.permissionValue},:#{#p.typeName},:#{#p.methodName})",nativeQuery = true)
+    void insert(@Param("p") PermissionDB permissionDB);
 
 }

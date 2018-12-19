@@ -37,11 +37,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 */
 
 	public List<Course> findByCourTeaid(String teaId);
+
 	/**
-	 *
-	 *//*
-	@Transactional
+	 * 根据课程id修改报名人数
+	 * @param courId
+	 */
+	@Query(value = "UPDATE coursetb SET cour_studypeople=cour_studypeople+1 WHERE cour_id=?1", nativeQuery = true)
 	@Modifying
-	@Query(value="update  coursetb set cour_name=#{#course.cour_name},cour_price=#{#course.cour_price},cour_details=#{#course.cour_details} where cour_id=#{#course.cour_id} ",nativeQuery=true)
-	int updateCourse(Course course);*/
+	@Transactional
+	 public void updateCourStudypeople(Integer courId);
+
 }

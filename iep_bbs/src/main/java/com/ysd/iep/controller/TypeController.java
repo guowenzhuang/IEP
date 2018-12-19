@@ -15,7 +15,10 @@ import com.ysd.iep.service.TypeService;
 public class TypeController {
 	@Autowired
 	private TypeService typeService;
-	
+	/**
+	 *   获取全部分类
+	 * @return
+	 */
 	@RequestMapping(value="getAllType")
 	public Object getAllType() {
 		List<Typetb> typeList=typeService.getAllType();
