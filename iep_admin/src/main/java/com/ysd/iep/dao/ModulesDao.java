@@ -1,6 +1,7 @@
 package com.ysd.iep.dao;
 
 import com.ysd.iep.entity.po.ModulesDB;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -43,4 +44,8 @@ public interface ModulesDao extends BaseDao<ModulesDB,Integer> {
      */
     @Query(value = "select ModuleId from rolemodules where RoleId=:roleId",nativeQuery = true)
     List<Integer> findModuleIds(@Param(("roleId")) String roleId);
+
+    @Modifying
+    @Query("update ModulesDB set status=1 where id=:id")
+    void deleteModule(@Param("id")Integer id);
 }
