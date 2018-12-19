@@ -15,7 +15,8 @@ public class AdminAuthorizeConfigProvider implements AuthorizeConfigProvider {
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
                 .antMatchers("/recommend",
-                        "/recommend/index")
+                        "/recommend/index",
+                        "/user/getNameById")
                 .permitAll();
     }
 }

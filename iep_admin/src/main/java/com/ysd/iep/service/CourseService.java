@@ -27,7 +27,6 @@ public class CourseService {
     @PreAuthorize("hasAuthority('cource:query')")
     @PermissionMethod("课程查询")
     public PagingResult<CourseDTO> query(CourseQuery courseQuery){
-        System.out.println("courseQuery==>"+courseQuery);
         Map map= BeanConverterUtil.objectToMap(courseQuery);
         return teacherFeign.getPaginate(map);
     }
