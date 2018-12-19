@@ -50,6 +50,16 @@ public class UsersController {
         return new Result<List<UsersDTO>>(true,usersService.userById(ids));
     }
 
+    @ApiOperation("根据用户id获取用户的姓名")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "query",dataType = "String")
+    })
+    @GetMapping("/getNameById")
+    public Result<String> getNameById(@RequestParam("id") String id){
+        List<UsersDTO> usersDTOS=usersService.userById(id);
+        return new Result<>(true,usersDTOS.get(0).getLoginName());
+    }
+
     @PostMapping
     public Result<String> add(@RequestBody UsersDB usersDB){
         usersService.add(usersDB);
