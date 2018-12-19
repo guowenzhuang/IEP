@@ -53,6 +53,8 @@ public class Reply {
 	private Integer replyLikenum;
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:举报数' ")
 	private Integer replyReportnum;
+	@Column(columnDefinition="tinyint(1) DEFAULT 0  comment '备注:是否被删除' ")
+	private Boolean isDelete;
 	
 	
 	@JsonIgnore
@@ -68,6 +70,13 @@ public class Reply {
 	@JsonIgnore
 	@OneToMany(mappedBy="reply",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Report> reportList;  //举报记录列表
+	
+	@Transient
+	private Boolean isReply;	//判断回复的是帖子或是回复
+	@Transient
+	private Boolean isLike;		//判断用户是否点赞
+	@Transient
+	private Boolean isReport;	//判断用户是否举报
 	
 
 }

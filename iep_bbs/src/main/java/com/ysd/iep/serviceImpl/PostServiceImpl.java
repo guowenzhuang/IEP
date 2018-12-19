@@ -63,15 +63,15 @@ public class PostServiceImpl implements PostService {
 			whereSql.append(" AND u.user_name like '%" + postQuery.getUserName() + "%'");
 		}
 		// 拼接orderBy条件
-		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1");
+		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1 desc");
 		if ("replyTime".equals(postQuery.getOrderBy())) {
-			orderBySql.append(" AND r.reply_time desc");
+			orderBySql.append(" , r.reply_time desc");
 		}
 		if ("replyLikenum".equals(postQuery.getOrderBy())) {
-			orderBySql.append(" AND r.reply_likenum desc");
+			orderBySql.append(" , r.reply_likenum desc");
 		}
 		if ("replyReportnum".equals(postQuery.getOrderBy())) {
-			orderBySql.append(" AND r.reply_reportnum desc");
+			orderBySql.append(" , r.reply_reportnum desc");
 		}
 		// 组装sql语句
 		dataSql.append(whereSql).append(orderBySql);
@@ -112,6 +112,7 @@ public class PostServiceImpl implements PostService {
 	public Integer updateLikeNum(Integer replyId, Integer likeNum) {
 		return replyRepository.updateLikeNum(replyId, likeNum);
 	}
+
 	/**
 	 * 获取举报数
 	 */
@@ -119,6 +120,7 @@ public class PostServiceImpl implements PostService {
 	public Integer getReportNum(Integer replyId) {
 		return replyRepository.getReportNum(replyId);
 	}
+
 	/**
 	 * 更新举报数
 	 */
@@ -139,12 +141,14 @@ public class PostServiceImpl implements PostService {
 	 * 发表帖子
 	 */
 	@Override
-	public Integer publicPost(String title, String content, Integer parentId, Integer postId, String userId) {
-		int n = postRepository.insertPort(title);
-		int m = replyRepository.insertPortDetails(userId, postId, content, parentId);
-		if (n > 0 & m > 0) {
+	public Integer publicPost(String title, String content, Integer parentId, String userId) {
+		Post post = new Post();
+		post.setPostTitle(title);
+		Post post2 = postRepository.save(post);
+		int m = replyRepository.insertPortDetails(userId, post2.getPostId(), content, parentId);
+		if (m > 0) {
 			return 1;
-		}else {
+		} else {
 			return 0;
 		}
 	}

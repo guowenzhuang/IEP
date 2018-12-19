@@ -75,7 +75,7 @@ public interface PostService {
 	 * @param postId
 	 * @return
 	 */
-	public Integer publicPost(String title, String content, Integer parentId, Integer postId,String userId);
+	public Integer publicPost(String title, String content, Integer parentId,String userId);
 
 
 }
