@@ -45,6 +45,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Query(value = "UPDATE coursetb SET cour_studypeople=cour_studypeople+1 WHERE cour_id=?1", nativeQuery = true)
 	@Modifying
 	@Transactional
-	public void updateCourStudypeople(Integer courId);
+	 public void updateCourStudypeople(Integer courId);
 
 }

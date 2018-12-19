@@ -112,7 +112,7 @@ public class CourseController {
 
        @ApiOperation(value = "提供 根据课程id修改报名人数")
        @PutMapping("updateCourStudypeople")
-       public void updateCourStudypeople(@RequestParam("courId")Integer courId){
+        public void updateCourStudypeople(@RequestParam("courId")Integer courId){
           courseRepository.updateCourStudypeople(courId);
       }
 }
