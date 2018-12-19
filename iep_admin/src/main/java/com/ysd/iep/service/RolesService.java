@@ -36,6 +36,26 @@ public class RolesService {
     private RolesDao rolesDao;
 
     /**
+     * 角色设置权限
+     *
+     * @param roleId 角色id
+     * @param pids   权限id集合
+     */
+    @Transactional(rollbackOn = Exception.class)
+    @PreAuthorize("hasAuthority('role:setPermission')")
+    @PermissionMethod("设置权限")
+    public void setPermission(String roleId, String pids) {
+        rolesDao.deletePermissionByRolesId(roleId);
+        String[] pidsArr = pids.split(",");
+        for (String pid : pidsArr) {
+            if (EmptyUtil.stringE(pid)) {
+                rolesDao.insertPermission(roleId, pid);
+            }
+
+        }
+
+    }
+    /**
      * 角色设置模块
      *
      * @param roleId 角色id

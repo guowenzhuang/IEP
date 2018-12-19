@@ -3,6 +3,7 @@ package com.ysd.iep;
 import com.ysd.iep.dao.PermissionDao;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.entity.po.PermissionDB;
+import com.ysd.iep.service.ModulesService;
 import com.ysd.iep.service.PermissionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -48,5 +50,14 @@ public class PermissionTest {
         permissionDBList.forEach(item ->{
             rolesDao.insertPermission(roleId,item.getPermissionId());
         });
+    }
+
+    @Test
+    public void ces() {
+        Class z= ModulesService.class;
+        Method[] methods=z.getDeclaredMethods();
+        for (Method method:methods) {
+            System.out.println(method);
+        }
     }
 }
