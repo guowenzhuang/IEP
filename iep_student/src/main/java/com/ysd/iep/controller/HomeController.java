@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,13 +53,16 @@ public class HomeController {
 		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
 		List<Recommend> recommends001=recommendIndexDTO.getRecommend001();
 		System.out.println("一号位数据："+recommends001.size());
-
-		List<String> r1Ids= new ArrayList<String>();
+		String r1ids="";
 		for (Recommend r1 : recommends001) {
-			r1Ids.add(String.valueOf(r1.getCoursetId()));
+			if(r1ids ==""){
+				r1ids= String.valueOf(r1.getCoursetId());
+			}else {
+				r1ids += "," + r1.getCoursetId();
+			}
 		}
-		System.out.println(r1Ids);
-		List<Course> list=teacherService.findCourseById(r1Ids);
+		System.out.println("字符串："+r1ids);
+		List<Course> list=teacherService.findCourseById(r1ids);
 		return list;
 	}
 
@@ -71,13 +73,24 @@ public class HomeController {
 	public Object getRecommended(){
 		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
 		List<Recommend> recommends002=recommendIndexDTO.getRecommend002();
-		List<Integer> r2Ids= new ArrayList<Integer>();
+		String r2ids="";
 		for (Recommend r2 : recommends002) {
-			r2Ids.add(r2.getCoursetId());
+			if(r2ids ==""){
+				r2ids= String.valueOf(r2.getCoursetId());
+			}else {
+				r2ids += "," + r2.getCoursetId();
+			}
 		}
-		System.out.println(r2Ids);
+		System.out.println(r2ids);
+		List<Course> list=teacherService.findCourseById(r2ids);
 
-		return "";
+		for (int i = 0; i <list.size() ; i++) {
+             list.get(i).getCourId();
+
+		}
+
+
+		return list;
 	}
 
 
