@@ -1,14 +1,17 @@
 package com.ysd.iep.controller;
 
 
+import com.ysd.iep.entity.Recommend;
+import com.ysd.iep.entity.dto.Course;
+import com.ysd.iep.entity.dto.RecommendIndexDTO;
+import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
-import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysd.iep.service.AdminService;
+import java.util.List;
 
 /**
  * 首页控制器
@@ -43,13 +46,53 @@ public class HomeController {
 	}
 
 	/**
-	 *获取课程推荐
+	 *获取首页轮播
 	 */
-	@GetMapping("/")
-	public Object queryTuiJian(){
-
-		return "";
+	@GetMapping("/queryShuffling")
+	public Object queryShuffling(){
+		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
+		List<Recommend> recommends001=recommendIndexDTO.getRecommend001();
+		System.out.println("一号位数据："+recommends001.size());
+		String r1ids="";
+		for (Recommend r1 : recommends001) {
+			if(r1ids ==""){
+				r1ids= String.valueOf(r1.getCoursetId());
+			}else {
+				r1ids += "," + r1.getCoursetId();
+			}
+		}
+		System.out.println("字符串："+r1ids);
+		List<Course> list=teacherService.findCourseById(r1ids);
+		return list;
 	}
+
+	/**
+	 * 获取首页课程推荐
+	 */
+	@GetMapping("/getRecommended")
+	public Object getRecommended(){
+		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
+		List<Recommend> recommends002=recommendIndexDTO.getRecommend002();
+		String r2ids="";
+		for (Recommend r2 : recommends002) {
+			if(r2ids ==""){
+				r2ids= String.valueOf(r2.getCoursetId());
+			}else {
+				r2ids += "," + r2.getCoursetId();
+			}
+		}
+		System.out.println(r2ids);
+		List<Course> list=teacherService.findCourseById(r2ids);
+
+		for (int i = 0; i <list.size() ; i++) {
+             list.get(i).getCourId();
+
+		}
+
+
+		return list;
+	}
+
 
 
 
@@ -64,6 +107,5 @@ public class HomeController {
 
 		return "";
 	}
-	
 
 }

@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import java.util.Optional;
 
+import com.ysd.iep.util.Result;
 import org.springframework.data.domain.Page;
 
 import com.ysd.iep.entity.CommentDTO;
@@ -31,7 +32,7 @@ public interface CommentService {
 	/**
 	 * 学生发表评价
 	 */
-	public void addComment(StudentComment comment);
+	public Result addComment(StudentComment comment);
 	
 	
 

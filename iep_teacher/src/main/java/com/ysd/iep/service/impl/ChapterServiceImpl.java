@@ -1,8 +1,12 @@
 package com.ysd.iep.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+
+import com.ysd.iep.entity.dto.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.ChapterRepository;
@@ -25,8 +29,7 @@ public class ChapterServiceImpl implements ChapterService{
 		this.setTreeChildrens(rootList,courid);
 		return rootList;
 	}
-
-	/**
+    /**
 	 * 给菜单模块 设置孩子
 	 * @param parentList
 	 */
@@ -47,4 +50,9 @@ public class ChapterServiceImpl implements ChapterService{
 		
 	}
 
+	@Override
+	public Result insertChapters(Chapters chapters) {
+		chaperRepo.save(chapters);
+		return new Result(true);
+	}
 }
