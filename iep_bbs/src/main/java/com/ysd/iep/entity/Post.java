@@ -72,6 +72,8 @@ public class Post {
 	private Integer replyLikenum;
 	@Transient
 	private Integer replyReportnum;
+	@Transient
+	private Object userName;
 	
 	
 	
