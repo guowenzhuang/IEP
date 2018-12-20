@@ -50,9 +50,9 @@ public class CourseServiceImpl implements CourseService {
         PageRequest pageRequest = null;
         if (EmptyUtil.stringE(courseQuery.getOrderBy())) {
             Sort sort = new Sort(Sort.Direction.DESC, courseQuery.getOrderBy());
-            pageRequest = PageRequest.of(courseQuery.getPage()-1, courseQuery.getPageSize(), sort);
-        }else{
-            pageRequest = PageRequest.of(courseQuery.getPage()-1, courseQuery.getPageSize());
+            pageRequest = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize(), sort);
+        } else {
+            pageRequest = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
         }
         Page<Course> c = coursedao.findAll(specification, pageRequest);
         return c;
@@ -69,7 +69,7 @@ public class CourseServiceImpl implements CourseService {
      * 前台课程显示
      */
     @Override
-     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
+    public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
         Specification<Course> specification = new Specification<Course>() {
 
             @Override
@@ -92,7 +92,7 @@ public class CourseServiceImpl implements CourseService {
             pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
         }
         Page<Course> course = coursedao.findAll(specification, pageable);
-         return  course;
+        return course;
 
 
     }
@@ -106,7 +106,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Result updateCourse(Course course) {
 
-        Course c=coursedao.getOne(course.getCourId());
+        Course c = coursedao.getOne(course.getCourId());
         c.setCourName(course.getCourName());
         c.setCourPrice(course.getCourPrice());
         coursedao.save(c);
