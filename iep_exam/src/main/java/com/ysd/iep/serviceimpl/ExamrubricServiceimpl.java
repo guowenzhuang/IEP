@@ -57,7 +57,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * @param rubricquery
      * @return
      */
-    private Specification<Examrubric> getWhereClause(final RubricQuery rubricquery) {
+    public Specification<Examrubric> getWhereClause(final RubricQuery rubricquery) {
         return new Specification<Examrubric>() {
 
             @Override
@@ -92,6 +92,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     }
 
     /**
+     * 根据试卷id查询考试试题
+     */
+    @Override
+    public List<Examrubric> getExamrubricforparperid(RubricQuery rubricquery) {
+        return examrubricdao.findAll(this.getWhereClause(rubricquery));
+    }
+
+    /**
      * 新增题目
      *
      * @param addrubricquery
@@ -110,7 +118,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             ABCD.add(new ABCD("D", addrubricquery.getDid()));
 
             for (int j = 0; j < ABCD.size(); j++) {
-                if (addrubricquery.getAnswerid().equals(ABCD.get(j))) {
+                if (addrubricquery.getAnswerid().equals(ABCD.get(j).getId())) {
                     idanswer = ABCD.get(j).getAnswer();
                 }
             }
@@ -140,7 +148,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
                 rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
                 Examrubric rubric1 = examrubricdao.save(rubric);
-
 
                 for (int k = 0; k < answers.size(); k++) {
                     answers.get(k).setExamrubric(rubric1);

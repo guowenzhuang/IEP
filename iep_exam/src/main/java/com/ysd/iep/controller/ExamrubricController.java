@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,94 @@ public class ExamrubricController {
 
 
         return new ExamrubricFan(total, list);
+    }
+
+
+    /**
+     * 根据试卷id查询考试试题
+     */
+    @RequestMapping(value = "/getExamrubricforparperid", method = RequestMethod.POST)
+    public List<LookparperQuery> getExamrubricforparperid(RubricQuery rubricquery) {
+
+
+        StringBuilder duoid = new StringBuilder();
+        List<Examrubric> examrubricslist = examrubricservice.getExamrubricforparperid(rubricquery);
+        List<LookparperQuery> lookparperQueries = new ArrayList<>();
+
+
+        for (int i = 0; i < examrubricslist.size(); i++) {
+
+            LookparperQuery lookparperQuery = new LookparperQuery();
+
+            lookparperQuery.setRubrictype(examrubricslist.get(i).getRubricttype());
+            lookparperQuery.setIndex(i + 1);//题目编号
+            lookparperQuery.setScore(examrubricslist.get(i).getScore());//题目分数
+            lookparperQuery.setContent(examrubricslist.get(i).getContent());
+
+
+            if (examrubricslist.get(i).getRubricttype().equals("单选题")) {
+                lookparperQuery.setSeen(true);
+                System.out.println("此为单选题");
+                for (int j = 0; j < examrubricslist.get(i).getExamanswers().size(); j++) {
+
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("A")) {
+                        lookparperQuery.setAnswerA(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("B")) {
+                        lookparperQuery.setAnswerB(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("C")) {
+                        lookparperQuery.setAnswerC(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("D")) {
+                        lookparperQuery.setAnswerD(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+
+                    if (examrubricslist.get(i).getAnswerId().equals(examrubricslist.get(i).getExamanswers().get(j).getId())) {
+                        lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getOptiones());
+                    }
+
+                }
+
+            } else if (examrubricslist.get(i).getRubricttype().equals("多选题")) {
+                lookparperQuery.setSeen(true);
+                for (int j = 0; j < examrubricslist.get(i).getExamanswers().size(); j++) {
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("A")) {
+                        lookparperQuery.setAnswerA(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("B")) {
+                        lookparperQuery.setAnswerB(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("C")) {
+                        lookparperQuery.setAnswerC(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (examrubricslist.get(i).getExamanswers().get(j).getOptiones().equals("D")) {
+                        lookparperQuery.setAnswerD(examrubricslist.get(i).getExamanswers().get(j).getContent());
+                    }
+
+                    String[] split = examrubricslist.get(i).getAnswerId().split(",");
+
+
+                    for (int q = 0; q < split.length; q++) {
+                        if (split[q].equals(examrubricslist.get(i).getExamanswers().get(j).getId())) {
+                            /* lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getId());*/
+                            duoid.append(examrubricslist.get(i).getExamanswers().get(j).getOptiones() + " ");
+                        }
+                    }
+
+                    lookparperQuery.setAnswer(duoid.toString());
+                }
+
+            } else {
+                lookparperQuery.setSeen(false);
+                lookparperQuery.setAnswer(examrubricslist.get(i).getAnswerId());
+            }
+
+            lookparperQueries.add(lookparperQuery);
+        }
+
+
+        return lookparperQueries;
     }
 
 

@@ -7,6 +7,8 @@ import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author gaozhongye
  * @date 2018/12/16
@@ -20,6 +22,10 @@ public interface ExamrubricService {
      */
     Page<Examrubric> queryExamrubricByuserQuery(RubricQuery rubricquery, Integer page, Integer rows);
 
+    /**
+     * 根据试卷id查询考试试题
+     */
+    List<Examrubric> getExamrubricforparperid(RubricQuery rubricquery);
 
     /**
      * 新增考试题干
