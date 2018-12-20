@@ -37,15 +37,13 @@ public class CurricularTaxonomyController {
     /**
      * 根据课程分类Id显示课程
      * http://127.0.0.1:8060/api/student/curricularTaxonomy/getCourse
-     * @param depId
-     * @param page
-     * @param size
+    *
+     * @param courseQuery
      * @return Result
      */
     @ApiOperation(value = "根据课程分类Id显示课程")
     @GetMapping("/getCourse")
     public Result getCourse(CourseQuery courseQuery){
-        System.out.println("courseQuery==>"+courseQuery);
         return courseService.getCourseAll(courseQuery);
     }
     /**
@@ -58,7 +56,6 @@ public class CurricularTaxonomyController {
     @ApiOperation(value = "根据课程Id显示课程详情")
     @GetMapping("/getCoursedetails")
     public Object getCoursedetails(@RequestParam("courId") String courId) {
-        System.out.print("查询的数据"+courseFeign.getCoursedetails(courId));
     	return courseFeign.getCoursedetails(courId);
     }
 }

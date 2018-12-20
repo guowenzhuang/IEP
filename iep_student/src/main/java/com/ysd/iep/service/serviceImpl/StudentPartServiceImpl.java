@@ -19,7 +19,6 @@ public class StudentPartServiceImpl implements StudentPartService {
 	
 	//查询当前学生是否已经报名该课程
 	public List<StudentPartCid> queryStudentPart(String sid) {
-		
 		return partRepository.findBySid(sid);
 	}
 

@@ -78,5 +78,9 @@ public class Reply {
 	@Transient
 	private Boolean isReport;	//判断用户是否举报
 	
+	@Transient
+	private Object replyUsername;	//回复人姓名
+	@Transient
+	private Object byUsername;	//被回复人姓名
 
 }
