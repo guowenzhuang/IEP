@@ -37,6 +37,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     @Autowired
     ExamparperDao examparperdao;
 
+
     /**
      * 多条件分页查询考试试题
      *
@@ -447,6 +448,63 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             return new Result(false, "移除试题失败", null);
 
         }
+
+    }
+
+    /**
+     * 创建试卷的时候触发
+     *
+     * @param parperid
+     * @return
+     */
+    @Override
+    public Result createparper(String parperid) {
+
+        //第一步 根据parperid查询出parper信息
+        Examparper examparper = examparperdao.findById(parperid).get();
+
+
+        //第二步 根据parperid查询出所有parper中所有的试题
+        RubricQuery rubricquery = new RubricQuery();
+        rubricquery.setExamparper(parperid);
+        List<Examrubric> examrubricslist = this.getExamrubricforparperid(rubricquery);
+
+        int dannum = 0;
+        int duonum = 0;
+        int packnum = 0;
+        int judgenum = 0;
+        for (int i = 0; i < examrubricslist.size(); i++) {
+            if (examrubricslist.get(i).getRubricttype().equals("单选题")) {
+                dannum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("多选题")) {
+                duonum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("填空题")) {
+                packnum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("判断题")) {
+                judgenum++;
+            }
+        }
+        System.out.println("填空数量*********************" + packnum);
+        System.out.println("判断数量*********************" + judgenum);
+        System.out.println("单选数量*********************" + dannum);
+        System.out.println("多选数量*********************" + duonum);
+        examparper.setFillnum(packnum);
+        examparper.setJudgenum(judgenum);
+        examparper.setRadionum(dannum);
+        examparper.setMultiplenum(duonum);
+        examparper.setNum(packnum + judgenum + dannum + duonum);
+
+        try {
+            examparperdao.save(examparper);
+            return new Result(true, "创建成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "创建失败", null);
+        }
+
 
     }
 

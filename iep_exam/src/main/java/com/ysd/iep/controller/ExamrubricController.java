@@ -186,5 +186,16 @@ public class ExamrubricController {
         }
     }
 
+    /**
+     * 创建试卷的时候调用
+     *
+     * @param parperid
+     * @return
+     */
+    @RequestMapping(value = "/createparper", method = RequestMethod.POST)
+    public Result createparper(String parperid) {
+        return examrubricservice.createparper(parperid);
+    }
+
 
 }

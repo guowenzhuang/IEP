@@ -42,5 +42,9 @@ public interface ExamrubricService {
      */
     Object deleteexamrubric(String examrubricid);
 
+    /**
+     * 点击创建试卷(获取多有题型的数量信息,存入到parper表中)
+     */
+    Result createparper(String parperid);
 
 }
