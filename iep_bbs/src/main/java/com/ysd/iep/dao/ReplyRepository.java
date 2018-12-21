@@ -70,7 +70,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT COUNT(1) FROM reporttb WHERE user_id=?1 AND reply_id=?2", nativeQuery = true)
 	public Integer userIsReport(String userId,Integer replyId);
 	
-	@Query(value = "INSERT INTO reporttb(user_id,reply_id,reply_reason) VALUES(?1,?2,?3)", nativeQuery = true)
+	@Query(value = "INSERT INTO reporttb(user_id,reply_id,report_reason) VALUES(?1,?2,?3)", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer userReport(String userId,Integer replyId,String reportReason);

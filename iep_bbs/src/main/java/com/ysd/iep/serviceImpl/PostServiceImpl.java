@@ -58,9 +58,6 @@ public class PostServiceImpl implements PostService {
 			whereSql.append("AND p.post_id IN (SELECT post_id FROM posttypetb pt WHERE type_id=" + 
 					"(SELECT type_id FROM typetb WHERE type_name='"+postQuery.getTypeName() +"'))");
 		}
-		if (StringUtils.isNotEmpty(postQuery.getUserName())) {
-			whereSql.append(" AND u.user_name like '%" + postQuery.getUserName() + "%'");
-		}
 		// 拼接orderBy条件
 		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1 desc");
 		if ("replyTime".equals(postQuery.getOrderBy())) {
