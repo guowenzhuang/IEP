@@ -20,6 +20,7 @@ import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.PostService;
+import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
 
 
@@ -30,7 +31,8 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
-
+	@Autowired
+	private ReplyService replyService;
 	@Autowired
 	private AdminFeign adminFeign;
 
@@ -89,6 +91,30 @@ public class PostController {
 		}
 		return map;
 
+	}
+	/**
+	 * 判断用户是否点赞和举报帖子
+	 * @return
+	 */
+	@RequestMapping(value = "userIsPost")
+	public Object userIsPost(Integer replyId,String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Boolean isLikePost,isReportPost;
+		int n=replyService.userIsLike(userId, replyId);
+		int m=replyService.userIsReport(userId, replyId);
+		if(n>0) {
+			isLikePost=true;
+		}else {
+			isLikePost=false;
+		}
+		if(m>0) {
+			isReportPost=true;
+		}else {
+			isReportPost=false;
+		}
+		map.put("isLikePost", isLikePost);
+		map.put("isReportPost", isReportPost);
+		return map;
 	}
 
 	/**
