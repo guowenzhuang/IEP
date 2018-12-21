@@ -1,14 +1,17 @@
 package com.ysd.iep.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysd.iep.tools.Result;
 
 
 @FeignClient("IEP-ADMIN")
 public interface AdminFeign {
-	@RequestMapping("/user/getUserById")
-    Result getUserById();
+	
+	@GetMapping("/user/getNameById")
+    Result getNameById(@RequestParam("id") String id);
 
 }

@@ -17,5 +17,10 @@ public interface ChapterService {
 	 */
 	Result insertChapters(Chapters chapters);
 
+	/**
+	 * 删除章节
+	 * @param chaId
+	 */
+    void deleteChapters(Integer chaId);
 
 }

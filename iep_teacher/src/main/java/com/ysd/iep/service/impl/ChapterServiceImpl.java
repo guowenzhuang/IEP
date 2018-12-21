@@ -55,4 +55,9 @@ public class ChapterServiceImpl implements ChapterService{
 		chaperRepo.save(chapters);
 		return new Result(true);
 	}
+
+	@Override
+	public void deleteChapters(Integer chaId) {
+		chaperRepo.deleteById(chaId);
+	}
 }
