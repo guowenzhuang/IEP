@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.service.ChapterService;
@@ -19,6 +20,9 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
+    
+    @Autowired
+    private ChapterRepository chapRep;
 
     /**
      * 查询章节
@@ -43,8 +47,13 @@ public class ChapterController {
     @ApiOperation(value = "删除章节")
     @PostMapping("/deleteChapters")
     public Result deleteChapters(@RequestParam("chaId") Integer chaId) {
-        chapterService.deleteChapters(chaId);
-        return new Result(true);
+    	List<Chapters> list = chapRep.queryChildren(chaId);
+    	if (list.size()>0) {
+    		return new Result(true).setMessage("该章节下有子节点,不能被删除");
+		} else {
+			 chapterService.deleteChapters(chaId);
+		     return new Result(true);
+		}
     }
     
     @ApiOperation(value = "修改章节")
