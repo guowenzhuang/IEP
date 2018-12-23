@@ -26,7 +26,7 @@ public class notice implements Serializable{
 	private String noConten;
 	@Column(columnDefinition = "varchar(100) DEFAULT NULL COMMENT '公告题目'")
 	private String noTitle;
-	@Column(columnDefinition = "TIMESTAMP  NULL COMMENT '公告题目'")
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL COMMENT '公告时间'")
 	private Timestamp noCreattime;
 	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
 	private Integer Ext1;

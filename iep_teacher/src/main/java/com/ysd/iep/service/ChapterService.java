@@ -3,6 +3,7 @@ package com.ysd.iep.service;
 import java.util.List;
 
 import com.ysd.iep.entity.Chapters;
+import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.Result;
 
 public interface ChapterService {
@@ -22,5 +23,12 @@ public interface ChapterService {
 	 * @param chaId
 	 */
     void deleteChapters(Integer chaId);
+  
+    /**
+     * 修改章节
+     * @param chapters
+     * @return
+     */
+    public Result updateCourse(Chapters chapters);
 
 }

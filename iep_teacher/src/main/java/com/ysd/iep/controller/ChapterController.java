@@ -46,4 +46,11 @@ public class ChapterController {
         chapterService.deleteChapters(chaId);
         return new Result(true);
     }
+    
+    @ApiOperation(value = "修改章节")
+    @PostMapping("/deleteChapters")
+    public Result updateChapters(Chapters chapters) {
+        chapterService.updateCourse(chapters);
+        return new Result(true);
+    }
 }

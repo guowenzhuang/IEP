@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.entity.Chapters;
+import com.ysd.iep.entity.Course;
 import com.ysd.iep.service.ChapterService;
 @Service
 public class ChapterServiceImpl implements ChapterService{
@@ -60,4 +61,14 @@ public class ChapterServiceImpl implements ChapterService{
 	public void deleteChapters(Integer chaId) {
 		chaperRepo.deleteById(chaId);
 	}
+	/**
+	 * 修改章节
+	 */
+	@Override
+	public Result updateCourse(Chapters chapters) {
+		Chapters c = chaperRepo.getOne(chapters.getChaId());
+        c.setChaName(chapters.getChaName());
+        chaperRepo.save(c);
+        return new Result(true);
+}
 }
