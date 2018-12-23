@@ -557,4 +557,18 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
     }
 
+    /**
+     * 根据试卷id查询考试题目
+     *
+     * @return
+     */
+    @Override
+    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+        List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
+        for (int i = 0; i < examrubricList.size(); i++) {
+            examrubricList.get(i).setAnswerId(null);
+        }
+        return examrubricList;
+    }
+
 }

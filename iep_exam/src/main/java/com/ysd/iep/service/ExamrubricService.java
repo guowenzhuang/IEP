@@ -51,4 +51,11 @@ public interface ExamrubricService {
      */
     Result beginexam(BeginexamQuery beginexamQuery) throws ParseException;
 
+    /**
+     * 根据试卷id获取试卷信息
+     *
+     * @return
+     */
+    List<Examrubric> queryexamrubric(RubricQuery rubricQuery);
+
 }

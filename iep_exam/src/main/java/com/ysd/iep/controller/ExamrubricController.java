@@ -211,5 +211,12 @@ public class ExamrubricController {
         return examrubricservice.beginexam(beginexamQuery);
     }
 
+    /**
+     * 根据试卷id获取试卷
+     */
+    @RequestMapping(value = "/queryexamrubric", method = RequestMethod.POST)
+    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+        return examrubricservice.queryexamrubric(rubricQuery);
+    }
 
 }
