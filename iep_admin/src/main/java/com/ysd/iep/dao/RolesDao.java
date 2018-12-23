@@ -6,23 +6,26 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * @author 80795
  * @date 2018/11/12 8:55
  */
-public interface RolesDao extends BaseDao<RolesDB,String> {
+public interface RolesDao extends BaseDao<RolesDB, String> {
     /**
      * 根据用户id查询属于用户的id
+     *
      * @param uuid
      * @return
      */
-    @Query(value = "SELECT * from roles where id in (select roleid from userroles where userid=:uuid) and status=0",nativeQuery = true)
+    @Query(value = "SELECT * from roles where id in (select roleid from userroles where userid=:uuid) and status=0", nativeQuery = true)
     List<RolesDB> findByUserId(String uuid);
 
     /**
      * 根据角色名称查询不属于的角色
+     *
      * @param names
      * @return
      */
@@ -31,27 +34,43 @@ public interface RolesDao extends BaseDao<RolesDB,String> {
 
     /**
      * 移除角色关系
+     *
      * @param roleId
      */
     @Modifying
-    @Query(value = "delete from rolemodules where RoleId=:roleId",nativeQuery = true)
+    @Query(value = "delete from rolemodules where RoleId=:roleId", nativeQuery = true)
     void deleteModuleByRolesId(@Param("roleId") String roleId);
 
     /**
      * 新增角色模块关系
+     *
      * @param roleId
      * @param moduleId
      */
     @Modifying
-    @Query(value = "insert into rolemodules (RoleId, ModuleId) values (:roleId,:moduleId);",nativeQuery = true)
-    void insertModule(@Param("roleId") String roleId,@Param("moduleId")String moduleId);
+    @Query(value = "insert into rolemodules (RoleId, ModuleId) values (:roleId,:moduleId);", nativeQuery = true)
+    void insertModule(@Param("roleId") String roleId, @Param("moduleId") String moduleId);
 
     /**
      * 删除角色
      * @param uuid 角色id
      */
     @Modifying
-    @Query(value = "update roles set `status`=1 where id=:uuid",nativeQuery = true)
+    @Query(value = "update roles set `status`=1 where id=:uuid", nativeQuery = true)
     void deleteStatus(@Param("uuid") String uuid);
+
+    /**
+     * 新增角色权限表
+     * @param roleId
+     * @param permissionId
+     */
+
+    @Modifying
+    @Query(value = "insert into rolepermission (RoleId, permissionId) values (:roleId,:permissionId);", nativeQuery = true)
+    void insertPermission(@Param("roleId") String roleId, @Param("permissionId") String permissionId);
+
+    @Modifying
+    @Query(value = "delete from rolepermission where roleId=:roleId",nativeQuery = true)
+    void deletePermissionByRolesId(@Param("roleId") String roleId);
 
 }

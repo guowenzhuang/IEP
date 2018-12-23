@@ -37,6 +37,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     @Autowired
     ExamparperDao examparperdao;
 
+
     /**
      * 多条件分页查询考试试题
      *
@@ -57,7 +58,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * @param rubricquery
      * @return
      */
-    private Specification<Examrubric> getWhereClause(final RubricQuery rubricquery) {
+    public Specification<Examrubric> getWhereClause(final RubricQuery rubricquery) {
         return new Specification<Examrubric>() {
 
             @Override
@@ -92,6 +93,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     }
 
     /**
+     * 根据试卷id查询考试试题
+     */
+    @Override
+    public List<Examrubric> getExamrubricforparperid(RubricQuery rubricquery) {
+        return examrubricdao.findAll(this.getWhereClause(rubricquery));
+    }
+
+    /**
      * 新增题目
      *
      * @param addrubricquery
@@ -110,7 +119,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             ABCD.add(new ABCD("D", addrubricquery.getDid()));
 
             for (int j = 0; j < ABCD.size(); j++) {
-                if (addrubricquery.getAnswerid().equals(ABCD.get(j))) {
+                if (addrubricquery.getAnswerid().equals(ABCD.get(j).getId())) {
                     idanswer = ABCD.get(j).getAnswer();
                 }
             }
@@ -137,12 +146,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
 
             try {
-                System.out.println("****************************" + addrubricquery.getAnswerid());
-
                 Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
                 rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
                 Examrubric rubric1 = examrubricdao.save(rubric);
-
 
                 for (int k = 0; k < answers.size(); k++) {
                     answers.get(k).setExamrubric(rubric1);
@@ -155,12 +161,15 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 return new Result(false, "添加失败", null);
             }
         } else if (addrubricquery.getRubrictype().equals("多选题")) {
+
+            System.out.println("多选添加数据******************" + addrubricquery);
+
+
             try {
                 /**
                  * 声明一个StringBuilder类型的变量,
                  * 用来存储将id以逗号分隔连起来的字符串 就是这样 UUID,UUID
                  */
-
                 StringBuilder answerid = new StringBuilder();
                 /**
                  * 定义一个实体类ABCD,
@@ -198,9 +207,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     }
 
                 }
-
-                System.out.println("*******************" + list);
-
 
                 List<String> idlist = new ArrayList<>();
                 //生成五个UUId
@@ -302,11 +308,137 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     }
 
+
+    /**
+     * 新增考试题干(新增考试题(仅对新增多选单选))
+     */
+    @Override
+    public Result addexamrubricjudegepack(AddrubricQuery addrubricquery) {
+
+
+        if (addrubricquery.getRubrictype().equals("单选题")) {
+            System.out.println(addrubricquery);
+            String id = "";
+
+            List<String> idlist = new ArrayList<>();
+            //生成五个UUId
+            for (int i = 0; i <= 4; i++) {
+                idlist.add(UUIDUtils.getUUID());
+            }
+
+            List<Examanswer> answers = new ArrayList<>();
+            answers.add(new Examanswer(idlist.get(0), "A", addrubricquery.getAnswerA()));
+            answers.add(new Examanswer(idlist.get(1), "B", addrubricquery.getAnswerB()));
+            answers.add(new Examanswer(idlist.get(2), "C", addrubricquery.getAnswerC()));
+            answers.add(new Examanswer(idlist.get(3), "D", addrubricquery.getAnswerD()));
+
+            for (int j = 0; j < answers.size(); j++) {
+                if (addrubricquery.getAnswerid().equals(answers.get(j).getOptiones())) {
+                    id = answers.get(j).getId();
+                }
+            }
+            System.out.println("单选答案id*******************" + id);
+            try {
+                Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+
+                rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
+                Examrubric rubric1 = examrubricdao.save(rubric);
+
+
+                for (int k = 0; k < answers.size(); k++) {
+                    answers.get(k).setExamrubric(rubric1);
+                    examanswerdao.save(answers.get(k));
+                }
+                return new Result(true, "添加成功", null);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "添加失败", null);
+            }
+            /**
+             * 多项选择的处理
+             */
+        } else {
+
+            System.out.println("多选添加数据******************" + addrubricquery);
+
+
+            try {
+                /**
+                 * 声明一个StringBuilder类型的变量,
+                 * 用来存储将id以逗号分隔连起来的字符串 就是这样 UUID,UUID
+                 */
+                StringBuilder answerid = new StringBuilder();
+
+
+                List<String> idlist = new ArrayList<>();
+                //生成五个UUId
+                for (int i = 0; i <= 4; i++) {
+                    idlist.add(UUIDUtils.getUUID());
+                }
+
+
+                List<Examanswer> answers = new ArrayList<>();
+                answers.add(new Examanswer(idlist.get(0), "A", addrubricquery.getAnswerA()));
+                answers.add(new Examanswer(idlist.get(1), "B", addrubricquery.getAnswerB()));
+                answers.add(new Examanswer(idlist.get(2), "C", addrubricquery.getAnswerC()));
+                answers.add(new Examanswer(idlist.get(3), "D", addrubricquery.getAnswerD()));
+
+                /**
+                 * 将上边的形成的以逗号隔开的型如 A,B,C,D 的list
+                 * 以逗号截取开然后形成一个 String 数组 cccc
+                 */
+                /* String[] cccc = addrubricquery.getAnswerid().split(",");*/
+
+
+                /**
+                 * 将list遍历 然后拿 cccc中的项 与 answers项的 optiones 也就是ABCD进行比较,
+                 * 如果相等 将answers 中的这一项取出来,以逗号分隔,形成一个 形如  UUID,UUID,UUID
+                 * 的新的正确答案的字符串
+                 * id
+                 */
+                String cccc = addrubricquery.getAnswerid();
+
+                System.out.println("前台传来的答案的长度***************" + cccc.length() + "答案是**************" + cccc);
+                for (int p = 0; p < cccc.length(); p++) {
+                    for (int q = 0; q < answers.size(); q++) {
+                        if (cccc.charAt(p) == answers.get(q).getOptiones().charAt(0)) {
+                            answerid.append(answers.get(q).getId() + ",");
+                        }
+                    }
+
+                }
+
+                System.out.println("存入数据库中的id*****************" + answerid);
+                answerid.delete(answerid.length() - 1, answerid.length());
+
+
+                Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), answerid.toString(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+                rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
+                Examrubric rubric1 = examrubricdao.save(rubric);
+
+                for (int k = 0; k < answers.size(); k++) {
+                    answers.get(k).setExamrubric(rubric1);
+                    examanswerdao.save(answers.get(k));
+                }
+                return new Result(true, "添加多选成功", null);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "添加多选失败", null);
+
+            }
+        }
+    }
+
+
     /**
      * 考试试题的删除
      */
     @Override
     public Object deleteexamrubric(String examrubricid) {
+
 
         Examrubric examrubric = examrubricdao.findById(examrubricid).get();
         Integer r = examrubricdao.deletforexamrubricid(examrubricid);
@@ -316,6 +448,63 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             return new Result(false, "移除试题失败", null);
 
         }
+
+    }
+
+    /**
+     * 创建试卷的时候触发
+     *
+     * @param parperid
+     * @return
+     */
+    @Override
+    public Result createparper(String parperid) {
+
+        //第一步 根据parperid查询出parper信息
+        Examparper examparper = examparperdao.findById(parperid).get();
+
+
+        //第二步 根据parperid查询出所有parper中所有的试题
+        RubricQuery rubricquery = new RubricQuery();
+        rubricquery.setExamparper(parperid);
+        List<Examrubric> examrubricslist = this.getExamrubricforparperid(rubricquery);
+
+        int dannum = 0;
+        int duonum = 0;
+        int packnum = 0;
+        int judgenum = 0;
+        for (int i = 0; i < examrubricslist.size(); i++) {
+            if (examrubricslist.get(i).getRubricttype().equals("单选题")) {
+                dannum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("多选题")) {
+                duonum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("填空题")) {
+                packnum++;
+            }
+            if (examrubricslist.get(i).getRubricttype().equals("判断题")) {
+                judgenum++;
+            }
+        }
+        System.out.println("填空数量*********************" + packnum);
+        System.out.println("判断数量*********************" + judgenum);
+        System.out.println("单选数量*********************" + dannum);
+        System.out.println("多选数量*********************" + duonum);
+        examparper.setFillnum(packnum);
+        examparper.setJudgenum(judgenum);
+        examparper.setRadionum(dannum);
+        examparper.setMultiplenum(duonum);
+        examparper.setNum(packnum + judgenum + dannum + duonum);
+
+        try {
+            examparperdao.save(examparper);
+            return new Result(true, "创建成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "创建失败", null);
+        }
+
 
     }
 

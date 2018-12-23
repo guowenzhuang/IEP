@@ -7,6 +7,8 @@ import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author gaozhongye
  * @date 2018/12/16
@@ -20,6 +22,10 @@ public interface ExamrubricService {
      */
     Page<Examrubric> queryExamrubricByuserQuery(RubricQuery rubricquery, Integer page, Integer rows);
 
+    /**
+     * 根据试卷id查询考试试题
+     */
+    List<Examrubric> getExamrubricforparperid(RubricQuery rubricquery);
 
     /**
      * 新增考试题干
@@ -27,9 +33,18 @@ public interface ExamrubricService {
     Result addexamrubric(AddrubricQuery addrubricquery);
 
     /**
+     * 新增考试题干(新增考试题(仅对新增多选单选))
+     */
+    Result addexamrubricjudegepack(AddrubricQuery addrubricquery);
+
+    /**
      * 考试试题的删除
      */
     Object deleteexamrubric(String examrubricid);
 
+    /**
+     * 点击创建试卷(获取多有题型的数量信息,存入到parper表中)
+     */
+    Result createparper(String parperid);
 
 }

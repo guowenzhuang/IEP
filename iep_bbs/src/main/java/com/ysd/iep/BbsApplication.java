@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
  */
 @SpringBootApplication
 @EnableEurekaClient
+@EnableFeignClients
 public class BbsApplication {
     public static void main(String[] args) {
         SpringApplication.run(BbsApplication.class,args);

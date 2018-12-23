@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.ysd.iep.entity.Course;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpecificationExecutor<Course> {
@@ -35,5 +37,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 */
 
 	public List<Course> findByCourTeaid(String teaId);
+
+	/**
+	 * 根据课程id修改报名人数
+	 * @param courId
+	 */
+	@Query(value = "UPDATE coursetb SET cour_studypeople=cour_studypeople+1 WHERE cour_id=?1", nativeQuery = true)
+	@Modifying
+	@Transactional
+	 public void updateCourStudypeople(Integer courId);
 
 }

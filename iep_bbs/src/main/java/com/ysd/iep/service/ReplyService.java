@@ -26,13 +26,60 @@ public interface ReplyService {
 	 * @param userId
 	 * @return
 	 */
-	public Integer replyLike(Integer replyId,Integer userId);
+	public Integer replyLike(Integer replyId,String userId);
+	
+	/**
+	 *   根据用户id查询该回复是否点过赞
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	public Integer userIsLike(String userId,Integer replyId);
+	/**
+	 * 取消点赞
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	public Integer deleteLike(String userId,Integer replyId);
 	
 	/**
 	 *  回复帖子
 	 * @param reply
 	 * @return
 	 */
-	public Reply insertReply(Reply reply);
+	public Integer insertReply(String replyContent,Integer parentId,Integer postId,String userId);
+	
+	/**
+	 *   根据postId和parentId查询replyId
+	 * @param postId
+	 * @param parentId
+	 * @return
+	 */
+	public Integer queryReplyIdByPostIdAndParentId(Integer postId,Integer parentId);
+	
+	/**
+	 *  用户是否举报
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	public Integer userIsReport(String userId,Integer replyId);
+	
+	/**
+	 * 用户举报功能
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	public Integer userReport(String userId,Integer replyId,String reportReason);
+	/**
+	 *  通过回复id查询用户id
+	 * @param replyId
+	 * @return
+	 */
+	public String queryUserIdByReplyId(Integer replyId);
+	
+	
 
 }

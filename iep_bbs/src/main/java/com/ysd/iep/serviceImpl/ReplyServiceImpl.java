@@ -49,16 +49,57 @@ public class ReplyServiceImpl implements ReplyService {
 	 * 点赞
 	 */
 	@Override
-	public Integer replyLike(Integer replyId, Integer userId) {
+	public Integer replyLike(Integer replyId, String userId) {
 		return replyRepository.replyLike(replyId, userId);
 	}
+	/**
+	 *  查询该用户是否对该帖子点赞
+	 */
+	@Override
+	public Integer userIsLike(String userId, Integer replyId) {
+		return replyRepository.userIsLike(userId, replyId);
+	}
+	@Override
+	public Integer deleteLike(String userId, Integer replyId) {
+		return replyRepository.deleteLike(userId, replyId);
+	}
+	
 	/**
 	 * 回复帖子
 	 */
 	@Override
-	public Reply insertReply(Reply reply) {
-		return replyRepository.save(reply);
+	public Integer insertReply(String replyContent,Integer parentId,Integer postId,String userId) {
+		return replyRepository.insertReply(replyContent, parentId, postId, userId);
 	}
-
-
+	
+	/**
+	 *   根据postId和parentId查询replyId
+	 */
+	@Override
+	public Integer queryReplyIdByPostIdAndParentId(Integer postId,Integer parentId) {
+		return replyRepository.queryReplyIdByPostIdAndParentId(postId, parentId);
+	}
+	/**
+	 *  用户是否举报
+	 */
+	@Override
+	public Integer userIsReport(String userId, Integer replyId) {
+		return replyRepository.userIsReport(userId, replyId);
+	}
+	
+	/**
+	 * 用户举报功能
+	 */
+	@Override
+	public Integer userReport(String userId,Integer replyId,String reportReason) {
+		return replyRepository.userReport(userId, replyId, reportReason);
+	}
+	/**
+	 * 通过回复id查询用户id
+	 */
+	@Override
+	public String queryUserIdByReplyId(Integer replyId) {
+		return replyRepository.queryUserIdByReplyId(replyId);
+	}
+	
 }

@@ -1,5 +1,6 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.DepartmentDao;
 import com.ysd.iep.entity.dto.DepartmentDTO;
 import com.ysd.iep.entity.po.DepartmentDB;
@@ -14,6 +15,7 @@ import java.util.List;
  * @date 2018/11/12 8:55
  */
 @Service
+@PermissionType("院系")
 public class DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;

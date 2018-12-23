@@ -13,8 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +50,16 @@ public class UsersController {
         return new Result<List<UsersDTO>>(true,usersService.userById(ids));
     }
 
+    @ApiOperation("根据用户id获取用户的姓名")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "query",dataType = "String")
+    })
+    @GetMapping("/getNameById")
+    public Result<String> getNameById(@RequestParam("id") String id){
+        List<UsersDTO> usersDTOS=usersService.userById(id);
+        return new Result<>(true,usersDTOS.get(0).getLoginName());
+    }
+
     @PostMapping
     public Result<String> add(@RequestBody UsersDB usersDB){
         usersService.add(usersDB);
@@ -65,6 +77,7 @@ public class UsersController {
         usersService.update(usersUpdateDTO);
         return new Result<String>(true).setMessage("成功");
     }
+
 
     @GetMapping(value="query")
     public PagingResult<UsersVo> query(UsersQuery usersQuery){

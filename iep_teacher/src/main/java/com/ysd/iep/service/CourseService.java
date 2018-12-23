@@ -11,9 +11,9 @@ import java.util.List;
 public interface CourseService {
     /**
      * 课程的分页查询
-     * @param page
-     * @param pageSize
-     * @param courName
+     * @param
+     * @param
+     * @param
      * @return
      */
     Page<Course> getPaginate(CourseQuery courseQuery);
@@ -26,9 +26,9 @@ public interface CourseService {
 
      /**
       * 课程的分页查询(前台)
-      * @param depId
-      * @param page
-      * @param   size
+      * @param
+      * @param
+      * @param
       * @return  Page<Course>
       */
      public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery);
@@ -40,7 +40,12 @@ public interface CourseService {
      * @return
      */
     Result insertCourse(Course course);
-
+    /**
+     * 修改课程
+     * @param course
+     * @return
+     */
+    Result updateCourse(Course course);
     /**
      *根据课程id查询课程
      * @param courId
