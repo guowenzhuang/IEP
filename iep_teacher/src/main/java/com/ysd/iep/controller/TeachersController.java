@@ -3,9 +3,7 @@ package com.ysd.iep.controller;
 import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
-
-
-import com.ysd.iep.entity.dto.UsersDTO;
+import com.ysd.iep.entity.dto.TeacherDTO;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.TeachersService;
 import io.swagger.annotations.Api;
@@ -13,7 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value="/tea", tags="教师")
 @RestController
@@ -50,13 +51,20 @@ public class TeachersController {
      */
     @ApiOperation(value = "查询老师信息")
     @GetMapping("/getAllTeacher")
-    public Result  getAllTeacher(){
+    public Result<List<TeacherDTO>>  getAllTeacher(){
         List<String> list=teaRep.queryTeacherId();
-        String ids = String.join(",", list);
-        System.out.println("获取的教师ID>>>>>"+ids);
-        Result<List<UsersDTO>> user = adminFeign.getUserById(ids);
-        System.out.println("用户信息>>>>>>>"+user);
-        return new Result(true);
+        List<List<TeacherDTO>> tealist=new ArrayList<List<TeacherDTO>>();
+        for (String string : list) {
+        	Result<String> result = adminFeign.getNameById(string);
+        	String name = result.getMessage();//获取单个教师姓名
+        	List<TeacherDTO> tea = teachersService.queryTeacher(string);
+        	tea.get(0).setTeaName(name);//把查询到的名字赋值给tea
+        	  System.out.println("teaList>>>>>>>>>>>>"+tea);
+        	  tealist.add(tea);
+		}
+		return new Result(true,tealist);
+        
     }
+	
 
 }

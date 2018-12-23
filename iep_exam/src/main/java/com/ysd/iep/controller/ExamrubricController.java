@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -199,6 +200,15 @@ public class ExamrubricController {
     @RequestMapping(value = "/createparper", method = RequestMethod.POST)
     public Result createparper(String parperid) {
         return examrubricservice.createparper(parperid);
+    }
+
+
+    /**
+     * 点击开始考试按钮
+     */
+    @RequestMapping(value = "/beginexam", method = RequestMethod.POST)
+    public Result beginexam(BeginexamQuery beginexamQuery) throws ParseException {
+        return examrubricservice.beginexam(beginexamQuery);
     }
 
 
