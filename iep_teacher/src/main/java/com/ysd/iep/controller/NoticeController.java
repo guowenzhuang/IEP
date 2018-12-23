@@ -3,7 +3,9 @@ package com.ysd.iep.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.notice;
@@ -25,9 +27,9 @@ public class NoticeController {
      * @return
      */
     @ApiOperation(value = " 根据课程id查询课程公告信息")
-    @RequestMapping("/queryNoticeByCourId")
-    public Result<List<notice>> queryNoticeByCourId(Integer courId) {
-    	return new Result<List<notice>>(true,noticeService.queryNoticeByCourId(courId));  
+    @GetMapping("/queryNoticeByCourId")
+    public Result<List<notice>> queryNoticeByCourId(@RequestParam("courId")Integer courId) {
+    	return new Result<List<notice>>(true,noticeService.queryNoticeByCourId(courId));
     }
 
 
