@@ -174,10 +174,13 @@ public class ExamparperServiceImpl implements ExamparperService {
     public Result randomrubric(Examparper examparper, ExamParperSerch examParperSerch) {
         try {
             System.out.println("试卷信息"+examParperSerch);
+            //试题总分和每题分数之和不相等
             if (examParperSerch.getTotal()!=examParperSerch.getRadionum()*examParperSerch.getRadionumresource()+ examParperSerch.getJudgenum()*examParperSerch.getJudgenumresource()+examParperSerch.getFillnum()*examParperSerch.getFillnumresource()+examParperSerch.getMultiplenum()*examParperSerch.getMultiplenumresource()){
                 return new Result(false,"试题总分和每题分数之和不相等,请修改",null);
             }
+
             RubricQuery pandunrubricQuery = new RubricQuery();
+            //根据课程查询课程下的所有题干
             pandunrubricQuery.setCoursetype(examParperSerch.getSubject());
             List<Rubric> radiorubricList=new ArrayList<>();//单选题集合
             List<Rubric> judgerubricList=new ArrayList<>();//判断题集合
