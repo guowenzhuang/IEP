@@ -22,7 +22,7 @@ public interface ChapterService {
 	 * 删除章节
 	 * @param chaId
 	 */
-    void deleteChapters(Integer chaId);
+	Result deleteChapters(Integer chaId);
   
     /**
      * 修改章节

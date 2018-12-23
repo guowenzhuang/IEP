@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.ysd.iep.bean.ConstantProperties;
+import com.ysd.iep.bean.FileInfo;
 import com.ysd.iep.bean.Result;
 import com.ysd.iep.config.MyOSSClient;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class OssService {
      * @param file
      * @return
      */
-    public String upload(MultipartFile file, String path) {
+    public Result<FileInfo> upload(MultipartFile file, String path) {
         log.info("=========>OSS文件上传开始：" + path);
         if (null == file) {
             return null;
@@ -52,12 +53,9 @@ public class OssService {
             }
             PutObjectResult putObjectResult=ossClient.putObject(ConstantProperties.SPRING_OSS_BUCKET_NAME,
                     path, file.getInputStream());
-            /**
-             * 过期时间为一小时
-             */
-            Date expiration = new Date(System.currentTimeMillis()+ 3600 * 1000);
-            URL url = ossClient.generatePresignedUrl(ConstantProperties.SPRING_OSS_BUCKET_NAME, path,expiration);
-            return url.toString();
+
+            FileInfo info=getInfo(path,ossClient);
+            return new Result<FileInfo>(true,info);
         } catch (OSSException oe) {
             log.error(oe.getMessage());
         } catch (ClientException ce) {
@@ -70,8 +68,21 @@ public class OssService {
         }
         return null;
     }
+    protected FileInfo getInfo(String path, OSSClient ossClient) {
+        ObjectMetadata metadata = ossClient.getObjectMetadata(ConstantProperties.SPRING_OSS_BUCKET_NAME, path);
+        FileInfo info=new FileInfo();
+        info.setLength(metadata.getContentLength());
+        info.setLastDate(metadata.getLastModified());
+        info.setLastDate(metadata.getLastModified());
+        info.setPath(path);
+        return info;
+    }
+    /**
+     * 获取url
+     * @param path
+     * @return
+     */
     public URL getUrl(String path){
-        System.out.println(path);
         MyOSSClient ossClient = getClient();
         // 设置过期时间。
         Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000*2);

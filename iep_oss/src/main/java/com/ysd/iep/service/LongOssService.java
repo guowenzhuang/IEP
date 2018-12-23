@@ -112,23 +112,14 @@ public class LongOssService {
                 new CompleteMultipartUploadRequest(ConstantProperties.SPRING_OSS_BUCKET_NAME, path, uploadId, partETags);
         CompleteMultipartUploadResult result = ossClient.completeMultipartUpload(completeMultipartUploadRequest);
         // 关闭OSSClient
-        FileInfo info=getInfo(path,ossClient);
+        FileInfo info=ossService.getInfo(path,ossClient);
         ossClient.shutdown();
         //删除redis
         redisTemplate.delete(uploadId);
         return new Result(true,info);
     }
 
-    private FileInfo getInfo(String path, MyOSSClient ossClient) {
-            ObjectMetadata metadata = ossClient.getObjectMetadata(ConstantProperties.SPRING_OSS_BUCKET_NAME, path);
-            System.out.println();
-            FileInfo info=new FileInfo();
-            info.setLength(metadata.getContentLength());
-            info.setLastDate(metadata.getLastModified());
-            info.setLastDate(metadata.getLastModified());
-            info.setPath(path);
-            return info;
-    }
+
 
 
 }

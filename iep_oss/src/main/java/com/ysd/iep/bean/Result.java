@@ -14,6 +14,9 @@ public class Result<T> {
     private T message;
     private String remark;
 
+    public Result() {
+    }
+
     public Result(Boolean success, T message) {
         this.success = success;
         this.message = message;

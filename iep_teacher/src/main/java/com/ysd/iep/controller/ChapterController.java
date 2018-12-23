@@ -20,7 +20,7 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
-    
+
     @Autowired
     private ChapterRepository chapRep;
 
@@ -47,11 +47,9 @@ public class ChapterController {
     @ApiOperation(value = "删除章节")
     @DeleteMapping("/{chaId}")
     public Result deleteChapters(@PathVariable("chaId") Integer chaId) {
-    	chapterService.deleteChapters(chaId);
-		     return new Result(true);
-
+        return chapterService.deleteChapters(chaId);
     }
-    
+
     @ApiOperation(value = "修改章节")
     @PutMapping("/updateChapters")
     public Result updateChapters(Chapters chapters) {
