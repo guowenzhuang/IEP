@@ -4,12 +4,14 @@ import com.ysd.iep.bean.Result;
 import com.ysd.iep.service.LongOssService;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * @author 80795
@@ -35,4 +37,6 @@ public class LongOssController {
     public Result loadUploadEnd(String uploadId, String path) {
         return longOssService.loadUploadEnd(uploadId, path);
     }
+
+
 }

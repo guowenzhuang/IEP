@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import com.ysd.iep.bean.ConstantProperties;
+import com.ysd.iep.bean.Result;
 import com.ysd.iep.config.MyOSSClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class OssService {
             /**
              * 过期时间为一小时
              */
-            Date expiration = new Date(new Date().getTime() + 3600 * 1000);
+            Date expiration = new Date(System.currentTimeMillis()+ 3600 * 1000);
             URL url = ossClient.generatePresignedUrl(ConstantProperties.SPRING_OSS_BUCKET_NAME, path,expiration);
             return url.toString();
         } catch (OSSException oe) {
@@ -69,7 +70,15 @@ public class OssService {
         }
         return null;
     }
-
+    public URL getUrl(String path){
+        System.out.println(path);
+        MyOSSClient ossClient = getClient();
+        // 设置过期时间。
+        Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000*2);
+        // 生成签名URL（HTTP GET请求）。
+        URL signedUrl = ossClient .generatePresignedUrl(ConstantProperties.SPRING_OSS_BUCKET_NAME, path,expiration);
+        return signedUrl;
+    }
     /**
      * 文件下载
      * @param path

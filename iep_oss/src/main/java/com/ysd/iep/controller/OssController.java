@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URL;
 
 /**
  * @author 80795
@@ -46,5 +47,8 @@ public class OssController {
     public InputStream downloadFile(String path){
         return ossService.download(path);
     }
-
+    @GetMapping("/getUrl")
+    public URL getUrl(String path){
+        return ossService.getUrl(path);
+    }
 }
