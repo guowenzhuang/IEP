@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.StudentRecord;
 import com.ysd.iep.service.StudyService;
+import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudyController {
     @Autowired
     private StudyService studyService;
+
+    @Autowired
+    private TeacherService teacherService;
+
     /**
      * 查询当前学生某门课的最新学习进度
      */
@@ -29,6 +34,19 @@ public class StudyController {
             return "";
         }
     }
+
+    /**
+     *根据课程id 查询课程公告
+     */
+    @GetMapping("/queryNotice")
+    public Object queryNotice(Integer cid){
+        Result res=teacherService.queryNoticeByCourId(cid);
+        System.out.println(res.getMessage());
+        return "";
+    }
+
+
+
 
 
 }
