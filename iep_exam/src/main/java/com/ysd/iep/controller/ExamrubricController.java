@@ -169,12 +169,16 @@ public class ExamrubricController {
     public Result addexamrubricdouble(AddrubricQuery addrubricquery) {
         Result examrubricresult = null;
         Result examrubricresultdouble = null;
-
         Result rubricresult = rubricservice.addrubric(addrubricquery);
 
-        if (addrubricquery.getRubrictype() == "填空题" && addrubricquery.getRubrictype() == "判断题") {
+        System.out.println("***************" + addrubricquery);
+        System.out.println("***************" + addrubricquery.getRubrictype());
+
+        if (addrubricquery.getRubrictype().equals("填空题") || addrubricquery.getRubrictype().equals("判断题")) {
+            System.out.println("填空判断调用的");
             examrubricresult = examrubricservice.addexamrubric(addrubricquery);
         } else {
+            System.out.println("单选多选调用的");
             examrubricresultdouble = examrubricservice.addexamrubricjudegepack(addrubricquery);
         }
 
