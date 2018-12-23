@@ -39,10 +39,9 @@ public class StudyController {
      *根据课程id 查询课程公告
      */
     @GetMapping("/queryNotice")
-    public Object queryNotice(Integer cid){
-        Result res=teacherService.queryNoticeByCourId(cid);
-        System.out.println(res.getMessage());
-        return "";
+    public Result queryNotice(@RequestParam("courId") Integer cid){
+
+        return teacherService.queryNoticeByCourId(cid);
     }
 
 
