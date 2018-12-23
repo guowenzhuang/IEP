@@ -2,7 +2,6 @@ package com.ysd.iep.feign;
 
 import com.ysd.iep.entity.dto.Result;
 
-import com.ysd.iep.entity.dto.UsersDTO;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public interface AdminFeign {
      * @param ids
      * @return
      */
-   @GetMapping("/user/getUserById")
-    Result<List<UsersDTO>> getUserById(@RequestParam("ids") String ids);
+   @GetMapping("/user/getNameById")
+   public Result<String> getNameById(@RequestParam("id") String id);
 
 }
