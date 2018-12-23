@@ -49,7 +49,7 @@ public class ChapterController {
     public Result deleteChapters(@RequestParam("chaId") Integer chaId) {
     	List<Chapters> list = chapRep.queryChildren(chaId);
     	if (list.size()>0) {
-    		return new Result(true).setMessage("该章节下有子节点,不能被删除");
+    		return new Result(false).setMessage("该章节下有子节点,不能被删除");
 		} else {
 			 chapterService.deleteChapters(chaId);
 		     return new Result(true);
