@@ -32,5 +32,4 @@ public class NoticeController {
     	return new Result<List<notice>>(true,noticeService.queryNoticeByCourId(courId));
     }
 
-
 }
