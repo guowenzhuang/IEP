@@ -2,11 +2,10 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.Rubric;
-import com.ysd.iep.entity.parameter.AddrubricQuery;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricQuery;
+import com.ysd.iep.entity.parameter.*;
 import org.springframework.data.domain.Page;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -46,5 +45,10 @@ public interface ExamrubricService {
      * 点击创建试卷(获取多有题型的数量信息,存入到parper表中)
      */
     Result createparper(String parperid);
+
+    /**
+     * 点击开始考试按钮
+     */
+    Result beginexam(BeginexamQuery beginexamQuery) throws ParseException;
 
 }

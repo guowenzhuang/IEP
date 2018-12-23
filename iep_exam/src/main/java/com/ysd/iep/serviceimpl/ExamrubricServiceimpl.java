@@ -5,10 +5,7 @@ import com.ysd.iep.dao.ExamanswerDao;
 import com.ysd.iep.dao.ExamparperDao;
 import com.ysd.iep.dao.ExamrubricDao;
 import com.ysd.iep.entity.*;
-import com.ysd.iep.entity.parameter.ABCD;
-import com.ysd.iep.entity.parameter.AddrubricQuery;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricQuery;
+import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.ExamrubricService;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -511,5 +511,50 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     }
 
+    /**
+     * 点击开始考试按钮
+     */
+    @Override
+    public Result beginexam(BeginexamQuery beginexamQuery) throws ParseException {
+
+        /**
+         * 取出前端传来的时间
+         */
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begintime = beginexamQuery.getBegintime();
+        //转换成int类型
+        long beginint = begintime.getTime();
+        //加上考试时长生成一个考试结束时间的int
+        long examendtimeint = beginint + beginexamQuery.getExamtime() * 60 * 1000;
+
+
+        /**
+         * 用考试结束时间与当前时间相比较
+         */
+        Date presenttime = df.parse(df.format(new Date()));
+        long presenttimeint = presenttime.getTime();
+
+        /**
+         * 计算考试结束时间与当前时间的差值
+         */
+        long difference = (examendtimeint - presenttimeint) / 1000;
+
+        if (difference > 0) {
+            //说明在考试期间内
+            if (difference > beginexamQuery.getExamtime() * 60) {
+                //考试还没开始0
+
+                return new Result(false, "考试还没开始", null);
+            } else {
+                return new Result(true, "考试开始了", null);
+            }
+
+        } else if (difference < 0) {
+            //说明考试结束
+            return new Result(false, "考试结束了", null);
+        } else {
+            return new Result(false, "不能进入", null);
+        }
+    }
 
 }
