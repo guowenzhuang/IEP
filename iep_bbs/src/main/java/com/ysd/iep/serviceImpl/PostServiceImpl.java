@@ -44,23 +44,19 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Page<Post> queryAllPage(PostQuery postQuery, Pageable pageable) {
-
+		
 		StringBuilder dataSql = new StringBuilder(
-				"SELECT * FROM posttypetb pt JOIN posttb p " + "ON pt.post_id=p.post_id JOIN typetb t "
-						+ "ON pt.type_id=t.type_id JOIN replytb r " + "ON p.post_id=r.post_id");
+				"SELECT * FROM posttb p JOIN replytb r ON p.post_id=r.post_id ");
 		StringBuilder countSql = new StringBuilder(
-				"SELECT COUNT(1) FROM posttypetb pt JOIN posttb p " + "ON pt.post_id=p.post_id JOIN typetb t "
-						+ "ON pt.type_id=t.type_id JOIN replytb r " + "ON p.post_id=r.post_id");
+				"SELECT COUNT(1) FROM posttb p JOIN replytb r ON p.post_id=r.post_id");
 		// 拼接where条件
-		StringBuilder whereSql = new StringBuilder(" WHERE 1 = 1 AND r.reply_parentid = 0 ");
+		StringBuilder whereSql = new StringBuilder(" WHERE r.reply_parentid = 0 ");
 		if (StringUtils.isNotEmpty(postQuery.getPostTitle())) {
 			whereSql.append(" AND p.post_title like '%" + postQuery.getPostTitle() + "%' ");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getTypeName())) {
-			whereSql.append(" AND t.type_name like  '%" + postQuery.getTypeName() + "%' ");
-		}
-		if (StringUtils.isNotEmpty(postQuery.getUserName())) {
-			whereSql.append(" AND u.user_name like '%" + postQuery.getUserName() + "%'");
+			whereSql.append("AND p.post_id IN (SELECT post_id FROM posttypetb pt WHERE type_id=" + 
+					"(SELECT type_id FROM typetb WHERE type_name='"+postQuery.getTypeName() +"'))");
 		}
 		// 拼接orderBy条件
 		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1 desc");
@@ -144,6 +140,8 @@ public class PostServiceImpl implements PostService {
 	public Integer publicPost(String title, String content, Integer parentId, String userId) {
 		Post post = new Post();
 		post.setPostTitle(title);
+		post.setPostIsstick(false);
+		System.out.println("post==>"+post);
 		Post post2 = postRepository.save(post);
 		int m = replyRepository.insertPortDetails(userId, post2.getPostId(), content, parentId);
 		if (m > 0) {

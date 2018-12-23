@@ -1,19 +1,19 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
 
+
+import com.ysd.iep.entity.dto.UsersDTO;
+import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.TeachersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value="/tea", tags="教师")
 @RestController
@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeachersController {
     @Autowired
   private TeachersService teachersService;
+    @Autowired
+    private AdminFeign adminFeign;
+    @Autowired
+    private TeacherRepository teaRep;
     @ApiOperation(value = "增加老师")
     @PostMapping("/addTeacher")
     public Result<String> AddTeacher(@RequestParam("teaId") String teaId){
@@ -39,4 +43,20 @@ public class TeachersController {
 		return new Result(true).setMessage("成功");
     	
     }
+
+    /**
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询老师信息")
+    @GetMapping("/getAllTeacher")
+    public Result  getAllTeacher(){
+        List<String> list=teaRep.queryTeacherId();
+        String ids = String.join(",", list);
+        System.out.println("获取的教师ID>>>>>"+ids);
+        Result<List<UsersDTO>> user = adminFeign.getUserById(ids);
+        System.out.println("用户信息>>>>>>>"+user);
+        return new Result(true);
+    }
+
 }

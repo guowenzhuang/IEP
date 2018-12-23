@@ -14,10 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Integer>, JpaSpecifi
 
 	 public Post queryPostByPostId(Integer postId);
 	 
-	 @Query(value="INSERT INTO posttb(post_title) VALUES(?1)", nativeQuery = true)
-	 @Modifying
-	 @Transactional
-	 public Integer insertPort(String title);
 	
 
 }

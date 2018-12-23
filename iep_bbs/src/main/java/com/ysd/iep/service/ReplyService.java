@@ -73,6 +73,12 @@ public interface ReplyService {
 	 * @return
 	 */
 	public Integer userReport(String userId,Integer replyId,String reportReason);
+	/**
+	 *  通过回复id查询用户id
+	 * @param replyId
+	 * @return
+	 */
+	public String queryUserIdByReplyId(Integer replyId);
 	
 	
 

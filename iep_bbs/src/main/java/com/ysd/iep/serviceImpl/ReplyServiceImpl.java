@@ -94,5 +94,12 @@ public class ReplyServiceImpl implements ReplyService {
 	public Integer userReport(String userId,Integer replyId,String reportReason) {
 		return replyRepository.userReport(userId, replyId, reportReason);
 	}
+	/**
+	 * 通过回复id查询用户id
+	 */
+	@Override
+	public String queryUserIdByReplyId(Integer replyId) {
+		return replyRepository.queryUserIdByReplyId(replyId);
+	}
 	
 }

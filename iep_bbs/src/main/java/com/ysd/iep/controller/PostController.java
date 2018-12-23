@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.Post;
@@ -19,6 +20,7 @@ import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.PostService;
+import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
 
 
@@ -29,7 +31,8 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
-
+	@Autowired
+	private ReplyService replyService;
 	@Autowired
 	private AdminFeign adminFeign;
 
@@ -63,6 +66,9 @@ public class PostController {
 			int reportNum = postService.getReportNum(post.getReplyId());
 			post.setReplyReportnum(reportNum);
 			postService.updateReportNum(post.getReplyId(), reportNum);
+			//通过用户id获取用户信息
+			Result user=adminFeign.getNameById(post.getUserId());
+			post.setUserName(user.getMessage());
 		}
 		map.put("total", total);
 		map.put("rows", list);
@@ -74,21 +80,49 @@ public class PostController {
 	 */
 	@RequestMapping(value = "insertPost")
 	public Object insertPost(String title, String content, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		int n = postService.publicPost(title, content, 0, userId);
 		if (n > 0) {
-			return new Result(true, "发表成功");
+			map.put("success", true);
+			map.put("message", "发表成功");
 		} else {
-			return new Result(false, "发表失败");
+			map.put("success", false);
+			map.put("message", "发表失败");
 		}
+		return map;
 
+	}
+	/**
+	 * 判断用户是否点赞和举报帖子
+	 * @return
+	 */
+	@RequestMapping(value = "userIsPost")
+	public Object userIsPost(Integer replyId,String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Boolean isLikePost,isReportPost;
+		int n=replyService.userIsLike(userId, replyId);
+		int m=replyService.userIsReport(userId, replyId);
+		if(n>0) {
+			isLikePost=true;
+		}else {
+			isLikePost=false;
+		}
+		if(m>0) {
+			isReportPost=true;
+		}else {
+			isReportPost=false;
+		}
+		map.put("isLikePost", isLikePost);
+		map.put("isReportPost", isReportPost);
+		return map;
 	}
 
 	/**
 	 * 通过用户id获取用户信息
 	 * @return
 	 */
-	@GetMapping("/getUserById")
-	public Result getUserById() {
-		return adminFeign.getUserById();
+	@GetMapping("/getNameById")
+	public Result getUserById(@RequestParam("id") String id) {
+		return adminFeign.getNameById(id);
 	}
 }

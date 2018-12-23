@@ -38,13 +38,13 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Transactional
 	public Integer insertPortDetails(String userId, Integer postId, String replyContent, Integer parentId);
 
-	@Query(value = "SELECT * FROM replytb WHERE post_id=?1 ORDER BY reply_time DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM replytb WHERE post_id=?1 AND reply_parentid>0 ORDER BY reply_time DESC", nativeQuery = true)
 	public List<Reply> queryReplyByPostId(Integer postId);
 
 	@Query(value = "SELECT reply_id FROM replytb WHERE post_id=?1 AND reply_parentid=?2 ", nativeQuery = true)
 	public Integer queryReplyIdByPostIdAndParentId(Integer postId, Integer parentId);
 
-	@Query(value = "UPDATE replytb SET reply_browse=reply_browse + 1  WHERE  reply_id=1", nativeQuery = true)
+	@Query(value = "UPDATE replytb SET reply_browse=reply_browse + 1  WHERE  reply_id=?1", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer updateBrowse(Integer replyId);
@@ -70,9 +70,12 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT COUNT(1) FROM reporttb WHERE user_id=?1 AND reply_id=?2", nativeQuery = true)
 	public Integer userIsReport(String userId,Integer replyId);
 	
-	@Query(value = "INSERT INTO reporttb(user_id,reply_id,reply_reason) VALUES(?1,?2,?3)", nativeQuery = true)
+	@Query(value = "INSERT INTO reporttb(user_id,reply_id,report_reason) VALUES(?1,?2,?3)", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public Integer userReport(String userId,Integer replyId,String reportReason);
+	
+	@Query(value = "SELECT user_id FROM replytb WHERE reply_id=?1", nativeQuery = true)
+	public String queryUserIdByReplyId(Integer replyId);
 
 }

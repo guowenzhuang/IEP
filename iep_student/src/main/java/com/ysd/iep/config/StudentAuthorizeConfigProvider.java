@@ -15,7 +15,7 @@ public class StudentAuthorizeConfigProvider implements AuthorizeConfigProvider {
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
                 .antMatchers("/home/**",
-                "/curricularTaxonomy/**","/comment/**","studentPart/**")
+                "/curricularTaxonomy/**","/comment/**","/studentPart/**")
                 .permitAll();
     }
 }

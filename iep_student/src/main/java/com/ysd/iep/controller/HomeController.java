@@ -83,14 +83,8 @@ public class HomeController {
 		}
 		System.out.println(r2ids);
 		List<Course> list=teacherService.findCourseById(r2ids);
-
-		for (int i = 0; i <list.size() ; i++) {
-             list.get(i).getCourId();
-
-		}
-
-
 		return list;
+
 	}
 
 
