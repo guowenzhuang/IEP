@@ -59,6 +59,11 @@ public class ChapterServiceImpl implements ChapterService{
 
 	@Override
 	public void deleteChapters(Integer chaId) {
+
+		List<Chapters> modulesDBS=chaperRepo.queryChildren(chaId);
+		modulesDBS.forEach(item ->{
+			deleteChapters(item.getChaId());
+		});
 		chaperRepo.deleteById(chaId);
 	}
 	/**
