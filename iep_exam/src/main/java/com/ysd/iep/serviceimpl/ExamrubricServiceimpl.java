@@ -275,6 +275,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
             }
         } else if (addrubricquery.getRubrictype().equals("填空题")) {
+            System.out.println("这是填空题");
             try {
                 /*新增填空题*/
                 Examrubric rubric = new Examrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
@@ -286,6 +287,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 return new Result(false, "新增填空题失败", null);
             }
         } else {
+
+            System.out.println("这是判断题");
             try {
                 String answerid = "";
                 if (addrubricquery.getAnswerid().equals("true")) {
@@ -294,7 +297,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     answerid = "错误";
                 }
 
-                Examrubric rubric = new Examrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+                Examrubric rubric = new Examrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
                 rubric.setExamparper(examparperdao.findById(addrubricquery.getParperid()).get());
                 examrubricdao.save(rubric);
                 return new Result(true, "新增判断题到考试题库成功", null);
