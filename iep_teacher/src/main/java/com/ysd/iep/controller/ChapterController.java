@@ -45,7 +45,7 @@ public class ChapterController {
     }
 
     @ApiOperation(value = "删除章节")
-    @PostMapping("/deleteChapters")
+    @DeleteMapping("/deleteChapters")
     public Result deleteChapters(@RequestParam("chaId") Integer chaId) {
     	List<Chapters> list = chapRep.queryChildren(chaId);
     	if (list.size()>0) {
@@ -57,7 +57,7 @@ public class ChapterController {
     }
     
     @ApiOperation(value = "修改章节")
-    @PostMapping("/deleteChapters")
+    @PutMapping("/updateChapters")
     public Result updateChapters(Chapters chapters) {
         chapterService.updateCourse(chapters);
         return new Result(true);
