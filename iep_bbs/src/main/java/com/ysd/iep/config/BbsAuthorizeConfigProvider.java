@@ -14,7 +14,7 @@ public class BbsAuthorizeConfigProvider implements AuthorizeConfigProvider {
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
-                .antMatchers("/post/*","/type/*","/reply/*")
+                .antMatchers("/post/*","/type/*","/reply/*","/report/*")
                 .permitAll();
     }
 }

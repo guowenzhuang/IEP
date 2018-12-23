@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.service.ChapterService;
@@ -19,6 +20,9 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
+
+    @Autowired
+    private ChapterRepository chapRep;
 
     /**
      * 查询章节
@@ -41,9 +45,15 @@ public class ChapterController {
     }
 
     @ApiOperation(value = "删除章节")
-    @PostMapping("/deleteChapters")
-    public Result deleteChapters(@RequestParam("chaId") Integer chaId) {
-        chapterService.deleteChapters(chaId);
+    @DeleteMapping("/{chaId}")
+    public Result deleteChapters(@PathVariable("chaId") Integer chaId) {
+        return chapterService.deleteChapters(chaId);
+    }
+
+    @ApiOperation(value = "修改章节")
+    @PutMapping("/updateChapters")
+    public Result updateChapters(Chapters chapters) {
+        chapterService.updateCourse(chapters);
         return new Result(true);
     }
 }
