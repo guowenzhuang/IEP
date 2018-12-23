@@ -4,7 +4,12 @@ package com.ysd.iep.service.impl;
 import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.dto.TeacherDTO;
 import com.ysd.iep.service.TeachersService;
+import com.ysd.iep.util.JpaObjectsToEntity;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +34,12 @@ public class TeachersServiceImpl implements TeachersService {
 			teacherRepository.deleteById(teacherId);
 		}
 		 return new Result(true);
+	}
+
+	@Override
+	public List<TeacherDTO> queryTeacher(String teaId) {
+		List<Object[]>  objectsList = teacherRepository.queryTeacher(teaId);
+		List<TeacherDTO> list = (List<TeacherDTO>) JpaObjectsToEntity.jpaResultToObjectList(objectsList,TeacherDTO.class); 
+		return list;
 	}
 }
