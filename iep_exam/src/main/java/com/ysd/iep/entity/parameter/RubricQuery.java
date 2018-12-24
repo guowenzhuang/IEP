@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @author gaozhongye
  * @date 2018/12/7
@@ -29,6 +31,9 @@ public class RubricQuery {
     private String userid;
     private String coursetype;
     private String examparper;
+
+    private Date begintime;//开始时间
+    private Integer examtime;//考试时长
 
 
 }

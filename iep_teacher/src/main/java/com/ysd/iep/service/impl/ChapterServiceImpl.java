@@ -81,4 +81,10 @@ public class ChapterServiceImpl implements ChapterService {
         chaperRepo.save(c);
         return new Result(true);
     }
+
+    @Override
+    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName ,Integer courId) {
+          chaperRepo.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
+           return new Result(true);
+    }
 }

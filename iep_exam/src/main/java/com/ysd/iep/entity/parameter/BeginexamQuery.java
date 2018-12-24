@@ -12,6 +12,7 @@ import java.util.Date;
 @Data
 public class BeginexamQuery {
     private String parerid;//卷子id
+
     private Date begintime;//开始时间
     private Integer examtime;//考试时长
 
