@@ -69,7 +69,7 @@ public class TeachersController {
         	String name = result.getMessage();
         	List<TeacherDTO> tea = teachersService.queryTeacher(string);
         	System.out.println("tea>>>>>>>>>>>>>>>>"+tea);
-            //把查询到的名字赋值给tea
+            //把查询到的名字赋值给tea 
         	tea.get(0).setTeaName(name);
         	  System.out.println("teaList>>>>>>>>>>>>"+tea);
         	  tealist.add(tea);
