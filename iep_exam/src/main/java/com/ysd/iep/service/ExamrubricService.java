@@ -14,8 +14,6 @@ import java.util.List;
  * 考试试题service
  */
 public interface ExamrubricService {
-
-
     /**
      * 试卷试题的多条件分页查询
      */
@@ -62,6 +60,11 @@ public interface ExamrubricService {
      * 考试过之后成绩处理
      */
     Object examend(ExamUltimately examUltimately);
+
+    /**
+     * 整个试卷做完之后点击交卷时候
+     */
+    Object examination(ExamUltimately examUltimately);
 
 
 }
