@@ -56,4 +56,10 @@ public class ChapterController {
         chapterService.updateCourse(chapters);
         return new Result(true);
     }
+    @ApiOperation(value = "修改视频")
+    @PostMapping("/updateChaViurlAtime")
+    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName, Integer courId){
+        chapterService.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
+        return new Result(true);
+    }
 }
