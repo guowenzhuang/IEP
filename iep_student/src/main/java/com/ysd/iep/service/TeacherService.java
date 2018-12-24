@@ -5,7 +5,6 @@ import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -29,19 +28,15 @@ public interface TeacherService {
 	@PutMapping("/course/updateCourStudypeople")
 	public void updateStudypeople(@RequestParam("courId")Integer courId);
 
-
-	/**
-	 * 获取老师
-	 */
-	/*@RequestMapping("/teacher")
-	public Result getTeachers(int page,int size);*/
-
 	/**
 	 * 获取课程公告信息
 	 */
-	@RequestMapping("/notice/queryNoticeByCourId")
-	public Result queryNoticeByCourId(Integer courId);
+	@GetMapping("/notice/queryNoticeByCourId")
+	public Result queryNoticeByCourId(@RequestParam("courId") Integer courId);
 
+	/**
+	 * 获取课程章节课件
+	 */
 
 
 }

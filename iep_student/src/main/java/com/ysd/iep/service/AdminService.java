@@ -1,6 +1,8 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
+import com.ysd.iep.entity.query.UsersRoleQuery;
+import com.ysd.iep.util.PagingResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,15 @@ public interface AdminService {
 	 */
 	@GetMapping("/recommend/index")
 	public RecommendIndexDTO getRecommentIndex();
-	
+
+	/**
+	 * 分页查询教师
+	 * @param UsersRoleQuery
+	 * @return
+	 */
+	@GetMapping("/user/getByRole")
+	public PagingResult getTeachers(UsersRoleQuery UsersRoleQuery);
+
+
 
 }

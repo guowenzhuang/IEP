@@ -72,19 +72,21 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     /**
-     * 修改章节
+     * 根据章节id修改视频的路径和视频的时长
      */
     @Override
     public Result updateCourse(Chapters chapters) {
         Chapters c = chaperRepo.getOne(chapters.getChaId());
         c.setChaName(chapters.getChaName());
+        c.setChaViurl(chapters.getChaViurl());
+        c.setChaCourid(chapters.getChaCourid());
+        c.setChaSize(chapters.getChaSize());
+        c.setChaTime(chapters.getChaTime());
+        c.setChalastModified(chapters.getChalastModified());
+        c.setChaType(chapters.getChaType());
         chaperRepo.save(c);
         return new Result(true);
     }
 
-    @Override
-    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName ,Integer courId) {
-          chaperRepo.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
-           return new Result(true);
-    }
+
 }

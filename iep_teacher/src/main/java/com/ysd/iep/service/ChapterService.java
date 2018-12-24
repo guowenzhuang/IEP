@@ -19,7 +19,7 @@ public interface ChapterService {
 	Result insertChapters(Chapters chapters);
 
 	/**
-	 * 删除章节
+	 * 根据章节id修改视频的路径和视频的时长
 	 * @param chaId
 	 */
 	Result deleteChapters(Integer chaId);
@@ -30,12 +30,5 @@ public interface ChapterService {
      * @return
      */
     public Result updateCourse(Chapters chapters);
-	/**
-	 * 根据章节id修改视频的路径和视频的时长
-	 * @param chaViurl
-	 * @param chaTime
-	 * @param courId
-	 * @return
-	 */
-	public Result updateChaViurlAtime(String chaViurl,String chaTime,String chaName,Integer courId);
+
 }
