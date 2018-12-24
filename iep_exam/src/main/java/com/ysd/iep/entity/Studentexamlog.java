@@ -31,8 +31,8 @@ public class Studentexamlog {
 
     @Column(name = "ExamparperId", nullable = false, length = 50)
     private String examparperId;//考试试卷id
-    @Column(name = "performance", nullable = false, length = 50)
-    private String performance;//测试题成绩
+    @Column(name = "performance", nullable = false, length = 20)
+    private Integer performance;//测试题成绩
     @Column(name = "ExamrubricId", nullable = false, length = 50)
     private String examrubricId;//考试题干id
 

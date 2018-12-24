@@ -14,7 +14,12 @@ public class TeacherAuthorizeConfigProvider implements AuthorizeConfigProvider {
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
-                .antMatchers("/course/getCourUIPage","/course/findCourseById","/course/updateCourStudypeople","/tea/getAllTeacher","/chapter/updateChaViurlAtime")
+                .antMatchers("/course/getCourUIPage",
+                        "/course/findCourseById",
+                        "/course/updateCourStudypeople",
+                        "/tea/getAllTeacher",
+                        "/chapter/updateChaViurlAtime",
+                        "/tea")
                 .permitAll();
     }
 }

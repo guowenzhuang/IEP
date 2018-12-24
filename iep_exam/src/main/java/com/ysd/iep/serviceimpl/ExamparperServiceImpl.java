@@ -10,10 +10,15 @@ import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.entitySerch.ExamParperSerch;
+import com.ysd.iep.quartzConfig.JobTest;
+import com.ysd.iep.quartzConfig.QuartzManager;
 import com.ysd.iep.service.ExamparperService;
 import com.ysd.iep.util.UUIDUtils;
 import javafx.scene.input.InputMethodTextRun;
 import org.hibernate.validator.internal.engine.messageinterpolation.parser.ELState;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +66,9 @@ public class ExamparperServiceImpl implements ExamparperService {
      * @param examparper
      * @return
      */
+
+    public static String JOB_GROUP_NAME = "XLXXCC_JOB_GROUP";
+    public static String TRIGGER_GROUP_NAME = "XLXXCC_JOB_GROUP";
     @Override
     public Result updateStartExamtime(Examparper examparper) {
         if (examparper.getState().equals("考试中")) {
@@ -71,6 +79,9 @@ public class ExamparperServiceImpl implements ExamparperService {
             Examparper examparper1 = examparperDao.findById(examparper.getId()).orElse(null);
             examparper1.setExamtime(examparper.getExamtime());
             examparper1.setState("未开考");
+            //String cro= this.getCron(examparper.getExamtime());
+            //JobDataMap jobMap=new JobDataMap();
+            //QuartzManager.addJob(examparper1.getSubject(),examparper1.getTitle(), TRIGGER_GROUP_NAME, TRIGGER_GROUP_NAME, JobTest.class, cro);
             try {
                 examparperDao.save(examparper1);
                 return new Result(true, "设置成功", null);
@@ -79,6 +90,21 @@ public class ExamparperServiceImpl implements ExamparperService {
                 return new Result(false, "设置失败", null);
             }
         }
+    }
+    private static final String CRON_DATE_FORMAT = "ss mm HH dd MM ? yyyy";
+    /***
+     *
+     * @param date 时间
+     * @return  cron类型的日期
+     */
+    public String getCron(final Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(CRON_DATE_FORMAT);
+        String formatTimeStr = "";
+        if (date != null) {
+            formatTimeStr = sdf.format(date);
+        }
+        return formatTimeStr;
+
     }
 
     /***

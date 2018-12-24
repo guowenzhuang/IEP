@@ -39,7 +39,11 @@ public class TeachersServiceImpl implements TeachersService {
 	@Override
 	public List<TeacherDTO> queryTeacher(String teaId) {
 		List<Object[]>  objectsList = teacherRepository.queryTeacher(teaId);
+		System.out.println("aaaaaaaaa>>>>>>>."+objectsList);
 		List<TeacherDTO> list = (List<TeacherDTO>) JpaObjectsToEntity.jpaResultToObjectList(objectsList,TeacherDTO.class); 
+		System.out.println("cccccccccccccccc> >>>>>>."+list);
 		return list;
 	}
+	
+
 }
