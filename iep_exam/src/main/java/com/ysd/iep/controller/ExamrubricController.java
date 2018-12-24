@@ -215,8 +215,19 @@ public class ExamrubricController {
      * 根据试卷id获取试卷
      */
     @RequestMapping(value = "/queryexamrubric", method = RequestMethod.POST)
-    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+    public QueryExamRubricFan queryexamrubric(RubricQuery rubricQuery) throws ParseException {
         return examrubricservice.queryexamrubric(rubricQuery);
     }
+
+
+    /**
+     * 考试过之后成绩处理
+     */
+    @RequestMapping(value = "/examend", method = RequestMethod.POST)
+    public Object examend(ExamUltimately examUltimately) {
+
+        return null;
+    }
+
 
 }

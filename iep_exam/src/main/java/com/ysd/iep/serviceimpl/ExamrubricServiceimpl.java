@@ -7,6 +7,7 @@ import com.ysd.iep.dao.ExamrubricDao;
 import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.ExamrubricService;
+import com.ysd.iep.util.SecondformDate;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -563,12 +564,79 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * @return
      */
     @Override
-    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+    public QueryExamRubricFan queryexamrubric(RubricQuery rubricQuery) throws ParseException {
+
+        /**
+         * 取出前端传来的时间
+         */
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begintime = rubricQuery.getBegintime();
+        //转换成int类型
+        long beginint = begintime.getTime();
+        //加上考试时长生成一个考试结束时间的int
+        long examendtimeint = beginint + rubricQuery.getExamtime() * 60 * 1000;
+
+
+        /**
+         * 用考试结束时间与当前时间相比较
+         */
+        Date presenttime = df.parse(df.format(new Date()));
+        long presenttimeint = presenttime.getTime();
+
+        /**
+         * 计算考试结束时间与当前时间的差值(剩余的时间)
+         */
+        long difference = (examendtimeint - presenttimeint) / 1000;
+
+        /**
+         * 倒计时时间
+         *
+         */
+        String downtime = SecondformDate.change(difference);
+
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
         }
-        return examrubricList;
+        return new QueryExamRubricFan(examrubricList, downtime);
     }
+
+
+    /**
+     * 考试过之后成绩处理
+     */
+    @Override
+    public Object examend(ExamUltimately examUltimately) {
+
+        /**
+         * (根据考试试id将试卷的所有试题查询出来,
+         *  从中单独取出来试题的题干中的答案id[answerId],
+         *  遍历该id集合,使之与学生所选的答案id比较.
+         *  在根据答案id的外键关系可以获取到考试试卷的id,
+         *  再根据考试试卷id,对试题进行加分.)
+         */
+        RubricQuery rubricQuery = new RubricQuery();
+        rubricQuery.setExamparper(examUltimately.getExamparperId());
+        List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
+
+        List<String> answerlist = new ArrayList<>();
+
+        for (int i = 0; i < examrubricList.size(); i++) {
+            String answer = null;
+            answerlist.add(examrubricList.get(i).getAnswerId());
+        }
+
+
+        for (int j = 0; j < answerlist.size(); j++) {
+            if (examUltimately.getSelectanswerId().equals(answerlist.get(j))) {
+                Examanswer examanswer = examanswerdao.findById(answerlist.get(j)).get();
+                Examrubric examrubric = examanswer.getExamrubric();
+            }
+        }
+
+
+        return null;
+    }
+
 
 }

@@ -56,6 +56,12 @@ public interface ExamrubricService {
      *
      * @return
      */
-    List<Examrubric> queryexamrubric(RubricQuery rubricQuery);
+    QueryExamRubricFan queryexamrubric(RubricQuery rubricQuery) throws ParseException;
+
+    /**
+     * 考试过之后成绩处理
+     */
+    Object examend(ExamUltimately examUltimately);
+
 
 }
