@@ -214,8 +214,8 @@ public class ExamrubricController {
     /**
      * 根据试卷id获取试卷
      */
-    @RequestMapping(value = "/queryexamrubric", method = RequestMethod.POST)
-    public QueryExamRubricFan queryexamrubric(RubricQuery rubricQuery) throws ParseException {
+    @RequestMapping(value = "/queryexamrubricer", method = RequestMethod.POST)
+    public QueryExamRubricFan queryexamrubricer(RubricQuery rubricQuery) throws ParseException {
         return examrubricservice.queryexamrubric(rubricQuery);
     }
 

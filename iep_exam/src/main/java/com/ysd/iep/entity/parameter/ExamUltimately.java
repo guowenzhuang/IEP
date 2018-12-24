@@ -26,5 +26,4 @@ public class ExamUltimately {
     private String selectanswerId;
 
 
-
 }
