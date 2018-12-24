@@ -1,23 +1,21 @@
 package com.ysd.iep.serviceImpl;
 
+import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import javax.persistence.Query;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.ReplyRepository;
-import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.ReplyQuery;
 import com.ysd.iep.service.ReplyService;
@@ -27,6 +25,46 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Autowired
 	private ReplyRepository replyRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
+	/**
+	 * 动态分页查询（后台管理）
+	 */
+	public Page<Reply> queryAllPage(ReplyQuery replyQuery, Pageable pageable) {
+		StringBuilder dataSql = new StringBuilder(
+				"SELECT * FROM  replytb");
+		StringBuilder countSql = new StringBuilder(
+				"SELECT COUNT(1) FROM  replytb");
+		// 拼接where条件
+		StringBuilder whereSql = new StringBuilder(" WHERE reply_parentid > 0 ");
+		if (StringUtils.isNotEmpty(replyQuery.getUserName())) {
+			whereSql.append(" AND user_name like '%" + replyQuery.getUserName() + "%'");
+		}
+		// 拼接orderBy条件
+		StringBuilder orderBySql = new StringBuilder("ORDER BY reply_time desc");
+		if ("replyLikenum".equals(replyQuery.getOrderBy())) {
+			orderBySql.append(" , reply_likenum desc");
+		}
+		if ("replyReportnum".equals(replyQuery.getOrderBy())) {
+			orderBySql.append(" , reply_reportnum desc");
+		}
+		// 组装sql语句
+		dataSql.append(whereSql).append(orderBySql);
+		countSql.append(whereSql);
+
+		Query dataQuery = entityManager.createNativeQuery(dataSql.toString(), Reply.class);
+		Query countQuery = entityManager.createNativeQuery(countSql.toString());
+
+		// 设置分页
+		dataQuery.setFirstResult((int) pageable.getOffset());
+		dataQuery.setMaxResults(pageable.getPageSize());
+		BigInteger count = (BigInteger) countQuery.getSingleResult();
+		Long total = count.longValue();
+		List<Reply> content2 = total > pageable.getOffset() ? dataQuery.getResultList() : Collections.<Reply>emptyList();
+		return new PageImpl<>(content2, pageable, total);
+
+	}
+	
 	/**
 	 * 查询回复列表
 	 * @param postId 所属帖子id

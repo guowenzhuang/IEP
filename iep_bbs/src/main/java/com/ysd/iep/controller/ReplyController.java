@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.Reply;
+import com.ysd.iep.entity.ReplyQuery;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
@@ -22,11 +26,12 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 	@Autowired
+	private PostService postService;
+	@Autowired
 	private AdminFeign adminFeign;
 
 	/**
 	 * 查询帖子下的回复列表
-	 * 
 	 * @param postId
 	 * @return
 	 */
@@ -153,5 +158,55 @@ public class ReplyController {
 		}
 		return map;
 	}
+	
+	
+	/**
+	 * 动态分页查询（后台管理）
+	 * @param ReplyQuery
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(value="getAllReply",method=RequestMethod.POST)
+	public Object getAllReply(ReplyQuery replyQuery,Integer page,Integer rows) {
+		
+		Pageable pageable = new PageRequest(page - 1, rows);
+		Page<Reply> replys = replyService.queryAllPage(replyQuery, pageable);
+		System.out.println("replys==>"+replys);
+		Map<String, Object> map = new HashMap<String, Object>();
+		long total = replys.getTotalElements();
+		List<Reply> list = replys.getContent();
+		for (Reply reply : list) {
+			//从点赞记录表中查询每个帖子的点赞数添加到属性里
+			int likeNum=postService.getLikeNum(reply.getReplyId());			
+			reply.setReplyLikenum(likeNum);
+			System.out.println("replyid"+reply.getReplyId()+"  "+likeNum);
+			//将点赞数更新到数据库的字段里
+			postService.updateLikeNum(reply.getReplyId(), likeNum);
+			//查询每个帖子举报数
+			int reportNum=postService.getReportNum(reply.getReplyId());
+			reply.setReplyReportnum(reportNum);
+			postService.updateReportNum(reply.getReplyId(), reportNum);
+			
+			reply.setReplyUsername(adminFeign.getNameById(reply.getUserId()).getMessage());
+		}
+		map.put("total", total);
+		map.put("rows", list);
+		return map;
+	}
+	/**
+	 * 查询帖子下的回复列表
+	 * （后台管理）
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value = "getReplyList", method = RequestMethod.POST)
+	public Object getReplyList(Integer postId) {
+		 Map<String, Object> map = new HashMap<String, Object>();
+		List<Reply> replylist = replyService.queryReplyByPostId(postId);
+		map.put("rows", replylist);
+		return map;
+	}
+
 
 }

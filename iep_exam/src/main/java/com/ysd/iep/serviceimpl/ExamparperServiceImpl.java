@@ -385,6 +385,21 @@ public class ExamparperServiceImpl implements ExamparperService {
 
 
     }
+
+    /***
+     * 查询本门课程下未开考的试卷
+     * @param subject
+     * @return
+     */
+    public Object querySubjectType(String subject){
+        return examparperDao.querySubjectAndState(subject);
+    }
+
+    /***
+     * StringList转String字符串
+     * @param stringList
+     * @return
+     */
     public static String listToString(List<String> stringList) {
         if (stringList == null) {
             return null;

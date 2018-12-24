@@ -2,8 +2,11 @@ package com.ysd.iep.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.ysd.iep.entity.Reply;
+import com.ysd.iep.entity.ReplyQuery;
 
 
 public interface ReplyService {
@@ -79,6 +82,16 @@ public interface ReplyService {
 	 * @return
 	 */
 	public String queryUserIdByReplyId(Integer replyId);
+	
+	/**
+	 * 带条件分页查询回复
+	 * (管理員方法)
+	 * @param Reply
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	public Page<Reply> queryAllPage(ReplyQuery replyQuery, Pageable pageable);
 	
 	
 
