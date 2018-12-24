@@ -26,16 +26,22 @@ public class Chapters implements Serializable{
 	private Integer chaParentid;
 	@Column(columnDefinition = "varchar(50) DEFAULT NULL COMMENT '章节名称'")
 	private String chaName;
-	@Column(columnDefinition="varchar(100)  NULL comment '备注:章节视频地址'")
-	private String chaViurl;
-	@Column(columnDefinition="varchar(50)  NULL comment '备注:章节ppt地址'")
+   @Column(columnDefinition="varchar(50)  NULL comment '备注:章节ppt地址'")
 	private String chaPpturl;
 	@Column(columnDefinition="varchar(100)  NULL comment '备注:章节文档地址'")
 	private String chaDocurl;//章节文档地址
 	@Column(columnDefinition="int null comment '备注:课程id(外建)'")
 	private Integer chaCourid;
+    @Column(columnDefinition="varchar(50)  NULL comment '备注:视频type'")
+	private String chaType;
+	@Column(columnDefinition="varchar(100)  NULL comment '备注:章节视频地址'")
+	private String chaViurl;
+	@Column(columnDefinition="varchar(50)  NULL comment '备注:最后一次修改时间'")
+	private String chalastModified;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:视频时长'")
 	private String chaTime;//视频时长
+	@Column(columnDefinition="varchar(50)  NULL comment '备注:视频大小'")
+	private String chaSize ;
 	@Transient
 //	@JsonInclude(Include.NON_NULL)
 	// 如果该属性为NULL则不参与序列化
