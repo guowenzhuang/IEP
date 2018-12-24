@@ -10,11 +10,14 @@ import com.ysd.iep.entity.dto.TeachersDTO;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teachers, String> , JpaSpecificationExecutor<Teachers> {
 
+	@Query(value = "from Teachers where teaId in (:ids)")
+	List<Teachers> findById(@Param("ids") String[] ids);
 	@Query(value = "INSERT INTO teachertb (tea_id)VALUES(?1)", nativeQuery = true)
 	@Modifying
 	@Transactional

@@ -27,6 +27,14 @@ public class TeachersController {
     private AdminFeign adminFeign;
     @Autowired
     private TeacherRepository teaRep;
+
+    @GetMapping
+    public Result<List<Teachers>> get(@RequestParam("teaid") String teaids){
+        String[] ids=teaids.split(",");
+        List<Teachers> teachers=teaRep.findById(ids);
+        return new Result<List<Teachers>>(true,teachers);
+    }
+
     @ApiOperation(value = "增加老师")
     @PostMapping("/addTeacher")
     public Result<String> AddTeacher(@RequestParam("teaId") String teaId){
@@ -53,14 +61,17 @@ public class TeachersController {
     @ApiOperation(value = "查询老师信息")
     @GetMapping("/getAllTeacher")
     public Result<List<TeacherDTO>>  getAllTeacher(){
+        //分页 条件
         List<String> list=teaRep.queryTeacherId();
         List<List<TeacherDTO>> tealist=new ArrayList<List<TeacherDTO>>();
         for (String string : list) {
         	Result<String> result = adminFeign.getNameById(string);
-        	String name = result.getMessage();//获取单个教师姓名
+            //获取单个教师姓名
+        	String name = result.getMessage();
         	List<TeacherDTO> tea = teachersService.queryTeacher(string);
         	System.out.println("tea>>>>>>>>>>>>>>>>"+tea);
-        	tea.get(0).setTeaName(name);//把查询到的名字赋值给tea
+            //把查询到的名字赋值给tea
+        	tea.get(0).setTeaName(name);
         	  System.out.println("teaList>>>>>>>>>>>>"+tea);
         	  tealist.add(tea);
 		}
