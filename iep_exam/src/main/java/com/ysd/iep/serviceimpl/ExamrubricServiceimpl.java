@@ -594,8 +594,30 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         String downtime = SecondformDate.change(difference);
 
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
+
+        List<Examrubric> radiorubricList = new ArrayList<>();
+        List<Examrubric> duorubricList = new ArrayList<>();
+        List<Examrubric> packrubricList = new ArrayList<>();
+        List<Examrubric> judgerubricList = new ArrayList<>();
+
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
+            if (examrubricList.get(i).getRubricttype().equals("单选题")) {
+                Examrubric radiorubric = new Examrubric();
+                radiorubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("多选题")) {
+                Examrubric duorubric = new Examrubric();
+                duorubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("填空题")) {
+                Examrubric packrubric = new Examrubric();
+                packrubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("判断题")) {
+                Examrubric judgerubric = new Examrubric();
+                judgerubricList.add(examrubricList.get(i));
+            }
         }
 
         /**
@@ -604,7 +626,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
 
 
-        return new QueryExamRubricFan(examrubricList, downtime, examparper1);
+        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, downtime, examparper1);
     }
 
     /**
@@ -700,6 +722,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     /**
      * 查看考试试卷(做完的考试试卷)
+     * (1)首先查看考过这张试卷的学生
+     * (2)
      */
 
 
