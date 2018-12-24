@@ -5,7 +5,6 @@ import javax.transaction.Transactional;
 
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.TeacherDTO;
-import com.ysd.iep.entity.dto.TeachersDTO;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

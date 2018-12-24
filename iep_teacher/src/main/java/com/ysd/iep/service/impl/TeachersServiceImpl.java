@@ -5,7 +5,6 @@ import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
-import com.ysd.iep.entity.dto.TeachersDTO;
 import com.ysd.iep.service.TeachersService;
 import com.ysd.iep.util.JpaObjectsToEntity;
 
@@ -46,8 +45,5 @@ public class TeachersServiceImpl implements TeachersService {
 		return list;
 	}
 	
-	public List<TeacherDTO> queryTeachers(String teaId1){
-		return teacherRepository.queryTeachers(teaId1);
-		
-	}
+
 }
