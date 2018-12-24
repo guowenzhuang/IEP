@@ -37,7 +37,6 @@ public class ExamrubricController {
     @Autowired
     RubricService rubricservice;
 
-
     /**
      * 多条件分页查询所有考试试题
      */
@@ -56,7 +55,6 @@ public class ExamrubricController {
 
         return new ExamrubricFan(total, list);
     }
-
 
     /**
      * 根据试卷id查询考试试题
@@ -145,7 +143,6 @@ public class ExamrubricController {
         return lookparperQueries;
     }
 
-
     /**
      * 新增试题
      */
@@ -202,7 +199,6 @@ public class ExamrubricController {
         return examrubricservice.createparper(parperid);
     }
 
-
     /**
      * 点击开始考试按钮
      */
@@ -214,9 +210,25 @@ public class ExamrubricController {
     /**
      * 根据试卷id获取试卷
      */
-    @RequestMapping(value = "/queryexamrubric", method = RequestMethod.POST)
-    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+    @RequestMapping(value = "/queryexamrubricer", method = RequestMethod.POST)
+    public QueryExamRubricFan queryexamrubricer(RubricQuery rubricQuery) throws ParseException {
         return examrubricservice.queryexamrubric(rubricQuery);
+    }
+
+    /**
+     * 考试过之后成绩处理(单题的改卷处理)
+     */
+    @RequestMapping(value = "/examend", method = RequestMethod.POST)
+    public Object examend(ExamUltimately examUltimately) {
+        return examrubricservice.examend(examUltimately);
+    }
+
+    /**
+     * 整个试卷做完之后点击交卷时候
+     */
+    @RequestMapping(value = "/examination", method = RequestMethod.POST)
+    public Object examination(ExamUltimately examUltimately) {
+        return examrubricservice.examination(examUltimately);
     }
 
 }

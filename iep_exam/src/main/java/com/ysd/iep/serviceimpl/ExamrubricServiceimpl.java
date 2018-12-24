@@ -1,12 +1,11 @@
 package com.ysd.iep.serviceimpl;
 
 
-import com.ysd.iep.dao.ExamanswerDao;
-import com.ysd.iep.dao.ExamparperDao;
-import com.ysd.iep.dao.ExamrubricDao;
+import com.ysd.iep.dao.*;
 import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.ExamrubricService;
+import com.ysd.iep.util.SecondformDate;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +35,10 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     ExamanswerDao examanswerdao;
     @Autowired
     ExamparperDao examparperdao;
-
+    @Autowired
+    StudentexamlogDao studentexamlogdao;
+    @Autowired
+    PerformanceDao performancedao;
 
     /**
      * 多条件分页查询考试试题
@@ -311,7 +313,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     }
 
-
     /**
      * 新增考试题干(新增考试题(仅对新增多选单选))
      */
@@ -434,7 +435,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             }
         }
     }
-
 
     /**
      * 考试试题的删除
@@ -563,12 +563,132 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * @return
      */
     @Override
-    public List<Examrubric> queryexamrubric(RubricQuery rubricQuery) {
+    public QueryExamRubricFan queryexamrubric(RubricQuery rubricQuery) throws ParseException {
+
+        /**
+         * 取出前端传来的时间
+         */
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).get();
+
+        Date begintime = examparper.getCreatetime();
+        //转换成int类型
+        long beginint = begintime.getTime();
+        //加上考试时长生成一个考试结束时间的int
+        long examendtimeint = beginint + examparper.getDuration() * 60 * 1000;
+        /**
+         * 用考试结束时间与当前时间相比较
+         */
+        Date presenttime = df.parse(df.format(new Date()));
+        long presenttimeint = presenttime.getTime();
+
+        /**
+         * 计算考试结束时间与当前时间的差值(剩余的时间)
+         */
+        long difference = (examendtimeint - presenttimeint) / 1000;
+        /**
+         * 倒计时时间
+         *
+         */
+        String downtime = SecondformDate.change(difference);
+
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
         }
-        return examrubricList;
+        return new QueryExamRubricFan(examrubricList, downtime);
     }
+
+    /**
+     * 考试做题记录成绩记录表中
+     */
+    @Override
+    public Object examend(ExamUltimately examUltimately) {
+
+        try {
+            String Id = UUIDUtils.getUUID();
+            Integer score = 0;
+
+            /**
+             * (根据考试试id将试卷的所有试题查询出来,
+             *  从中单独取出来试题的题干中的答案id[answerId],
+             *  遍历该id集合,使之与学生所选的答案id比较.
+             *  在根据答案id的外键关系可以获取到考试试卷的id,
+             *  再根据考试试卷id,对试题进行加分.)
+             */
+            RubricQuery rubricQuery = new RubricQuery();
+            rubricQuery.setExamparper(examUltimately.getExamparperId());
+            List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
+
+            List<String> answerlist = new ArrayList<>();
+
+            for (int i = 0; i < examrubricList.size(); i++) {
+                String answer = null;
+                answerlist.add(examrubricList.get(i).getAnswerId());
+            }
+
+
+            for (int j = 0; j < answerlist.size(); j++) {
+                if (examUltimately.getSelectanswerId().equals(answerlist.get(j))) {
+                    Examanswer examanswer = examanswerdao.findById(answerlist.get(j)).get();
+                    Examrubric examrubric = examanswer.getExamrubric();
+                    score = examrubric.getScore();
+
+                }
+            }
+            /**
+             * 声明一个新下考试记录对象
+             */
+            Studentexamlog studentexamlog = new Studentexamlog();
+            studentexamlog.setId(Id);
+            studentexamlog.setExamparperId(examUltimately.getExamparperId());
+            studentexamlog.setSelectId(examUltimately.getSelectanswerId());
+            studentexamlog.setStudentId(examUltimately.getStudentId());
+            studentexamlog.setPerformance(score);
+            studentexamlogdao.save(studentexamlog);
+            return new Result(true, "记录成功", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "记录失败", null);
+        }
+    }
+
+    /**
+     * 整个试卷做完之后点击交卷时候
+     */
+    @Override
+    public Object examination(ExamUltimately examUltimately) {
+
+        try {
+            String Id = UUIDUtils.getUUID();
+            Integer total = 0;
+            Performance performance = new Performance();
+
+            /**
+             * 查询出考试记录中当前试卷的所有的考试记录
+             */
+            List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
+
+            for (int i = 0; i < studentexamlogs.size(); i++) {
+                total += studentexamlogs.get(i).getPerformance();
+            }
+            performance.setId(Id);
+            performance.setParperId(examUltimately.getExamparperId());
+            performance.setStudentId(examUltimately.getStudentId());
+            performance.setTotal(total);
+            /**
+             * 记录考试总成绩
+             */
+            performancedao.save(performance);
+            return new Result(true, "成绩记录成功,总分" + total, null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "成绩记录失败", null);
+        }
+    }
+
 
 }
