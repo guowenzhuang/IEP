@@ -18,4 +18,5 @@ public class QueryExamRubricFan {
 
     private List<Examrubric> examrubricList;
     private String downtime;
+    private Object parpercontent;
 }

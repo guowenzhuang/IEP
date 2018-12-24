@@ -572,7 +572,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).get();
 
-        Date begintime = examparper.getCreatetime();
+        Date begintime = examparper.getExamtime();
         //转换成int类型
         long beginint = begintime.getTime();
         //加上考试时长生成一个考试结束时间的int
@@ -597,7 +597,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
         }
-        return new QueryExamRubricFan(examrubricList, downtime);
+
+        /**
+         * 卷子的信息
+         */
+        Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
+
+
+        return new QueryExamRubricFan(examrubricList, downtime, examparper1);
     }
 
     /**
@@ -689,6 +696,11 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             return new Result(false, "成绩记录失败", null);
         }
     }
+
+
+    /**
+     * 查看考试试卷(做完的考试试卷)
+     */
 
 
 }
