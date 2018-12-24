@@ -9,6 +9,7 @@ import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
 import com.ysd.iep.entity.query.UsersQuery;
+import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
 import com.ysd.iep.feign.StudentFeign;
@@ -16,6 +17,7 @@ import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import com.ysd.iep.util.PasswordEncrypt;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -44,10 +47,38 @@ public class UsersService {
     private UsersDao usersDao;
     @Autowired
     private RolesDao rolesDao;
-    @Autowired
+    @Autowired(required = false)
     private StudentFeign studentFeign;
-    @Autowired
+    @Autowired(required = false)
     private TeacherFeign teacherFeign;
+
+    public PagingResult<UsersTeaDTO> get(UsersRoleQuery usersRoleQuery){
+        //获取角色id
+        String roleId=rolesDao.findByName(usersRoleQuery.getRoleName()).getId();
+        //分页查询
+        Pageable pageable = PageRequest.of(usersRoleQuery.getPage() - 1, usersRoleQuery.getRows());
+        Page<UsersDB> byRole = null;
+        if(EmptyUtil.stringE(usersRoleQuery.getName())){
+            byRole=usersDao.findByRole(usersRoleQuery.getName(),roleId,pageable);
+        }else{
+            byRole=usersDao.findByRole(roleId,pageable);
+        }
+        List<UsersDB> usersDBS = byRole.getContent();
+        List<String>  userIds=usersDBS.stream().map(UsersDB::getId).collect(Collectors.toList());
+        String ids = StringUtils.join(userIds, ",");
+        //查询老师信息
+        Result<List<UsersTeaDTO>> result=teacherFeign.get(ids);
+        List<UsersTeaDTO> usersTeaDTOS=result.getMessage();
+        for (int i = 0; i < usersTeaDTOS.size(); i++) {
+            UsersTeaDTO ut=usersTeaDTOS.get(i);
+            UsersDB u=usersDBS.get(i);
+            BeanConverterUtil.copyObject(u,ut);
+        }
+        PagingResult pagingResult=new PagingResult();
+        pagingResult.setTotal(byRole.getTotalElements());
+        pagingResult.setRows(usersTeaDTOS);
+        return pagingResult;
+    }
 
 
     @PreAuthorize("hasAuthority('user:query')")
