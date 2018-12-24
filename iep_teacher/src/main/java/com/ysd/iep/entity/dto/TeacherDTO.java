@@ -8,7 +8,7 @@ import lombok.Data;
 
 @ApiModel("教师传输类")
 @Data
-public class TeacherDTO implements TeachersDTO{
+public class TeacherDTO  {
 	private String teaId;
 	private String teaName;
 	private Integer teaDepartmentid;
