@@ -32,8 +32,5 @@ public class RubricQuery {
     private String coursetype;
     private String examparper;
 
-    private Date begintime;//开始时间
-    private Integer examtime;//考试时长
-
 
 }

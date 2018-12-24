@@ -4,6 +4,7 @@ package com.ysd.iep.serviceimpl;
 import com.ysd.iep.dao.ExamanswerDao;
 import com.ysd.iep.dao.ExamparperDao;
 import com.ysd.iep.dao.ExamrubricDao;
+import com.ysd.iep.dao.StudentexamlogDao;
 import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.ExamrubricService;
@@ -37,6 +38,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     ExamanswerDao examanswerdao;
     @Autowired
     ExamparperDao examparperdao;
+    @Autowired
+    StudentexamlogDao studentexamlogdao;
 
 
     /**
@@ -570,12 +573,14 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          * 取出前端传来的时间
          */
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date begintime = rubricQuery.getBegintime();
+
+        Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).get();
+
+        Date begintime = examparper.getCreatetime();
         //转换成int类型
         long beginint = begintime.getTime();
         //加上考试时长生成一个考试结束时间的int
-        long examendtimeint = beginint + rubricQuery.getExamtime() * 60 * 1000;
-
+        long examendtimeint = beginint + examparper.getDuration() * 60 * 1000;
 
         /**
          * 用考试结束时间与当前时间相比较
@@ -603,10 +608,13 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
 
     /**
-     * 考试过之后成绩处理
+     * 考试做题记录成绩记录表中
      */
     @Override
     public Object examend(ExamUltimately examUltimately) {
+
+        String Id = UUIDUtils.getUUID();
+        Integer score = 0;
 
         /**
          * (根据考试试id将试卷的所有试题查询出来,
@@ -631,9 +639,21 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             if (examUltimately.getSelectanswerId().equals(answerlist.get(j))) {
                 Examanswer examanswer = examanswerdao.findById(answerlist.get(j)).get();
                 Examrubric examrubric = examanswer.getExamrubric();
+                score = examrubric.getScore();
+
             }
         }
 
+        /**
+         * 声明一个新下考试记录对象
+         */
+        Studentexamlog studentexamlog = new Studentexamlog();
+        studentexamlog.setId(Id);
+        studentexamlog.setExamparperId(examUltimately.getExamparperId());
+        studentexamlog.setSelectId(examUltimately.getSelectanswerId());
+        studentexamlog.setStudentId(examUltimately.getStudentId());
+        studentexamlog.setPerformance(score);
+        studentexamlogdao.save(studentexamlog);
 
         return null;
     }
