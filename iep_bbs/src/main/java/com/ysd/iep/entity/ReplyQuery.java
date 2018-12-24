@@ -7,6 +7,5 @@ public class ReplyQuery {
 	
 	private String userName;
 	private String orderBy;
-	private Integer parentId;
 
 }

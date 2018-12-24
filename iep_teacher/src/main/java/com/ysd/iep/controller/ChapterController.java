@@ -20,7 +20,7 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
-    
+
     @Autowired
     private ChapterRepository chapRep;
 
@@ -45,21 +45,21 @@ public class ChapterController {
     }
 
     @ApiOperation(value = "删除章节")
-    @DeleteMapping("/deleteChapters")
-    public Result deleteChapters(@RequestParam("chaId") Integer chaId) {
-    	List<Chapters> list = chapRep.queryChildren(chaId);
-    	if (list.size()>0) {
-    		return new Result(false).setMessage("该章节下有子节点,不能被删除");
-		} else {
-			 chapterService.deleteChapters(chaId);
-		     return new Result(true);
-		}
+    @DeleteMapping("/{chaId}")
+    public Result deleteChapters(@PathVariable("chaId") Integer chaId) {
+        return chapterService.deleteChapters(chaId);
     }
-    
+
     @ApiOperation(value = "修改章节")
     @PutMapping("/updateChapters")
     public Result updateChapters(Chapters chapters) {
         chapterService.updateCourse(chapters);
+        return new Result(true);
+    }
+    @ApiOperation(value = "修改视频")
+    @PostMapping("/updateChaViurlAtime")
+    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName, Integer courId){
+        chapterService.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
         return new Result(true);
     }
 }

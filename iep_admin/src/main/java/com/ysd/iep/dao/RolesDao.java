@@ -14,6 +14,8 @@ import java.util.List;
  * @date 2018/11/12 8:55
  */
 public interface RolesDao extends BaseDao<RolesDB, String> {
+
+    RolesDB findByName(String name);
     /**
      * 根据用户id查询属于用户的id
      *
