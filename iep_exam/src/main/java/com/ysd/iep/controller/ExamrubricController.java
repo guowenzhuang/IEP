@@ -231,7 +231,7 @@ public class ExamrubricController {
         return examrubricservice.examination(examUltimately);
     }
 
-    
 
 
-    }
+
+}

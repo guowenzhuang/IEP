@@ -1,5 +1,6 @@
 package com.ysd.iep.feign;
 
+import com.ysd.iep.entity.dto.Chapters;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,4 +21,7 @@ public interface TeacherFeign {
 
     @RequestMapping("/course/findCourseById")
     List<Course> getCoursedetails(@RequestParam("courId") String courId);
+
+    @GetMapping("/chapter/queryChapter")
+    List<Chapters> queryChapter(@RequestParam("courId") Integer courId);
 }

@@ -1,5 +1,6 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.*;
@@ -65,6 +66,8 @@ public interface ExamrubricService {
      * 整个试卷做完之后点击交卷时候
      */
     Object examination(ExamUltimately examUltimately);
+
+
 
 
 }

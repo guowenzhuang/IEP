@@ -113,7 +113,8 @@ public class CourseServiceImpl implements CourseService {
         c.setCourPrice(course.getCourPrice());
         if(EmptyUtil.stringE(course.getCourPicurl()));
         c.setCourPicurl(course.getCourPicurl());
-
+        if(EmptyUtil.stringE(course.getCourContent()));
+        c.setCourContent(course.getCourContent());
         coursedao.save(c);
         return new Result(true);
     }
