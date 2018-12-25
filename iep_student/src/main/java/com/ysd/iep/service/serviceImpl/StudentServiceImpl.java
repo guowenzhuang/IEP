@@ -24,6 +24,7 @@ public class StudentServiceImpl implements StudentService {
 	/***
 	 * 移除学生
 	 */
+	@Override
 	public void deleteStudent(String sid) {
 		studentRepository.deleteById(sid);
 	}

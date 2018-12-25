@@ -1,6 +1,6 @@
 package com.ysd.iep.entity.dto;
 
-import com.ysd.iep.entity.po.Recommend;
+import com.ysd.iep.entity.po.RecommendDB;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Data
 public class RecommendIndexDTO {
-    private List<Recommend> recommend001;
-    private List<Recommend> recommend002;
+    private List<RecommendDB> recommend001;
+    private List<RecommendDB> recommend002;
 }

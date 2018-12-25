@@ -66,7 +66,6 @@ public class UsersService {
         List<UsersDB> usersDBS = byRole.getContent();
         List<String>  userIds=usersDBS.stream().map(UsersDB::getId).collect(Collectors.toList());
         String ids = StringUtils.join(userIds, ",");
-        //查询老师信息
         Result<List<UsersTeaDTO>> result=teacherFeign.get(ids);
         List<UsersTeaDTO> usersTeaDTOS=result.getMessage();
         for (int i = 0; i < usersTeaDTOS.size(); i++) {

@@ -23,5 +23,7 @@ public class LookparperQuery {
     private Integer score;//题的分数
     private boolean seen;
 
+    private String selectanswer;//学生所选的答案
+
 
 }
