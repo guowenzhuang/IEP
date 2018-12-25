@@ -107,8 +107,13 @@ public class CourseServiceImpl implements CourseService {
     public Result updateCourse(Course course) {
 
         Course c = coursedao.getOne(course.getCourId());
-        c.setCourName(course.getCourName());
+        if(EmptyUtil.stringE(course.getCourName()));
+            c.setCourName(course.getCourName());
+        if(EmptyUtil.doubleE(course.getCourPrice()));
         c.setCourPrice(course.getCourPrice());
+        if(EmptyUtil.stringE(course.getCourPicurl()));
+        c.setCourPicurl(course.getCourPicurl());
+
         coursedao.save(c);
         return new Result(true);
     }

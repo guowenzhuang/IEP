@@ -34,6 +34,17 @@ public class EmptyUtil {
             return false;
         return true;
     }
+    /**
+     * int类型null空判定
+     *
+     * @param i
+     * @return
+     */
+    public static boolean doubleE(double i) {
+        if (i == 0)
+            return false;
+        return true;
+    }
 
     public static boolean dateE(Date date) {
         if (date == null) {
