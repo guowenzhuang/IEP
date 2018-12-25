@@ -53,7 +53,7 @@ public class OssService {
             }
             PutObjectResult putObjectResult=ossClient.putObject(ConstantProperties.SPRING_OSS_BUCKET_NAME,
                     path, file.getInputStream());
-
+            //String url=ConstantProperties.PATH_PREFIX+path;
             FileInfo info=getInfo(path,ossClient);
             return new Result<FileInfo>(true,info);
         } catch (OSSException oe) {
@@ -78,14 +78,15 @@ public class OssService {
         return info;
     }
     /**
-     * 获取url
+     * 获取url (该方法已不可用)
      * @param path
      * @return
      */
-    public URL getUrl(String path){
-        MyOSSClient ossClient = getClient();
+    @Deprecated
+    public URL getUrl(String path,OSSClient ossClient){
+        System.out.println("不可用");
         // 设置过期时间。
-        Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000*2);
+        Date expiration = new Date(System.currentTimeMillis() + 1000*60*60);
         // 生成签名URL（HTTP GET请求）。
         URL signedUrl = ossClient .generatePresignedUrl(ConstantProperties.SPRING_OSS_BUCKET_NAME, path,expiration);
         return signedUrl;

@@ -1,5 +1,6 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.bean.ConstantProperties;
 import com.ysd.iep.bean.FileInfo;
 import com.ysd.iep.bean.Result;
 import com.ysd.iep.service.OssService;
@@ -35,7 +36,10 @@ public class OssController {
             if (null != file) {
                 String filename = file.getOriginalFilename();
                 if (!"".equals(filename.trim())) {
-                    return ossService.upload(file,path);
+                    Result<FileInfo> upload = ossService.upload(file, path);
+                    FileInfo fileInfo=upload.getMessage();
+                    fileInfo.setPath(ConstantProperties.PATH_PREFIX+fileInfo.getPath());
+                    return upload;
                 }
             }
         } catch (Exception e) {
@@ -49,8 +53,8 @@ public class OssController {
     public InputStream downloadFile(String path){
         return ossService.download(path);
     }
-    @GetMapping("/getUrl")
+   /* @GetMapping("/getUrl")
     public URL getUrl(String path){
         return ossService.getUrl(path);
-    }
+    }*/
 }

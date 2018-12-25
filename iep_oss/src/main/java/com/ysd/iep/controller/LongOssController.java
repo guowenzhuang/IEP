@@ -1,5 +1,7 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.bean.ConstantProperties;
+import com.ysd.iep.bean.FileInfo;
 import com.ysd.iep.bean.Result;
 import com.ysd.iep.service.LongOssService;
 import io.swagger.annotations.Api;
@@ -55,7 +57,10 @@ public class LongOssController {
     })
     @PostMapping("/loadUploadEnd")
     public Result loadUploadEnd(String uploadId, String path) {
-        return longOssService.loadUploadEnd(uploadId, path);
+        Result<FileInfo> upload = longOssService.loadUploadEnd(uploadId, path);
+        FileInfo fileInfo=upload.getMessage();
+        fileInfo.setPath(ConstantProperties.PATH_PREFIX+fileInfo.getPath());
+        return upload;
     }
 
 
