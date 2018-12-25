@@ -11,28 +11,25 @@ import javax.persistence.*;
  * @date 2018/11/12 8:55
  */
 @Entity
-@Table(name = "recommend", schema = "ip-permission", catalog = "")
+@Table(name = "position", schema = "ip-permission", catalog = "")
 @Data
 @Accessors(chain = true)
-public class Recommend {
-    /**
-     * id
-     */
+public class PositionDB {
     @Id
     @Column(name = "id", nullable = false, length = 100)
     @GenericGenerator(name="idGenerator", strategy="uuid")
     @GeneratedValue(generator="idGenerator")
     private String id;
     /**
-     * 推荐课程id
+     * 位置名称
      */
-    private Integer coursetId;
+    private String name;
     /**
-     * 推荐位置id
+     * 位置编号
      */
-    private String positionId;
+    private String code;
     /**
-     * 权重
+     * 位置推荐课程的数量
      */
-    private Integer weight;
+    private Integer nums;
 }
