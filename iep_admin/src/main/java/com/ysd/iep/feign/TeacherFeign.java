@@ -3,7 +3,6 @@ package com.ysd.iep.feign;
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
-import com.ysd.iep.entity.dto.UsersTeaDTO;
 import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import io.swagger.annotations.ApiOperation;
@@ -20,9 +19,6 @@ import java.util.Map;
  */
 @FeignClient("IEP-TEACHER")
 public interface TeacherFeign {
-
-    @GetMapping("/tea")
-    Result<List<UsersTeaDTO>> get(@RequestParam("teaid") String teaids);
     /**
      * 根据课程id查询课程
      *
