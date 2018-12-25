@@ -47,8 +47,8 @@ public class RecommendController {
         PositionDB positionId002=positionService.get("002");
         List<RecommendDB> recommends002=recommendService.get(positionId002);
         RecommendIndexDTO recommendIndexDTO=new RecommendIndexDTO();
-        recommendIndexDTO.setRecommendDB001(recommends001);
-        recommendIndexDTO.setRecommendDB002(recommends002);
+        recommendIndexDTO.setRecommend001(recommends001);
+        recommendIndexDTO.setRecommend002(recommends002);
         return recommendIndexDTO;
     }
 

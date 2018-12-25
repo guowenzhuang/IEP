@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Data
 public class RecommendIndexDTO {
-    private List<RecommendDB> recommendDB001;
-    private List<RecommendDB> recommendDB002;
+    private List<RecommendDB> recommend001;
+    private List<RecommendDB> recommend002;
 }
