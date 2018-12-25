@@ -13,6 +13,44 @@ import java.util.List;
  */
 public interface StudentexamlogDao extends JpaRepository<Studentexamlog, String> {
 
+    /**
+     * 查询所有的考试记录根据考试试卷id
+     *
+     * @param parperid
+     * @return
+     */
     @Query(value = "SELECT *from studentexamlog_tb where examparper_id=?1", nativeQuery = true)
     public List<Studentexamlog> selecttotalforparperid(String parperid);
+
+    /**
+     * 根据考试试题题干id查询记录(判断是否存在)
+     *
+     * @param examrubricid
+     * @return
+     */
+    @Query(value = "SELECT *from studentexamlog_tb where examrubric_id=?1", nativeQuery = true)
+    public Studentexamlog selectlogforexamrubricid(String examrubricid);
+
+
+    /**
+     * 根据学生id查询出学生考试过的卷子
+     */
+    @Query(value = "SELECT *from studentexamlog_tb where student_id=?1", nativeQuery = true)
+    public List<Studentexamlog> selectlogforstudentid(String studentid);
+
+    /**
+     * 根据学生id和卷子id查询做题记录
+     *
+     * @param studentid
+     * @return
+     */
+    @Query(value = "SELECT *from studentexamlog_tb where student_id=?1 and examparper_id=?2", nativeQuery = true)
+    public List<Studentexamlog> selectlogforstudentidandparperid(String studentid, String parperid);
+
+
 }
+
+/**
+ * 36.96
+ * 36.82
+ */
