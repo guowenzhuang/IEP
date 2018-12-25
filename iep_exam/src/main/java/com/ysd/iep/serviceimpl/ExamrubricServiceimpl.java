@@ -570,32 +570,65 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          */
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).get();
+        Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).orElse(null);
 
         Date begintime = examparper.getExamtime();
         //转换成int类型
         long beginint = begintime.getTime();
         //加上考试时长生成一个考试结束时间的int
         long examendtimeint = beginint + examparper.getDuration() * 60 * 1000;
+        /*System.out.println("考试结束时间**********" + examendtimeint);*/
+
+
         /**
          * 用考试结束时间与当前时间相比较
          */
         Date presenttime = df.parse(df.format(new Date()));
         long presenttimeint = presenttime.getTime();
 
+        /*System.out.println("当前时间*****************" + presenttimeint);*/
+
         /**
          * 计算考试结束时间与当前时间的差值(剩余的时间)
          */
         long difference = (examendtimeint - presenttimeint) / 1000;
+
+        /*System.out.println("差值************" + difference);*/
+
+
         /**
          * 倒计时时间
          *
          */
         String downtime = SecondformDate.change(difference);
 
+        /*System.out.println("插值转换成时间***************" + downtime);*/
+
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
+
+        List<Examrubric> radiorubricList = new ArrayList<>();
+        List<Examrubric> duorubricList = new ArrayList<>();
+        List<Examrubric> packrubricList = new ArrayList<>();
+        List<Examrubric> judgerubricList = new ArrayList<>();
+
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
+            if (examrubricList.get(i).getRubricttype().equals("单选题")) {
+                Examrubric radiorubric = new Examrubric();
+                radiorubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("多选题")) {
+                Examrubric duorubric = new Examrubric();
+                duorubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("填空题")) {
+                Examrubric packrubric = new Examrubric();
+                packrubricList.add(examrubricList.get(i));
+            }
+            if (examrubricList.get(i).getRubricttype().equals("判断题")) {
+                Examrubric judgerubric = new Examrubric();
+                judgerubricList.add(examrubricList.get(i));
+            }
         }
 
         /**
@@ -604,7 +637,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
 
 
-        return new QueryExamRubricFan(examrubricList, downtime, examparper1);
+        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, downtime, examparper1);
     }
 
     /**
@@ -700,6 +733,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     /**
      * 查看考试试卷(做完的考试试卷)
+     * (1)首先查看考过这张试卷的学生
+     * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
      */
 
 

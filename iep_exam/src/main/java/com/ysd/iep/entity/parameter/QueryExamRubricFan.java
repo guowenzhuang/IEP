@@ -15,8 +15,22 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class QueryExamRubricFan {
-
-    private List<Examrubric> examrubricList;
+    /**
+     * 单选
+     */
+    private List<Examrubric> radiorubricList;
+    /**
+     * 多选
+     */
+    private List<Examrubric> duorubricList;
+    /**
+     * 填空题
+     */
+    private List<Examrubric> packrubricList;
+    /**
+     * 判断题
+     */
+    private List<Examrubric> judgerubricList;
     private String downtime;
     private Object parpercontent;
 }

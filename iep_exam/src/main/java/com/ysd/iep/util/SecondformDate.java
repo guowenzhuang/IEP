@@ -38,7 +38,9 @@ public class SecondformDate {
 
         /**
          * String.format("%02d", h)  可以将一位数字转化成两位数字:例1 => 01
+         * 00:20:00
          */
         return String.format("%02d", h) + ":" + String.format("%02d", d) + ":" + String.format("%02d", s);
+
     }
 }
