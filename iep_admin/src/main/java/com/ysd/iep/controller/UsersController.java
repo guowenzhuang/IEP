@@ -2,19 +2,21 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.UsersDTO;
-import com.ysd.iep.entity.dto.UsersTeaDTO;
 import com.ysd.iep.entity.dto.UsersUpdateDTO;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.UsersQuery;
-import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.entity.vo.UsersVo;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +32,6 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    @GetMapping("/getByRole")
-    @ApiOperation("根据角色姓名分页查询")
-    public  PagingResult<UsersTeaDTO> get(@RequestBody UsersRoleQuery usersRoleQuery){
-        System.out.println(usersRoleQuery);
-        return usersService.get(usersRoleQuery);
-    }
     @ApiOperation("根据用户姓名获取用户的信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name",value = "用户姓名",required = true,paramType = "query",dataType = "String")
