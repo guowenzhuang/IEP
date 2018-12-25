@@ -79,15 +79,22 @@ public class PermissionService {
                 PermissionMethod permissionMethod = method.getAnnotation(PermissionMethod.class);
                 if (preAuthorize == null) {
                     log.info("不需要收集权限");
-                    return;
+                    continue;
                 }
                 log.info("找到权限信息");
                 String value = preAuthorize.value();
                 value = value.split("'")[1];
                 //方法名称
-                String methodName=permissionMethod.value();
+                String methodName="";
+                if(permissionMethod!=null){
+                    methodName=permissionMethod.value();
+                }
                 //类型名称
-                String typeName=item.getAnnotation(PermissionType.class).value();
+                PermissionType type=item.getAnnotation(PermissionType.class);
+                String typeName="";
+                if(type!=null){
+                    typeName=type.value();
+                }
                 log.info("{} 开始插入数据库", value);
                 PermissionDB permission = new PermissionDB()
                         .setPermissionValue(value)

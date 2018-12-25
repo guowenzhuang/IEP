@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -77,13 +78,32 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public Result updateCourse(Chapters chapters) {
         Chapters c = chaperRepo.getOne(chapters.getChaId());
-        c.setChaName(chapters.getChaName());
-        c.setChaViurl(chapters.getChaViurl());
-        c.setChaCourid(chapters.getChaCourid());
-        c.setChaSize(chapters.getChaSize());
-        c.setChaTime(chapters.getChaTime());
-        c.setChalastModified(chapters.getChalastModified());
-        c.setChaType(chapters.getChaType());
+        if(EmptyUtil.stringE(chapters.getChaName()))
+            c.setChaName(chapters.getChaName());
+
+        if(EmptyUtil.stringE(chapters.getChaViurl()))
+            c.setChaViurl(chapters.getChaViurl());
+
+        if(EmptyUtil.intE(chapters.getChaCourid()))
+            c.setChaCourid(chapters.getChaCourid());
+
+        if(EmptyUtil.stringE(chapters.getChaSize()))
+            c.setChaSize(chapters.getChaSize());
+
+        if(EmptyUtil.stringE(chapters.getChaTime()))
+            c.setChaTime(chapters.getChaTime());
+
+        if(EmptyUtil.stringE(chapters.getChalastModified()))
+            c.setChalastModified(chapters.getChalastModified());
+
+        if(EmptyUtil.stringE(chapters.getChaType()))
+            c.setChaType(chapters.getChaType());
+
+        if(EmptyUtil.stringE(chapters.getChaPpturl()))
+            c.setChaPpturl(chapters.getChaPpturl());
+
+        if(EmptyUtil.stringE(chapters.getChaDocurl()))
+            c.setChaDocurl(chapters.getChaDocurl());
         chaperRepo.save(c);
         return new Result(true);
     }
