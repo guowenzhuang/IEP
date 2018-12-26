@@ -2,9 +2,15 @@ package com.ysd.iep.entity.dto;
 
 import lombok.Data;
 
-@Data
-public class Course {
+import javax.persistence.Column;
+import java.util.Date;
 
+/**
+ * @author 80795
+ * @date 2018/11/12 8:55
+ */
+@Data
+public class CourseRecord {
     private Integer courId;  //课程ID
     private String courName;
     private String courTeaid;
@@ -26,5 +32,12 @@ public class Course {
     private Integer courStudypeople;
     private Integer countChaSum;
 
-
+    private Integer rid;//学习记录id
+    private String sid;//学生id
+    private Integer cid;//课程id
+    private Integer chaid;//章节id
+    private String watchtime;//视频观看时间
+    private Integer credits;//学分
+    private Date starttime;//学习开始的时间
+    private String ext1;//预留字段
 }

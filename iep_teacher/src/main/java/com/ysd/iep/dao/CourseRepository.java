@@ -30,6 +30,9 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	 */
 	@Query(value="select * from coursetb where cour_id in (?1) ",nativeQuery=true)
 	public Course findByCourseId(Integer courId);
+
+	@Query(value="select * from coursetb where cour_id in (?1) ",nativeQuery=true)
+	List<Course> findByCourseIds(String[] courIds);
 	/**
 	 * 根据教师Id查询课程
 	 * @param teaId

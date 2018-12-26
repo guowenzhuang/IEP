@@ -3,6 +3,7 @@ package com.ysd.iep.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ysd.iep.entity.dto.Result;
 import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
