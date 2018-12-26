@@ -44,5 +44,7 @@ public class CoursePostController {
 		map.put("rows", list);
 		return map;
 	}
+	
+	
 
 }
