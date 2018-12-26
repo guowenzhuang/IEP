@@ -50,16 +50,16 @@ public class ChapterController {
         return chapterService.deleteChapters(chaId);
     }
 
-    @ApiOperation(value = "修改章节")
-    @PutMapping("/updateChapters")
+    @ApiOperation(value = "根据章节id修改视频的路径和视频的时长")
+    @PostMapping("/updateChapters")
     public Result updateChapters(Chapters chapters) {
         chapterService.updateCourse(chapters);
         return new Result(true);
     }
-    @ApiOperation(value = "修改视频")
-    @PostMapping("/updateChaViurlAtime")
-    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName, Integer courId){
-        chapterService.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
+    @ApiOperation(value = "根据课程Id查询章节的总条数")
+    @GetMapping("/queryCountById")
+    public Result queryCountById(Integer chaCourid) {
+        chapterService.queryCountById(chaCourid);
         return new Result(true);
     }
 }

@@ -4,14 +4,18 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.Recommend;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
+import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
+import com.ysd.iep.util.BeanConverterUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页控制器
@@ -40,6 +44,7 @@ public class HomeController {
      * http://localhost:8060/api/student/home/getCategory
      * @return
      */
+	@ApiOperation(value = "获取课程分类")
 	@GetMapping("/getCategory")
 	public Object getCategory() {
 		return adminService.getCategory();
@@ -48,6 +53,7 @@ public class HomeController {
 	/**
 	 *获取首页轮播
 	 */
+	@ApiOperation(value = "获取首页轮播")
 	@GetMapping("/queryShuffling")
 	public Object queryShuffling(){
 		RecommendIndexDTO recommendIndexDTO=adminService.getRecommentIndex();
@@ -87,19 +93,19 @@ public class HomeController {
 
 	}
 
-
-
-
 	/**
 	 * 查询老师
 	 * @param page
 	 * @param size
 	 * @return
 	 */
+	@ApiOperation(value = "查询老师信息")
 	@GetMapping("/getTeachers")
-	public Object getTeachers(int page,int size){
-
-		return "";
+	public Object getTeachers( UsersRoleQuery usersRoleQuery){
+        System.out.println("取到的参数："+usersRoleQuery);
+		Map map= BeanConverterUtil.objectToMap(usersRoleQuery);
+		return adminService.getTeachers(map);
 	}
+
 
 }

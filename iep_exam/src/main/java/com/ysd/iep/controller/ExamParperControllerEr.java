@@ -1,9 +1,15 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.dao.ExamparperDao;
+import com.ysd.iep.dao.StudentexamlogDao;
 import com.ysd.iep.entity.Examparper;
+import com.ysd.iep.entity.Studentexamlog;
+import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Result;
+import com.ysd.iep.entity.parameter.Student;
 import com.ysd.iep.entitySerch.ExamParperSerch;
+import com.ysd.iep.service.ExamparperService;
+import com.ysd.iep.service.ExamparperServiceEr;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author gaozhongye
@@ -23,6 +30,8 @@ public class ExamParperControllerEr {
 
     @Autowired
     ExamparperDao examparperdao;
+    @Autowired
+    ExamparperServiceEr examparperserviceer;
 
 
     /**
@@ -49,5 +58,40 @@ public class ExamParperControllerEr {
 
         }
     }
+
+    /**
+     * 根据教师id查询出教师试卷中考试结束的卷子集合
+     */
+    @RequestMapping(value = "/queryexamendparper", method = RequestMethod.POST)
+    public List<Examparper> queryexamendparper(String userid) {
+        return examparperserviceer.queryexamendparper(userid);
+    }
+
+
+    /**
+     * 根据卷子的id查询考试过这张卷子的学生的集合
+     */
+    @RequestMapping(value = "/querstudentidforparperid", method = RequestMethod.POST)
+    public List<Student> querstudentidforparperid(String parperid) {
+        return examparperserviceer.querstudentidforparperid(parperid);
+    }
+
+    /**
+     * 根据学生id,试卷id查询学生的做题记录  查询试卷
+     */
+    @RequestMapping(value = "/querylogforstudentandparperid", method = RequestMethod.POST)
+    public List<LookparperQuery> querylogforstudentandparperid(String studentid, String parperid) {
+        return examparperserviceer.querylogforstudentandparperid(studentid, parperid);
+    }
+
+
+    /**
+     * 根据学生id查询学生考试过的卷子
+     */
+    @RequestMapping(value = "/queryexamendparperwherestudentid", method = RequestMethod.POST)
+    public List<Examparper> queryexamendparperwherestudentid(String studentid) {
+        return examparperserviceer.queryexamendparperwherestudentid(studentid);
+    }
+
 
 }

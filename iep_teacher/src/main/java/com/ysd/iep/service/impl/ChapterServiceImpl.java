@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -72,19 +73,46 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     /**
-     * 修改章节
+     * 根据章节id修改视频的路径和视频的时长
      */
     @Override
     public Result updateCourse(Chapters chapters) {
         Chapters c = chaperRepo.getOne(chapters.getChaId());
-        c.setChaName(chapters.getChaName());
+        if(EmptyUtil.stringE(chapters.getChaName()))
+            c.setChaName(chapters.getChaName());
+
+        if(EmptyUtil.stringE(chapters.getChaViurl()))
+            c.setChaViurl(chapters.getChaViurl());
+
+        if(EmptyUtil.intE(chapters.getChaCourid()))
+            c.setChaCourid(chapters.getChaCourid());
+
+        if(EmptyUtil.stringE(chapters.getChaSize()))
+            c.setChaSize(chapters.getChaSize());
+
+        if(EmptyUtil.stringE(chapters.getChaTime()))
+            c.setChaTime(chapters.getChaTime());
+
+        if(EmptyUtil.stringE(chapters.getChalastModified()))
+            c.setChalastModified(chapters.getChalastModified());
+
+        if(EmptyUtil.stringE(chapters.getChaType()))
+            c.setChaType(chapters.getChaType());
+
+        if(EmptyUtil.stringE(chapters.getChaPpturl()))
+            c.setChaPpturl(chapters.getChaPpturl());
+
+        if(EmptyUtil.stringE(chapters.getChaDocurl()))
+            c.setChaDocurl(chapters.getChaDocurl());
         chaperRepo.save(c);
         return new Result(true);
     }
 
     @Override
-    public Result updateChaViurlAtime(String chaViurl, String chaTime,String chaName ,Integer courId) {
-          chaperRepo.updateChaViurlAtime(chaViurl,chaTime,chaName,courId);
-           return new Result(true);
+    public Result queryCountById(Integer chaCourid) {
+         chaperRepo.queryCountById(chaCourid);
+        return new Result(true);
     }
+
+
 }

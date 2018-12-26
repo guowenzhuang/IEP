@@ -1,5 +1,6 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.entity.vo.StudentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,11 @@ public class StudentController {
 			return new Result(true, "删除失败");
 		}
 		
+	}
+
+	@GetMapping("/{id}")
+	public Result<StudentVo> query(@PathVariable("id") String id){
+		return studentService.query(id);
 	}
 	
 

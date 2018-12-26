@@ -31,15 +31,11 @@ public interface ChapterRepository extends JpaRepository<Chapters, Integer>{
 	public List<Chapters> queryChildren(Integer parentId);
 
 	/**
-	 * 根据章节id修改视频的路径和视频的时长
-	 * @param chaViurl
-	 * @param chaTime
-	 * @param courId
+	 * 根据课程Id查询章节的总条数
+	 * @param chaCourid
 	 * @return
 	 */
-	@Modifying
-	@Transactional
-	@Query(value = "update chaptertb set cha_viurl=?1,cha_time=?2,cha_name=?3 where cha_id=?4", nativeQuery = true)
-    public Integer updateChaViurlAtime(String chaViurl,String chaTime,String chaName,Integer courId);
+	@Query(value = "select count(*) from chaptertb where cha_courid=?1 ", nativeQuery = true)
+	public int queryCountById(Integer chaCourid);
 
 }

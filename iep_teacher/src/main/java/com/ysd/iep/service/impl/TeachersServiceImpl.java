@@ -5,7 +5,6 @@ import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
-import com.ysd.iep.entity.dto.TeachersDTO;
 import com.ysd.iep.service.TeachersService;
 import com.ysd.iep.util.JpaObjectsToEntity;
 
@@ -42,12 +41,9 @@ public class TeachersServiceImpl implements TeachersService {
 		List<Object[]>  objectsList = teacherRepository.queryTeacher(teaId);
 		System.out.println("aaaaaaaaa>>>>>>>."+objectsList);
 		List<TeacherDTO> list = (List<TeacherDTO>) JpaObjectsToEntity.jpaResultToObjectList(objectsList,TeacherDTO.class); 
-		System.out.println("cccccccccccccccc>>>>>>>."+list);
+		System.out.println("cccccccccccccccc> >>>>>>."+list);
 		return list;
 	}
 	
-	public List<TeacherDTO> queryTeachers(String teaId1){
-		return teacherRepository.queryTeachers(teaId1);
-		
-	}
+
 }

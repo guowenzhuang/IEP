@@ -4,23 +4,14 @@ package com.ysd.iep.test;
 public class Test2 {
 
     public static void main(String[] args) {
-
         Integer second = 4000;
         System.out.println(change(second));
 
     }
-
-    /**
-     * 将秒数转化成时间类型
-     */
-
-
     /**
      * 将秒数转化成时间类型
      */
     public static String change(int second) {
-
-
         int h = 0;
         int d = 0;
         int s = 0;

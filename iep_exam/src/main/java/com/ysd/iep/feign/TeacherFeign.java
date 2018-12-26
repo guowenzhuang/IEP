@@ -12,5 +12,4 @@ import java.util.List;
 public interface TeacherFeign {
     @GetMapping("/course/queryCourByteaId")
     Result<List<Course>> getCouse(@RequestParam("teaId") String teaId);
-
 }

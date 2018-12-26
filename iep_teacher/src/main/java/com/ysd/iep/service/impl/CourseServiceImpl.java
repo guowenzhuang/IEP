@@ -1,10 +1,13 @@
 package com.ysd.iep.service.impl;
 
+import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
+import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
+import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,8 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository coursedao;
+    @Autowired
+    private ChapterRepository chapterRepository;
 
     @Override
     /**
@@ -107,26 +112,30 @@ public class CourseServiceImpl implements CourseService {
     public Result updateCourse(Course course) {
 
         Course c = coursedao.getOne(course.getCourId());
-        c.setCourName(course.getCourName());
+        if(EmptyUtil.stringE(course.getCourName()));
+            c.setCourName(course.getCourName());
+        if(EmptyUtil.doubleE(course.getCourPrice()));
         c.setCourPrice(course.getCourPrice());
+        if(EmptyUtil.stringE(course.getCourPicurl()));
+        c.setCourPicurl(course.getCourPicurl());
+        if(EmptyUtil.stringE(course.getCourContent()));
+        c.setCourContent(course.getCourContent());
         coursedao.save(c);
         return new Result(true);
     }
 
     @Override
-    public List<Course> findByCourseId(String courId) {
-        List<Course> dd = new ArrayList<Course>();
+    public List<CourseDTO> findByCourseId(String courId) {
+        List dd = new ArrayList<CourseDTO>();
         if (courId != null && courId != "") {
             String[] s = courId.split(",");
-            int[] idss = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                idss[i] = Integer.parseInt(s[i]);
-            }
-            for (Integer id : idss) {
-                Course dingyi = coursedao.findByCourseId(id);
-                dd.add(dingyi);
-            }
 
+            List<Course> byCourseIds = coursedao.findByCourseIds(s);
+            dd= BeanConverterUtil.copyList(byCourseIds,CourseDTO.class,item -> {
+                CourseDTO courseDTO= (CourseDTO) item;
+                int sum = chapterRepository.queryCountById(courseDTO.getCourId());
+                courseDTO.setCountChaSum(sum);
+            });
         }
         return dd;
     }

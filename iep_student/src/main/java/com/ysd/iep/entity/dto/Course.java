@@ -24,4 +24,7 @@ public class Course {
     private String courClasshour;//学时
     private Integer courCommentcount;//课程评价数量
     private Integer courStudypeople;
+    private Integer countChaSum;
+
+
 }

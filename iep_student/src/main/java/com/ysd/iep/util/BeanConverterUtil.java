@@ -131,6 +131,18 @@ public class BeanConverterUtil {
 
     /**
      * 复制集合
+     * @param sources  被复制的集合
+     * @param target   目标集合
+     */
+    public static void copyList(List sources,List target){
+        for (int i = 0; i < sources.size(); i++) {
+            Object s=sources.get(i);
+            Object t=target.get(i);
+            copyObject(s,t);
+        }
+    }
+    /**
+     * 复制集合
      * @param sources 复制的集合
      * @param  tClass 目标集合的class
      * @return tclass对象的集合
