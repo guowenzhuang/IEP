@@ -3,6 +3,7 @@ package com.ysd.iep.controller;
 import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.Teachers;
+import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
@@ -98,7 +99,7 @@ public class CourseController {
 
     @ApiOperation(value = "根据课程id查询课程信息")
     @GetMapping("/findCourseById")
-    public List<Course> findCourseById(@ApiParam(name = "courId", value = "课程id", required = true) @RequestParam("courId") String courId) {
+    public List<CourseDTO> findCourseById(@ApiParam(name = "courId", value = "课程id", required = true) @RequestParam("courId") String courId) {
         return courseService.findByCourseId(courId);
 
     }

@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.StudentRecord;
 import com.ysd.iep.entity.dto.Course;
+import com.ysd.iep.entity.dto.CourseRecord;
 import com.ysd.iep.feign.CourseFeign;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.repository.StudentRecordDao;
@@ -32,18 +33,20 @@ public class StudentRecordService {
     private StudentRecordDao studentRecordDao;
     @Autowired
     private TeacherFeign teacherFeign;
-    public PagingResult<Course> query(Integer page, Integer rows){
+    public PagingResult<CourseRecord> query(Integer page, Integer rows){
         Pageable pageRequest = PageRequest.of(page - 1, rows);
-        //查询结果
-        Page<StudentRecord> studentRecordPage = studentRecordDao.findAll(pageRequest);
+        //查询学生学习记录
+        Page<StudentRecord> studentRecordPage = studentRecordDao.findAllMaxCha(pageRequest);
         //查询课程
         List<StudentRecord>  studentRecords= studentRecordPage.getContent();
         List<Integer> cidList=studentRecords.stream().map(StudentRecord::getCid).collect(Collectors.toList());;
         String cids= StringUtils.join(cidList,",");
         List<Course> courses=  teacherFeign.getCoursedetails(cids);
+        List<CourseRecord> courseRecords=BeanConverterUtil.copyList(courses,CourseRecord.class);
+        BeanConverterUtil.copyList(studentRecords,courseRecords);
         PagingResult pagingResult=new PagingResult();
         pagingResult.setTotal(studentRecordPage.getTotalElements());
-        pagingResult.setRows(courses);
+        pagingResult.setRows(courseRecords);
         return pagingResult;
     }
 }

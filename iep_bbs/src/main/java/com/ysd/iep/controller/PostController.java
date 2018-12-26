@@ -23,8 +23,6 @@ import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
 
-
-
 @RestController
 @RequestMapping(value = "post")
 public class PostController {
@@ -46,7 +44,7 @@ public class PostController {
 	 */
 	@RequestMapping(value = "getAllPost", method = RequestMethod.POST)
 	public Object getAllPost(PostQuery postQuery, Integer page, Integer rows) {
-
+		
 		Pageable pageable = new PageRequest(page - 1, rows);
 		Page<Post> posts = postService.queryAllPage(postQuery, pageable);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -59,15 +57,14 @@ public class PostController {
 			// 从点赞记录表中查询每个帖子的点赞数添加到属性里
 			int likeNum = postService.getLikeNum(post.getReplyId());
 			post.setReplyLikenum(likeNum);
-			System.out.println("replyid" + post.getReplyId() + "  " + likeNum);
 			// 将点赞数更新到数据库的字段里
 			postService.updateLikeNum(post.getReplyId(), likeNum);
 			// 查询每个帖子举报数
 			int reportNum = postService.getReportNum(post.getReplyId());
 			post.setReplyReportnum(reportNum);
 			postService.updateReportNum(post.getReplyId(), reportNum);
-			//通过用户id获取用户信息
-			Result user=adminFeign.getNameById(post.getUserId());
+			// 通过用户id获取用户信息
+			Result user = adminFeign.getNameById(post.getUserId());
 			post.setUserName(user.getMessage());
 		}
 		map.put("total", total);
@@ -92,25 +89,27 @@ public class PostController {
 		return map;
 
 	}
+
 	/**
 	 * 判断用户是否点赞和举报帖子
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "userIsPost")
-	public Object userIsPost(Integer replyId,String userId) {
+	public Object userIsPost(Integer replyId, String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Boolean isLikePost,isReportPost;
-		int n=replyService.userIsLike(userId, replyId);
-		int m=replyService.userIsReport(userId, replyId);
-		if(n>0) {
-			isLikePost=true;
-		}else {
-			isLikePost=false;
+		Boolean isLikePost, isReportPost;
+		int n = replyService.userIsLike(userId, replyId);
+		int m = replyService.userIsReport(userId, replyId);
+		if (n > 0) {
+			isLikePost = true;
+		} else {
+			isLikePost = false;
 		}
-		if(m>0) {
-			isReportPost=true;
-		}else {
-			isReportPost=false;
+		if (m > 0) {
+			isReportPost = true;
+		} else {
+			isReportPost = false;
 		}
 		map.put("isLikePost", isLikePost);
 		map.put("isReportPost", isReportPost);
@@ -119,10 +118,35 @@ public class PostController {
 
 	/**
 	 * 通过用户id获取用户信息
+	 * 
 	 * @return
 	 */
 	@GetMapping("/getNameById")
 	public Result getUserById(@RequestParam("id") String id) {
 		return adminFeign.getNameById(id);
 	}
+
+	/**
+	 * 通过用户id分页查询帖子
+	 */
+	@RequestMapping(value = "queryPostByUserId")
+	public Object queryPostByUserId(String userId, Integer page, Integer rows) {
+		Pageable pageable = new PageRequest(page - 1, rows);
+		Page<Post> posts = postService.queryPostByUserId(userId, pageable);
+		Map<String, Object> map = new HashMap<String, Object>();
+		long total = posts.getTotalElements();
+		List<Post> list = posts.getContent();
+		for (Post post : list) {
+			// 查询出帖子详情添加进帖子对象
+			Reply postDetails = postService.getPostDetails(post.getPostId(), 0);
+			BeanUtils.copyProperties(postDetails, post);
+			// 从点赞记录表中查询每个帖子的点赞数添加到属性里
+			int likeNum = postService.getLikeNum(post.getReplyId());
+			post.setReplyLikenum(likeNum);
+		}
+		map.put("total", total);
+		map.put("rows", list);
+		return map;
+	}
+	
 }
