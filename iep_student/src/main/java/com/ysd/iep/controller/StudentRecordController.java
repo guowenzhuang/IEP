@@ -1,6 +1,7 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.Course;
+import com.ysd.iep.entity.dto.CourseRecord;
 import com.ysd.iep.service.StudentRecordService;
 import com.ysd.iep.util.PagingResult;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ public class StudentRecordController {
     @Autowired
     private StudentRecordService studentRecordService;
     @GetMapping
-    public PagingResult<Course> query(Integer page, Integer rows){
+    public PagingResult<CourseRecord> query(Integer page, Integer rows){
         return studentRecordService.query(page, rows);
     }
 }

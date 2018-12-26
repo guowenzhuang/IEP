@@ -1,6 +1,7 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Course;
+import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import org.springframework.data.domain.Page;
@@ -52,7 +53,7 @@ public interface CourseService {
      * @return
      */
 
-    List<Course> findByCourseId(String courId);
+    List<CourseDTO> findByCourseId(String courId);
     /**
      * 根据教师Id查询课程
      * @param teaId

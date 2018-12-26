@@ -53,7 +53,8 @@ public class Student {
 	 */
 	@Column(columnDefinition="int NULL comment '备注:所属班级id'  ")
 	private Integer cid;
-	
+
+
 	/*@JsonIgnore
 	@ManyToMany//多对多关系
 	@Cascade(value={CascadeType.ALL}) //级联关系
