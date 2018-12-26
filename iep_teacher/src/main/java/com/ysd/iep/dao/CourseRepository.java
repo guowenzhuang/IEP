@@ -47,4 +47,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Transactional
 	 public void updateCourStudypeople(Integer courId);
 
+
 }

@@ -56,5 +56,10 @@ public class ChapterController {
         chapterService.updateCourse(chapters);
         return new Result(true);
     }
-
+    @ApiOperation(value = "根据课程Id查询章节的总条数")
+    @GetMapping("/queryCountById")
+    public Result queryCountById(Integer chaCourid) {
+        chapterService.queryCountById(chaCourid);
+        return new Result(true);
+    }
 }

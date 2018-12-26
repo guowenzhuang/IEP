@@ -30,6 +30,12 @@ public interface ChapterRepository extends JpaRepository<Chapters, Integer>{
 	@Query(value = "SELECT * FROM chaptertb WHERE cha_parentid=?1", nativeQuery = true)
 	public List<Chapters> queryChildren(Integer parentId);
 
-
+	/**
+	 * 根据课程Id查询章节的总条数
+	 * @param chaCourid
+	 * @return
+	 */
+	@Query(value = "select count(*) from chaptertb where cha_courid=?1 ", nativeQuery = true)
+	public int queryCountById(Integer chaCourid);
 
 }

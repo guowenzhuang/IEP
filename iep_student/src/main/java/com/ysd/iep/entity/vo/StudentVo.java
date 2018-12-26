@@ -15,4 +15,5 @@ public class StudentVo {
     private String sex;
     private String photo;
     private String card;
+
 }

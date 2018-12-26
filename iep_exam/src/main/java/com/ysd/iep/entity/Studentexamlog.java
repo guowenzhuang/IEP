@@ -26,7 +26,7 @@ public class Studentexamlog {
     private String id;//考试记录表id
     @Column(name = "StudentId", nullable = false, length = 50)
     private String studentId;//学生id
-    @Column(name = "SelectId", nullable = false, length = 50)
+    @Column(name = "SelectId", nullable = false, length = 200)
     private String selectId;//学生所选选项id
 
     @Column(name = "ExamparperId", nullable = false, length = 50)

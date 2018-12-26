@@ -5,12 +5,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @ApiModel("用户传输类")
 @Data
 @Accessors(chain = true)
-public class UsersDTO {
+public class UsersDTO  {
     @ApiModelProperty("用户id")
     private String id;
     @ApiModelProperty("用户名称")

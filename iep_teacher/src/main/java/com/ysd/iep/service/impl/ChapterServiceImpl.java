@@ -108,5 +108,11 @@ public class ChapterServiceImpl implements ChapterService {
         return new Result(true);
     }
 
+    @Override
+    public Result queryCountById(Integer chaCourid) {
+         chaperRepo.queryCountById(chaCourid);
+        return new Result(true);
+    }
+
 
 }

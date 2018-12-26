@@ -6,12 +6,14 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
  */
 @FeignClient("IEP-ADMIN")
 public interface AdminFeign {
-    @GetMapping
-    Result<UsersDTO> user(@RequestParam("name") String name);
+    @GetMapping("/user/getUserById")
+    Result<List<UsersDTO>> get(@RequestParam("ids") String ids);
 }
