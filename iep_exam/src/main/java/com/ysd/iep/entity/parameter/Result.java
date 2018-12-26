@@ -11,7 +11,7 @@ public class Result {
 
     private boolean success;
     private Object message;
-    private String remark;
+    private Object remark;
 
 
 }

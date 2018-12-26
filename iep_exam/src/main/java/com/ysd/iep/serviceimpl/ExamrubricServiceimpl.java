@@ -41,6 +41,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     @Autowired
     PerformanceDao performancedao;
 
+
     /**
      * 多条件分页查询考试试题
      *
@@ -518,44 +519,57 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     @Override
     public Result beginexam(BeginexamQuery beginexamQuery) throws ParseException {
 
+        Performance performance = performancedao.selectperformanforparperidandstudentid(beginexamQuery.getParerid(), beginexamQuery.getStudentid());
         /**
-         * 取出前端传来的时间
+         *
+         * 成绩表中没有这个学生考试这个试卷的信息
          */
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date begintime = beginexamQuery.getBegintime();
-        //转换成int类型
-        long beginint = begintime.getTime();
-        //加上考试时长生成一个考试结束时间的int
-        long examendtimeint = beginint + beginexamQuery.getExamtime() * 60 * 1000;
+        if (performance == null) {
 
 
-        /**
-         * 用考试结束时间与当前时间相比较
-         */
-        Date presenttime = df.parse(df.format(new Date()));
-        long presenttimeint = presenttime.getTime();
+            /**
+             * 取出前端传来的时间,
+             */
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date begintime = beginexamQuery.getBegintime();
+            //转换成int类型
+            long beginint = begintime.getTime();
+            //加上考试时长生成一个考试结束时间的int
+            long examendtimeint = beginint + beginexamQuery.getExamtime() * 60 * 1000;
 
-        /**
-         * 计算考试结束时间与当前时间的差值
-         */
-        long difference = (examendtimeint - presenttimeint) / 1000;
 
-        if (difference > 0) {
-            //说明在考试期间内
-            if (difference > beginexamQuery.getExamtime() * 60) {
-                //考试还没开始0
+            /**
+             * 用考试结束时间与当前时间相比较
+             */
+            Date presenttime = df.parse(df.format(new Date()));
+            long presenttimeint = presenttime.getTime();
 
-                return new Result(false, "考试还没开始", null);
+            /**
+             * 计算考试结束时间与当前时间的差值
+             */
+            long difference = (examendtimeint - presenttimeint) / 1000;
+
+            if (difference > 0) {
+                //说明在考试期间内
+                if (difference > beginexamQuery.getExamtime() * 60) {
+                    //考试还没开始0
+
+                    return new Result(false, "考试还没开始", null);
+                } else {
+                    return new Result(true, "考试开始了", null);
+                }
+
+            } else if (difference < 0) {
+                //说明考试结束
+                return new Result(false, "考试结束了", null);
             } else {
-                return new Result(true, "考试开始了", null);
+                return new Result(false, "不能进入", null);
             }
-
-        } else if (difference < 0) {
-            //说明考试结束
-            return new Result(false, "考试结束了", null);
         } else {
-            return new Result(false, "不能进入", null);
+            return new Result(false, "您已经交卷,不能再进入考试了", null);
         }
+
+
     }
 
     /**
@@ -594,7 +608,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          * 倒计时时间
          *
          */
-        String downtime = SecondformDate.change(difference);
+        long downtime = difference / 60;
+
+        /*String downtime = SecondformDate.change(difference);*/
         /*System.out.println("插值转换成时间***************" + downtime);*/
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
 
@@ -636,6 +652,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      */
     @Override
     public Object examend(ExamUltimately examUltimately) {
+        String Ider = UUIDUtils.getUUID();
 
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
 
@@ -656,6 +673,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
                 try {
                     String Id = UUIDUtils.getUUID();
+
 
                     /**
                      * (根据考试试卷id将试卷的所有试题查询出来,
@@ -703,6 +721,24 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamlog.setStudentId(examUltimately.getStudentId());
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
+
+                    /**
+                     * 判断是否存在试卷的成绩记录
+                     */
+                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                    if (performance == null) {
+                        Performance performance1 = new Performance();
+                        performance1.setId(Ider);
+                        performance1.setTotal(score);
+                        performance1.setStudentId(examUltimately.getStudentId());
+                        performance1.setParperId(examUltimately.getExamparperId());
+                        performancedao.save(performance1);
+                    } else {
+                        performance.setTotal(performance.getTotal() + score);
+                        performancedao.save(performance);
+                    }
+
+
                     return new Result(true, "记录成功", null);
 
                 } catch (Exception e) {
@@ -759,6 +795,20 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamloger.setPerformance(score);
                     studentexamlogdao.save(studentexamloger);
 
+                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                    if (performance == null) {
+                        Performance performance1 = new Performance();
+                        performance1.setId(Ider);
+                        performance1.setTotal(score);
+                        performance1.setStudentId(examUltimately.getStudentId());
+                        performance1.setParperId(examUltimately.getExamparperId());
+                        performancedao.save(performance1);
+                    } else {
+                        performance.setTotal(performance.getTotal() + score);
+                        performancedao.save(performance);
+                    }
+
+
                     return new Result(true, "修改记录成功", null);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -793,6 +843,21 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamlog.setStudentId(examUltimately.getStudentId());
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
+
+                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                    if (performance == null) {
+                        Performance performance1 = new Performance();
+                        performance1.setId(Ider);
+                        performance1.setTotal(score);
+                        performance1.setStudentId(examUltimately.getStudentId());
+                        performance1.setParperId(examUltimately.getExamparperId());
+                        performancedao.save(performance1);
+                    } else {
+                        performance.setTotal(performance.getTotal() + score);
+                        performancedao.save(performance);
+                    }
+
+
                 } else {
 
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
@@ -804,6 +869,20 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamloger.setPerformance(score);
                     studentexamloger.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlogdao.save(studentexamloger);
+
+                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                    if (performance == null) {
+                        Performance performance1 = new Performance();
+                        performance1.setId(Ider);
+                        performance1.setTotal(score);
+                        performance1.setStudentId(examUltimately.getStudentId());
+                        performance1.setParperId(examUltimately.getExamparperId());
+                        performancedao.save(performance1);
+                    } else {
+                        performance.setTotal(performance.getTotal() + score);
+                        performancedao.save(performance);
+                    }
+
                 }
                 return new Result(true, "修改记录成功", null);
             } catch (Exception e) {
@@ -833,7 +912,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         long presenttimeint = presenttime.getTime();
 
 
-        if (presenttimeint - shotendtimeint < 0) {
+        if (presenttimeint - shotendtimeint > 0) {
 
 
             try {
@@ -857,7 +936,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                  * 记录考试总成绩
                  */
                 performancedao.save(performance);
-                return new Result(true, "成绩记录成功,总分" + total, null);
+                return new Result(true, "成绩记录成功,总分", total);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -876,7 +955,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * (1)首先查看考过这张试卷的学生
      * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
      */
-
 
 
 }

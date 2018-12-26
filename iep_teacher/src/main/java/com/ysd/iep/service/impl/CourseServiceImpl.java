@@ -19,8 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -42,6 +41,10 @@ public class CourseServiceImpl implements CourseService {
                 Path<String> cardNoPath = root.get("courName");
                 if (EmptyUtil.stringE(courseQuery.getCourName())) {
                     predicates.add(cb.like(cardNoPath, "%" + courseQuery.getCourName() + "%"));
+                }
+                if (EmptyUtil.stringE(courseQuery.getCourTeaid())) {
+                    Path<String> teaPath = root.get("courTeaid");
+                    predicates.add(cb.equal(teaPath,courseQuery.getCourTeaid()));
                 }
                 Predicate[] p = new Predicate[predicates.size()];
                 return cb.and(predicates.toArray(p));
@@ -131,13 +134,41 @@ public class CourseServiceImpl implements CourseService {
             String[] s = courId.split(",");
 
             List<Course> byCourseIds = coursedao.findByCourseIds(s);
+            List<String> list = Arrays.asList(s);
+            byCourseIds.sort((o1, o2) -> {
+                int i1=list.indexOf(o1.getCourId()+"");
+                int i2=list.indexOf(o2.getCourId()+"");
+                System.out.println("i1"+i1);
+                System.out.println("i2"+i2);
+                return i1-i2;
+            });
+            System.out.println(byCourseIds);
             dd= BeanConverterUtil.copyList(byCourseIds,CourseDTO.class,item -> {
                 CourseDTO courseDTO= (CourseDTO) item;
-                int sum = chapterRepository.queryCountById(courseDTO.getCourId());
-                courseDTO.setCountChaSum(sum);
+                List<Integer> chaIds = chapterRepository.queryCountById(courseDTO.getCourId());
+                List<Integer> ids=new ArrayList<>();
+                chaIds.forEach(action -> {
+                    queryChaId(action,ids,null);
+                });
+                courseDTO.setCountChaSum(ids.size());
+                courseDTO.setChaIds(ids);
             });
         }
         return dd;
+    }
+
+    private void queryChaId(Integer parId,List<Integer> ids,List<Integer> parIds){
+        List<Integer> list = chapterRepository.queryIdByParentId(parId);
+        if((list==null || list.size()==0) && parIds!=null){
+            if(!ids.containsAll(parIds)){
+                ids.addAll(parIds);
+            }
+        }else{
+            list.forEach(item -> {
+                queryChaId(item,ids,list);
+            });
+        }
+
     }
 
     /**

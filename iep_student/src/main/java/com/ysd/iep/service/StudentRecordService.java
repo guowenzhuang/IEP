@@ -33,18 +33,28 @@ public class StudentRecordService {
     private StudentRecordDao studentRecordDao;
     @Autowired
     private TeacherFeign teacherFeign;
-    public PagingResult<CourseRecord> query(Integer page, Integer rows){
+
+    public PagingResult<CourseRecord> query(Integer page, Integer rows) {
         Pageable pageRequest = PageRequest.of(page - 1, rows);
         //查询学生学习记录
         Page<StudentRecord> studentRecordPage = studentRecordDao.findAllMaxCha(pageRequest);
         //查询课程
-        List<StudentRecord>  studentRecords= studentRecordPage.getContent();
-        List<Integer> cidList=studentRecords.stream().map(StudentRecord::getCid).collect(Collectors.toList());;
-        String cids= StringUtils.join(cidList,",");
-        List<Course> courses=  teacherFeign.getCoursedetails(cids);
-        List<CourseRecord> courseRecords=BeanConverterUtil.copyList(courses,CourseRecord.class);
-        BeanConverterUtil.copyList(studentRecords,courseRecords);
-        PagingResult pagingResult=new PagingResult();
+        List<StudentRecord> studentRecords = studentRecordPage.getContent();
+        List<Integer> cidList = studentRecords.stream().map(StudentRecord::getCid).collect(Collectors.toList());
+        ;
+        String cids = StringUtils.join(cidList, ",");
+        List<Course> courses = teacherFeign.getCoursedetails(cids);
+
+        List courseRecords = BeanConverterUtil.copyList(studentRecords, CourseRecord.class);
+        BeanConverterUtil.copyList(courses, courseRecords,item -> {
+            CourseRecord courseRecord = (CourseRecord) item;
+            Integer cId=courseRecord.getChaid();
+            List<Integer> chaIds = courseRecord.getChaIds();
+            int i=chaIds.indexOf(cId);
+            courseRecord.setChaIndex(i);
+        });
+
+        PagingResult pagingResult = new PagingResult();
         pagingResult.setTotal(studentRecordPage.getTotalElements());
         pagingResult.setRows(courseRecords);
         return pagingResult;
