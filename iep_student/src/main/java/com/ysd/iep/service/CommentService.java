@@ -22,13 +22,18 @@ public interface CommentService {
 	 * @return
 	 */
 	Page<CommentDTO> queryAllPage(Integer page, Integer size, String orderBy);
+
 	
 	/**
 	 * 根据课程id查询当前课程的评价
 	 */
 	public Page<StudentComment> queryCommentByCid(Integer cid,Integer page,Integer size);
-	
-		
+
+	/**
+	 * 根据学生id查询当前课程的评价
+	 */
+	public Page<StudentComment> queryCommentBySid(String sid,Integer page,Integer size);
+
 	/**
 	 * 学生发表评价
 	 */
