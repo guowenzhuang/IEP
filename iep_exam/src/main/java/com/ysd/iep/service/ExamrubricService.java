@@ -65,7 +65,7 @@ public interface ExamrubricService {
     /**
      * 整个试卷做完之后点击交卷时候
      */
-    Object examination(ExamUltimately examUltimately);
+    Object examination(ExamUltimately examUltimately) throws ParseException;
 
 
 

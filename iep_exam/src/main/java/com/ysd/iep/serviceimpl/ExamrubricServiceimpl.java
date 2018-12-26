@@ -817,35 +817,57 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * 整个试卷做完之后点击交卷时候
      */
     @Override
-    public Object examination(ExamUltimately examUltimately) {
+    public Object examination(ExamUltimately examUltimately) throws ParseException {
 
-        try {
-            String Id = UUIDUtils.getUUID();
-            Integer total = 0;
-            Performance performance = new Performance();
+        Examparper examparper = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
 
-            /**
-             * 查询出考试记录中当前试卷的所有的考试记录
-             */
-            List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
+        /**
+         * 获取开考时间,以及最短交卷时间
+         */
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            for (int i = 0; i < studentexamlogs.size(); i++) {
-                total += studentexamlogs.get(i).getPerformance();
+        Date begintime = examparper.getExamtime();//开考时间
+        long shotendtimeint = begintime.getTime() + examparper.getExamshortesttime() * 60 * 1000;
+
+        Date presenttime = df.parse(df.format(new Date()));
+        long presenttimeint = presenttime.getTime();
+
+
+        if (presenttimeint - shotendtimeint < 0) {
+
+
+            try {
+                String Id = UUIDUtils.getUUID();
+                Integer total = 0;
+                Performance performance = new Performance();
+
+                /**
+                 * 查询出考试记录中当前试卷的所有的考试记录
+                 */
+                List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
+
+                for (int i = 0; i < studentexamlogs.size(); i++) {
+                    total += studentexamlogs.get(i).getPerformance();
+                }
+                performance.setId(Id);
+                performance.setParperId(examUltimately.getExamparperId());
+                performance.setStudentId(examUltimately.getStudentId());
+                performance.setTotal(total);
+                /**
+                 * 记录考试总成绩
+                 */
+                performancedao.save(performance);
+                return new Result(true, "成绩记录成功,总分" + total, null);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "成绩记录失败", null);
             }
-            performance.setId(Id);
-            performance.setParperId(examUltimately.getExamparperId());
-            performance.setStudentId(examUltimately.getStudentId());
-            performance.setTotal(total);
-            /**
-             * 记录考试总成绩
-             */
-            performancedao.save(performance);
-            return new Result(true, "成绩记录成功,总分" + total, null);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false, "成绩记录失败", null);
+        } else {
+            return new Result(false, "现在还不能交卷哦,少年!!", null);
         }
+
     }
 
 
@@ -854,6 +876,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * (1)首先查看考过这张试卷的学生
      * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
      */
+
 
 
 }
