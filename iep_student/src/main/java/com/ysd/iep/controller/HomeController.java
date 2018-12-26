@@ -7,14 +7,15 @@ import com.ysd.iep.entity.dto.RecommendIndexDTO;
 import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
+import com.ysd.iep.util.BeanConverterUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页控制器
@@ -100,8 +101,11 @@ public class HomeController {
 	 */
 	@ApiOperation(value = "查询老师信息")
 	@GetMapping("/getTeachers")
-	public Object getTeachers(@RequestBody UsersRoleQuery usersRoleQuery){
-		return adminService.getTeachers(usersRoleQuery);
+	public Object getTeachers( UsersRoleQuery usersRoleQuery){
+        System.out.println("取到的参数："+usersRoleQuery);
+		Map map= BeanConverterUtil.objectToMap(usersRoleQuery);
+		return adminService.getTeachers(map);
 	}
+
 
 }

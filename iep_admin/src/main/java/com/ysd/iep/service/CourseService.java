@@ -32,8 +32,11 @@ public class CourseService {
     @PreAuthorize("hasAuthority('cource:query')")
     @PermissionMethod("课程查询")
     public PagingResult<CourseDTO> query(CourseQuery courseQuery){
+
         Map map= BeanConverterUtil.objectToMap(courseQuery);
+
         PagingResult<CourseDTO> pagingResult=teacherFeign.getPaginate(map);
+
         List<CourseDTO> list= pagingResult.getRows();
         List<Integer> ids=list.stream().map(CourseDTO::getCourId).collect(Collectors.toList());
         List<RecommendDB> recommendDBS = recommendDao.findByCoursetIdIn(ids);
