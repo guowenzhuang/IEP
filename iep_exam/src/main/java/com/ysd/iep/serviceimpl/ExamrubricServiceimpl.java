@@ -18,6 +18,7 @@ import javax.persistence.criteria.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -635,23 +636,26 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      */
     @Override
     public Object examend(ExamUltimately examUltimately) {
+
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+
+        System.out.println("试题类型*************" + examrubricbig.getRubricttype());
+
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
-
-
+            System.out.println("单选或者多选");
             /**
              * 根据考试题干id查询本条做题记录
              */
             Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId());
+
             /**
              * 判断根据考试题干查询的考试记录是否为空
              */
             if (studentexamloger == null) {
-
+                System.out.println("记录表中为空**************");
 
                 try {
                     String Id = UUIDUtils.getUUID();
-                    Integer score = 0;
 
                     /**
                      * (根据考试试卷id将试卷的所有试题查询出来,
@@ -663,29 +667,37 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     RubricQuery rubricQuery = new RubricQuery();
                     rubricQuery.setExamparper(examUltimately.getExamparperId());
                     List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
-
                     List<String> answerlist = new ArrayList<>();
 
-                    for (int i = 0; i < examrubricList.size(); i++) {
-                        String answer = null;
-                        answerlist.add(examrubricList.get(i).getAnswerId());
-                    }
+                    int score = 0;
+                    if (examrubricbig.getRubricttype().equals("单选题")) {
 
-
-                    for (int j = 0; j < answerlist.size(); j++) {
-                        if (examUltimately.getSelectanswerId().equals(answerlist.get(j))) {
-                            Examanswer examanswer = examanswerdao.findById(answerlist.get(j)).get();
-                            Examrubric examrubric = examanswer.getExamrubric();
-                            score = examrubric.getScore();
+                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
+                            score = examUltimately.getScore();
                         } else {
                             score = 0;
+
+                        }
+                    } else {
+                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        String[] answerid = examrubric.getAnswerId().split(",");
+                        String[] answerider = examUltimately.getSelectanswerId().split(",");
+
+                        if (Arrays.equals(answerid, answerider)) {
+                            score = examUltimately.getScore();
+                        } else {
+                            score = 0;
+
                         }
                     }
+
                     /**
                      * 声明一个新下考试记录对象
                      */
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
+                    studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlog.setStudentId(examUltimately.getStudentId());
@@ -705,11 +717,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                  * (2)再将前端传来的所选的答案id
                  *
                  */
+                System.out.println("记录表中步步为空**************");
                 try {
-
-
-                    Integer score = 0;
-
                     RubricQuery rubricQuery = new RubricQuery();
                     rubricQuery.setExamparper(examUltimately.getExamparperId());
                     List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
@@ -721,21 +730,33 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     }
 
 
-                    for (int l = 0; l < answerid.size(); l++) {
-                        /**
-                         * 判断答案对的情况
-                         */
-                        if (answerid.get(l).equals(examUltimately.getSelectanswerId())) {
-                            Examanswer examanswer = examanswerdao.findById(answerid.get(l)).get();
-                            Examrubric examrubric = examanswer.getExamrubric();
-                            score = examrubric.getScore();
+                    int score = 0;
+
+                    if (examrubricbig.getRubricttype().equals("单选题")) {
+
+
+                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
+                            score = examUltimately.getScore();
                         } else {
                             score = 0;
+
+                        }
+                    } else {
+                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        String[] answeridsan = examrubric.getAnswerId().split(",");
+                        String[] answeridsi = examUltimately.getSelectanswerId().split(",");
+
+                        if (Arrays.equals(answeridsan, answeridsi)) {
+                            score = examUltimately.getScore();
+                        } else {
+                            score = 0;
+
                         }
                     }
 
-                    studentexamloger.setPerformance(score);
                     studentexamloger.setSelectId(examUltimately.getSelectanswerId());
+                    studentexamloger.setPerformance(score);
                     studentexamlogdao.save(studentexamloger);
 
                     return new Result(true, "修改记录成功", null);
@@ -757,6 +778,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 String Id = UUIDUtils.getUUID();
                 Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId());
                 if (studentexamloger == null) {
+
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                     if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                         score = examrubric.getScore();
@@ -766,11 +788,13 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
+                    studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlog.setStudentId(examUltimately.getStudentId());
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
                 } else {
+
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                     if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                         score = examrubric.getScore();

@@ -44,6 +44,15 @@ public class CommentServiceImpl implements CommentService {
 		Pageable pageable=PageRequest.of(page-1,size,	sort);
 		return commentRepository.findByCid(cid,pageable);
 	}
+	//根据学生id查询该课程的评价
+	@Override
+	public Page<StudentComment> queryCommentBySid(String sid,Integer page,Integer size) {
+
+		Sort sort=new Sort(Sort.Direction.DESC,"praise");
+		Pageable pageable=PageRequest.of(page-1,size,	sort);
+		return commentRepository.findBySid(sid,pageable);
+	}
+
 
 	//针对某课程发表评价
 	@Override
