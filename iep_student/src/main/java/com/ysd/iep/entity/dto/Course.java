@@ -2,6 +2,8 @@ package com.ysd.iep.entity.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Course {
 
@@ -25,6 +27,7 @@ public class Course {
     private Integer courCommentcount;//课程评价数量
     private Integer courStudypeople;
     private Integer countChaSum;
+    private List<Integer> chaIds;
 
 
 }
