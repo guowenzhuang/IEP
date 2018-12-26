@@ -1,17 +1,12 @@
 package com.ysd.iep.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  *  课程评价表
@@ -37,6 +32,7 @@ public class StudentComment {
 	private String content;//评价内容
 	
 	@Column(columnDefinition="datetime NOT NULL comment '备注:评价时间'  ")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date mtime;//评价时间
 	
 	@Column(columnDefinition="int NULL comment '备注:点赞数'  ")
