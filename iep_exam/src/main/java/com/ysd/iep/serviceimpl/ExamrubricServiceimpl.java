@@ -594,7 +594,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          * 倒计时时间
          *
          */
-        String downtime = SecondformDate.change(difference);
+        long downtime = difference / 60;
+
+        /*String downtime = SecondformDate.change(difference);*/
         /*System.out.println("插值转换成时间***************" + downtime);*/
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
 
@@ -876,7 +878,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      * (1)首先查看考过这张试卷的学生
      * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
      */
-
 
 
 }
