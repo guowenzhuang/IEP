@@ -227,11 +227,9 @@ public class ExamrubricController {
      * 整个试卷做完之后点击交卷时候
      */
     @RequestMapping(value = "/examination", method = RequestMethod.POST)
-    public Object examination(ExamUltimately examUltimately) {
+    public Object examination(ExamUltimately examUltimately) throws ParseException {
         return examrubricservice.examination(examUltimately);
     }
-
-
 
 
 }

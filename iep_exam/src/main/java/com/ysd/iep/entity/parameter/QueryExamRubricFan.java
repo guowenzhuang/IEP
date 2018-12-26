@@ -31,6 +31,6 @@ public class QueryExamRubricFan {
      * 判断题
      */
     private List<Examrubric> judgerubricList;
-    private String downtime;
+    private long downtime;
     private Object parpercontent;
 }

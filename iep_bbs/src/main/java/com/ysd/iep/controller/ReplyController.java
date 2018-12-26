@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.ReplyQuery;
 import com.ysd.iep.feign.AdminFeign;
@@ -205,6 +206,17 @@ public class ReplyController {
 		 Map<String, Object> map = new HashMap<String, Object>();
 		List<Reply> replylist = replyService.queryReplyByPostId(postId);
 		map.put("rows", replylist);
+		return map;
+	}
+	@RequestMapping(value = "queryReplyByUserId")
+	public Object queryReplyByUserId(String userId,Integer page,Integer rows) {
+		Pageable pageable = new PageRequest(page - 1, rows);
+		Page<Reply> replys = replyService.queryReplyByUserId(userId, pageable);
+		Map<String, Object> map = new HashMap<String, Object>();
+		long total = replys.getTotalElements();
+		List<Reply> list = replys.getContent();
+		map.put("total", total);
+		map.put("rows", list);
 		return map;
 	}
 

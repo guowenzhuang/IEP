@@ -76,6 +76,14 @@ public interface PostService {
 	 * @return
 	 */
 	public Integer publicPost(String title, String content, Integer parentId,String userId);
+	/**
+	 * 通过用户id分页查询帖子
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Page<Post> queryPostByUserId(String userId,Pageable pageable);
 
 
 }
