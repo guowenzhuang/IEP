@@ -93,6 +93,14 @@ public interface ReplyService {
 	 */
 	public Page<Reply> queryAllPage(ReplyQuery replyQuery, Pageable pageable);
 	
+	/**
+	 * 通过userId获取回复
+	 * @param userId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Reply> queryReplyByUserId(String userId,Pageable pageable);
+	
 	
 
 }

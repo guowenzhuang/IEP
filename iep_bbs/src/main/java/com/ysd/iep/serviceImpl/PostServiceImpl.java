@@ -8,12 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.PostRepository;
@@ -34,9 +35,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Page<Post> queryAllPage(PostQuery postQuery, Pageable pageable) {
-		
-		StringBuilder dataSql = new StringBuilder(
-				"SELECT * FROM posttb p JOIN replytb r ON p.post_id=r.post_id ");
+
+		StringBuilder dataSql = new StringBuilder("SELECT * FROM posttb p JOIN replytb r ON p.post_id=r.post_id ");
 		StringBuilder countSql = new StringBuilder(
 				"SELECT COUNT(1) FROM posttb p JOIN replytb r ON p.post_id=r.post_id");
 		// 拼接where条件
@@ -45,8 +45,8 @@ public class PostServiceImpl implements PostService {
 			whereSql.append(" AND p.post_title like '%" + postQuery.getPostTitle() + "%' ");
 		}
 		if (StringUtils.isNotEmpty(postQuery.getTypeName())) {
-			whereSql.append("AND p.post_id IN (SELECT post_id FROM posttypetb pt WHERE type_id=" + 
-					"(SELECT type_id FROM typetb WHERE type_name='"+postQuery.getTypeName() +"'))");
+			whereSql.append("AND p.post_id IN (SELECT post_id FROM posttypetb pt WHERE type_id="
+					+ "(SELECT type_id FROM typetb WHERE type_name='" + postQuery.getTypeName() + "'))");
 		}
 		// 拼接orderBy条件
 		StringBuilder orderBySql = new StringBuilder("ORDER BY p.post_isstick=1 desc");
@@ -79,6 +79,7 @@ public class PostServiceImpl implements PostService {
 	/**
 	 * 获取帖子详情
 	 */
+	@Override
 	public Reply getPostDetails(Integer postId, Integer parentId) {
 		return replyRepository.getPostDetails(postId, parentId);
 	}
@@ -131,7 +132,7 @@ public class PostServiceImpl implements PostService {
 		Post post = new Post();
 		post.setPostTitle(title);
 		post.setPostIsstick(false);
-		System.out.println("post==>"+post);
+		System.out.println("post==>" + post);
 		Post post2 = postRepository.save(post);
 		int m = replyRepository.insertPortDetails(userId, post2.getPostId(), content, parentId);
 		if (m > 0) {
@@ -139,6 +140,31 @@ public class PostServiceImpl implements PostService {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public Page<Post> queryPostByUserId(String userId, Pageable pageable ) {
+		StringBuilder dataSql = new StringBuilder("SELECT * FROM posttb p JOIN replytb r ON p.post_id=r.post_id ");
+		StringBuilder countSql = new StringBuilder(
+				"SELECT COUNT(1) FROM posttb p JOIN replytb r ON p.post_id=r.post_id");
+		// 拼接where条件
+		StringBuilder whereSql = new StringBuilder(" WHERE r.user_id ='" + userId + "' AND r.reply_parentid = 0");
+		// 拼接orderBy条件
+		StringBuilder orderBySql = new StringBuilder("ORDER BY r.reply_time desc");
+		// 组装sql语句
+		dataSql.append(whereSql).append(orderBySql);
+		countSql.append(whereSql);
+
+		Query dataQuery = entityManager.createNativeQuery(dataSql.toString(), Post.class);
+		Query countQuery = entityManager.createNativeQuery(countSql.toString());
+
+		// 设置分页
+		dataQuery.setFirstResult((int) pageable.getOffset());
+		dataQuery.setMaxResults(pageable.getPageSize());
+		BigInteger count = (BigInteger) countQuery.getSingleResult();
+		Long total = count.longValue();
+		List<Post> content2 = total > pageable.getOffset() ? dataQuery.getResultList() : Collections.<Post>emptyList();
+		return new PageImpl<>(content2, pageable, total);
 	}
 
 }

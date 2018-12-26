@@ -77,5 +77,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	
 	@Query(value = "SELECT user_id FROM replytb WHERE reply_id=?1", nativeQuery = true)
 	public String queryUserIdByReplyId(Integer replyId);
+	
 
 }
