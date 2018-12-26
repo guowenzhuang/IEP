@@ -859,7 +859,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                  * 记录考试总成绩
                  */
                 performancedao.save(performance);
-                return new Result(true, "成绩记录成功,总分" + total, null);
+                return new Result(true, "成绩记录成功,总分", total);
 
             } catch (Exception e) {
                 e.printStackTrace();
