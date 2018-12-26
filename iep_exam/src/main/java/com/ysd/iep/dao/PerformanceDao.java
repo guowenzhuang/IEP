@@ -1,7 +1,11 @@
 package com.ysd.iep.dao;
 
 import com.ysd.iep.entity.Performance;
+import com.ysd.iep.entity.Studentexamlog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author gaozhongye
@@ -9,4 +13,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 成绩表dao
  */
 public interface PerformanceDao extends JpaRepository<Performance, String> {
+
+    @Query(value = "SELECT * from performance_tb where parper_id =?1 and student_id =?2", nativeQuery = true)
+    public Performance selectperformanforparperidandstudentid(String parperid, String studentid);
+
+
 }
+
+
