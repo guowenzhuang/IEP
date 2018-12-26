@@ -21,5 +21,7 @@ public interface CommentRepository extends JpaRepository<StudentComment, Integer
     Page<CommentDTO> queryCommentPagingOrder(Pageable pageable);
 
     Page<StudentComment> findByCid(Integer cid,Pageable pageable);
+
+    Page<StudentComment> findBySid(String sid,Pageable pageable);
     
 }
