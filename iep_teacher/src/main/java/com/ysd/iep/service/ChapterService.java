@@ -30,5 +30,10 @@ public interface ChapterService {
      * @return
      */
     public Result updateCourse(Chapters chapters);
-
+	/**
+	 * 根据课程Id查询章节的总条数
+	 * @param chaCourid
+	 * @return
+	 */
+	Result queryCountById(Integer chaCourid);
 }
