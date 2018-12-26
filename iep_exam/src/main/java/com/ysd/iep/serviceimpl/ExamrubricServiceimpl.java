@@ -835,7 +835,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         long presenttimeint = presenttime.getTime();
 
 
-        if (presenttimeint - shotendtimeint < 0) {
+        if (presenttimeint - shotendtimeint > 0) {
 
 
             try {
