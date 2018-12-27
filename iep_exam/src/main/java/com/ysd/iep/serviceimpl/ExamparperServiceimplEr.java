@@ -91,7 +91,6 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
         List<LookparperQuery> lookparperQueries = new ArrayList<>();
 
 
-
         List<Studentexamlog> studentexamlogList = studentexamlogdao.selectlogforstudentidandparperid(studentid, parperid);
         List<String> stringList = new ArrayList<>();
 
@@ -108,7 +107,6 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
 
 
         for (int k = 0; k < examrubricslist.size(); k++) {
-
             StringBuilder duoid = new StringBuilder();
             StringBuilder duoider = new StringBuilder();
 
@@ -150,10 +148,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                             }
                         }
                     }
-
-
                 }
-
             } else if (examrubricslist.get(k).getRubricttype().equals("多选题")) {
                 lookparperQuery.setSeen(true);
                 for (int m = 0; m < examrubricslist.get(k).getExamanswers().size(); m++) {
@@ -169,10 +164,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                     if (examrubricslist.get(k).getExamanswers().get(m).getOptiones().equals("D")) {
                         lookparperQuery.setAnswerD(examrubricslist.get(k).getExamanswers().get(m).getContent());
                     }
-
                     String[] split = examrubricslist.get(k).getAnswerId().split(",");
-
-
                     for (int q = 0; q < split.length; q++) {
                         if (split[q].equals(examrubricslist.get(k).getExamanswers().get(m).getId())) {
                             /* lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getId());*/
@@ -205,16 +197,10 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                         lookparperQuery.setSelectanswer(studentexamlogList.get(n).getSelectId());
                     }
                 }
-
             }
-
             lookparperQueries.add(lookparperQuery);
         }
-
-
         return lookparperQueries;
-
-
     }
 
     /**
