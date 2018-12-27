@@ -37,8 +37,8 @@ public interface TeacherService {
 	/**
 	 * 根据类别id查询该类别下的课程按照报名数取前六条
 	 */
-	/*@GetMapping("/")
-	public Result getCourseByCategoryId(String cid);*/
+	@GetMapping("/course/queryCourByDepId")
+	public Result getCourseByCategoryId(@RequestParam("depid")String depid);
 
 
 }

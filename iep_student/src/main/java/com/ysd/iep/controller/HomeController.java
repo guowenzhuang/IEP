@@ -109,12 +109,12 @@ public class HomeController {
 	 *根据分类名称获取该分类下的报名数最多的前六门课程
 	 */
 	@GetMapping("/getCourseByCategoryTop6")
-	public Object getCourseByCategoryTop6(String names){
-		Result res=adminService.getIdByNames(names);
-		Object cid =res.getMessage();
-		System.out.println("查询到id："+res.getMessage());
-
-		return "";
+	public Result getCourseByCategoryTop6(String names){
+		Result<List<String>> res=adminService.getIdByNames(names);
+		System.out.println(res.getMessage());
+		String depid=res.getMessage().get(0);
+		System.out.println("查询到的id："+depid);
+		return teacherService.getCourseByCategoryId(depid);
 	}
 
 
