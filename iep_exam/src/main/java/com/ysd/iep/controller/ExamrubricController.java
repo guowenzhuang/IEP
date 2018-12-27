@@ -63,15 +63,14 @@ public class ExamrubricController {
     public List<LookparperQuery> getExamrubricforparperid(RubricQuery rubricquery) {
 
 
-        StringBuilder duoid = new StringBuilder();
         List<Examrubric> examrubricslist = examrubricservice.getExamrubricforparperid(rubricquery);
         List<LookparperQuery> lookparperQueries = new ArrayList<>();
 
 
         for (int i = 0; i < examrubricslist.size(); i++) {
 
+            StringBuilder duoid = new StringBuilder();
             LookparperQuery lookparperQuery = new LookparperQuery();
-
             lookparperQuery.setRubrictype(examrubricslist.get(i).getRubricttype());
             lookparperQuery.setIndex(i + 1);//题目编号
             lookparperQuery.setScore(examrubricslist.get(i).getScore());//题目分数
@@ -125,11 +124,13 @@ public class ExamrubricController {
                         if (split[q].equals(examrubricslist.get(i).getExamanswers().get(j).getId())) {
                             /* lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getId());*/
                             duoid.append(examrubricslist.get(i).getExamanswers().get(j).getOptiones() + " ");
+
                         }
+                        lookparperQuery.setAnswer(duoid.toString());
                     }
 
-                    lookparperQuery.setAnswer(duoid.toString());
                 }
+
 
             } else {
                 lookparperQuery.setSeen(false);

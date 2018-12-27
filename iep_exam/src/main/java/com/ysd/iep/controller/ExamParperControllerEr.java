@@ -89,8 +89,8 @@ public class ExamParperControllerEr {
      * 根据学生id查询学生考试过的卷子
      */
     @RequestMapping(value = "/queryexamendparperwherestudentid", method = RequestMethod.POST)
-    public List<Examparper> queryexamendparperwherestudentid(String studentid) {
-        return examparperserviceer.queryexamendparperwherestudentid(studentid);
+    public List<Examparper> queryexamendparperwherestudentid(String studentid, Integer courseid) {
+        return examparperserviceer.queryexamendparperwherestudentid(studentid, courseid);
     }
 
 

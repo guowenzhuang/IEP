@@ -568,8 +568,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         } else {
             return new Result(false, "您已经交卷,不能再进入考试了", null);
         }
-
-
     }
 
     /**
@@ -663,7 +661,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             /**
              * 根据考试题干id查询本条做题记录
              */
-            Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId());
+            Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
 
             /**
              * 判断根据考试题干查询的考试记录是否为空
@@ -698,6 +696,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
                         }
                     } else {
+                        System.out.println("多选题***************");
                         Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answerid = examrubric.getAnswerId().split(",");
                         String[] answerider = examUltimately.getSelectanswerId().split(",");
@@ -715,6 +714,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
+
+                    studentexamlog.setCourseId(2);
+
                     studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
@@ -725,18 +727,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     /**
                      * 判断是否存在试卷的成绩记录
                      */
-                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-                    if (performance == null) {
-                        Performance performance1 = new Performance();
-                        performance1.setId(Ider);
-                        performance1.setTotal(score);
-                        performance1.setStudentId(examUltimately.getStudentId());
-                        performance1.setParperId(examUltimately.getExamparperId());
-                        performancedao.save(performance1);
-                    } else {
-                        performance.setTotal(performance.getTotal() + score);
-                        performancedao.save(performance);
-                    }
 
 
                     return new Result(true, "记录成功", null);
@@ -779,6 +769,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
                         }
                     } else {
+                        System.out.println("修改多选题***************");
                         Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answeridsan = examrubric.getAnswerId().split(",");
                         String[] answeridsi = examUltimately.getSelectanswerId().split(",");
@@ -795,18 +786,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamloger.setPerformance(score);
                     studentexamlogdao.save(studentexamloger);
 
-                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-                    if (performance == null) {
-                        Performance performance1 = new Performance();
-                        performance1.setId(Ider);
-                        performance1.setTotal(score);
-                        performance1.setStudentId(examUltimately.getStudentId());
-                        performance1.setParperId(examUltimately.getExamparperId());
-                        performancedao.save(performance1);
-                    } else {
-                        performance.setTotal(performance.getTotal() + score);
-                        performancedao.save(performance);
-                    }
+
 
 
                     return new Result(true, "修改记录成功", null);
@@ -826,7 +806,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
                 Integer score = 0;
                 String Id = UUIDUtils.getUUID();
-                Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId());
+                Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
                 if (studentexamloger == null) {
 
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
@@ -837,6 +817,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     }
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
+                    studentexamlog.setCourseId(2);
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
                     studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
@@ -844,7 +825,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
 
-                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                    /*Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
                     if (performance == null) {
                         Performance performance1 = new Performance();
                         performance1.setId(Ider);
@@ -855,7 +836,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     } else {
                         performance.setTotal(performance.getTotal() + score);
                         performancedao.save(performance);
-                    }
+                    }*/
 
 
                 } else {
@@ -870,7 +851,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamloger.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlogdao.save(studentexamloger);
 
-                    Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+                   /* Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
                     if (performance == null) {
                         Performance performance1 = new Performance();
                         performance1.setId(Ider);
@@ -881,7 +862,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     } else {
                         performance.setTotal(performance.getTotal() + score);
                         performancedao.save(performance);
-                    }
+                    }*/
 
                 }
                 return new Result(true, "修改记录成功", null);
@@ -914,33 +895,49 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         if (presenttimeint - shotendtimeint > 0) {
 
+            Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+            if (performanceer == null) {
 
-            try {
-                String Id = UUIDUtils.getUUID();
+                System.out.println("考试成绩表中记录************");
+
+                try {
+                    String Id = UUIDUtils.getUUID();
+                    Integer total = 0;
+                    Performance performance = new Performance();
+
+                    /**
+                     * 查询出考试记录中当前试卷的所有的考试记录
+                     */
+                    List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
+
+                    for (int i = 0; i < studentexamlogs.size(); i++) {
+                        total += studentexamlogs.get(i).getPerformance();
+                    }
+                    performance.setId(Id);
+                    performance.setParperId(examUltimately.getExamparperId());
+                    performance.setStudentId(examUltimately.getStudentId());
+                    performance.setTotal(total);
+                    /**
+                     * 记录考试总成绩
+                     */
+                    performancedao.save(performance);
+                    return new Result(true, "成绩记录成功,总分", total);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new Result(false, "成绩记录失败", null);
+                }
+
+            } else {
                 Integer total = 0;
-                Performance performance = new Performance();
-
-                /**
-                 * 查询出考试记录中当前试卷的所有的考试记录
-                 */
                 List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
 
                 for (int i = 0; i < studentexamlogs.size(); i++) {
                     total += studentexamlogs.get(i).getPerformance();
                 }
-                performance.setId(Id);
-                performance.setParperId(examUltimately.getExamparperId());
-                performance.setStudentId(examUltimately.getStudentId());
-                performance.setTotal(total);
-                /**
-                 * 记录考试总成绩
-                 */
-                performancedao.save(performance);
-                return new Result(true, "成绩记录成功,总分", total);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new Result(false, "成绩记录失败", null);
+                performanceer.setTotal(total);
+                performancedao.save(performanceer);
+                return new Result(true, "成绩修改成功", null);
             }
 
         } else {
