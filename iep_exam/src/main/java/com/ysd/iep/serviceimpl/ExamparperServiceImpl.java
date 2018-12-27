@@ -161,7 +161,7 @@ public class ExamparperServiceImpl implements ExamparperService {
                     exceptonList.add(criteriaBuilder.like(root.<String>get("state"), "%" + examParperSerch.getState() + "%"));
                 }
                 if (examParperSerch.getTeacherId() != null && !"".equals(examParperSerch.getTeacherId())) {
-                    exceptonList.add(criteriaBuilder.like(root.<String>get("techerId"), "%" + examParperSerch.getTeacherId() + "%"));
+                    exceptonList.add(criteriaBuilder.equal(root.<String>get("techerId"),  examParperSerch.getTeacherId()));
                 }
 
 
