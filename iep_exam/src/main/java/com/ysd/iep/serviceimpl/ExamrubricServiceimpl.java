@@ -654,7 +654,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
 
-        System.out.println("试题类型*************" + examrubricbig.getRubricttype());
+
 
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
             System.out.println("单选或者多选");
@@ -667,7 +667,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
              * 判断根据考试题干查询的考试记录是否为空
              */
             if (studentexamloger == null) {
-                System.out.println("记录表中为空**************");
+
 
                 try {
                     String Id = UUIDUtils.getUUID();
@@ -714,7 +714,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
-
                     studentexamlog.setCourseId(examUltimately.getCourseid());
                     studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
