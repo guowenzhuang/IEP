@@ -81,6 +81,8 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/querylogforstudentandparperid", method = RequestMethod.POST)
     public List<LookparperQuery> querylogforstudentandparperid(String studentid, String parperid) {
+        System.out.println("学生id***************" + studentid);
+        System.out.println("卷子id***************" + parperid);
         return examparperserviceer.querylogforstudentandparperid(studentid, parperid);
     }
 
@@ -90,6 +92,8 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/queryexamendparperwherestudentid", method = RequestMethod.POST)
     public List<Examparper> queryexamendparperwherestudentid(String studentid, Integer courseid) {
+        System.out.println("studenid-***********************" + studentid);
+        System.out.println("courseid************************" + courseid);
         return examparperserviceer.queryexamendparperwherestudentid(studentid, courseid);
     }
 

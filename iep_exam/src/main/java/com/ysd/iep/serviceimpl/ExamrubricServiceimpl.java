@@ -799,8 +799,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
              * 填空题,判断题的处理方式
              */
             try {
-
-
                 Integer score = 0;
                 String Id = UUIDUtils.getUUID();
                 Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
@@ -821,10 +819,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamlog.setStudentId(examUltimately.getStudentId());
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
-
-
-
-
                 } else {
 
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
@@ -918,12 +912,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     }
 
-
-    /**
-     * 查看考试试卷(做完的考试试卷)
-     * (1)首先查看考过这张试卷的学生
-     * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
-     */
 
 
 }
