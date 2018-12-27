@@ -102,11 +102,9 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
 
 
         for (int i = 0; i < studentexamlogList.size(); i++) {
-
             String examrubricid = studentexamlogList.get(i).getExamrubricId();
             stringList.add(examrubricid);
         }
-
 
         for (int k = 0; k < examrubricslist.size(); k++) {
             StringBuilder duoid = new StringBuilder();

@@ -654,7 +654,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
 
-        System.out.println("试题类型*************" + examrubricbig.getRubricttype());
+
 
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
             System.out.println("单选或者多选");
@@ -667,7 +667,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
              * 判断根据考试题干查询的考试记录是否为空
              */
             if (studentexamloger == null) {
-                System.out.println("记录表中为空**************");
+
 
                 try {
                     String Id = UUIDUtils.getUUID();
@@ -714,9 +714,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
-
-                    studentexamlog.setCourseId(2);
-
+                    studentexamlog.setCourseId(examUltimately.getCourseid());
                     studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
@@ -800,8 +798,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
              * 填空题,判断题的处理方式
              */
             try {
-
-
                 Integer score = 0;
                 String Id = UUIDUtils.getUUID();
                 Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
@@ -815,28 +811,13 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     }
                     Studentexamlog studentexamlog = new Studentexamlog();
                     studentexamlog.setId(Id);
-                    studentexamlog.setCourseId(2);
+                    studentexamlog.setCourseId(examUltimately.getCourseid());
                     studentexamlog.setExamparperId(examUltimately.getExamparperId());
                     studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
                     studentexamlog.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlog.setStudentId(examUltimately.getStudentId());
                     studentexamlog.setPerformance(score);
                     studentexamlogdao.save(studentexamlog);
-
-                    /*Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-                    if (performance == null) {
-                        Performance performance1 = new Performance();
-                        performance1.setId(Ider);
-                        performance1.setTotal(score);
-                        performance1.setStudentId(examUltimately.getStudentId());
-                        performance1.setParperId(examUltimately.getExamparperId());
-                        performancedao.save(performance1);
-                    } else {
-                        performance.setTotal(performance.getTotal() + score);
-                        performancedao.save(performance);
-                    }*/
-
-
                 } else {
 
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
@@ -848,20 +829,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamloger.setPerformance(score);
                     studentexamloger.setSelectId(examUltimately.getSelectanswerId());
                     studentexamlogdao.save(studentexamloger);
-
-                   /* Performance performance = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-                    if (performance == null) {
-                        Performance performance1 = new Performance();
-                        performance1.setId(Ider);
-                        performance1.setTotal(score);
-                        performance1.setStudentId(examUltimately.getStudentId());
-                        performance1.setParperId(examUltimately.getExamparperId());
-                        performancedao.save(performance1);
-                    } else {
-                        performance.setTotal(performance.getTotal() + score);
-                        performancedao.save(performance);
-                    }*/
-
                 }
                 return new Result(true, "修改记录成功", null);
             } catch (Exception e) {
@@ -944,12 +911,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
     }
 
-
-    /**
-     * 查看考试试卷(做完的考试试卷)
-     * (1)首先查看考过这张试卷的学生
-     * (2)点击每个学生的时候显示学生所作的卷子中学生所选的答案以及正确答案
-     */
 
 
 }
