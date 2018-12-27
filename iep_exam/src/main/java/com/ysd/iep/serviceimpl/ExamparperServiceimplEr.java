@@ -90,6 +90,8 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
 
         List<LookparperQuery> lookparperQueries = new ArrayList<>();
 
+        Result stu = adminfrign.getNameById(studentid);
+        String sname = stu.getMessage().toString();
 
         List<Studentexamlog> studentexamlogList = studentexamlogdao.selectlogforstudentidandparperid(studentid, parperid);
         List<String> stringList = new ArrayList<>();
@@ -111,6 +113,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
             StringBuilder duoider = new StringBuilder();
 
             LookparperQuery lookparperQuery = new LookparperQuery();
+            lookparperQuery.setSname(sname);
             lookparperQuery.setTotal(performance.getTotal());
             lookparperQuery.setRubrictype(examrubricslist.get(k).getRubricttype());
             lookparperQuery.setIndex(k + 1);//题目编号
@@ -204,7 +207,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
     }
 
     /**
-     * 根据学生id查询学生考试过的卷子
+     * 根据学生id,以及课程id查询学生考试过的卷子
      */
     @Override
     public List<Examparper> queryexamendparperwherestudentid(String studentid, Integer courseid) {
@@ -215,13 +218,11 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
             String string = studentexamlogList.get(i).getExamparperId();
             stringList.add(string);
         }
-
         List<String> stringList1 = RemoveDouble.removeDuplicate(stringList);
         for (int j = 0; j < stringList1.size(); j++) {
             Examparper examparper = examparperdao.findById(stringList1.get(j)).orElse(null);
             examparperList.add(examparper);
         }
-
         return examparperList;
     }
 
