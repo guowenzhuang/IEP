@@ -36,6 +36,14 @@ public interface CommentService {
 	 * 学生发表评价
 	 */
 	public Result addComment(StudentComment comment);
+
+	/**
+	 * 修改点赞记录数
+	 * @param mid
+	 * @param praise
+	 * @return
+	 */
+	public int updatePraise(Integer mid, Integer praise);
 	
 	
 

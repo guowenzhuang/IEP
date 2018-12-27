@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
+import com.ysd.iep.repository.CommentLogRepository;
 import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ import com.ysd.iep.service.CommentService;
 public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentRepository commentRepository;
+	@Autowired
+	private CommentLogRepository commentLogRepository;
 
 	@Override
 	public Page<CommentDTO> queryAllPage(Integer page, Integer size,String orderBy) {
@@ -59,19 +62,23 @@ public class CommentServiceImpl implements CommentService {
 	public Result addComment(StudentComment comment) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		try {
-			Date time=df.parse(df.format(new Date()));//发表评价的时间
-			comment.setMtime(time);
-			//comment.setPraise(comment.getPraise()+1);
-			commentRepository.save(comment);
-			System.out.println("commentService"+comment);
-			return new Result(true,"发表成功");
+
+			    Date time=df.parse(df.format(new Date()));//发表评价的时间
+				comment.setMtime(time);
+				commentRepository.save(comment);
+				System.out.println("commentService"+comment);
+				return new Result(true,"发表成功");
 		} catch (ParseException e) {
-			//e.printStackTrace();
+
 			return new Result(false,"发表失败");
 		}
 	}
-	
-	
+
+	public int updatePraise(Integer mid, Integer praise){
+		System.out.println("点赞=》"+mid+"==="+praise);
+
+		return commentRepository.updatePraise(mid,praise);
+	}
 	
 	
 
