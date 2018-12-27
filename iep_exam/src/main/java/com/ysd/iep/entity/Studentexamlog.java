@@ -36,5 +36,8 @@ public class Studentexamlog {
     @Column(name = "ExamrubricId", nullable = false, length = 50)
     private String examrubricId;//考试题干id
 
+    @Column(name = "CourseId", nullable = false, length = 50)
+    private Integer courseId;
+
 
 }

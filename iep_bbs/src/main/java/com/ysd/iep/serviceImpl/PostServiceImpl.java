@@ -165,6 +165,7 @@ public class PostServiceImpl implements PostService {
 		Long total = count.longValue();
 		List<Post> content2 = total > pageable.getOffset() ? dataQuery.getResultList() : Collections.<Post>emptyList();
 		return new PageImpl<>(content2, pageable, total);
+		
 	}
 
 }

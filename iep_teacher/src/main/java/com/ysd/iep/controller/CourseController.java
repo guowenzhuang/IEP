@@ -36,7 +36,7 @@ public class CourseController {
      * @param courseQuery
      * @return
      */
-    @ApiOperation(value = "课程分页")
+     @ApiOperation(value = "课程分页")
     @GetMapping("/getPaginate")
     public Page<Course> getPaginate(CourseQuery courseQuery) {
         System.out.println(courseQuery);
@@ -61,7 +61,7 @@ public class CourseController {
     }
 
     @ApiOperation(value = "删除课程")
-    @RequestMapping("/deleteCourseById")
+    @DeleteMapping("/deleteCourseById")
     public void deleteC(@RequestParam("courId") Integer courId) {
         courseService.deleteById(courId);
     }
@@ -124,5 +124,13 @@ public class CourseController {
     public void updateCourStudypeople(@RequestParam("courId") Integer courId) {
         courseRepository.updateCourStudypeople(courId);
     }
+    
+    @ApiOperation(value = "提供  根据院系id查询课程(按报名人数降序取6条)")
+    @GetMapping("queryCourByDepId")
+    public Result<List<Course>> queryCourByDepId(@RequestParam("depid") String depid){
+    	List<Course> list = courseRepository.queryCourByDepId(depid);
+		return new Result<List<Course>>(true,list);
+    }
+
 }
 

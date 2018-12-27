@@ -61,5 +61,9 @@ public class CoursePost {
 	private Integer replyReportnum;
 	@Transient
 	private Integer courseId;
+	@Transient
+	private String userId;
+	@Transient
+	private Object userName;
 
 }

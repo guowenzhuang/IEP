@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -62,5 +63,15 @@ public class CourseReply {
 	@JsonIgnore
 	@OneToMany(mappedBy="reply",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<CourseReport> reportList;  //举报记录列表
+	
+	@Transient
+	private Boolean isReply;	//判断回复的是帖子或是回复
+	@Transient
+	private Boolean isLike;		//判断用户是否点赞
+	
+	@Transient
+	private Object replyUsername;	//回复人姓名
+	@Transient
+	private Object byUsername;	//被回复人姓名
 
 }
