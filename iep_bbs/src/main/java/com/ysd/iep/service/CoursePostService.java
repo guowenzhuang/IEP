@@ -17,5 +17,15 @@ public interface CoursePostService {
 	public CourseReply getPostDetails(Integer postId, Integer parentId);
 	
 	public Integer getLikeNum(Integer replyId);
+	
+	/**
+	 * 发表帖子
+	 * @param title
+	 * @param content
+	 * @param parentId
+	 * @param postId
+	 * @return
+	 */
+	public Integer publicPost(Integer courseId,String title, String content, Integer parentId,String userId,Integer typeId);
 
 }

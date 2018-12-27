@@ -103,4 +103,12 @@ public class UsersController {
         return new Result<String>(true);
     }
 
+    @ApiOperation("根据用户Id修改用户信息")
+    @PutMapping("/updateUserById")
+    public Result<String> updateUserById(@RequestBody UsersUpdateDTO user) {
+        usersService.updateUserById(user);
+        return new Result(true).setMessage("成功");
+
+    }
+
 }

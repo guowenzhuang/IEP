@@ -25,5 +25,9 @@ public class LookparperQuery {
 
     private String selectanswer;//学生所选的答案
 
+    private Integer total;
+
+    private String sname;
+
 
 }

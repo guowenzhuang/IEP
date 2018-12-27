@@ -34,10 +34,12 @@ public class ReplyController {
 	/**
 	 * 查询帖子下的回复列表
 	 * @param postId
+	 * @param userId 发表回复人id
+	 * @param loginUserId  登录用户id
 	 * @return
 	 */
 	@RequestMapping(value = "getReplyByPostId", method = RequestMethod.POST)
-	public Object getReplyByPostId(Integer postId,String userId) {
+	public Object getReplyByPostId(Integer postId,String userId,String loginUserId) {
 		List<Reply> replylist = replyService.queryReplyByPostId(postId);
 		//判断该回复回复的是帖子还是别人的回复
 		for (Reply reply : replylist) {
@@ -51,14 +53,16 @@ public class ReplyController {
 				reply.setIsReply(false);
 				reply.setReplyUsername(adminFeign.getNameById(reply.getUserId()).getMessage());				
 			}
-			if(userId!=null&&!("".equals(userId))) {
-				int n=replyService.userIsLike(userId, reply.getReplyId());
+			if(loginUserId!=null&&!("".equals(loginUserId))) {
+				//查询用户是否对该回复点赞
+				int n=replyService.userIsLike(loginUserId, reply.getReplyId());
 				if(n>0) {	//用户点过赞
 					reply.setIsLike(true);
 				}else {		//用户未点赞
 					reply.setIsLike(false);
 				}
-				int m=replyService.userIsReport(userId, reply.getReplyId());
+				//查询用户是否
+				int m=replyService.userIsReport(loginUserId, reply.getReplyId());
 				if(m>0) {	
 					reply.setIsReport(true);;		//用户已举报过该回复
 				}else {
@@ -208,6 +212,14 @@ public class ReplyController {
 		map.put("rows", replylist);
 		return map;
 	}
+	
+	/**
+	 * 通过用户id分页查询回复
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
 	@RequestMapping(value = "queryReplyByUserId")
 	public Object queryReplyByUserId(String userId,Integer page,Integer rows) {
 		Pageable pageable = new PageRequest(page - 1, rows);
