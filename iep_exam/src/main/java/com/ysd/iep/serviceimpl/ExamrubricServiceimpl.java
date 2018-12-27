@@ -787,8 +787,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     studentexamlogdao.save(studentexamloger);
 
 
-
-
                     return new Result(true, "修改记录成功", null);
                 } catch (Exception e) {
                     e.printStackTrace();

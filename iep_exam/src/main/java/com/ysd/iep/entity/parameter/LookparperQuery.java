@@ -27,5 +27,7 @@ public class LookparperQuery {
 
     private Integer total;
 
+    private String sname;
+
 
 }
