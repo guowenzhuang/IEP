@@ -26,5 +26,6 @@ public class ExamUltimately {
     private String selectanswerId;
     private String examrubricId;
     private Integer score;
-    
+    private Integer courseid;
+
 }

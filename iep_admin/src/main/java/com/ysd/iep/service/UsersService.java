@@ -272,6 +272,9 @@ public class UsersService {
      * @param user
      */
     public void updateUserById(UsersUpdateDTO user) {
-        usersDao.updateUserById(user.getProtectEMail(), user.getProtectMTel(), user.getId());
+        UsersDB usersDB=usersDao.findById(user.getId()).get();
+        usersDB.setProtectMTel(user.getProtectMTel());
+        usersDB.setProtectEMail(user.getProtectEMail());
+        usersDao.save(usersDB);
     }
 }

@@ -36,7 +36,7 @@ public class CourseController {
      * @param courseQuery
      * @return
      */
-    @ApiOperation(value = "课程分页")
+     @ApiOperation(value = "课程分页")
     @GetMapping("/getPaginate")
     public Page<Course> getPaginate(CourseQuery courseQuery) {
         System.out.println(courseQuery);
