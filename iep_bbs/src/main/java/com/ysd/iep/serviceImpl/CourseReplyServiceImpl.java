@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.ysd.iep.dao.CourseReplyRepository;
 import com.ysd.iep.entity.CourseReply;
+import com.ysd.iep.entity.Reply;
 import com.ysd.iep.service.CourseReplyService;
 
 @Service
@@ -56,6 +57,58 @@ public class CourseReplyServiceImpl implements CourseReplyService {
 		List<CourseReply> content2 = total > pageable.getOffset() ? dataQuery.getResultList()
 				: Collections.<CourseReply>emptyList();
 		return new PageImpl<>(content2, pageable, total);
+	}
+	
+	
+
+	/**
+	 * 更新浏览数
+	 * 
+	 * @param replyId
+	 * @return
+	 */
+	@Override
+	public Integer updateBrowse(Integer replyId) {
+		return replyRepository.updateBrowse(replyId);
+	}
+
+	/**
+	 * 回复帖子
+	 */
+	@Override
+	public Integer insertReply(String replyContent, Integer parentId, Integer postId, String userId, Integer courseId) {
+		return replyRepository.insertPortDetails(courseId, userId, postId, replyContent, parentId);
+	}
+
+	/**
+	 * 根据postId和parentId查询replyId
+	 */
+	@Override
+	public Integer queryReplyIdByPostIdAndParentId(Integer postId, Integer parentId) {
+		return replyRepository.queryReplyIdByPostIdAndParentId(postId, parentId);
+	}
+
+
+
+	@Override
+	public List<CourseReply> queryReplyByPostId(Integer postId) {
+		return replyRepository.queryReplyByPostId(postId);
+	}
+	
+	/**
+	 * 通过回复id查询用户id
+	 */
+	@Override
+	public String queryUserIdByReplyId(Integer replyId) {
+		return replyRepository.queryUserIdByReplyId(replyId);
+	}
+	
+	/**
+	 * 查询该用户是否对该帖子点赞
+	 */
+	@Override
+	public Integer userIsLike(String userId, Integer replyId) {
+		return replyRepository.userIsLike(userId, replyId);
 	}
 
 }

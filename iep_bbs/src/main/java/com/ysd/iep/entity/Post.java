@@ -74,6 +74,8 @@ public class Post {
 	private Integer replyReportnum;
 	@Transient
 	private Object userName;
+	@Transient
+	private Boolean isDelete;
 	
 	
 	

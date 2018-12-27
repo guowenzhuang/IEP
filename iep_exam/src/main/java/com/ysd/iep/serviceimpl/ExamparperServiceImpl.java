@@ -1,7 +1,5 @@
 package com.ysd.iep.serviceimpl;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.ysd.iep.dao.ExamanswerDao;
 import com.ysd.iep.dao.ExamparperDao;
 import com.ysd.iep.dao.ExamrubricDao;
@@ -11,14 +9,10 @@ import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.quartzConfig.JobTest;
-import com.ysd.iep.quartzConfig.QuartzManager;
+import com.ysd.iep.quartzConfig.QuartzManager1;
+import com.ysd.iep.quartzConfig.testjob;
 import com.ysd.iep.service.ExamparperService;
 import com.ysd.iep.util.UUIDUtils;
-import javafx.scene.input.InputMethodTextRun;
-import org.hibernate.validator.internal.engine.messageinterpolation.parser.ELState;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -67,8 +61,12 @@ public class ExamparperServiceImpl implements ExamparperService {
      * @return
      */
 
-    public static String JOB_GROUP_NAME = "XLXXCC_JOB_GROUP";
-    public static String TRIGGER_GROUP_NAME = "XLXXCC_JOB_GROUP";
+    public static String JOB_GROUP_NAME = "XLXXCC_JOB_GROUP";//开考时任务组名称
+    public static String TRIGGER_GROUP_NAME = "XLXXCC_JOB_GROUP";//开考时触发器组名称
+    public static String JOB_GROUP_NAMEEND = "XLXXCC_JOBEND_GROUP";//考试结束时触发器名称
+    public static String TRIGGER_GROUP_NAMEEND= "XLXXCC_JOBEND_GROUP";//考试结束时发器组名称
+    @Autowired
+    private QuartzManager1 quartzManager1;
     @Override
     public Result updateStartExamtime(Examparper examparper) {
         if (examparper.getState().equals("考试中")) {
@@ -76,14 +74,48 @@ public class ExamparperServiceImpl implements ExamparperService {
         } else if (examparper.getState().equals("考试结束")) {
             return new Result(false, "考试已经结束不能重新设置开考时间", null);
         } else {
-            Examparper examparper1 = examparperDao.findById(examparper.getId()).orElse(null);
-            examparper1.setExamtime(examparper.getExamtime());
-            examparper1.setState("未开考");
-            //String cro= this.getCron(examparper.getExamtime());
-            //JobDataMap jobMap=new JobDataMap();
-            //QuartzManager.addJob(examparper1.getSubject(),examparper1.getTitle(), TRIGGER_GROUP_NAME, TRIGGER_GROUP_NAME, JobTest.class, cro);
-            try {
+
+            Examparper examparper1 = examparperDao.findById(examparper.getId()).orElse(null);//查询这张试卷
+            StringBuffer entestname=new StringBuffer();//生成一个考试结束的任务调度名称
+            entestname.append(examparper1.getId());
+            entestname.append("endQuartz");
+            String cro= this.getCron(examparper.getExamtime());
+            if (examparper1.getState().equals("未开考")){//状态为未开考就是修改开考时间,紧跟着修改任务调度时间
+                examparper1.setExamtime(examparper.getExamtime());//获取传过来的开考时间
+                quartzManager1.modifyJobTime(examparper1.getId(),JOB_GROUP_NAME, examparper1.getTitle(), TRIGGER_GROUP_NAME,cro);//修改开考时间的任务调度的时间
+                /*根据开考时间推算出的考试结束时间*/
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date begintime = examparper1.getExamtime();
+                //转换成int类型
+                long beginint = begintime.getTime();
+                //加上考试时长生成一个考试结束时间的int
+                long examendtimeint = beginint + examparper1.getDuration() * 60 * 1000;
+                Date date = new Date(examendtimeint);
+                String testendcron= this.getCron(date);
+                /*根据开考时间推算出的考试结束时间*/
+                quartzManager1.modifyJobTime(entestname.toString(),JOB_GROUP_NAMEEND, examparper1.getTitle(), TRIGGER_GROUP_NAMEEND,testendcron);//修改考试结束的任务调度的时间
                 examparperDao.save(examparper1);
+            }else{
+                examparper1.setExamtime(examparper.getExamtime());
+                examparper1.setState("未开考");
+                quartzManager1.addJob(examparper.getId(),JOB_GROUP_NAME, examparper1.getTitle(), TRIGGER_GROUP_NAME, testjob.class, cro,examparper1.getId());
+                /*根据开考时间推算出的考试结束时间*/
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date begintime = examparper1.getExamtime();
+                //转换成int类型
+                long beginint = begintime.getTime();
+                //加上考试时长生成一个考试结束时间的int
+                long examendtimeint = beginint + examparper1.getDuration() * 60 * 1000;
+                Date date = new Date(examendtimeint);
+                String testendcron= this.getCron(date);//考试结束任务调度的时间
+                /*根据开考时间推算出的考试结束时间*/
+                System.out.println("考试结束name"+entestname);
+                System.out.println("考试结束时间"+date);
+                System.out.println("考试结束时间"+testendcron);
+                quartzManager1.addJob(entestname.toString(),JOB_GROUP_NAMEEND, examparper1.getTitle(), TRIGGER_GROUP_NAMEEND, JobTest.class, testendcron,examparper1.getId());
+                examparperDao.save(examparper1);
+            }
+            try {
                 return new Result(true, "设置成功", null);
             } catch (Exception e) {
                 e.printStackTrace();

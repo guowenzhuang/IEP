@@ -42,7 +42,11 @@ public class CommentController {
     public Object queryCommentByCid(Integer cid, Integer page, Integer size){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
-        return rows;
+        Long total = pageStu.getTotalElements();
+        Map<String, Object> map = new HashMap<>();
+        map.put("total", total);
+        map.put("rows", rows);
+        return map;
     }
     /**
      * 根据学生id查询课程评价
