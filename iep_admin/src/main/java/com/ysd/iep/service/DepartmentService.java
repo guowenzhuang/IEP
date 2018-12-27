@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -67,13 +68,27 @@ public class DepartmentService {
                 return criteriaBuilder.and(predicates.toArray(p));
             }
         };
-        Pageable pageable = PageRequest.of(departmentQuery.getPage() - 1, departmentQuery.getRows());
+        Sort sort=new Sort(Sort.Direction.DESC,"weight");
+        Pageable pageable = PageRequest.of(departmentQuery.getPage() - 1, departmentQuery.getRows(),sort);
         Page<DepartmentDB> departmentDBS = departmentDao.findAll(specification, pageable);
         List<DepartmentDB> dbsContent = departmentDBS.getContent();
         PagingResult<DepartmentDTO> pagingResult = new PagingResult<DepartmentDTO>();
         pagingResult.setRows(BeanConverterUtil.copyList(dbsContent,DepartmentDTO.class));
         pagingResult.setTotal(departmentDBS.getTotalElements());
         return pagingResult;
+    }
+    public void add(DepartmentDB departmentDB){
+        departmentDao.save(departmentDB);
+    }
+    public void update(DepartmentDB departmentDB){
+        departmentDao.save(departmentDB);
+    }
+    public void delete(String id){
+        departmentDao.deleteById(id);
+    }
 
+    public List<String> getIdByNames(String namesS){
+        String[] split = namesS.split(",");
+        return departmentDao.findIdByNames(split);
     }
 }

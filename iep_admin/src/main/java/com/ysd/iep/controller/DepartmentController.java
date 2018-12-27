@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.DepartmentDTO;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.po.DepartmentDB;
 import com.ysd.iep.entity.query.DepartmentQuery;
 import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.service.DepartmentService;
@@ -12,9 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
 @Api(value = "/depart", tags = "院系API")
 @RestController
 @RequestMapping("/depart")
-public class DepartMentController {
+public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
@@ -46,4 +45,31 @@ public class DepartMentController {
     public PagingResult<DepartmentDTO> query(DepartmentQuery departmentQuery) {
         return departmentService.query(departmentQuery);
     }
+
+    @PostMapping
+    public Result<String> add(@RequestBody DepartmentDB departmentDB){
+        departmentService.add(departmentDB);
+        return new Result<>(true,"新增成功");
+    }
+
+    @PutMapping("/{id}")
+    public Result<String> update(@PathVariable("id") String id,@RequestBody DepartmentDB departmentDB){
+        departmentDB.setDepartmentId(id);
+        departmentService.update(departmentDB);
+        return new Result<>(true,"修改成功");
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<String> delete(@PathVariable("id") String id){
+        departmentService.delete(id);
+        return new Result<>(true,"删除成功");
+    }
+
+    @ApiOperation("根据名称查找院系id,多个名称用,号分隔")
+    @GetMapping("/getIdByNames")
+    public Result<List<String>> getIdByNames(@RequestParam("names") String names){
+        List<String> idByNames = departmentService.getIdByNames(names);
+        return new Result<List<String>>(true,idByNames);
+    }
+
 }
