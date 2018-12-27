@@ -35,8 +35,10 @@ public interface TeacherService {
 	public Result queryNoticeByCourId(@RequestParam("courId") Integer courId);
 
 	/**
-	 * 获取课程章节课件
+	 * 根据类别id查询该类别下的课程按照报名数取前六条
 	 */
+	/*@GetMapping("/")
+	public Result getCourseByCategoryId(String cid);*/
 
 
 }
