@@ -124,5 +124,13 @@ public class CourseController {
     public void updateCourStudypeople(@RequestParam("courId") Integer courId) {
         courseRepository.updateCourStudypeople(courId);
     }
+    
+    @ApiOperation(value = "提供  根据院系id查询课程(按报名人数降序取6条)")
+    @GetMapping("queryCourByDepId")
+    public Result<List<Course>> queryCourByDepId(@RequestParam("depid") String depid){
+    	List<Course> list = courseRepository.queryCourByDepId(depid);
+		return new Result<List<Course>>(true,list);
+    }
+
 }
 
