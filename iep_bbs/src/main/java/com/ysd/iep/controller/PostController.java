@@ -92,7 +92,6 @@ public class PostController {
 
 	/**
 	 * 判断用户是否点赞和举报帖子
-	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "userIsPost")

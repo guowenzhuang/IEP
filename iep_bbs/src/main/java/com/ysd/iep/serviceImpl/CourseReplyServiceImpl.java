@@ -107,8 +107,21 @@ public class CourseReplyServiceImpl implements CourseReplyService {
 	 * 查询该用户是否对该帖子点赞
 	 */
 	@Override
-	public Integer userIsLike(String userId, Integer replyId) {
+	public Integer userIsLike(String userId, Integer replyId) { 
 		return replyRepository.userIsLike(userId, replyId);
+	}
+	
+	/**
+	 * 点赞
+	 */
+	@Override
+	public Integer replyLike(Integer replyId, String userId) {
+		return replyRepository.replyLike(replyId, userId);
+	}
+	
+	@Override
+	public Integer deleteLike(String userId, Integer replyId) {
+		return replyRepository.deleteLike(userId, replyId);
 	}
 
 }
