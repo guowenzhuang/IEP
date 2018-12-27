@@ -1,6 +1,8 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.StudentRecord;
+import com.ysd.iep.entity.dto.Chapters;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.StudyService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.Result;
@@ -11,12 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/study")
 public class StudyController {
     @Autowired
     private StudyService studyService;
-
+    @Autowired
+    private TeacherFeign teacherFeign;
     @Autowired
     private TeacherService teacherService;
 
@@ -49,13 +57,14 @@ public class StudyController {
     }
 
     /**
+     * study/queryChapter
      * 查询课程 课件
      */
     @ApiOperation(value = " 根据课程id查询课程课件")
     @GetMapping("/queryChapter")
     public Object queryChapter(Integer cid){
-        
-        return "";
+        List<Chapters> list=teacherFeign.queryChapter(cid);
+        return list;
     }
 
 
