@@ -267,4 +267,11 @@ public class UsersService {
         usersDB.setProtectMTel(usersUpdateDTO.getProtectMTel());
     }
 
+    /**
+     *根据用户id修改用户的手机号和邮箱
+     * @param user
+     */
+    public void updateUserById(UsersUpdateDTO user) {
+        usersDao.updateUserById(user.getProtectEMail(), user.getProtectMTel(), user.getId());
+    }
 }

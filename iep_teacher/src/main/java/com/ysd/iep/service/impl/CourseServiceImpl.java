@@ -42,6 +42,10 @@ public class CourseServiceImpl implements CourseService {
                 if (EmptyUtil.stringE(courseQuery.getCourName())) {
                     predicates.add(cb.like(cardNoPath, "%" + courseQuery.getCourName() + "%"));
                 }
+                if (EmptyUtil.stringE(courseQuery.getCourTeaid())) {
+                    Path<String> teaPath = root.get("courTeaid");
+                    predicates.add(cb.equal(teaPath,courseQuery.getCourTeaid()));
+                }
                 Predicate[] p = new Predicate[predicates.size()];
                 return cb.and(predicates.toArray(p));
 

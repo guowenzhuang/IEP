@@ -8,6 +8,7 @@ import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.BeanConverterUtil;
+import com.ysd.iep.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,17 +96,28 @@ public class HomeController {
 
 	/**
 	 * 查询老师
-	 * @param page
-	 * @param size
-	 * @return
+	 *
 	 */
 	@ApiOperation(value = "查询老师信息")
 	@GetMapping("/getTeachers")
 	public Object getTeachers( UsersRoleQuery usersRoleQuery){
-        System.out.println("取到的参数："+usersRoleQuery);
 		Map map= BeanConverterUtil.objectToMap(usersRoleQuery);
 		return adminService.getTeachers(map);
 	}
+
+	/**
+	 *根据分类名称获取该分类下的报名数最多的前六门课程
+	 */
+	@GetMapping("/getCourseByCategoryTop6")
+	public Result getCourseByCategoryTop6(String names){
+		Result<List<String>> res=adminService.getIdByNames(names);
+		System.out.println(res.getMessage());
+		String depid=res.getMessage().get(0);
+		System.out.println("查询到的id："+depid);
+		return teacherService.getCourseByCategoryId(depid);
+	}
+
+
 
 
 }

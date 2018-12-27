@@ -28,15 +28,15 @@ public interface StudentexamlogDao extends JpaRepository<Studentexamlog, String>
      * @param examrubricid
      * @return
      */
-    @Query(value = "SELECT *from studentexamlog_tb where examrubric_id=?1", nativeQuery = true)
-    public Studentexamlog selectlogforexamrubricid(String examrubricid);
+    @Query(value = "SELECT *from studentexamlog_tb where examrubric_id=?1 and student_id=?2", nativeQuery = true)
+    public Studentexamlog selectlogforexamrubricid(String examrubricid,String studentid);
 
 
     /**
      * 根据学生id查询出学生考试过的卷子
      */
-    @Query(value = "SELECT *from studentexamlog_tb where student_id=?1", nativeQuery = true)
-    public List<Studentexamlog> selectlogforstudentid(String studentid);
+    @Query(value = "SELECT *from studentexamlog_tb where student_id=?1 and course_id=?2", nativeQuery = true)
+    public List<Studentexamlog> selectlogforstudentid(String studentid,Integer courseid);
 
     /**
      * 根据学生id和卷子id查询做题记录

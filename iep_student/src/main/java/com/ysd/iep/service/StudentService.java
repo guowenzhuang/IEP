@@ -4,6 +4,7 @@ import com.ysd.iep.entity.Student;
 import com.ysd.iep.entity.dto.UsersDTO;
 import com.ysd.iep.entity.vo.StudentVo;
 import com.ysd.iep.feign.AdminFeign;
+import com.ysd.iep.feign.BbsFeign;
 import com.ysd.iep.repository.StudentRepository;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.Result;
@@ -20,6 +21,10 @@ public class StudentService {
 	private StudentRepository studentRepository;
 	@Autowired(required = false)
 	private AdminFeign adminFeign;
+    @Autowired(required = false)
+    private BbsFeign bbsFeign;
+
+
 	/**
 	 *     添加学生用户
 	 */
