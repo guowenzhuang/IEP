@@ -62,4 +62,14 @@ public interface UsersDao extends BaseDao<UsersDB,String> {
     @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId",nativeQuery = true)
     Page<UsersDB> findByRole(@Param("roleId") String roleId,Pageable pageable);
 
+    /**
+     * 根据id修改用户信息
+     * @param email
+     * @param id
+     * @return
+     */
+    @Modifying
+    @Query(value = "update users set protectEMail=:email,protectMTel=:tel WHERE Id=:id",nativeQuery = true)
+    void updateUserById(@Param("email")String email,@Param("tel")String tel,@Param("id")String id);
+
 }

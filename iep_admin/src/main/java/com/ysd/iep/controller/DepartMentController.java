@@ -2,6 +2,8 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.dto.DepartmentDTO;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.DepartmentQuery;
+import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,4 +42,8 @@ public class DepartMentController {
         return new Result<List<DepartmentDTO>>(true, departmentService.department());
     }
 
+    @GetMapping
+    public PagingResult<DepartmentDTO> query(DepartmentQuery departmentQuery) {
+        return departmentService.query(departmentQuery);
+    }
 }
