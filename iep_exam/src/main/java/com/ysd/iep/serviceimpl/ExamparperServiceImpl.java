@@ -73,8 +73,9 @@ public class ExamparperServiceImpl implements ExamparperService {
             return new Result(false, "考试中不能重新设置开考时间", null);
         } else if (examparper.getState().equals("考试结束")) {
             return new Result(false, "考试已经结束不能重新设置开考时间", null);
-        } else {
-
+        } else if(examparper.getExamtime().getTime() < new Date().getTime()){
+            return new Result(false, "开考时间必须大于当前时间", null);
+        } else{
             Examparper examparper1 = examparperDao.findById(examparper.getId()).orElse(null);//查询这张试卷
             StringBuffer entestname=new StringBuffer();//生成一个考试结束的任务调度名称
             entestname.append(examparper1.getId());
