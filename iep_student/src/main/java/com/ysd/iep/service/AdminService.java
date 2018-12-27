@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
 import com.ysd.iep.util.PagingResult;
+import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,10 @@ public interface AdminService {
 	@GetMapping("/user/getByRole")
 	public PagingResult getTeachers(@RequestParam Map<String, Object> map);
 
-
+	/**
+	 * 根据类别名称获取类别id
+	 */
+	@GetMapping("/depart/getIdByNames")
+	public Result getIdByNames(@RequestParam("names")String names);
 
 }

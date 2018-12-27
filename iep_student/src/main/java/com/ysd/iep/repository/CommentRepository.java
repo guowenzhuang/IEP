@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.ysd.iep.entity.StudentComment;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -20,8 +23,14 @@ public interface CommentRepository extends JpaRepository<StudentComment, Integer
     @Query(value = "select new com.ysd.iep.entity.CommentDTO(c.cid,count(c.mid)) from StudentComment c group by cid")
     Page<CommentDTO> queryCommentPagingOrder(Pageable pageable);
 
-    Page<StudentComment> findByCid(Integer cid,Pageable pageable);
+    Page<StudentComment> findByCid(Integer cid, Pageable pageable);
 
-    Page<StudentComment> findBySid(String sid,Pageable pageable);
-    
+    Page<StudentComment> findBySid(String sid, Pageable pageable);
+
+    @Query(value = "update commenttb set praise=:praise where mid=:mid",nativeQuery = true)
+    @Modifying
+    @Transactional
+    public int updatePraise(@Param("mid") Integer mid, @Param("praise")Integer praise);
+
+
 }

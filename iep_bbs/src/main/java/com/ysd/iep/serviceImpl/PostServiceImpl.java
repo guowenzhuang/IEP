@@ -148,7 +148,7 @@ public class PostServiceImpl implements PostService {
 		StringBuilder countSql = new StringBuilder(
 				"SELECT COUNT(1) FROM posttb p JOIN replytb r ON p.post_id=r.post_id");
 		// 拼接where条件
-		StringBuilder whereSql = new StringBuilder(" WHERE r.user_id ='" + userId + "' AND r.reply_parentid = 0");
+		StringBuilder whereSql = new StringBuilder(" WHERE r.user_id ='" + userId + "' AND r.reply_parentid = 0 ");
 		// 拼接orderBy条件
 		StringBuilder orderBySql = new StringBuilder("ORDER BY r.reply_time desc");
 		// 组装sql语句

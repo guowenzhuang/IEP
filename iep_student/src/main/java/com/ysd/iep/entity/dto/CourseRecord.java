@@ -1,9 +1,11 @@
 package com.ysd.iep.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Column;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 80795
@@ -31,6 +33,10 @@ public class CourseRecord {
     private Integer courCommentcount;//课程评价数量
     private Integer courStudypeople;
     private Integer countChaSum;
+    private List<Integer> chaIds;
+    //当前章节所在的位置
+    private int chaIndex;
+
 
     private Integer rid;//学习记录id
     private String sid;//学生id
@@ -38,6 +44,7 @@ public class CourseRecord {
     private Integer chaid;//章节id
     private String watchtime;//视频观看时间
     private Integer credits;//学分
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date starttime;//学习开始的时间
     private String ext1;//预留字段
 }

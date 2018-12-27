@@ -208,6 +208,14 @@ public class ReplyController {
 		map.put("rows", replylist);
 		return map;
 	}
+	
+	/**
+	 * 通过用户id分页查询回复
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
 	@RequestMapping(value = "queryReplyByUserId")
 	public Object queryReplyByUserId(String userId,Integer page,Integer rows) {
 		Pageable pageable = new PageRequest(page - 1, rows);

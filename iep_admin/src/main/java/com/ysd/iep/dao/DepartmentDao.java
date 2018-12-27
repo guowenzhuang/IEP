@@ -17,4 +17,7 @@ public interface DepartmentDao extends BaseDao<DepartmentDB,String> {
 
     @Query(value = "select departmentId,name,weight from department order by weight desc",nativeQuery = true)
     List<DepartmentDB> findOrderWeight();
+
+    @Query(value = "select departmentId from department where name in (:names)",nativeQuery = true)
+    List<String> findIdByNames(@Param("names") String[] names);
 }

@@ -50,5 +50,13 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Transactional
 	 public void updateCourStudypeople(Integer courId);
 
+	/**
+	 * 根据院系Id查询课程(根据报名人数降序取前六个)
+	 * @param depid
+	 * @return
+	 */
+	@Query(value = "SELECT * FROM  coursetb WHERE cour_depid =?1 ORDER BY cour_studypeople DESC LIMIT 6",nativeQuery = true)
+	public List<Course> queryCourByDepId(String depid);
+
 
 }

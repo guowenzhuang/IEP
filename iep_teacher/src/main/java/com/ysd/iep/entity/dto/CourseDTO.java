@@ -3,6 +3,7 @@ package com.ysd.iep.entity.dto;
 import lombok.Data;
 
 import javax.persistence.Column;
+import java.util.List;
 
 /**
  * @author 80795
@@ -32,4 +33,5 @@ public class CourseDTO {
     private Integer Ext1;
     private String Ext2;
     private Integer countChaSum;
+    private List<Integer> chaIds;
 }
