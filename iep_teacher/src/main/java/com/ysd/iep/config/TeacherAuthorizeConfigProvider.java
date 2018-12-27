@@ -19,7 +19,7 @@ public class TeacherAuthorizeConfigProvider implements AuthorizeConfigProvider {
                         "/course/updateCourStudypeople",
                         "/tea/getAllTeacher",
                         "/chapter/updateChaViurlAtime",
-                        "/tea")
+                        "/tea","/course/queryCourByDepId")
                 .permitAll();
     }
 }
