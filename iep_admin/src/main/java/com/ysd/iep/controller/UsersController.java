@@ -104,8 +104,9 @@ public class UsersController {
     }
 
     @ApiOperation("根据用户Id修改用户信息")
-    @PutMapping("/updateUserById")
-    public Result<String> updateUserById(@RequestBody UsersUpdateDTO user) {
+    @PutMapping("/updateUserById/{id}")
+    public Result<String> updateUserById(@PathVariable("id") String id,@RequestBody UsersUpdateDTO user) {
+        user.setId(id);
         usersService.updateUserById(user);
         return new Result(true).setMessage("成功");
 
