@@ -42,8 +42,8 @@ public interface AdminFeign {
    @GetMapping("/user/getUserById")
    Result<List<TeacherUserDTO>> getUserById(@RequestParam("ids") String ids);
    
-   @PutMapping("/user/updateUserById")
-   Result<String> updateUserById(@RequestBody TeacherUserDTO user);
+   @PutMapping("/user/updateUserById/{id}")
+   Result<String> updateUserById(@PathVariable("id") String id,@RequestBody TeacherUserDTO user);
 
 
 
