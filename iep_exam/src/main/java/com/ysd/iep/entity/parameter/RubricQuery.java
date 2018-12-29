@@ -32,5 +32,7 @@ public class RubricQuery {
     private String coursetype;
     private String examparper;
 
+    private String studentid;
+
 
 }

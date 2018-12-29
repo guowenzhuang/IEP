@@ -4,9 +4,11 @@ package com.ysd.iep.controller;
 import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.Sectionexamrubric;
+import com.ysd.iep.entity.parameter.AddrubricQuery;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import com.ysd.iep.entity.parameter.SectionFan;
+import com.ysd.iep.service.RubricService;
 import com.ysd.iep.service.SectionrubricService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,8 @@ public class SectionrubricController {
     SectionrubricService sectionrubricservice;
     @Autowired
     SectionexamrubricDao sectionexamrubricdao;
+    @Autowired
+    RubricService rubricservice;
 
     /**
      * 多条件查询
@@ -48,7 +52,6 @@ public class SectionrubricController {
         return new SectionFan(list, total);
     }
 
-
     /**
      * 移除章节测试试题
      */
@@ -63,6 +66,33 @@ public class SectionrubricController {
             return new Result(false, "移除章节测试试题失败", null);
         }
 
+    }
+
+
+    /**
+     * 新增考试试题(三中试题) 同时向题库中插入数据
+     */
+    @RequestMapping(value = "/addexamrubricdouble", method = RequestMethod.POST)
+    public Result addexamrubricdouble(AddrubricQuery addrubricquery) {
+        Result examrubricresult = null;
+        Result examrubricresultdouble = null;
+        Result rubricresult = rubricservice.addrubric(addrubricquery);
+
+
+        if (addrubricquery.getRubrictype().equals("填空题") || addrubricquery.getRubrictype().equals("判断题")) {
+            System.out.println("填空判断调用的");
+            examrubricresult = sectionrubricservice.addexamrubric(addrubricquery);
+        } else {
+            System.out.println("单选多选调用的");
+            examrubricresultdouble = sectionrubricservice.addexamrubricjudegepack(addrubricquery);
+        }
+
+        /*examrubricresult.isSuccess();*/
+        if (rubricresult.isSuccess() || examrubricresult.isSuccess() || examrubricresultdouble.isSuccess()) {
+            return new Result(true, "新增考试以及新增题库题成功!!!!", null);
+        } else {
+            return new Result(false, "新增考试以及新增题库题失败!!!!", null);
+        }
     }
 
 

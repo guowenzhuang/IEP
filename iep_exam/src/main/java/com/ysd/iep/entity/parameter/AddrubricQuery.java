@@ -27,4 +27,7 @@ public class AddrubricQuery {
     private Integer course;
     private Integer score;
     private String parperid;
+
+    private String sectionid;
+
 }
