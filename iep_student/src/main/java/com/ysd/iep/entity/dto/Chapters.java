@@ -17,8 +17,13 @@ public class Chapters{
 	private Integer chaCourid;
 	private String chaType;
 	private String chaViurl;
+	private String chaTime;//视频时长
 	private String chalastModified;
 	private String chaSize ;
+	private String icon="el-icon-arrow-up";
+	private Double watch;
+	//学习进度
+	private Double progress;
 	private List<Chapters> children;
 	private Integer Ext1;
 	private String Ext2;
