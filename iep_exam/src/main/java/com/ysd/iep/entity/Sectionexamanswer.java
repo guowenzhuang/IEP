@@ -30,7 +30,11 @@ public class Sectionexamanswer {
     @JsonIgnore
     @ManyToOne(targetEntity = Sectionexamrubric.class)
     @JoinColumn(name = "sectionexamanswer_sectionexamrubric_id")
-    private Examrubric Sectionexamrubric;//答案所属的考试题干id
+    private Sectionexamrubric Sectionexamrubric;//答案所属的考试题干id
 
-
+    public Sectionexamanswer(String id, String optiones, String content) {
+        this.id = id;
+        this.optiones = optiones;
+        this.content = content;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "sectionexamrubric_tb")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class Sectionexamrubric {
 
     @javax.persistence.Id
@@ -50,4 +50,18 @@ public class Sectionexamrubric {
     //@JsonIgnore
     @OneToMany(mappedBy = "Sectionexamrubric", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Sectionexamanswer> examanswers;//考试答案集合
+
+    public Sectionexamrubric(String id, String sectionId, Integer courseId, String answerId, String content, String trcherId, Integer score, String rubricttype) {
+        this.id = id;
+        this.sectionId = sectionId;
+        this.courseId = courseId;
+        this.answerId = answerId;
+        this.content = content;
+        this.trcherId = trcherId;
+        this.score = score;
+        this.rubricttype = rubricttype;
+    }
+
+    public Sectionexamrubric() {
+    }
 }
