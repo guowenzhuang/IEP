@@ -35,7 +35,7 @@ public class CourseReplyController {
 	 * @return
 	 */
 	@RequestMapping(value = "getReplyByPostId", method = RequestMethod.POST)
-	public Object getReplyByPostId(Integer postId,String userId,String loginUserId) {
+	public Object getReplyByPostId(Integer postId,String loginUserId) {
 		List<CourseReply> replylist = replyService.queryReplyByPostId(postId);
 		//判断该回复回复的是帖子还是别人的回复
 		for (CourseReply reply : replylist) {
@@ -95,7 +95,6 @@ public class CourseReplyController {
 
 	/**
 	 * 回复
-	 * 
 	 * @param reply
 	 * @return
 	 */
@@ -115,6 +114,38 @@ public class CourseReplyController {
 		} else {
 			map.put("success", false);
 			map.put("message", "回复失败");
+		}
+		return map;
+	}
+	
+	/**
+	 * 点赞 
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	@RequestMapping(value = "replyLike")
+	public Object replyLike(String userId, Integer replyId, Boolean isLike) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int m;
+		if(isLike) {	//该用户点过赞，取消点赞
+			m=replyService.deleteLike(userId, replyId);
+			if(m>0) {
+				map.put("success", true);
+				map.put("message", "取消点赞");
+			}else {
+				map.put("success", false);
+				map.put("message", "取消点赞失败");
+			}
+		}else {	 //该用户未点赞
+			m = replyService.replyLike(replyId, userId);
+			if(m>0) {
+				map.put("success", true);
+				map.put("message", "点赞成功");
+			}else {
+				map.put("success", false);
+				map.put("message", "点赞失败");
+			}	
 		}
 		return map;
 	}

@@ -54,5 +54,21 @@ public interface CourseReplyService {
 	 * @return
 	 */
 	public Integer userIsLike(String userId,Integer replyId);
+	
+	/**
+	 *   点赞
+	 * @param replyId
+	 * @param userId
+	 * @return
+	 */
+	public Integer replyLike(Integer replyId,String userId);
+	
+	/**
+	 * 取消点赞
+	 * @param userId
+	 * @param replyId
+	 * @return
+	 */
+	public Integer deleteLike(String userId,Integer replyId);
 
 }

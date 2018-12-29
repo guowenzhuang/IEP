@@ -1,8 +1,8 @@
 package com.ysd.iep.service.serviceImpl;
-
 import com.ysd.iep.entity.StudentRecord;
 import com.ysd.iep.repository.StudyRepository;
 import com.ysd.iep.service.StudyService;
+import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,18 @@ public class StudyServiceImpl implements StudyService {
         return studyRepository.queryStudentRecord(cid,sid);
     }
 
-
-
+    /**
+     * 新增学习记录
+     * @param studentRecord
+     * @return
+     */
+    public Result insertChapters(StudentRecord studentRecord){
+      try{
+          studyRepository.save(studentRecord);
+          return new Result(true,"学习记录成功");
+      }catch (Exception e){
+          return new Result(true,"学习记录失败");
+      }
+    }
 
 }

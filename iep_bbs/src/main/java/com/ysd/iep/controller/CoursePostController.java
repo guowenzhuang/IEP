@@ -19,6 +19,7 @@ import com.ysd.iep.entity.CourseReply;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CoursePostService;
+import com.ysd.iep.service.CourseReplyService;
 import com.ysd.iep.tools.Result;
 
 @RestController
@@ -26,6 +27,8 @@ import com.ysd.iep.tools.Result;
 public class CoursePostController {
 	@Autowired
 	private CoursePostService postService;
+	@Autowired
+	private CourseReplyService replyService;
 	@Autowired
 	private AdminFeign adminFeign;
 
@@ -76,6 +79,24 @@ public class CoursePostController {
 		}
 		return map;
 
+	}
+	
+	/**
+	 * 判断用户是否点赞和举报帖子
+	 * @return
+	 */
+	@RequestMapping(value = "userIsPost")
+	public Object userIsPost(Integer replyId, String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Boolean isLikePost;
+		Integer n = replyService.userIsLike(userId, replyId);
+		if (n > 0) {
+			isLikePost = true;
+		} else {
+			isLikePost = false;
+		}
+		map.put("isLikePost", isLikePost);
+		return map;
 	}
 
 }

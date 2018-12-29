@@ -40,4 +40,14 @@ public interface CourseReplyRepository extends JpaRepository<CourseReply, Intege
 	
 	@Query(value = "SELECT COUNT(1) FROM courseliketb WHERE user_id=?1 AND reply_id=?2", nativeQuery = true)
 	public Integer userIsLike(String userId, Integer replyId);
+	
+	@Query(value = "INSERT INTO courseliketb(user_id,reply_id) VALUES(?2,?1)", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer replyLike(Integer replyId, String userId);
+	
+	@Query(value = "DELETE FROM courseliketb WHERE user_id=?1 AND reply_id=?2", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer deleteLike(String userId, Integer replyId);
 }

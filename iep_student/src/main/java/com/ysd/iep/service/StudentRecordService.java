@@ -34,10 +34,10 @@ public class StudentRecordService {
     @Autowired
     private TeacherFeign teacherFeign;
 
-    public PagingResult<CourseRecord> query(Integer page, Integer rows) {
+    public PagingResult<CourseRecord> query(String id,Integer page, Integer rows) {
         Pageable pageRequest = PageRequest.of(page - 1, rows);
         //查询学生学习记录
-        Page<StudentRecord> studentRecordPage = studentRecordDao.findAllMaxCha(pageRequest);
+        Page<StudentRecord> studentRecordPage = studentRecordDao.findAllMaxCha(id,pageRequest);
         //查询课程
         List<StudentRecord> studentRecords = studentRecordPage.getContent();
         List<Integer> cidList = studentRecords.stream().map(StudentRecord::getCid).collect(Collectors.toList());

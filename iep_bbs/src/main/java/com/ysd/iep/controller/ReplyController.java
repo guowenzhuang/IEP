@@ -39,7 +39,7 @@ public class ReplyController {
 	 * @return
 	 */
 	@RequestMapping(value = "getReplyByPostId", method = RequestMethod.POST)
-	public Object getReplyByPostId(Integer postId,String userId,String loginUserId) {
+	public Object getReplyByPostId(Integer postId,String loginUserId) {
 		List<Reply> replylist = replyService.queryReplyByPostId(postId);
 		//判断该回复回复的是帖子还是别人的回复
 		for (Reply reply : replylist) {

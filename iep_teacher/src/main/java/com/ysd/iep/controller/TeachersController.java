@@ -4,6 +4,7 @@ import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
+import com.ysd.iep.entity.dto.TeacherUserDTO;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.TeachersService;
 import io.swagger.annotations.Api;
@@ -43,7 +44,7 @@ public class TeachersController {
     	}else {
     		return new Result(false,"失败");
     	}
-        
+      
     }
     @ApiOperation(value = "根据id删除老师")
     @DeleteMapping("/deleteTeacherById")
@@ -53,29 +54,27 @@ public class TeachersController {
     	
     }
 
-    /**
-     *
-     * @return
-     */
     @ApiOperation(value = "查询老师信息")
-    @GetMapping("/getAllTeacher")
-    public Result<List<TeacherDTO>>  getAllTeacher(){
-        //分页 条件
-        List<String> list=teaRep.queryTeacherId();
-        List<List<TeacherDTO>> tealist=new ArrayList<List<TeacherDTO>>();
-        for (String string : list) {
-        	Result<String> result = adminFeign.getNameById(string);
-            //获取单个教师姓名
-        	String name = result.getMessage();
-        	List<TeacherDTO> tea = teachersService.queryTeacher(string);
-        	System.out.println("tea>>>>>>>>>>>>>>>>"+tea);
-            //把查询到的名字赋值给tea 
-        	tea.get(0).setTeaName(name);
-        	  System.out.println("teaList>>>>>>>>>>>>"+tea);
-        	  tealist.add(tea);
-		}
-		return new Result(true,tealist);
-        
+    @GetMapping("/QueryTeacher")
+    public Result<List<TeacherUserDTO>> QueryTeacher() { 
+		return new Result(true,teachersService.getTeaUser());
+    }
+    
+    @ApiOperation(value = "根据教师Id查询老师信息")
+    @GetMapping("/QueryTeacherByid")
+    public Result<TeacherUserDTO> QueryTeacherByid(String id) {
+		return new Result(true,teachersService.queryTeaUserById(id));
+    }
+
+    @ApiOperation(value = "根据教师Id修改老师信息")
+    @PutMapping("/updateTeacher")
+    public Result<String> updateTeacher(@RequestBody TeacherUserDTO teauser){
+    	System.out.println(teauser);
+    	Result<String> user = adminFeign.updateUserById(teauser.getId(),teauser);
+    	 teachersService.updateTeacher(teauser);
+
+		return new Result(true).setMessage("成功");
+    	
     }
 
 }
