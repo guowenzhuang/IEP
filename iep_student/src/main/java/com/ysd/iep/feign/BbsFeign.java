@@ -3,11 +3,12 @@ package com.ysd.iep.feign;
 import com.ysd.iep.entity.dto.PostDTO;
 import com.ysd.iep.entity.dto.ReplyDTO;
 import com.ysd.iep.entity.vo.PagingResult;
+import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author 80795
@@ -31,4 +32,11 @@ public interface BbsFeign {
     PagingResult<ReplyDTO> queryReplyByUserId(@RequestParam("userId") String userId,
                                              @RequestParam("page") Integer page,
                                              @RequestParam("rows") Integer rows);
+
+    /**
+     * 获取某个分类下课程的精彩讨论
+     */
+    @RequestMapping("")
+    public Result getDiscuss(@RequestParam("cids")List<Integer> cids);
+
 }

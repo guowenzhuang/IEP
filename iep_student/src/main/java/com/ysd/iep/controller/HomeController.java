@@ -5,6 +5,7 @@ import com.ysd.iep.entity.Recommend;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
 import com.ysd.iep.entity.query.UsersRoleQuery;
+import com.ysd.iep.feign.BbsFeign;
 import com.ysd.iep.service.AdminService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.BeanConverterUtil;
@@ -32,6 +33,9 @@ public class HomeController {
 
 	@Autowired
 	private TeacherService teacherService;
+
+	@Autowired
+    private BbsFeign bbsFeign;
 
 	/**
 	 * @GetMapping 查询
@@ -108,6 +112,7 @@ public class HomeController {
 	/**
 	 *根据分类名称获取该分类下的报名数最多的前六门课程.
 	 */
+    @ApiOperation(value = "根据分类名称获取该分类下的报名数最多的前六门课程")
 	@GetMapping("/getCourseByCategoryTop6")
 	public Result getCourseByCategoryTop6(String names){
 		Result<List<String>> res=adminService.getIdByNames(names);
@@ -116,6 +121,23 @@ public class HomeController {
 		System.out.println("查询到的id："+depid);
 		return teacherService.getCourseByCategoryId(depid);
 	}
+
+    /**
+     * 获取某个分类下课程的精彩讨论
+     * @param names
+     * @return
+     */
+    @ApiOperation(value = "获取某个分类下课程的精彩讨论")
+	@GetMapping("/getDiscuss")
+    public Object getDiscuss(String names){
+        Result<List<String>> res=adminService.getIdByNames(names);
+        String depid=res.getMessage().get(0);
+
+        List<Integer> cids=teacherService.getCourseIdBy(depid);
+        System.out.println("得到的id："+cids);
+        return bbsFeign.getDiscuss(cids);
+
+    }
 
 
 
