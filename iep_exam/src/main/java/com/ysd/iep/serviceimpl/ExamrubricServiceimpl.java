@@ -594,19 +594,19 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         /**
          * 用考试结束时间与当前时间相比较
          */
-        Date presenttime = df.parse(df.format(new Date()));
-        long presenttimeint = presenttime.getTime();
+       // Date presenttime = df.parse(df.format(new Date()));
+      //  long presenttimeint = presenttime.getTime();
         /*System.out.println("当前时间*****************" + presenttimeint);*/
         /**
          * 计算考试结束时间与当前时间的差值(剩余的时间)
          */
-        long difference = (examendtimeint - presenttimeint) / 1000;
+        //long difference = (examendtimeint - presenttimeint) / 1000;
         /*System.out.println("差值************" + difference);*/
         /**
          * 倒计时时间
          *
          */
-        long downtime = difference / 60;
+        //long downtime = difference / 60;
 
         /*String downtime = SecondformDate.change(difference);*/
         /*System.out.println("插值转换成时间***************" + downtime);*/
@@ -642,7 +642,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
 
 
-        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, downtime, examparper1);
+        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, examendtimeint, examparper1);
     }
 
     /**
