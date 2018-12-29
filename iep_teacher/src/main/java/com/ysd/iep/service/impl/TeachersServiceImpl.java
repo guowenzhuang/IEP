@@ -2,6 +2,7 @@ package com.ysd.iep.service.impl;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,8 +88,10 @@ public class TeachersServiceImpl implements TeachersService {
 		t.setTeaId(teauser.getId());
 		teacherRepository.save(t);
 		//teacherRepository.updateTeacher(teauser.getTeaDescribe(), teauser.getTeaTalk(),teauser.getTeaSex(),teauser.getId());
-		
 	}
-	
 
+	@Override
+	public List<String> getTeaIdByDepartmentId(String departMentId){
+		return teacherRepository.getByTeaDepartmentid(departMentId).stream().map(Teachers::getTeaId).collect(Collectors.toList());
+	}
 }

@@ -23,7 +23,6 @@ import java.util.UUID;
 @Api(value = "/course", tags = "课程")
 @RestController
 @RequestMapping("/course")
-//我是傻逼
 public class CourseController {
     @Autowired
     private CourseService courseService;
@@ -31,7 +30,14 @@ public class CourseController {
     private AdminFeign adminFeign;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private TeachersService teachersService;
 
+    @GetMapping("/getByDepartId")
+    public List<Integer> get(@RequestParam("departmentId") String departmentId){
+        List<String> teaIdByDepartmentId = teachersService.getTeaIdByDepartmentId(departmentId);
+        return courseService.queryCourByteaId(teaIdByDepartmentId);
+    }
     /**
      * @param courseQuery
      * @return

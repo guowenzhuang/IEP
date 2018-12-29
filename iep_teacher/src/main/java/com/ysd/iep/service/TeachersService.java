@@ -24,5 +24,7 @@ public interface TeachersService {
     List<TeacherUserDTO> queryTeaUserById(String id);
    
     void updateTeacher(TeacherUserDTO teauser);
+
+    List<String> getTeaIdByDepartmentId(String departMentId);
    
 }

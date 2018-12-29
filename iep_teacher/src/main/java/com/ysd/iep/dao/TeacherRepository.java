@@ -39,7 +39,11 @@ public interface TeacherRepository extends JpaRepository<Teachers, String> , Jpa
 	@Query(value = "UPDATE teachertb SET tea_describe=:describe,tea_talk=:teatalk,tea_sex=:teasex  WHERE tea_id=:teaid",nativeQuery = true)
 	public void  updateTeacher(@Param("describe")String teadescribe,@Param("teatalk")String teatalk,@Param("teasex")String teasex,@Param("teaid")String teaid);
 
-	
-
+	/**
+	 * 根据院系id查找所有老师
+	 * @param teaDepartmentid
+	 * @return
+	 */
+	List<Teachers> getByTeaDepartmentid(String teaDepartmentid);
 	
 }

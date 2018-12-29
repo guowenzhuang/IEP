@@ -58,5 +58,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Query(value = "SELECT * FROM  coursetb WHERE cour_depid =?1 ORDER BY cour_studypeople DESC LIMIT 6",nativeQuery = true)
 	public List<Course> queryCourByDepId(String depid);
 
+	List<Course> findByCourTeaidIn(List<String> teaid);
+
 
 }
