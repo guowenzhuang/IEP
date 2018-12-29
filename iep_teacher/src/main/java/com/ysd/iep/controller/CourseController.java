@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -134,9 +135,14 @@ public class CourseController {
     @ApiOperation(value = "提供  根据院系id查询课程(按报名人数降序取6条)")
     @GetMapping("queryCourByDepId")
     public Result<List<Course>> queryCourByDepId(@RequestParam("depid") String depid){
-    	List<Course> list = courseRepository.queryCourByDepId(depid);
-		return new Result<List<Course>>(true,list);
+        List<String> teaIdByDepartmentId = teachersService.getTeaIdByDepartmentId(depid);
+        if(teaIdByDepartmentId.size()==0){
+            return new Result<>(true,new ArrayList<Course>());
+        }
+        List<Course> list = courseRepository.queryCourByDepId(teaIdByDepartmentId);
+        return new Result<List<Course>>(true,list);
     }
+
 
 }
 

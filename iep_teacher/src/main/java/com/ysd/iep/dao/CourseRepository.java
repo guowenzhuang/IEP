@@ -16,13 +16,7 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpecificationExecutor<Course> {
 
-	/**
-	 * 分页查询  课程(前台)
-	 * @param DepId
-	 * @param pageable
-	 * @return Page<Course>
-	 */
-	public Page<Course> findByCourDepidLike(String DepId,Pageable pageable);
+
 
 	/**
 	 * 提供  根据课程id查询课程信息
@@ -52,11 +46,11 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 
 	/**
 	 * 根据院系Id查询课程(根据报名人数降序取前六个)
-	 * @param depid
+	 * @param teaids
 	 * @return
 	 */
-	@Query(value = "SELECT * FROM  coursetb WHERE cour_depid =?1 ORDER BY cour_studypeople DESC LIMIT 6",nativeQuery = true)
-	public List<Course> queryCourByDepId(String depid);
+	@Query(value = "SELECT * FROM  coursetb WHERE cour_teaid in( ?1)  ORDER BY cour_studypeople DESC LIMIT 6",nativeQuery = true)
+	public List<Course> queryCourByDepId(List<String> teaids);
 
 	List<Course> findByCourTeaidIn(List<String> teaid);
 
