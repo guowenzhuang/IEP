@@ -7,6 +7,7 @@ import com.ysd.iep.util.PagingResult;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentRecordController {
     @Autowired
     private StudentRecordService studentRecordService;
-    @GetMapping
-    public PagingResult<CourseRecord> query(Integer page, Integer rows){
-        return studentRecordService.query(page, rows);
+    @GetMapping("/{id}")
+    public PagingResult<CourseRecord> query(@PathVariable("id") String id, Integer page, Integer rows){
+        return studentRecordService.query(id,page, rows);
     }
 }

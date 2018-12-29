@@ -28,11 +28,6 @@ import java.util.*;
  */
 @Data
 public class ExcelUtil {
-    private BaseDao baseDao;
-
-    public ExcelUtil(BaseDao baseDao) {
-        this.baseDao = baseDao;
-    }
 
     /**
      * 导出表格
@@ -113,7 +108,7 @@ public class ExcelUtil {
      * @param inputStream 输入流
      * @return map对象 (fieldNames:列名集合,类型:List<String>) (fieldValues 参数集合 类型:List<Object[]>)
      */
-    public void importExcel(Class<T> clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException {
+    public List<T> importExcel(Class<T> clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         XSSFRow row;
@@ -140,7 +135,7 @@ public class ExcelUtil {
         }
         //没有找到
         if (fieldNames.size() == 0) {
-            return;
+            return new ArrayList<>();
         }
 
         List<T> list = new ArrayList();
@@ -163,7 +158,7 @@ public class ExcelUtil {
             }
             list.add(t);
         }
-        baseDao.saveAll(list);
+        return list;
     }
 
 

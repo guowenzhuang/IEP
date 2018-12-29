@@ -8,10 +8,7 @@ import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +64,16 @@ public class StudyController {
         return list;
     }
 
-
+    /**
+     * study/addChapterStudyLog
+     * @param studentRecord
+     * @return
+     */
+    @ApiOperation(value = "记录学习")
+    @PostMapping("/addChapterStudyLog")
+    public Object addChapterStudyLog(StudentRecord studentRecord){
+        return studyService.insertChapters(studentRecord);
+    }
 
 
 

@@ -69,11 +69,10 @@ public class TeachersController {
     @ApiOperation(value = "根据教师Id修改老师信息")
     @PutMapping("/updateTeacher")
     public Result<String> updateTeacher(@RequestBody TeacherUserDTO teauser){
-    	System.out.println("教师参数信息>>>>>>>>"+teauser.getProtectEMail());
-    	System.out.println("教师参数信息2>>>>>>>>"+teauser.getProtectMTel());
-    	Result<String> user = adminFeign.updateUserById(teauser);
-    	String result = user.getMessage();
+    	System.out.println(teauser);
+    	Result<String> user = adminFeign.updateUserById(teauser.getId(),teauser);
     	 teachersService.updateTeacher(teauser);
+
 		return new Result(true).setMessage("成功");
     	
     }

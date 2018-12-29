@@ -15,6 +15,8 @@ import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.TeachersService;
 import com.ysd.iep.util.BeanConverterUtil;
 
+import javax.transaction.Transactional;
+
 @Service
 public class TeachersServiceImpl implements TeachersService {
     @Autowired
@@ -79,8 +81,12 @@ public class TeachersServiceImpl implements TeachersService {
 	 * 修改教师信息
 	 */
 	@Override
+	@Transactional(rollbackOn = Exception.class)
 	public void updateTeacher(TeacherUserDTO teauser) {
-		 teacherRepository.updateTeacher(teauser.getTeaDescribe(), teauser.getTeaTalk(),teauser.getTeaSex(),teauser.getId());
+		Teachers t = (Teachers) BeanConverterUtil.copyObject(teauser, Teachers.class);
+		t.setTeaId(teauser.getId());
+		teacherRepository.save(t);
+		//teacherRepository.updateTeacher(teauser.getTeaDescribe(), teauser.getTeaTalk(),teauser.getTeaSex(),teauser.getId());
 		
 	}
 	
