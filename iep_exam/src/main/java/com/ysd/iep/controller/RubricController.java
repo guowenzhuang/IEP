@@ -90,8 +90,6 @@ public class RubricController {
      */
     @RequestMapping(value = "/updateredicbyid", method = RequestMethod.POST)
     public Object updateredicbyid(UpdaterubricQuery updaterubricquery) {
-
-
         return rubricService.updateredicbyid(updaterubricquery);
     }
 

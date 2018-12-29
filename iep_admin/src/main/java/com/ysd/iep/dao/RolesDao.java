@@ -23,7 +23,7 @@ public interface RolesDao extends BaseDao<RolesDB, String> {
      * @return
      */
     @Query(value = "SELECT * from roles where id in (select roleid from userroles where userid=:uuid) and status=0", nativeQuery = true)
-    List<RolesDB> findByUserId(String uuid);
+    List<RolesDB> findByUserId(@Param("uuid") String uuid);
 
     /**
      * 根据角色名称查询不属于的角色

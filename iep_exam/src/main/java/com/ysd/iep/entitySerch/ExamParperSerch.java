@@ -28,4 +28,5 @@ public class ExamParperSerch {
     private String teacherId;//教师id
     private Integer page;
     private Integer rows;
+    private Integer sectionId;//章节id
 }

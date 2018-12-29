@@ -5,6 +5,7 @@ import java.util.List;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherDTO;
+import com.ysd.iep.entity.dto.TeacherUserDTO;
 
 public interface TeachersService {
 	//新增老师
@@ -12,7 +13,16 @@ public interface TeachersService {
     
     //根据老师id删除老师
     Result deleteTeacherById(String teacherId);
-    //根据老师id查询
-   public List<TeacherDTO> queryTeacher(String teaId);
+  //根据Id查询用户信息 
+    List<TeacherUserDTO> getTeaUser();
+   
+   /**
+     * 根据教师id查询教师信息
+    * @param id
+    * @return
+    */
+    List<TeacherUserDTO> queryTeaUserById(String id);
+   
+    void updateTeacher(TeacherUserDTO teauser);
    
 }

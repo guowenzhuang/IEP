@@ -36,4 +36,6 @@ public interface ChapterService {
 	 * @return
 	 */
 	Result queryCountById(Integer chaCourid);
+
+    Chapters get(Integer id);
 }

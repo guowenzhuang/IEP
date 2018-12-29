@@ -591,26 +591,11 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         //加上考试时长生成一个考试结束时间的int
         long examendtimeint = beginint + examparper.getDuration() * 60 * 1000;
         /*System.out.println("考试结束时间**********" + examendtimeint);*/
-        /**
-         * 用考试结束时间与当前时间相比较
-         */
-        Date presenttime = df.parse(df.format(new Date()));
-        long presenttimeint = presenttime.getTime();
-        /*System.out.println("当前时间*****************" + presenttimeint);*/
-        /**
-         * 计算考试结束时间与当前时间的差值(剩余的时间)
-         */
-        long difference = (examendtimeint - presenttimeint) / 1000;
-        /*System.out.println("差值************" + difference);*/
-        /**
-         * 倒计时时间
-         *
-         */
-        long downtime = difference / 60;
 
-        /*String downtime = SecondformDate.change(difference);*/
-        /*System.out.println("插值转换成时间***************" + downtime);*/
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
+
+        List<Studentexamlog> studentexamlogList = studentexamlogdao.selectlogforstudentidandparperid(rubricQuery.getStudentid(), rubricQuery.getExamparper());
+
 
         List<Examrubric> radiorubricList = new ArrayList<>();
         List<Examrubric> duorubricList = new ArrayList<>();
@@ -619,6 +604,17 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
+
+            if (studentexamlogList != null) {
+                for (int j = 0; j < studentexamlogList.size(); j++) {
+                    if (studentexamlogList.get(j).getExamrubricId().equals(examrubricList.get(i).getId())) {
+                        examrubricList.get(i).setAnswerId(studentexamlogList.get(j).getSelectId());
+                    }
+
+                }
+            }
+
+
             if (examrubricList.get(i).getRubricttype().equals("单选题")) {
                 Examrubric radiorubric = new Examrubric();
                 radiorubricList.add(examrubricList.get(i));
@@ -642,7 +638,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
 
 
-        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, downtime, examparper1);
+        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, examendtimeint, examparper1);
     }
 
     /**
@@ -653,7 +649,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         String Ider = UUIDUtils.getUUID();
 
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
-
 
 
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
@@ -843,7 +838,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      */
     @Override
     public Object examination(ExamUltimately examUltimately) throws ParseException {
-
         Examparper examparper = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
 
         /**
@@ -875,13 +869,24 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
 
-                    for (int i = 0; i < studentexamlogs.size(); i++) {
-                        total += studentexamlogs.get(i).getPerformance();
+                    if (studentexamlogs != null) {
+
+
+                        for (int i = 0; i < studentexamlogs.size(); i++) {
+                            total += studentexamlogs.get(i).getPerformance();
+                        }
+                        performance.setId(Id);
+                        performance.setParperId(examUltimately.getExamparperId());
+                        performance.setStudentId(examUltimately.getStudentId());
+                        performance.setTotal(total);
+
+                    } else {
+                        performance.setId(Id);
+                        performance.setParperId(examUltimately.getExamparperId());
+                        performance.setStudentId(examUltimately.getStudentId());
+                        performance.setTotal(0);
+
                     }
-                    performance.setId(Id);
-                    performance.setParperId(examUltimately.getExamparperId());
-                    performance.setStudentId(examUltimately.getStudentId());
-                    performance.setTotal(total);
                     /**
                      * 记录考试总成绩
                      */
@@ -892,7 +897,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     e.printStackTrace();
                     return new Result(false, "成绩记录失败", null);
                 }
-
             } else {
                 Integer total = 0;
                 List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
@@ -910,7 +914,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
 
     }
-
 
 
 }
