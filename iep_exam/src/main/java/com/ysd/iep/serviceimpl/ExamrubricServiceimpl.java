@@ -594,8 +594,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         /**
          * 用考试结束时间与当前时间相比较
          */
-       // Date presenttime = df.parse(df.format(new Date()));
-      //  long presenttimeint = presenttime.getTime();
+        // Date presenttime = df.parse(df.format(new Date()));
+        //  long presenttimeint = presenttime.getTime();
         /*System.out.println("当前时间*****************" + presenttimeint);*/
         /**
          * 计算考试结束时间与当前时间的差值(剩余的时间)
@@ -653,7 +653,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         String Ider = UUIDUtils.getUUID();
 
         Examrubric examrubricbig = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
-
 
 
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
@@ -874,13 +873,24 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
 
-                    for (int i = 0; i < studentexamlogs.size(); i++) {
-                        total += studentexamlogs.get(i).getPerformance();
+                    if (studentexamlogs != null) {
+
+
+                        for (int i = 0; i < studentexamlogs.size(); i++) {
+                            total += studentexamlogs.get(i).getPerformance();
+                        }
+                        performance.setId(Id);
+                        performance.setParperId(examUltimately.getExamparperId());
+                        performance.setStudentId(examUltimately.getStudentId());
+                        performance.setTotal(total);
+
+                    } else {
+                        performance.setId(Id);
+                        performance.setParperId(examUltimately.getExamparperId());
+                        performance.setStudentId(examUltimately.getStudentId());
+                        performance.setTotal(0);
+
                     }
-                    performance.setId(Id);
-                    performance.setParperId(examUltimately.getExamparperId());
-                    performance.setStudentId(examUltimately.getStudentId());
-                    performance.setTotal(total);
                     /**
                      * 记录考试总成绩
                      */
@@ -908,7 +918,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
 
     }
-
 
 
 }
