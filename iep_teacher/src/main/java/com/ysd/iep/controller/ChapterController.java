@@ -34,7 +34,11 @@ public class ChapterController {
     public List<Chapters> queryChapter(Integer courId) {
         System.out.println("课程id>>>>>>>>>>" + courId);
         return chapterService.querychapterTree(courId);
+    }
 
+    @GetMapping("/{id}")
+    public Chapters get(@PathVariable("id") Integer id){
+        return  chapterService.get(id);
     }
 
     @ApiOperation(value = "增加章节")

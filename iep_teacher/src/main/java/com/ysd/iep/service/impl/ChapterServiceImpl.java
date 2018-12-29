@@ -114,5 +114,10 @@ public class ChapterServiceImpl implements ChapterService {
         return new Result(true);
     }
 
+    @Override
+    public Chapters get(Integer id) {
+        return chaperRepo.findById(id).get();
+    }
+
 
 }
