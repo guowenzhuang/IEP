@@ -1,6 +1,7 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.dao.ExamparperDao;
+import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.dao.StudentexamlogDao;
 import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.Sectionexamparper;
@@ -33,7 +34,8 @@ public class ExamParperControllerEr {
     ExamparperDao examparperdao;
     @Autowired
     ExamparperServiceEr examparperserviceer;
-    /* @Autowired*/
+    @Autowired
+    SectionexamparperDao sectionexamparperdao;
 
 
     /**
@@ -67,23 +69,20 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/addsesionparper", method = RequestMethod.POST)
     public Object addsesionparper(ExamParperSerch examParperSerch) {
-        /*try {
+        try {
             String id = UUIDUtils.getUUID();
-            *//*弄出来一个新的考试试卷对象*//*
-            Sectionexamparper sectionexamparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), examParperSerch.getDuration(), "未开放", examParperSerch.getTotal(), null, examParperSerch.getTeacherId(), new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
-            *//*将考试试卷的考试试题集合置空*//*
-            examparper.setExamrubricslist(null);
+            /*弄出来一个新的考试试卷对象*/
+            Sectionexamparper sectionexamparper = sectionexamparperdao.save(new Sectionexamparper(id, examParperSerch.getSectionId(), examParperSerch.getSubject(), new Date(), examParperSerch.getTitle(), null));
+            /*将考试试卷的考试试题集合置空*/
+            sectionexamparper.setSectionexamrubricslist(null);
 
-
-            return new Result(true, "添加试卷成功", id);
-
+            return new Result(true, "添加章节测试试卷成功", id);
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, "添加试卷失败", null);
+            return new Result(false, "添加章节测试试卷失败", null);
 
-        }*/
-        return null;
+        }
     }
 
     /**
