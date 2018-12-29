@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 
 import com.ysd.iep.entity.Examparper;
+import com.ysd.iep.entity.Studentexamlog;
 import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Student;
 
@@ -29,6 +30,13 @@ public interface ExamparperServiceEr {
      * 根据学生id,试卷id查询学生的做题记录  查询试卷
      */
     List<LookparperQuery> querylogforstudentandparperid(String studentid, String parperid);
+
+
+    /**
+     * 刚刚进入考试的时候查询考试记录表中的内容,有就返回
+     */
+    List<Studentexamlog> querynewlogforstudentandparperid(String studentid, String parperid);
+
 
     /**
      * 查看考试结束的考试卷子列表(此学生参加过的考试卷子)

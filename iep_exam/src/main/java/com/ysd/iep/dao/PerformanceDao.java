@@ -18,6 +18,13 @@ public interface PerformanceDao extends JpaRepository<Performance, String> {
     Performance selectperformanforparperidandstudentid(String parperid, String studentid);
 
 
+    @Query(value = "SELECT * from performance_tb where parper_id =?1", nativeQuery = true)
+    List<Performance> selectperformanforparperid(String parperid);
+
+
+
+
+
 }
 
 
