@@ -843,7 +843,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
      */
     @Override
     public Object examination(ExamUltimately examUltimately) throws ParseException {
-
         Examparper examparper = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
 
         /**
@@ -892,7 +891,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     e.printStackTrace();
                     return new Result(false, "成绩记录失败", null);
                 }
-
             } else {
                 Integer total = 0;
                 List<Studentexamlog> studentexamlogs = studentexamlogdao.selecttotalforparperid(examUltimately.getExamparperId());
