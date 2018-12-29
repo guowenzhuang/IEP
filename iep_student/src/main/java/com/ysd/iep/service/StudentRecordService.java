@@ -132,7 +132,7 @@ public class StudentRecordService {
             record=new StudentRecord();
             record.setStarttime(new Date());
             record.setSid(id);
-            record.setWatchtime("0");
+            record.setWatchtime(watch+"");
             record.setCid(cid);
             record.setChaid(chaId);
         }else{
