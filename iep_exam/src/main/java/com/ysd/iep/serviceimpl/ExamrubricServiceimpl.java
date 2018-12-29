@@ -606,7 +606,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          * 倒计时时间
          *
          */
-        long downtime = difference / 60;
+        //long downtime = difference / 60;
 
         /*String downtime = SecondformDate.change(difference);*/
         /*System.out.println("插值转换成时间***************" + downtime);*/
@@ -642,7 +642,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         Examparper examparper1 = examparperdao.findById(rubricQuery.getExamparper()).get();
 
 
-        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, downtime, examparper1);
+        return new QueryExamRubricFan(radiorubricList, duorubricList, packrubricList, judgerubricList, difference, examparper1);
     }
 
     /**
