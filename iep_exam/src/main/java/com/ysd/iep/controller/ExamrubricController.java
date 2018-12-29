@@ -170,8 +170,6 @@ public class ExamrubricController {
         Result examrubricresultdouble = null;
         Result rubricresult = rubricservice.addrubric(addrubricquery);
 
-        System.out.println("***************" + addrubricquery);
-        System.out.println("***************" + addrubricquery.getRubrictype());
 
         if (addrubricquery.getRubrictype().equals("填空题") || addrubricquery.getRubrictype().equals("判断题")) {
             System.out.println("填空判断调用的");

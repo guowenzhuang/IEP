@@ -591,26 +591,11 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         //加上考试时长生成一个考试结束时间的int
         long examendtimeint = beginint + examparper.getDuration() * 60 * 1000;
         /*System.out.println("考试结束时间**********" + examendtimeint);*/
-        /**
-         * 用考试结束时间与当前时间相比较
-         */
-        // Date presenttime = df.parse(df.format(new Date()));
-        //  long presenttimeint = presenttime.getTime();
-        /*System.out.println("当前时间*****************" + presenttimeint);*/
-        /**
-         * 计算考试结束时间与当前时间的差值(剩余的时间)
-         */
-        //long difference = (examendtimeint - presenttimeint) / 1000;
-        /*System.out.println("差值************" + difference);*/
-        /**
-         * 倒计时时间
-         *
-         */
-        //long downtime = difference / 60;
 
-        /*String downtime = SecondformDate.change(difference);*/
-        /*System.out.println("插值转换成时间***************" + downtime);*/
         List<Examrubric> examrubricList = examrubricdao.findAll(this.getWhereClause(rubricQuery));
+
+        List<Studentexamlog> studentexamlogList = studentexamlogdao.selectlogforstudentidandparperid(rubricQuery.getStudentid(), rubricQuery.getExamparper());
+
 
         List<Examrubric> radiorubricList = new ArrayList<>();
         List<Examrubric> duorubricList = new ArrayList<>();
@@ -619,6 +604,17 @@ public class ExamrubricServiceimpl implements ExamrubricService {
 
         for (int i = 0; i < examrubricList.size(); i++) {
             examrubricList.get(i).setAnswerId(null);
+
+            if (studentexamlogList != null) {
+                for (int j = 0; j < studentexamlogList.size(); j++) {
+                    if (studentexamlogList.get(j).getExamrubricId().equals(examrubricList.get(i).getId())) {
+                        examrubricList.get(i).setAnswerId(studentexamlogList.get(j).getSelectId());
+                    }
+
+                }
+            }
+
+
             if (examrubricList.get(i).getRubricttype().equals("单选题")) {
                 Examrubric radiorubric = new Examrubric();
                 radiorubricList.add(examrubricList.get(i));
