@@ -2,6 +2,7 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.dao.ExamparperDao;
 import com.ysd.iep.dao.SectionexamparperDao;
+import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.dao.StudentexamlogDao;
 import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.Sectionexamparper;
@@ -12,6 +13,7 @@ import com.ysd.iep.entity.parameter.Student;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.service.ExamparperService;
 import com.ysd.iep.service.ExamparperServiceEr;
+import com.ysd.iep.service.SectionrubricService;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,8 @@ public class ExamParperControllerEr {
     ExamparperServiceEr examparperserviceer;
     @Autowired
     SectionexamparperDao sectionexamparperdao;
+    @Autowired
+    SectionrubricService sectionrubricservice;
 
 
     /**
@@ -109,6 +113,13 @@ public class ExamParperControllerEr {
         return examparperserviceer.querylogforstudentandparperid(studentid, parperid);
     }
 
+    /**
+     * 刚刚进入考试的时候查询考试记录表中的内容,有就返回
+     */
+    @RequestMapping(value = "/querynewlogforstudentandparperid", method = RequestMethod.POST)
+    public List<Studentexamlog> querynewlogforstudentandparperid(String studentid, String parperid) {
+        return examparperserviceer.querynewlogforstudentandparperid(studentid, parperid);
+    }
 
     /**
      * 根据学生id查询学生考试过的卷子

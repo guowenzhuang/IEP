@@ -56,8 +56,6 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
      */
     @Override
     public List<Student> querstudentidforparperid(String parperid) {
-
-
         //List<Studentexamlog> studentexamlogList = studentexamlogdao.selecttotalforparperid(parperid);
         List<Performance> performanceList = performancedao.selectperformanforparperid(parperid);
         List<String> stringList = new ArrayList<>();
@@ -203,6 +201,15 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
             lookparperQueries.add(lookparperQuery);
         }
         return lookparperQueries;
+    }
+
+    /**
+     * 刚刚进入考试的时候查询考试记录表中的内容,有就返回
+     */
+    @Override
+    public List<Studentexamlog> querynewlogforstudentandparperid(String studentid, String parperid) {
+        List<Studentexamlog> studentexamlogList = studentexamlogdao.selectlogforstudentidandparperid(studentid, parperid);
+        return studentexamlogList;
     }
 
     /**
