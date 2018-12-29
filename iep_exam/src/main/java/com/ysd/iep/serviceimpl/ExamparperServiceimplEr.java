@@ -56,13 +56,14 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
      */
     @Override
     public List<Student> querstudentidforparperid(String parperid) {
-        List<Studentexamlog> studentexamlogList = studentexamlogdao.selecttotalforparperid(parperid);
 
 
+        //List<Studentexamlog> studentexamlogList = studentexamlogdao.selecttotalforparperid(parperid);
+        List<Performance> performanceList = performancedao.selectperformanforparperid(parperid);
         List<String> stringList = new ArrayList<>();
 
-        for (int i = 0; i < studentexamlogList.size(); i++) {
-            String studentid = studentexamlogList.get(i).getStudentId();
+        for (int i = 0; i < performanceList.size(); i++) {
+            String studentid = performanceList.get(i).getStudentId();
             stringList.add(studentid);
         }
 
