@@ -24,7 +24,11 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      */
     @Override
     public List<Sectionexamparper> selectparperforcoueseidandsectionid(Integer courseid, Integer sectionid) {
+
+        System.out.println(sectionexamparperdao.selectsectionparperwherecourseandsection(courseid, sectionid));
+
         return sectionexamparperdao.selectsectionparperwherecourseandsection(courseid, sectionid);
+
     }
 
 }

@@ -672,7 +672,9 @@ public class SectionrubricServiceimpl implements SectionrubricService {
     public Object examination(ExamUltimately examUltimately) {
 
 
+/*
         Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+*/
        /* if (performanceer == null) {*/
 
             System.out.println("考试成绩表中记录************");
