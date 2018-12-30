@@ -582,9 +582,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
          * 取出前端传来的时间
          */
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Examparper examparper = examparperdao.findById(rubricQuery.getExamparper()).orElse(null);
-
         Date begintime = examparper.getExamtime();
         //转换成int类型
         long beginint = begintime.getTime();
@@ -610,11 +608,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     if (studentexamlogList.get(j).getExamrubricId().equals(examrubricList.get(i).getId())) {
                         examrubricList.get(i).setAnswerId(studentexamlogList.get(j).getSelectId());
                     }
-
                 }
             }
-
-
             if (examrubricList.get(i).getRubricttype().equals("单选题")) {
                 Examrubric radiorubric = new Examrubric();
                 radiorubricList.add(examrubricList.get(i));
@@ -656,7 +651,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             /**
              * 根据考试题干id查询本条做题记录
              */
-            Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
+            Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
 
             /**
              * 判断根据考试题干查询的考试记录是否为空
@@ -688,7 +683,6 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                             score = examUltimately.getScore();
                         } else {
                             score = 0;
-
                         }
                     } else {
                         System.out.println("多选题***************");
@@ -795,7 +789,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             try {
                 Integer score = 0;
                 String Id = UUIDUtils.getUUID();
-                Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId());
+                Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
                 if (studentexamloger == null) {
 
                     Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);

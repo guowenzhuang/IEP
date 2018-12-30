@@ -32,4 +32,7 @@ public interface SectionrubricService {
      */
     Result addexamrubricjudegepack(AddrubricQuery addrubricquery);
 
+
+
+
 }

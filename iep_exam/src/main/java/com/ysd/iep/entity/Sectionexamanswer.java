@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "Sectionexamanswer_tb")
 public class Sectionexamanswer {
-    @javax.persistence.Id
+    @Id
     @Column(name = "Id", nullable = false, length = 50)
     private String id;//选项id
     @Column(name = "Optiones", nullable = false, length = 50)

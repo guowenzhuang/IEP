@@ -143,7 +143,6 @@ public class ExamrubricController {
 
         return lookparperQueries;
     }
-
     /**
      * 新增试题
      */
@@ -152,6 +151,7 @@ public class ExamrubricController {
         return examrubricservice.addexamrubric(addrubricquery);
 
     }
+
 
     /**
      * 删除考试试题中的试题(根据id)

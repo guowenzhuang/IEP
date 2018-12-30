@@ -14,6 +14,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class SectionFan {
-    private List<Sectionexamrubric> sectionexamrubricList;
     private Integer total;
+    private List<Sectionexamrubric> page;
 }
