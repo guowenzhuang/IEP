@@ -45,7 +45,7 @@ public class CourseReply {
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:点赞数' ")
 	private Integer replyLikenum;
 	@Column(columnDefinition="int NOT NULL comment '备注:课程id' ")
-	private Integer courseId;
+	private Integer courseId;	
 	
 	
 	@JsonIgnore

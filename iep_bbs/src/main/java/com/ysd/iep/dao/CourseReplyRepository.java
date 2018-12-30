@@ -19,6 +19,11 @@ public interface CourseReplyRepository extends JpaRepository<CourseReply, Intege
 	@Query(value = "SELECT COUNT(1) FROM courseliketb WHERE reply_id=?1", nativeQuery = true)
 	public Integer getLikeNum(Integer replyId);
 	
+	@Query(value = "UPDATE coursereplytb SET reply_likenum=?2 WHERE reply_id=?1", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public Integer updateLikeNum(Integer replyId, Integer likeNum);
+	
 	@Query(value = "INSERT INTO coursereplytb(course_id,user_id,post_id,reply_content,reply_parentid) VALUES(?1,?2,?3,?4,?5)", nativeQuery = true)
 	@Modifying
 	@Transactional
@@ -50,4 +55,7 @@ public interface CourseReplyRepository extends JpaRepository<CourseReply, Intege
 	@Modifying
 	@Transactional
 	public Integer deleteLike(String userId, Integer replyId);
+	
+	@Query(value = "SELECT COUNT(1) FROM coursereplytb r WHERE r.reply_parentid <> 0 AND  r.post_id=?1", nativeQuery = true)
+	public Integer getReplyNum(Integer postId);
 }
