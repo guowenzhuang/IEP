@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -167,6 +168,30 @@ public class BeanConverterUtil {
                 Object target = tClass.newInstance();
                 BeanConverterUtil.copyObject(item, target);
                 consumer.accept(target);
+                classes.add(target);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        });
+        return classes;
+    }
+    /**
+     * 复制集合
+     * @param sources 复制的集合
+     * @param  tClass 目标集合的class
+     * @param biFunction 每次遍历执行的方法
+     * @return tclass对象的集合
+     */
+    public static List copyList(Collection sources, Class tClass, BiFunction biFunction) {
+        List classes = new ArrayList<>();
+        sources.forEach(item -> {
+            try {
+                Object target = tClass.newInstance();
+                BeanConverterUtil.copyObject(item, target);
+                biFunction.apply(item,target);
                 classes.add(target);
             } catch (InstantiationException e) {
                 e.printStackTrace();
