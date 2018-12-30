@@ -23,12 +23,15 @@ public class ChapterController {
 
     @Autowired
     private ChapterRepository chapRep;
+    
+   
+    @ApiOperation(value = "根据Id查询父章节")
+    @GetMapping("/queryParentChapter")
+    public Result<List<Chapters>> queryParentChapter(Integer courId){
+    	return new Result(true,chapterService.queryParentchapter(courId));
+    }
 
-    /**
-     * 查询章节
-     *
-     * @return
-     */
+    
     @ApiOperation(value = "查询章节")
     @GetMapping("/queryChapter")
     public List<Chapters> queryChapter(Integer courId) {
