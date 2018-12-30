@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -134,7 +135,7 @@ public class SectionrubricController {
      */
     @RequestMapping(value = "/examend", method = RequestMethod.POST)
     public Object examend(ExamUltimately examUltimately) {
-        System.out.println("参数*************"+examUltimately);
+        System.out.println("参数*************" + examUltimately);
         return sectionrubricservice.examend(examUltimately);
     }
 
@@ -142,6 +143,10 @@ public class SectionrubricController {
     /**
      * 整张卷子做完之后交卷
      */
+    @RequestMapping(value = "/examination", method = RequestMethod.POST)
+    public Object examination(ExamUltimately examUltimately) {
+        return null;
+    }
 
 
 }

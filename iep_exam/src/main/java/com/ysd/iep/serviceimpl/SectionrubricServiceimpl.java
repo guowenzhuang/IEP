@@ -1,9 +1,6 @@
 package com.ysd.iep.serviceimpl;
 
-import com.ysd.iep.dao.SectionexamanswerDao;
-import com.ysd.iep.dao.SectionexamlogDao;
-import com.ysd.iep.dao.SectionexamparperDao;
-import com.ysd.iep.dao.SectionexamrubricDao;
+import com.ysd.iep.dao.*;
 import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.SectionrubricService;
@@ -35,6 +32,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
     SectionexamanswerDao sectionexamanswerdao;
     @Autowired
     SectionexamlogDao sectionexamlogdao;
+    @Autowired
+    PerformanceDao performancedao;
 
     /**
      * 多条件分页查询章节测试试题
@@ -667,13 +666,95 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
 
     /**
-     * 考试完之后交卷
+     * 章节测试考试完之后交卷
      */
+    @Override
+    public Object examination(ExamUltimately examUltimately) {
+        StringBuilder id = new StringBuilder();
+        List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(examUltimately.getExamparperId());
 
 
+        for (int j = 0; j < sectionexamrubricList.size(); j++) {
+            if (sectionexamrubricList.get(j).getRubricttype().equals("单选题")) {
+                for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
+                    if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
+                        sectionexamrubricList.get(j).setAnswerId(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones());
+                    }
+                }
+            }
+
+            if (sectionexamrubricList.get(j).getRubricttype().equals("多选题")) {
+                for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
+                    if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
+                        id.append(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones() + " ");
+                        sectionexamrubricList.get(j).setAnswerId(id.toString());
+                    }
+                }
+            }
 
 
+        }
 
+
+        Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
+        if (performanceer == null) {
+
+            System.out.println("考试成绩表中记录************");
+
+            try {
+                String Id = UUIDUtils.getUUID();
+                Integer total = 0;
+                Performance performance = new Performance();
+
+                /**
+                 * 查询出考试记录中当前试卷的所有的考试记录
+                 */
+                List<Sectionexamlog> studentexamlogs = sectionexamlogdao.selectsectionlogforparperid(examUltimately.getExamparperId());
+
+                if (studentexamlogs != null) {
+
+
+                    for (int i = 0; i < studentexamlogs.size(); i++) {
+                        total += studentexamlogs.get(i).getPerformance();
+                    }
+                    performance.setId(Id);
+                    performance.setParperId(examUltimately.getExamparperId());
+                    performance.setStudentId(examUltimately.getStudentId());
+                    performance.setTotal(total);
+
+                } else {
+                    performance.setId(Id);
+                    performance.setParperId(examUltimately.getExamparperId());
+                    performance.setStudentId(examUltimately.getStudentId());
+                    performance.setTotal(0);
+
+                }
+                /**
+                 * 记录考试总成绩
+                 */
+                performancedao.save(performance);
+                return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResultEr(false, "成绩记录失败", null, sectionexamrubricList);
+            }
+        } else {
+            Integer total = 0;
+            List<Sectionexamlog> studentexamlogs = sectionexamlogdao.selectsectionlogforparperid(examUltimately.getExamparperId());
+
+            for (int i = 0; i < studentexamlogs.size(); i++) {
+                total += studentexamlogs.get(i).getPerformance();
+            }
+            performanceer.setTotal(total);
+            performancedao.save(performanceer);
+
+
+            return new ResultEr(true, "成绩修改成功", null, sectionexamrubricList);
+        }
+
+
+    }
 
 
 }

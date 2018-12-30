@@ -40,5 +40,10 @@ public interface SectionrubricService {
      */
     Object examend(ExamUltimately examUltimately);
 
+    /**
+     * 章节测试整张卷子做完之后的处理
+     */
+    Object examination(ExamUltimately examUltimately);
+
 
 }
