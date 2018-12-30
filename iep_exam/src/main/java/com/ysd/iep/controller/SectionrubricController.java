@@ -145,7 +145,7 @@ public class SectionrubricController {
      */
     @RequestMapping(value = "/examination", method = RequestMethod.POST)
     public Object examination(ExamUltimately examUltimately) {
-        return null;
+        return sectionrubricservice.examination(examUltimately);
     }
 
 
