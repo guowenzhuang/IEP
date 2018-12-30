@@ -750,7 +750,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             performancedao.save(performanceer);
 
 
-            return new ResultEr(true, "成绩修改成功", null, sectionexamrubricList);
+            return new ResultEr(true, "成绩修改成功", total, sectionexamrubricList);
         }
 
 
