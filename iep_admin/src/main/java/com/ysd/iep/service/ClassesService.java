@@ -42,7 +42,7 @@ public class ClassesService {
                 }
                 if (EmptyUtil.stringE(classQuery.getDepartmentId())) {
                     Path<String> departmentIdath = root.get("departmentDB").get("departmentId");
-                    predicates.add(criteriaBuilder.equal(departmentIdath,  classQuery.getDepartmentId()));
+                    predicates.add(criteriaBuilder.equal(departmentIdath, classQuery.getDepartmentId()));
                 }
                 Predicate[] p = new Predicate[predicates.size()];
                 return criteriaBuilder.and(predicates.toArray(p));
@@ -51,14 +51,14 @@ public class ClassesService {
 
         Pageable pageable = PageRequest.of(classQuery.getPage() - 1, classQuery.getRows());
         Page<ClassesDB> classesDBPage = classesDao.findAll(specification, pageable);
-        List classVos= BeanConverterUtil.copyList(classesDBPage.getContent(),ClassVo.class, (item,target) ->{
-            ClassesDB classesDB= (ClassesDB) item;
-            ClassVo classVo= (ClassVo) target;
+        List classVos = BeanConverterUtil.copyList(classesDBPage.getContent(), ClassVo.class, (item, target) -> {
+            ClassesDB classesDB = (ClassesDB) item;
+            ClassVo classVo = (ClassVo) target;
             classVo.setDepartName(classesDB.getDepartmentDB().getName());
             classVo.setDepartId(classesDB.getDepartmentDB().getDepartmentId());
             return null;
         });
-        PagingResult<ClassVo> classesDBPagingResult=new PagingResult<>();
+        PagingResult<ClassVo> classesDBPagingResult = new PagingResult<>();
         classesDBPagingResult.setTotal(classesDBPage.getTotalElements());
         classesDBPagingResult.setRows(classVos);
         return classesDBPagingResult;
@@ -67,21 +67,35 @@ public class ClassesService {
     @Transactional(rollbackOn = Exception.class)
     public void add(ClassesDB classesDB) throws DataIntegrityViolationException {
         ClassesDB byCode = classesDao.findByCode(classesDB.getCode());
-        if(byCode!=null){
+        if (byCode != null) {
             throw new DataIntegrityViolationException("编号重复");
+        }else{
+            classesDao.save(classesDB);
         }
-        classesDao.save(classesDB);
     }
 
     public void update(ClassesDB classesDB) throws DataIntegrityViolationException {
         ClassesDB byCode = classesDao.findByCode(classesDB.getCode());
-        if(byCode!=null && !(byCode.getCode().equals(classesDB.getCode()))){
+        if (byCode != null && !(byCode.getCode().equals(classesDB.getCode()))) {
             throw new DataIntegrityViolationException("编号重复");
+        }else{
+            classesDao.save(classesDB);
         }
-        classesDao.save(classesDB);
     }
 
     public void delete(String id) {
         classesDao.deleteById(id);
     }
+
+    public List<ClassesDB> get(String ids) {
+        String[] split = ids.split(",");
+        List<ClassesDB> byIdIn = classesDao.findByIdIn(split);
+        return byIdIn;
+    }
+
+    public List<ClassVo> queryAll() {
+        List<ClassesDB> all = classesDao.findAll();
+        return BeanConverterUtil.copyList(all,ClassVo.class);
+    }
+
 }

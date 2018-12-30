@@ -52,7 +52,7 @@ public class Student {
 	 * 所属班级id
 	 */
 	@Column(columnDefinition="int NULL comment '备注:所属班级id'  ")
-	private Integer cid;
+	private String cid;
 
 
 	/*@JsonIgnore

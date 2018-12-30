@@ -1,22 +1,19 @@
 package com.ysd.iep.entity.query;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.sql.Timestamp;
-
 /**
+ * 学生查询
  * @author 80795
  * @date 2018/11/12 8:55
  */
 @Data
-public class UsersRoleQuery {
+public class StudentQuery {
 
     /**
-     * 用户姓名
+     * 学生姓名
      */
     private String name;
-    private String roleName;
     /**
      * 第几页 条数  偏移量
      */
