@@ -673,7 +673,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
 
         Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-        if (performanceer == null) {
+       /* if (performanceer == null) {*/
 
             System.out.println("考试成绩表中记录************");
 
@@ -758,7 +758,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 e.printStackTrace();
                 return new ResultEr(false, "成绩记录失败", null, null);
             }
-        } else {
+       /* } else {
             Integer total = 0;
             List<Sectionexamlog> studentexamlogs = sectionexamlogdao.selectsectionlogforparperid(examUltimately.getExamparperId());
 
@@ -770,7 +770,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
 
             return new Result(true, "成绩修改成功", total);
-        }
+        }*/
 
 
     }

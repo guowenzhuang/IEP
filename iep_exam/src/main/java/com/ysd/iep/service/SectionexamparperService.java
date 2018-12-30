@@ -14,6 +14,6 @@ public interface SectionexamparperService {
     /**
      * 根据课程id 章节id查询 章节测试试卷
      */
-    List<Sectionexamparper> selectparperforcoueseidandsectionid(String courseid, String sectionid);
+    List<Sectionexamparper> selectparperforcoueseidandsectionid(Integer courseid, Integer sectionid);
 }
 

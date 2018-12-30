@@ -23,7 +23,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      * 根据课程id 章节id查询 章节测试试卷
      */
     @Override
-    public List<Sectionexamparper> selectparperforcoueseidandsectionid(String courseid, String sectionid) {
+    public List<Sectionexamparper> selectparperforcoueseidandsectionid(Integer courseid, Integer sectionid) {
         return sectionexamparperdao.selectsectionparperwherecourseandsection(courseid, sectionid);
     }
 
