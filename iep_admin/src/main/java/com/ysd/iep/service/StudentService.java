@@ -98,4 +98,24 @@ public class StudentService {
             studentFeign.add(studentDTO);
         }
     }
+    @Transactional(rollbackOn = Exception.class)
+    public void update(UsersStuDTO usersStuDTO) throws DataIntegrityViolationException {
+        UsersDB users = usersDao.findTopByLoginName(usersStuDTO.getLoginName());
+        if (users != null && !(users.getLoginName().equals(usersStuDTO.getLoginName()))) {
+            throw new DataIntegrityViolationException("用户名重复");
+        }else{
+            UsersDB usersDB= usersDao.findById(usersStuDTO.getId()).get();
+            usersDB.setProtectEMail(usersStuDTO.getProtectEMail());
+            usersDB.setProtectMTel(usersStuDTO.getProtectMTel());
+            usersDao.save(usersDB);
+            StudentAddDTO studentDTO= (StudentAddDTO) BeanConverterUtil.copyObject(usersStuDTO,StudentAddDTO.class);
+            studentDTO.setSid(usersDB.getId());
+            studentFeign.add(studentDTO);
+        }
+    }
+
+    public void delete(String id) {
+        usersDao.deleteById(id);
+        studentFeign.delete(id);
+    }
 }
