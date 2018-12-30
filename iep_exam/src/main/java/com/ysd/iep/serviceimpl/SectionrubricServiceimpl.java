@@ -751,7 +751,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 /**
                  * 根据章节测试试卷id删除章节测试做题记录
                  */
-                //Integer r = sectionexamlogdao.deletsectionforparperid(examUltimately.getExamparperId());
+                Integer r = sectionexamlogdao.deletsectionforparperid(examUltimately.getExamparperId());
 
 
                 return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);
