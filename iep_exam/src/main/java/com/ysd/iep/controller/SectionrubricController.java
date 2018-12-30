@@ -125,9 +125,11 @@ public class SectionrubricController {
     /**
      * 进入章节测试的时候(返回卷子中的试题)
      */
-/*
-    @RequestMapping(value = "/addexamrubricdouble", method = RequestMethod.POST)
-*/
+
+    @RequestMapping(value = "/querysectionrubric", method = RequestMethod.POST)
+    public Object querysectionrubric(RubricQuery rubricQuery) {
+        return sectionrubricservice.querysectionrubric(rubricQuery);
+    }
 
 
 }
