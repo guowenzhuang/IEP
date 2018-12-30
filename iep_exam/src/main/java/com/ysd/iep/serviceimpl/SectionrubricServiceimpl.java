@@ -670,30 +670,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
      */
     @Override
     public Object examination(ExamUltimately examUltimately) {
-        StringBuilder id = new StringBuilder();
-        List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(examUltimately.getExamparperId());
-
-
-        for (int j = 0; j < sectionexamrubricList.size(); j++) {
-            if (sectionexamrubricList.get(j).getRubricttype().equals("单选题")) {
-                for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
-                    if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
-                        sectionexamrubricList.get(j).setAnswerId(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones());
-                    }
-                }
-            }
-
-            if (sectionexamrubricList.get(j).getRubricttype().equals("多选题")) {
-                for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
-                    if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
-                        id.append(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones() + " ");
-                        sectionexamrubricList.get(j).setAnswerId(id.toString());
-                    }
-                }
-            }
-
-
-        }
 
 
         Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
@@ -733,11 +709,40 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                  * 记录考试总成绩
                  */
                 performancedao.save(performance);
+
+                StringBuilder id = new StringBuilder();
+                List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(examUltimately.getExamparperId());
+
+
+                for (int j = 0; j < sectionexamrubricList.size(); j++) {
+                    sectionexamrubricList.get(j).setSectionexamparper(null);
+                    if (sectionexamrubricList.get(j).getRubricttype().equals("单选题")) {
+                        for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
+                            sectionexamrubricList.get(j).getExamanswers().get(k).setSectionexamrubric(null);
+                            if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
+                                sectionexamrubricList.get(j).setAnswerId(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones());
+                            }
+                        }
+                    }
+                    if (sectionexamrubricList.get(j).getRubricttype().equals("多选题")) {
+                        for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
+                            sectionexamrubricList.get(j).getExamanswers().get(k).setSectionexamrubric(null);
+                            if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
+                                id.append(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones() + " ");
+                                sectionexamrubricList.get(j).setAnswerId(id.toString());
+                            }
+                        }
+                    }
+
+
+                }
+
+
                 return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResultEr(false, "成绩记录失败", null, sectionexamrubricList);
+                return new ResultEr(false, "成绩记录失败", null, null);
             }
         } else {
             Integer total = 0;
@@ -750,7 +755,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             performancedao.save(performanceer);
 
 
-            return new ResultEr(true, "成绩修改成功", total, sectionexamrubricList);
+            return new Result(true, "成绩修改成功", total);
         }
 
 
