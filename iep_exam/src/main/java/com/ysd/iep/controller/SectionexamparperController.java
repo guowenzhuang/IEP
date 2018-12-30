@@ -19,7 +19,7 @@ public class SectionexamparperController {
      * 根据课程id 章节id查询 章节测试试卷
      */
     @RequestMapping(value = "/querysectionparper", method = RequestMethod.POST)
-    public List<Sectionexamparper> querysectionparper(String courseid, String sectionid) {
+    public List<Sectionexamparper> querysectionparper(Integer courseid, Integer sectionid) {
         return sectionexamparperservice.selectparperforcoueseidandsectionid(courseid, sectionid);
 
     }
