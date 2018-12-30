@@ -119,4 +119,9 @@ public class CoursePostServiceImpl implements CoursePostService {
 		}
 	}
 
+	@Override
+	public List<CoursePost> getHotPost(List<Integer> courseIds) {
+		return postRepository.getHotPost(courseIds);
+	}
+
 }
