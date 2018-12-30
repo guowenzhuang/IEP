@@ -40,7 +40,7 @@ public class SectionrubricController {
      * 根据课程章节查询章节测试试卷
      */
     @RequestMapping(value = "/selectsection", method = RequestMethod.POST)
-    public List<Sectionexamparper> selectsection(String course, String section) {
+    public List<Sectionexamparper> selectsection(Integer course, Integer section) {
         return sectionexamparperdao.selectsectionparperwherecourseandsection(course, section);
     }
 
