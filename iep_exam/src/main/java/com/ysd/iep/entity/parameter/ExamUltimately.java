@@ -28,4 +28,5 @@ public class ExamUltimately {
     private Integer score;
     private Integer courseid;
 
+
 }

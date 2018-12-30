@@ -1,13 +1,11 @@
 package com.ysd.iep.serviceimpl;
 
 import com.ysd.iep.dao.SectionexamanswerDao;
+import com.ysd.iep.dao.SectionexamlogDao;
 import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.*;
-import com.ysd.iep.entity.parameter.ABCD;
-import com.ysd.iep.entity.parameter.AddrubricQuery;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricQuery;
+import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.SectionrubricService;
 import com.ysd.iep.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
     SectionexamparperDao sectionexamparperdao;
     @Autowired
     SectionexamanswerDao sectionexamanswerdao;
+    @Autowired
+    SectionexamlogDao sectionexamlogdao;
 
     /**
      * 多条件分页查询章节测试试题
@@ -415,6 +415,61 @@ public class SectionrubricServiceimpl implements SectionrubricService {
     }
 
 
+    /**
+     * 章节测试刚刚进入的时候(返回章节测试卷子 中的章节测试试题)
+     */
+    @Override
+    public Object querysectionrubric(RubricQuery rubricQuery) {
+
+        List<Sectionexamrubric> radiorubricList = new ArrayList<>();
+        List<Sectionexamrubric> duorubricList = new ArrayList<>();
+        List<Sectionexamrubric> packrubricList = new ArrayList<>();
+        List<Sectionexamrubric> judgerubricList = new ArrayList<>();
+
+        List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.findAll(this.getWhereClause(rubricQuery));
+
+        List<Sectionexamlog> sectionexamlogList = sectionexamlogdao.selectperformanforparperidandstudentid(rubricQuery.getCourse(), rubricQuery.getSection(), rubricQuery.getStudentid(), rubricQuery.getExamparper());
+
+
+        for (int i = 0; i < sectionexamrubricList.size(); i++) {
+            sectionexamrubricList.get(i).setAnswerId(null);
+            /**
+             * 遍历记录,将记录中的学生选的id赋值给题干中的答案id字段
+             */
+            for (int j = 0; j < sectionexamlogList.size(); j++) {
+                if (sectionexamlogList.get(j).getSectionexamrubric().equals(sectionexamrubricList.get(i).getId())) {
+                    sectionexamrubricList.get(i).setAnswerId(sectionexamlogList.get(j).getSelectid());
+                }
+            }
+
+            if (sectionexamrubricList.get(i).getRubricttype().equals("单选题")) {
+                Sectionexamrubric radiorubric = new Sectionexamrubric();
+                radiorubricList.add(sectionexamrubricList.get(i));
+            }
+            if (sectionexamrubricList.get(i).getRubricttype().equals("多选题")) {
+                Sectionexamrubric duorubric = new Sectionexamrubric();
+                duorubricList.add(sectionexamrubricList.get(i));
+            }
+            if (sectionexamrubricList.get(i).getRubricttype().equals("填空题")) {
+                Sectionexamrubric packrubric = new Sectionexamrubric();
+                packrubricList.add(sectionexamrubricList.get(i));
+            }
+            if (sectionexamrubricList.get(i).getRubricttype().equals("判断题")) {
+                Sectionexamrubric judgerubric = new Sectionexamrubric();
+                judgerubricList.add(sectionexamrubricList.get(i));
+            }
+        }
+        QuerysectionsFan queryExamRubricFan = new QuerysectionsFan();
+        queryExamRubricFan.setJudgerubricList(judgerubricList);
+        queryExamRubricFan.setDuorubricList(duorubricList);
+        queryExamRubricFan.setPackrubricList(packrubricList);
+        queryExamRubricFan.setRadiorubricList(radiorubricList);
+
+
+        return queryExamRubricFan;
+
+
+    }
 
 
 

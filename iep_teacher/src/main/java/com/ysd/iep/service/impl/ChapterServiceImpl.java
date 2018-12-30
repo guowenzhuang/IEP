@@ -20,6 +20,16 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Autowired
     private ChapterRepository chaperRepo;
+    
+    /**
+     * 根据Id查询父章节
+     */
+    @Override
+	public List<Chapters> queryParentchapter(Integer courid) {
+    	List<Chapters> rootList = chaperRepo.queryTreeChildrenById(0, courid);
+        System.out.println("查询出所有根菜单rootList==>" + rootList);
+		return rootList;
+	}
 
     /**
      * 查询章节
@@ -118,6 +128,8 @@ public class ChapterServiceImpl implements ChapterService {
     public Chapters get(Integer id) {
         return chaperRepo.findById(id).get();
     }
+
+	
 
 
 }
