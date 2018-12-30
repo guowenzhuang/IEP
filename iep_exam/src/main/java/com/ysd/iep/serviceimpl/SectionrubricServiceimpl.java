@@ -427,6 +427,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
         List<Sectionexamrubric> packrubricList = new ArrayList<>();
         List<Sectionexamrubric> judgerubricList = new ArrayList<>();
 
+
         List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.findAll(this.getWhereClause(rubricQuery));
 
         List<Sectionexamlog> sectionexamlogList = sectionexamlogdao.selectperformanforparperidandstudentid(rubricQuery.getCourse(), rubricQuery.getSection(), rubricQuery.getStudentid(), rubricQuery.getExamparper());
@@ -434,6 +435,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
         for (int i = 0; i < sectionexamrubricList.size(); i++) {
             sectionexamrubricList.get(i).setAnswerId(null);
+            sectionexamrubricList.get(i).setSectionexamparper(null);
+
             /**
              * 遍历记录,将记录中的学生选的id赋值给题干中的答案id字段
              */
@@ -444,23 +447,36 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             }
 
             if (sectionexamrubricList.get(i).getRubricttype().equals("单选题")) {
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+                    sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
+                }
                 Sectionexamrubric radiorubric = new Sectionexamrubric();
                 radiorubricList.add(sectionexamrubricList.get(i));
             }
             if (sectionexamrubricList.get(i).getRubricttype().equals("多选题")) {
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+                    sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
+                }
                 Sectionexamrubric duorubric = new Sectionexamrubric();
                 duorubricList.add(sectionexamrubricList.get(i));
             }
             if (sectionexamrubricList.get(i).getRubricttype().equals("填空题")) {
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+                    sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
+                }
                 Sectionexamrubric packrubric = new Sectionexamrubric();
                 packrubricList.add(sectionexamrubricList.get(i));
             }
             if (sectionexamrubricList.get(i).getRubricttype().equals("判断题")) {
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+                    sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
+                }
                 Sectionexamrubric judgerubric = new Sectionexamrubric();
                 judgerubricList.add(sectionexamrubricList.get(i));
             }
         }
         Sectionexamparper sectionexamparper = sectionexamparperdao.findById(rubricQuery.getExamparper()).orElse(null);
+        sectionexamparper.setSectionexamrubricslist(null);
 
         QuerysectionsFan queryExamRubricFan = new QuerysectionsFan();
         queryExamRubricFan.setJudgerubricList(judgerubricList);
@@ -468,6 +484,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
         queryExamRubricFan.setPackrubricList(packrubricList);
         queryExamRubricFan.setRadiorubricList(radiorubricList);
         queryExamRubricFan.setParpercontent(sectionexamparper);
+
 
         return queryExamRubricFan;
 
