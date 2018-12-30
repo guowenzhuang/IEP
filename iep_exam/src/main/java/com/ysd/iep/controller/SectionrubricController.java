@@ -41,15 +41,28 @@ public class SectionrubricController {
     @RequestMapping(value = "/querysectionrubric", method = RequestMethod.POST)
     public Object querysectionrubric(RubricQuery rubricquery, Integer page, Integer rows) {
         Page<Sectionexamrubric> sectionexamrubricPage = sectionrubricservice.queryUserByuserQuery(rubricquery, page, rows);
+        System.out.println("分页数据*******************" + sectionexamrubricPage);
         Integer total = (int) sectionexamrubricPage.getTotalElements();
         List<Sectionexamrubric> list = sectionexamrubricPage.getContent();
 
+
         list.forEach(item -> {
+            item.setSectionexamparper(null);
             item.getExamanswers().forEach(t -> {
                 t.setSectionexamrubric(null);
             });
         });
-        return new SectionFan(list, total);
+
+        return new SectionFan(total, list);
+    }
+
+
+    /**
+     * 新增试题
+     */
+    @RequestMapping(value = "/addexamrubric", method = RequestMethod.POST)
+    public Object addexamrubric(AddrubricQuery addrubricquery) {
+        return sectionrubricservice.addexamrubric(addrubricquery);
     }
 
     /**

@@ -72,6 +72,7 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/addsesionparper", method = RequestMethod.POST)
     public Object addsesionparper(ExamParperSerch examParperSerch) {
+        System.out.println("课程id**************" + examParperSerch.getSubject());
         try {
             String id = UUIDUtils.getUUID();
             /*弄出来一个新的考试试卷对象*/
