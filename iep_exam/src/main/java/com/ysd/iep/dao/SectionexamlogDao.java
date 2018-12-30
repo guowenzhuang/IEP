@@ -4,7 +4,9 @@ import com.ysd.iep.entity.Answer;
 import com.ysd.iep.entity.Performance;
 import com.ysd.iep.entity.Sectionexamlog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +37,15 @@ public interface SectionexamlogDao extends JpaRepository<Sectionexamlog, String>
      */
     @Query(value = "select *from sectionexamlog_tb where sectionexamparper_id=?1", nativeQuery = true)
     List<Sectionexamlog> selectsectionlogforparperid(String parperid);
+
+
+    /**
+     * 删除章节测试记录
+     */
+    @Query(value = "delete from sectionexamlog_tb where sectionexamparper_id=?1", nativeQuery = true)
+    @Modifying
+    @Transactional
+    public Integer deletsectionforparperid(String parperid);
 
 
 }

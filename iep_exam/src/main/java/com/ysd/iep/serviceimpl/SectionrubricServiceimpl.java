@@ -721,21 +721,37 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                             sectionexamrubricList.get(j).getExamanswers().get(k).setSectionexamrubric(null);
                             if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
                                 sectionexamrubricList.get(j).setAnswerId(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones());
+                                System.out.println("赋值的选项***********" + sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones());
                             }
                         }
                     }
                     if (sectionexamrubricList.get(j).getRubricttype().equals("多选题")) {
+                        String[] answeridsan = sectionexamrubricList.get(j).getAnswerId().split(",");
+
                         for (int k = 0; k < sectionexamrubricList.get(j).getExamanswers().size(); k++) {
                             sectionexamrubricList.get(j).getExamanswers().get(k).setSectionexamrubric(null);
-                            if (sectionexamrubricList.get(j).getAnswerId().equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
-                                id.append(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones() + " ");
-                                sectionexamrubricList.get(j).setAnswerId(id.toString());
+
+
+                            for (int l = 0; l < answeridsan.length; l++) {
+
+                                if (answeridsan[l].equals(sectionexamrubricList.get(j).getExamanswers().get(k).getId())) {
+                                    id.append(sectionexamrubricList.get(j).getExamanswers().get(k).getOptiones() + " ");
+                                }
                             }
+                            sectionexamrubricList.get(j).setAnswerId(id.toString());
                         }
                     }
 
 
                 }
+
+
+
+
+                /**
+                 * 根据章节测试试卷id删除章节测试做题记录
+                 */
+                //Integer r = sectionexamlogdao.deletsectionforparperid(examUltimately.getExamparperId());
 
 
                 return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);

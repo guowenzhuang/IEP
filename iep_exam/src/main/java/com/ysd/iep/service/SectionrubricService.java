@@ -2,9 +2,12 @@ package com.ysd.iep.service;
 
 
 import com.ysd.iep.entity.Rubric;
+import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
 import com.ysd.iep.entity.parameter.*;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * @author gaohzongye
@@ -44,6 +47,8 @@ public interface SectionrubricService {
      * 章节测试整张卷子做完之后的处理
      */
     Object examination(ExamUltimately examUltimately);
+
+
 
 
 }
