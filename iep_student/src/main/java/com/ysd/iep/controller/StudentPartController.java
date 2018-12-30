@@ -39,8 +39,10 @@ public class StudentPartController {
 	public Object queryStudentPart(@RequestParam("sid")String sid) {
 		List<StudentPartCid> cidList=s.queryStudentPart(sid);
 		return cidList;
-		
 	}
+
+
+
 	/**
 	 * http://127.0.0.1:80/api/student/studentPart/querypeople
 	 * 报名此课程的人数
@@ -66,7 +68,6 @@ public class StudentPartController {
 		} catch (Exception e) {
 			return new Result<String>(false, "报名失败");
 		}
-
 	}
 	
     /**
