@@ -441,7 +441,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
              * 遍历记录,将记录中的学生选的id赋值给题干中的答案id字段
              */
             for (int j = 0; j < sectionexamlogList.size(); j++) {
-                if (sectionexamlogList.get(j).getSectionexamrubric().equals(sectionexamrubricList.get(i).getId())) {
+                if (sectionexamlogList.get(j).getSectionexamrubricid().equals(sectionexamrubricList.get(i).getId())) {
                     sectionexamrubricList.get(i).setAnswerId(sectionexamlogList.get(j).getSelectid());
                 }
             }
@@ -496,7 +496,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
      */
     @Override
     public Object examend(ExamUltimately examUltimately) {
-/*
         String Ider = UUIDUtils.getUUID();
 
         Sectionexamrubric examrubricbig = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
@@ -504,14 +503,14 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
         if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
             System.out.println("单选或者多选");
-            *//**
-         * 根据考试题干id查询本条做题记录
-         *//*
-            Sectionexamlog studentexamloger = sectionexamlogdao.selectperformanforparperidandstudentid("", "", "", "");
+            /**
+             * 根据考试题干id查询本条做题记录
+             */
+            Sectionexamlog studentexamloger = sectionexamlogdao.selectsectionlogfrowhere(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
 
-            *//**
-         * 判断根据考试题干查询的考试记录是否为空
-         *//*
+            /**
+             * 判断根据考试题干查询的考试记录是否为空
+             */
             if (studentexamloger == null) {
 
 
@@ -519,22 +518,10 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                     String Id = UUIDUtils.getUUID();
 
 
-                    *//**
-         * (根据考试试卷id将试卷的所有试题查询出来,
-         *  从中单独取出来试题的题干中的答案id[answerId],
-         *  遍历该id集合,使之与学生所选的答案id比较.
-         *  在根据答案id的外键关系可以获取到考试试卷的id,
-         *  再根据考试试卷id,对试题进行加分.)
-         *//*
-                    RubricQuery rubricQuery = new RubricQuery();
-                    rubricQuery.setExamparper(examUltimately.getExamparperId());
-                    List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
-                    List<String> answerlist = new ArrayList<>();
-
                     int score = 0;
                     if (examrubricbig.getRubricttype().equals("单选题")) {
 
-                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                             score = examUltimately.getScore();
                         } else {
@@ -542,7 +529,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         }
                     } else {
                         System.out.println("多选题***************");
-                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answerid = examrubric.getAnswerId().split(",");
                         String[] answerider = examUltimately.getSelectanswerId().split(",");
 
@@ -554,22 +541,24 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         }
                     }
 
-                    *//**
-         * 声明一个新下考试记录对象
-         *//*
-                    Studentexamlog studentexamlog = new Studentexamlog();
+                    /**
+                     * 声明一个新下考试记录对象
+                     */
+                    Sectionexamlog studentexamlog = new Sectionexamlog();
                     studentexamlog.setId(Id);
-                    studentexamlog.setCourseId(examUltimately.getCourseid());
-                    studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
-                    studentexamlog.setExamparperId(examUltimately.getExamparperId());
-                    studentexamlog.setSelectId(examUltimately.getSelectanswerId());
-                    studentexamlog.setStudentId(examUltimately.getStudentId());
-                    studentexamlog.setPerformance(score);
-                    studentexamlogdao.save(studentexamlog);
 
-                    *//**
-         * 判断是否存在试卷的成绩记录
-         *//*
+                    studentexamlog.setCourseid(examUltimately.getCourseid());
+                    studentexamlog.setPerformance(score);
+                    studentexamlog.setSectionexamparperid(examUltimately.getExamparperId());
+                    studentexamlog.setSelectid(examUltimately.getSelectanswerId());
+                    studentexamlog.setStudentid(examUltimately.getStudentId());
+                    studentexamlog.setSectionexamrubricid(examUltimately.getExamrubricId());
+
+                    sectionexamlogdao.save(studentexamlog);
+
+                    /**
+                     * 判断是否存在试卷的成绩记录
+                     */
 
 
                     return new Result(true, "记录成功", null);
@@ -580,31 +569,21 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 }
 
             } else {
-                *//**
-         * 记录中有这条做题记录的情况
-         * (1)先取出本条考试记录  studentexamlogerdsa
-         * (2)再将前端传来的所选的答案id
-         *
-         *//*
+                /**
+                 * 记录中有这条做题记录的情况
+                 * (1)先取出本条考试记录  studentexamlogerdsa
+                 * (2)再将前端传来的所选的答案id
+                 *
+                 */
                 System.out.println("记录表中步步为空**************");
                 try {
-                    RubricQuery rubricQuery = new RubricQuery();
-                    rubricQuery.setExamparper(examUltimately.getExamparperId());
-                    List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
-
-                    List<String> answerid = new ArrayList<>();
-                    for (int k = 0; k < examrubricList.size(); k++) {
-                        String answer = examrubricList.get(k).getAnswerId();
-                        answerid.add(answer);
-                    }
-
 
                     int score = 0;
 
                     if (examrubricbig.getRubricttype().equals("单选题")) {
 
 
-                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                             score = examUltimately.getScore();
                         } else {
@@ -613,7 +592,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         }
                     } else {
                         System.out.println("修改多选题***************");
-                        Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                        Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answeridsan = examrubric.getAnswerId().split(",");
                         String[] answeridsi = examUltimately.getSelectanswerId().split(",");
 
@@ -625,9 +604,9 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         }
                     }
 
-                    studentexamloger.setSelectId(examUltimately.getSelectanswerId());
+                    studentexamloger.setSelectid(examUltimately.getSelectanswerId());
                     studentexamloger.setPerformance(score);
-                    studentexamlogdao.save(studentexamloger);
+                    sectionexamlogdao.save(studentexamloger);
 
 
                     return new Result(true, "修改记录成功", null);
@@ -639,41 +618,41 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
             }
         } else {
-            *//**
-         * 填空题,判断题的处理方式
-         *//*
+            /**
+             * 填空题,判断题的处理方式
+             */
             try {
                 Integer score = 0;
                 String Id = UUIDUtils.getUUID();
-                Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
+                Sectionexamlog studentexamloger = sectionexamlogdao.selectsectionlogfrowhere(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
                 if (studentexamloger == null) {
 
-                    Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                    Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                     if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                         score = examrubric.getScore();
                     } else {
                         score = 0;
                     }
-                    Studentexamlog studentexamlog = new Studentexamlog();
+                    Sectionexamlog studentexamlog = new Sectionexamlog();
                     studentexamlog.setId(Id);
-                    studentexamlog.setCourseId(examUltimately.getCourseid());
-                    studentexamlog.setExamparperId(examUltimately.getExamparperId());
-                    studentexamlog.setExamrubricId(examUltimately.getExamrubricId());
-                    studentexamlog.setSelectId(examUltimately.getSelectanswerId());
-                    studentexamlog.setStudentId(examUltimately.getStudentId());
+                    studentexamlog.setCourseid(examUltimately.getCourseid());
                     studentexamlog.setPerformance(score);
-                    studentexamlogdao.save(studentexamlog);
+                    studentexamlog.setSectionexamparperid(examUltimately.getExamparperId());
+                    studentexamlog.setSelectid(examUltimately.getSelectanswerId());
+                    studentexamlog.setStudentid(examUltimately.getStudentId());
+                    studentexamlog.setSectionexamrubricid(examUltimately.getExamrubricId());
+                    sectionexamlogdao.save(studentexamlog);
                 } else {
 
-                    Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
+                    Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                     if (examrubric.getAnswerId().equals(examUltimately.getSelectanswerId())) {
                         score = examrubric.getScore();
                     } else {
                         score = 0;
                     }
                     studentexamloger.setPerformance(score);
-                    studentexamloger.setSelectId(examUltimately.getSelectanswerId());
-                    studentexamlogdao.save(studentexamloger);
+                    studentexamloger.setSelectid(examUltimately.getSelectanswerId());
+                    sectionexamlogdao.save(studentexamloger);
                 }
                 return new Result(true, "修改记录成功", null);
             } catch (Exception e) {
@@ -681,8 +660,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 return new Result(false, "修改记录失败", null);
             }
         }
-        */
-        return null;
+
     }
 
 

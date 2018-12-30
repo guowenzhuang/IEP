@@ -27,14 +27,14 @@ public class Sectionexamlog {
     private String id;
     @Column(name = "sectionexamparperId", nullable = false, length = 50)
     private String sectionexamparperid;
-    @Column(name = "sectionexamrubric", nullable = false, length = 50)
-    private String sectionexamrubric;
+    @Column(name = "sectionexamrubricId", nullable = false, length = 50)
+    private String sectionexamrubricid;
     @Column(name = "selectId", nullable = false, length = 50)
     private String selectid;
     @Column(name = "studentId", nullable = false, length = 50)
     private String studentid;
-    @Column(name = "performance", nullable = false, length = 50)
-    private String performance;
+    @Column(name = "performance", nullable = false, length = 20)
+    private Integer performance;
     @Column(name = "courseId", nullable = false, length = 20)
     private Integer courseid;
     @Column(name = "sectionId", nullable = false, length = 20)

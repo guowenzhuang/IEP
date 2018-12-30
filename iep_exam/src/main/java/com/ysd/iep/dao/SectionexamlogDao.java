@@ -24,4 +24,11 @@ public interface SectionexamlogDao extends JpaRepository<Sectionexamlog, String>
     List<Sectionexamlog> selectperformanforparperidandstudentid(Integer courid, Integer sectionid, String studentid, String sectionparperid);
 
 
+    /**
+     * 根据章节测试题干id 学生id 章节测试卷子id
+     */
+    @Query(value = "select *from sectionexamlog_tb where sectionexamrubric_id=?1 and student_id=?2 and sectionexamparper_id=?3", nativeQuery = true)
+    Sectionexamlog selectsectionlogfrowhere(String sectionrubric, String studentid, String parperid);
+
+
 }
