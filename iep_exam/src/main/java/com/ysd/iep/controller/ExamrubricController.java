@@ -152,7 +152,6 @@ public class ExamrubricController {
 
     }
 
-
     /**
      * 删除考试试题中的试题(根据id)
      */

@@ -4,6 +4,7 @@ package com.ysd.iep.service;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.Sectionexamrubric;
 import com.ysd.iep.entity.parameter.AddrubricQuery;
+import com.ysd.iep.entity.parameter.QueryExamRubricFan;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.RubricQuery;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,10 @@ public interface SectionrubricService {
      */
     Result addexamrubricjudegepack(AddrubricQuery addrubricquery);
 
-
+    /**
+     * 章节测试刚刚进入的时候(返回章节测试卷子 中的章节测试试题)
+     */
+    Object querysectionrubric(RubricQuery rubricQuery);
 
 
 }
