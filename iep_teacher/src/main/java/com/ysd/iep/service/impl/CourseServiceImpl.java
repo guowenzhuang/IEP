@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.criteria.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -182,6 +183,11 @@ public class CourseServiceImpl implements CourseService {
         }
         return list;
 
+    }
+
+    @Override
+    public List<Integer> queryCourByteaId(List<String> teaid) {
+        return coursedao.findByCourTeaidIn(teaid).stream().map(Course::getCourId).collect(Collectors.toList());
     }
 
 
