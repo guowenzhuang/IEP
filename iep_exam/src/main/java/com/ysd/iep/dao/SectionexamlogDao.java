@@ -42,10 +42,10 @@ public interface SectionexamlogDao extends JpaRepository<Sectionexamlog, String>
     /**
      * 删除章节测试记录
      */
-    @Query(value = "delete from sectionexamlog_tb where sectionexamparper_id=?1", nativeQuery = true)
+    @Query(value = "delete from sectionexamlog_tb where sectionexamparper_id=?1 and student_id=?2", nativeQuery = true)
     @Modifying
     @Transactional
-    public Integer deletsectionforparperid(String parperid);
+    public Integer deletsectionforparperid(String parperid,String studentid);
 
 
 }

@@ -709,6 +709,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                  * 记录考试总成绩
                  */
                 performancedao.save(performance);
+                Integer r = sectionexamlogdao.deletsectionforparperid(examUltimately.getExamparperId(), examUltimately.getStudentId());
 
                 StringBuilder id = new StringBuilder();
                 List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(examUltimately.getExamparperId());
@@ -746,12 +747,9 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 }
 
 
-
-
                 /**
                  * 根据章节测试试卷id删除章节测试做题记录
                  */
-                Integer r = sectionexamlogdao.deletsectionforparperid(examUltimately.getExamparperId());
 
 
                 return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);
