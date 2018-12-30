@@ -3,7 +3,6 @@ package com.ysd.iep.feign;
 import com.ysd.iep.entity.dto.PostDTO;
 import com.ysd.iep.entity.dto.ReplyDTO;
 import com.ysd.iep.entity.vo.PagingResult;
-import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +35,7 @@ public interface BbsFeign {
     /**
      * 获取某个分类下课程的精彩讨论
      */
-    @RequestMapping("")
-    public Result getDiscuss(@RequestParam("cids")List<Integer> cids);
+    @RequestMapping("/coursepost/getHotPost")
+    public Object getDiscuss(@RequestParam("courseIds")List<Integer> cids);
 
 }

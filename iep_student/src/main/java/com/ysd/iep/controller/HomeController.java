@@ -129,15 +129,13 @@ public class HomeController {
      */
     @ApiOperation(value = "获取某个分类下课程的精彩讨论")
 	@GetMapping("/getDiscuss")
-    public Object getDiscuss(String names){
+    public Result getDiscuss(String names){
         Result<List<String>> res=adminService.getIdByNames(names);
         String depid=res.getMessage().get(0);
 
         List<Integer> cids=teacherService.getCourseIdBy(depid);
         System.out.println("得到的id："+cids);
-
-
-        return "";
+        return new Result(true,bbsFeign.getDiscuss(cids));
 
     }
 
