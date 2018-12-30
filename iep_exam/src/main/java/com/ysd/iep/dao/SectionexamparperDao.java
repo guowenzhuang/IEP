@@ -19,7 +19,7 @@ public interface SectionexamparperDao extends JpaRepository<Sectionexamparper, S
      * @return
      */
     @Query(value = "select *from  sectionexamparper_tb  where course_id=?1 and section_id=?2", nativeQuery = true)
-    Sectionexamparper selectsectionparperwherecourseandsection(String course, String section);
+    List<Sectionexamparper> selectsectionparperwherecourseandsection(String course, String section);
 
 
 }

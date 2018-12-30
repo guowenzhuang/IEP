@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author 80795
@@ -31,4 +31,11 @@ public interface BbsFeign {
     PagingResult<ReplyDTO> queryReplyByUserId(@RequestParam("userId") String userId,
                                              @RequestParam("page") Integer page,
                                              @RequestParam("rows") Integer rows);
+
+    /**
+     * 获取某个分类下课程的精彩讨论
+     */
+    @RequestMapping("/coursepost/getHotPost")
+    public Object getDiscuss(@RequestParam("courseIds")List<Integer> cids);
+
 }

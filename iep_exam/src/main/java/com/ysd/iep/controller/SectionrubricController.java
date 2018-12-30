@@ -6,10 +6,7 @@ import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
-import com.ysd.iep.entity.parameter.AddrubricQuery;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.RubricQuery;
-import com.ysd.iep.entity.parameter.SectionFan;
+import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.service.SectionrubricService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -42,7 +40,7 @@ public class SectionrubricController {
      * 根据课程章节查询章节测试试卷
      */
     @RequestMapping(value = "/selectsection", method = RequestMethod.POST)
-    public Sectionexamparper selectsection(String course, String section) {
+    public List<Sectionexamparper> selectsection(String course, String section) {
         return sectionexamparperdao.selectsectionparperwherecourseandsection(course, section);
     }
 
@@ -119,6 +117,35 @@ public class SectionrubricController {
         } else {
             return new Result(false, "新增考试以及新增题库题失败!!!!", null);
         }
+    }
+
+
+    /**
+     * 进入章节测试的时候(返回卷子中的试题)
+     */
+
+    @RequestMapping(value = "/querysectionrubricer", method = RequestMethod.POST)
+    public Object querysectionrubricer(RubricQuery rubricQuery) {
+        return sectionrubricservice.querysectionrubric(rubricQuery);
+    }
+
+
+    /**
+     * 考试过之后成绩处理(单题的改卷处理)
+     */
+    @RequestMapping(value = "/examend", method = RequestMethod.POST)
+    public Object examend(ExamUltimately examUltimately) {
+        System.out.println("参数*************" + examUltimately);
+        return sectionrubricservice.examend(examUltimately);
+    }
+
+
+    /**
+     * 整张卷子做完之后交卷
+     */
+    @RequestMapping(value = "/examination", method = RequestMethod.POST)
+    public Object examination(ExamUltimately examUltimately) {
+        return sectionrubricservice.examination(examUltimately);
     }
 
 

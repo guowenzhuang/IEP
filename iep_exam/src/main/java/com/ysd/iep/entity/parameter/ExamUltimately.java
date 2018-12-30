@@ -27,5 +27,7 @@ public class ExamUltimately {
     private String examrubricId;
     private Integer score;
     private Integer courseid;
+    private Integer sectionid;
+
 
 }

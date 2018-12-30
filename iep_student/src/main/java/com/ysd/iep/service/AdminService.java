@@ -44,4 +44,6 @@ public interface AdminService {
 	@GetMapping("/depart/getIdByNames")
 	public Result getIdByNames(@RequestParam("names")String names);
 
+
+
 }
