@@ -135,7 +135,9 @@ public class HomeController {
 
         List<Integer> cids=teacherService.getCourseIdBy(depid);
         System.out.println("得到的id："+cids);
-        return bbsFeign.getDiscuss(cids);
+
+
+        return "";
 
     }
 

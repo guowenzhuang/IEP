@@ -43,8 +43,8 @@ public interface TeacherService {
 	/**
 	 * 根据院系id 查询返回课程id
 	 */
-	@GetMapping("/course/")
-	public List<Integer> getCourseIdBy(@RequestParam("depid")String depid);
+	@GetMapping("/course/getByDepartId")
+	public List<Integer> getCourseIdBy(@RequestParam("departmentId")String depid);
 
 
 
