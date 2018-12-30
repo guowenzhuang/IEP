@@ -132,10 +132,10 @@ public class SectionrubricController {
     /**
      * 考试过之后成绩处理(单题的改卷处理)
      */
-    /*@RequestMapping(value = "/examend", method = RequestMethod.POST)
+    @RequestMapping(value = "/examend", method = RequestMethod.POST)
     public Object examend(ExamUltimately examUltimately) {
         return sectionrubricservice.examend(examUltimately);
-    }*/
+    }
 
 
 }
