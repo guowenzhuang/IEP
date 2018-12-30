@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -50,6 +51,12 @@ public class StudentService {
 		BeanConverterUtil.copyObject(usersDTO,studentVo);
 		BeanConverterUtil.copyObject(student,studentVo);
 		return new Result<StudentVo>(true,studentVo);
+	}
+
+	public List<Student> getByIds(String ids){
+		String[] idsSplit = ids.split(",");
+		List<Student> allById = studentRepository.findBySidIn(idsSplit);
+		return allById;
 	}
 
 

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -51,5 +53,9 @@ public class ClassesController {
     public Result<String> delete(@PathVariable("id") String id){
          classesService.delete(id);
         return new Result<String>(true,"删除成功");
+    }
+    @GetMapping("/queryAll")
+    public List<ClassVo> queryAll(){
+        return classesService.queryAll();
     }
 }

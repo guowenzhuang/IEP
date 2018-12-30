@@ -237,7 +237,6 @@ public class UsersService {
         usersDB.setPassword(password);
         usersDB.setStatus(0);
         usersDB.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        System.out.println(usersDB.getCreateTime());
         usersDao.save(usersDB);
     }
 

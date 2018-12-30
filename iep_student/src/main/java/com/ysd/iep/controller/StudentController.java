@@ -8,6 +8,8 @@ import com.ysd.iep.entity.Student;
 import com.ysd.iep.service.StudentService;
 import com.ysd.iep.util.Result;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/stu")
 public class StudentController {
@@ -51,6 +53,12 @@ public class StudentController {
 	@GetMapping("/{id}")
 	public Result<StudentVo> query(@PathVariable("id") String id){
 		return studentService.query(id);
+	}
+
+	@GetMapping("/getByIds")
+	public Result<List<Student>> getByIds(@RequestParam("ids") String ids){
+		List<Student> byIds = studentService.getByIds(ids);
+		return new Result<>(true,byIds);
 	}
 	
 
