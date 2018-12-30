@@ -106,7 +106,7 @@ public class HomeController {
 	}
 
 	/**
-	 *根据分类名称获取该分类下的报名数最多的前六门课程
+	 *根据分类名称获取该分类下的报名数最多的前六门课程.
 	 */
 	@GetMapping("/getCourseByCategoryTop6")
 	public Result getCourseByCategoryTop6(String names){

@@ -7,5 +7,10 @@ import com.ysd.iep.entity.po.ClassesDB;
  * @date 2018/11/12 8:55
  */
 public interface ClassesDao extends BaseDao<ClassesDB,String> {
-
+    /**
+     * 根据班级编码查找班级
+     * @param code
+     * @return
+     */
+    ClassesDB findByCode(String code);
 }
