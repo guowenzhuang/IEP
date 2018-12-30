@@ -134,8 +134,14 @@ public class SectionrubricController {
      */
     @RequestMapping(value = "/examend", method = RequestMethod.POST)
     public Object examend(ExamUltimately examUltimately) {
+        System.out.println("参数*************"+examUltimately);
         return sectionrubricservice.examend(examUltimately);
     }
+
+
+    /**
+     * 整张卷子做完之后交卷
+     */
 
 
 }

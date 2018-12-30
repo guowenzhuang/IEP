@@ -553,6 +553,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                     studentexamlog.setSelectid(examUltimately.getSelectanswerId());
                     studentexamlog.setStudentid(examUltimately.getStudentId());
                     studentexamlog.setSectionexamrubricid(examUltimately.getExamrubricId());
+                    studentexamlog.setSectionid(examUltimately.getSectionid());
 
                     sectionexamlogdao.save(studentexamlog);
 
@@ -641,6 +642,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                     studentexamlog.setSelectid(examUltimately.getSelectanswerId());
                     studentexamlog.setStudentid(examUltimately.getStudentId());
                     studentexamlog.setSectionexamrubricid(examUltimately.getExamrubricId());
+                    studentexamlog.setSectionid(examUltimately.getSectionid());
                     sectionexamlogdao.save(studentexamlog);
                 } else {
 
@@ -662,6 +664,16 @@ public class SectionrubricServiceimpl implements SectionrubricService {
         }
 
     }
+
+
+    /**
+     * 考试完之后交卷
+     */
+
+
+
+
+
 
 
 }

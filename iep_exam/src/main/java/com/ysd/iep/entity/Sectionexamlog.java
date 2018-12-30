@@ -29,7 +29,7 @@ public class Sectionexamlog {
     private String sectionexamparperid;
     @Column(name = "sectionexamrubricId", nullable = false, length = 50)
     private String sectionexamrubricid;
-    @Column(name = "selectId", nullable = false, length = 50)
+    @Column(name = "selectId", nullable = false, length = 200)
     private String selectid;
     @Column(name = "studentId", nullable = false, length = 50)
     private String studentid;
