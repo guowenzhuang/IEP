@@ -26,8 +26,8 @@ public class RubricQuery {
      */
     private String rubric;
     private String type;
-    private String course;
-    private String section;
+    private Integer course;
+    private Integer section;
     private String userid;
     private String coursetype;
     private String examparper;
