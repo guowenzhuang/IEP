@@ -8,6 +8,12 @@ import com.ysd.iep.entity.dto.Result;
 
 public interface ChapterService {
 	/**
+	 * 根据Id查询父章节
+	 * @param courid
+	 * @return
+	 */
+	public List<Chapters> queryParentchapter(Integer courid);
+	/**
 	 * 查询章节
 	 */
 	public List<Chapters> querychapterTree(Integer courid);
