@@ -65,8 +65,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 List<Expression<Boolean>> exList = predicate.getExpressions();//动态SQL表达式集合
 
 
-                if (rubricquery.getCoursetype() != null && !"".equals(rubricquery.getCoursetype())) {
-                    exList.add(cb.equal(root.get("courseId").as(Integer.class), rubricquery.getCoursetype()));
+                if (rubricquery.getExamparper() != null && !"".equals(rubricquery.getExamparper())) {
+                    exList.add(cb.equal(root.get("sectionexamparper").get("Id").as(String.class), rubricquery.getExamparper()));
 
                 }
 
@@ -83,15 +83,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                     exList.add(cb.equal(root.get("rubricttype").as(String.class), rubricquery.getType()));
 
                 }
-                if (rubricquery.getSection() != null && !"".equals(rubricquery.getSection())) {
-                    exList.add(cb.equal(root.get("sectionId").as(String.class), rubricquery.getSection()));
-
-                }
-                if (rubricquery.getCourse() != null && !"".equals(rubricquery.getCourse())) {
-                    exList.add(cb.equal(root.get("courseId").as(String.class), rubricquery.getCourse()));
-
-                }
-
                 return predicate;
             }
         };
@@ -105,6 +96,9 @@ public class SectionrubricServiceimpl implements SectionrubricService {
      */
     @Override
     public Result addexamrubric(AddrubricQuery addrubricquery) {
+
+        System.out.println("章节id************" + addrubricquery.getSectionid());
+
         if (addrubricquery.getRubrictype().equals("单选题")) {
             String idanswer = "";
             String id = "";
@@ -143,9 +137,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
 
             try {
-                //Examrubric rubric = new Examrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
-                Sectionexamrubric rubric = new Sectionexamrubric(idlist.get(4), null, addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
-
+                Sectionexamrubric rubric = new Sectionexamrubric(idlist.get(4), addrubricquery.getSectionid(), addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+                Sectionexamrubric sectionexamrubric = new Sectionexamrubric(idlist.get(4), addrubricquery.getSectionid(), addrubricquery.getCourse(), id, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
 
                 rubric.setSectionexamparper(sectionexamparperdao.findById(addrubricquery.getParperid()).get());
                 Sectionexamrubric rubric1 = sectionexamrubricdao.save(rubric);
@@ -420,6 +413,10 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             }
         }
     }
+
+
+
+
 
 
 }

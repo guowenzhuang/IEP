@@ -1,8 +1,10 @@
 package com.ysd.iep.controller;
 
 
+import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.Rubric;
+import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
 import com.ysd.iep.entity.parameter.AddrubricQuery;
 import com.ysd.iep.entity.parameter.Result;
@@ -32,6 +34,17 @@ public class SectionrubricController {
     SectionexamrubricDao sectionexamrubricdao;
     @Autowired
     RubricService rubricservice;
+    @Autowired
+    SectionexamparperDao sectionexamparperdao;
+
+
+    /**
+     * 根据课程章节查询章节测试试卷
+     */
+    @RequestMapping(value = "/selectsection", method = RequestMethod.POST)
+    public Sectionexamparper selectsection(String course, String section) {
+        return sectionexamparperdao.selectsectionparperwherecourseandsection(course, section);
+    }
 
     /**
      * 多条件查询
@@ -41,15 +54,28 @@ public class SectionrubricController {
     @RequestMapping(value = "/querysectionrubric", method = RequestMethod.POST)
     public Object querysectionrubric(RubricQuery rubricquery, Integer page, Integer rows) {
         Page<Sectionexamrubric> sectionexamrubricPage = sectionrubricservice.queryUserByuserQuery(rubricquery, page, rows);
+        System.out.println("分页数据*******************" + sectionexamrubricPage);
         Integer total = (int) sectionexamrubricPage.getTotalElements();
         List<Sectionexamrubric> list = sectionexamrubricPage.getContent();
 
+
         list.forEach(item -> {
+            item.setSectionexamparper(null);
             item.getExamanswers().forEach(t -> {
                 t.setSectionexamrubric(null);
             });
         });
-        return new SectionFan(list, total);
+
+        return new SectionFan(total, list);
+    }
+
+
+    /**
+     * 新增试题
+     */
+    @RequestMapping(value = "/addexamrubric", method = RequestMethod.POST)
+    public Object addexamrubric(AddrubricQuery addrubricquery) {
+        return sectionrubricservice.addexamrubric(addrubricquery);
     }
 
     /**

@@ -11,12 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysd.iep.entity.CoursePost;
 import com.ysd.iep.entity.CoursePostQuery;
 import com.ysd.iep.entity.CourseReply;
-import com.ysd.iep.entity.Reply;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CoursePostService;
 import com.ysd.iep.service.CourseReplyService;
@@ -97,6 +97,20 @@ public class CoursePostController {
 		}
 		map.put("isLikePost", isLikePost);
 		return map;
+	}
+	/**
+	 * 获取热门讨论
+	 * @param courseIds
+	 * @return
+	 */
+	@RequestMapping(value = "getHotPost")
+	public Object getHotPost(@RequestParam("courseIds")List<Integer> courseIds) {
+		List<CoursePost> postList= postService.getHotPost(courseIds);
+		for (CoursePost coursePost : postList) {
+			CourseReply postDetails = postService.getPostDetails(coursePost.getPostId(), 0);
+			BeanUtils.copyProperties(postDetails, coursePost);
+		}
+		return postList;
 	}
 
 }

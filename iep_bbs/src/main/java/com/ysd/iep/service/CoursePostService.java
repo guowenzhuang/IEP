@@ -27,5 +27,11 @@ public interface CoursePostService {
 	 * @return
 	 */
 	public Integer publicPost(Integer courseId,String title, String content, Integer parentId,String userId,Integer typeId);
+	/**
+	 * 获取热帖
+	 * @param courseIds
+	 * @return
+	 */
+	public List<CoursePost> getHotPost(List<Integer> courseIds);
 
 }
