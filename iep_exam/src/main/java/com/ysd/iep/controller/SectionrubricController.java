@@ -1,8 +1,10 @@
 package com.ysd.iep.controller;
 
 
+import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.Rubric;
+import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
 import com.ysd.iep.entity.parameter.AddrubricQuery;
 import com.ysd.iep.entity.parameter.Result;
@@ -32,6 +34,17 @@ public class SectionrubricController {
     SectionexamrubricDao sectionexamrubricdao;
     @Autowired
     RubricService rubricservice;
+    @Autowired
+    SectionexamparperDao sectionexamparperdao;
+
+
+    /**
+     * 根据课程章节查询章节测试试卷
+     */
+    @RequestMapping(value = "/selectsection", method = RequestMethod.POST)
+    public Sectionexamparper selectsection(String course, String section) {
+        return sectionexamparperdao.selectsectionparperwherecourseandsection(course, section);
+    }
 
     /**
      * 多条件查询
