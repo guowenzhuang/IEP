@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,5 +99,25 @@ public class StudentService {
             studentDTO.setSid(save.getId());
             studentFeign.add(studentDTO);
         }
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public void update(UsersStuDTO usersStuDTO) throws DataIntegrityViolationException {
+        UsersDB users = usersDao.findTopByLoginName(usersStuDTO.getLoginName());
+        if (users != null && !(users.getLoginName().equals(usersStuDTO.getLoginName()))) {
+            throw new DataIntegrityViolationException("用户名重复");
+        }else{
+            UsersDB usersDB= usersDao.findById(usersStuDTO.getId()).get();
+            usersDB.setProtectEMail(usersStuDTO.getProtectEMail());
+            usersDB.setProtectMTel(usersStuDTO.getProtectMTel());
+            usersDao.save(usersDB);
+            StudentAddDTO studentDTO= (StudentAddDTO) BeanConverterUtil.copyObject(usersStuDTO,StudentAddDTO.class);
+            studentDTO.setSid(usersDB.getId());
+            studentFeign.add(studentDTO);
+         }
+    }
+
+    public void delete(String id) {
+        usersDao.deleteById(id);
+        studentFeign.delete(id);
     }
 }

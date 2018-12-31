@@ -36,6 +36,8 @@ public class CoursePost {
 	private String postTitle;
 	@Column(columnDefinition="tinyint(1) DEFAULT 0  NOT NULL comment '备注:是否置顶' ")
 	private boolean postIsstick;
+	@Column(columnDefinition="int DEFAULT 0 comment '备注:回复数' ")
+	private Integer replyNum;
 	
 	
 	@JsonIgnore

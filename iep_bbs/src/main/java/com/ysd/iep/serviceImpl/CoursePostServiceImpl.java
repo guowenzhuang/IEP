@@ -100,6 +100,14 @@ public class CoursePostServiceImpl implements CoursePostService {
 	public Integer getLikeNum(Integer replyId) {
 		return replyRepository.getLikeNum(replyId);
 	}
+	
+	/**
+	 * 根据回复id更新点赞数
+	 */
+	@Override
+	public Integer updateLikeNum(Integer replyId, Integer likeNum) {
+		return replyRepository.updateLikeNum(replyId, likeNum);
+	}
 
 	/**
 	 * 发表帖子
@@ -108,7 +116,6 @@ public class CoursePostServiceImpl implements CoursePostService {
 	public Integer publicPost(Integer courseId,String title, String content, Integer parentId, String userId, Integer typeId) {
 		CoursePost post = new CoursePost();
 		post.setPostTitle(title);
-		post.setPostIsstick(false);
 		CoursePost post2 = postRepository.save(post);
 		int n = typeRepository.insertPosttype(post2.getPostId(), typeId);
 		int m = replyRepository.insertPortDetails(courseId, userId, post2.getPostId(), content, parentId);
@@ -122,6 +129,22 @@ public class CoursePostServiceImpl implements CoursePostService {
 	@Override
 	public List<CoursePost> getHotPost(List<Integer> courseIds) {
 		return postRepository.getHotPost(courseIds);
+	}
+
+	@Override
+	public CoursePost getPostByPostId(Integer postId) {
+		return postRepository.findByPostId(postId);
+	}
+
+	@Override
+	public Integer getReplyNum(Integer postId) {
+		return replyRepository.getReplyNum(postId);
+	}
+
+	@Override
+	public Integer updateReplyNum(Integer replynum, Integer postId) {
+		return postRepository.updateReplyNum(replynum,postId);
+		
 	}
 
 }
