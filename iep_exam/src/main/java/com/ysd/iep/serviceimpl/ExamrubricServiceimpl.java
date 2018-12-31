@@ -760,6 +760,8 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                         Examrubric examrubric = examrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answeridsan = examrubric.getAnswerId().split(",");
                         String[] answeridsi = examUltimately.getSelectanswerId().split(",");
+                        Arrays.sort(answeridsan);
+                        Arrays.sort(answeridsi);
 
                         if (Arrays.equals(answeridsan, answeridsi)) {
                             score = examUltimately.getScore();
