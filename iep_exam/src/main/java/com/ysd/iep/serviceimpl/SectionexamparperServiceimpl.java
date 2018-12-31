@@ -11,6 +11,7 @@ import com.ysd.iep.service.SectionexamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -201,7 +202,9 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
         Performance performance = performancedao.mintimenowperformance(studentid, parperid);
 
         Date time = performance.getCreatetime();
-        return new permanceFan(examnum, min, time);
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
+
+        return new permanceFan(examnum, min, s.format(time));
     }
 
 

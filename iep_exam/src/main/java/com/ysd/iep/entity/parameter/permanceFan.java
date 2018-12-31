@@ -11,5 +11,5 @@ public class permanceFan {
 
     private Integer examnum;
     private Integer maxtotal;
-    private Date endtime;
+    private String endtime;
 }

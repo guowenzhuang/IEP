@@ -65,8 +65,10 @@ public class SectionexamparperController {
      */
     @RequestMapping(value = "/selecttotalandnumandmaxtotal", method = RequestMethod.POST)
     public permanceFan selecttotalandnumandmaxtotal(String parperid, String studentid) {
+        System.out.println("卷子id*********" + parperid);
+        System.out.println("学生id*********" + studentid);
         return sectionexamparperservice.selecttotalandnumandmaxtotal(parperid, studentid);
     }
 
-    
+
 }
