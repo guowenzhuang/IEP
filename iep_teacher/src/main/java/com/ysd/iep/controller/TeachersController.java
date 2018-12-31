@@ -72,9 +72,20 @@ public class TeachersController {
     	System.out.println(teauser);
     	Result<String> user = adminFeign.updateUserById(teauser.getId(),teauser);
     	 teachersService.updateTeacher(teauser);
-
 		return new Result(true).setMessage("成功");
-    	
+    }
+    
+    @ApiOperation(value = "新增教师信息(管理员)")
+    @PostMapping("/addTeachers")
+    public Result<String> addTeacher(@RequestBody Teachers tea){
+    	System.out.println(tea);
+    	try {
+    		teachersService.addteacher(tea);
+			return new Result(true, "添加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(true, "添加失败");
+		}
     }
 
 }

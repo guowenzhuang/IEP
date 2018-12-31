@@ -2,6 +2,7 @@ package com.ysd.iep.service.impl;
 
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class TeachersServiceImpl implements TeachersService {
     //添加
     @Override
     public Integer insertTeacher(String teaId){
-    	 
 		return teacherRepository.addTecherById(teaId);
 		
         
@@ -93,5 +93,10 @@ public class TeachersServiceImpl implements TeachersService {
 	@Override
 	public List<String> getTeaIdByDepartmentId(String departMentId){
 		return teacherRepository.getByTeaDepartmentid(departMentId).stream().map(Teachers::getTeaId).collect(Collectors.toList());
+	}
+
+	@Override
+	public void addteacher(Teachers tea) {
+		teacherRepository.save(tea);
 	}
 }

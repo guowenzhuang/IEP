@@ -8,6 +8,7 @@ import com.ysd.iep.entity.dto.TeacherDTO;
 import com.ysd.iep.entity.dto.TeacherUserDTO;
 
 public interface TeachersService {
+	
 	//新增老师
 	Integer insertTeacher(String teaId);
     
@@ -27,4 +28,6 @@ public interface TeachersService {
 
     List<String> getTeaIdByDepartmentId(String departMentId);
    
+   //新增老师
+  	void addteacher(Teachers tea);
 }
