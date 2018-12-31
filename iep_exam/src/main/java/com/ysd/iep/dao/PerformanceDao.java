@@ -24,6 +24,9 @@ public interface PerformanceDao extends JpaRepository<Performance, String> {
     @Query(value = "SELECT * from performance_tb where parper_id =?1 and student_id =?2", nativeQuery = true)
     List<Performance> selectperformanforparperidandstudentider(String parperid, String studentid);
 
+    @Query(value = "select * from performance_tb s where s.student_id=?1 and parper_id=?2 ORDER BY ABS(NOW() - s.createtime) ASC limit 1", nativeQuery = true)
+    Performance mintimenowperformance(String studentid, String parperid);
+
 
 }
 

@@ -5,16 +5,14 @@ import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.entity.Performance;
 import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
-import com.ysd.iep.entity.parameter.Chapters;
-import com.ysd.iep.entity.parameter.LookparperQuery;
-import com.ysd.iep.entity.parameter.Result;
-import com.ysd.iep.entity.parameter.SectionexamQuery;
+import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.SectionexamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -173,7 +171,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      * 根据章节测试卷子id 学生id查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
      */
     @Override
-    public Object selecttotalandnumandmaxtotal(String parperid, String studentid) {
+    public permanceFan selecttotalandnumandmaxtotal(String parperid, String studentid) {
 
         List<Performance> performanceList = performancedao.selectperformanforparperidandstudentider(parperid, studentid);
         /**
@@ -181,12 +179,29 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
          */
         Integer examnum = performanceList.size();
         /**
-         * 最高的成绩
+         * 最高的成绩min
          */
-        /*List<Integer> totallist =*/
+        List<Integer> totallist = new ArrayList<>();
+
+        for (int i = 0; i < performanceList.size(); i++) {
+            totallist.add(performanceList.get(i).getTotal());
+        }
 
 
-        return null;
+        Integer min = totallist.get(0);
+
+        for (Integer item : totallist) {
+            if (item.intValue() > min) {
+                min = item;
+            }
+        }
+        /**
+         * 取出距离当前时间最近的一次的考试记录
+         */
+        Performance performance = performancedao.mintimenowperformance(studentid, parperid);
+
+        Date time = performance.getCreatetime();
+        return new permanceFan(examnum, min, time);
     }
 
 

@@ -4,6 +4,7 @@ import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.SectionexamQuery;
+import com.ysd.iep.entity.parameter.permanceFan;
 import com.ysd.iep.service.SectionexamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,10 +64,9 @@ public class SectionexamparperController {
      * 根据章节测试卷子id 学生id查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
      */
     @RequestMapping(value = "/selecttotalandnumandmaxtotal", method = RequestMethod.POST)
-    public Object selecttotalandnumandmaxtotal(String parperid, String studentid) {
-
-        return null;
+    public permanceFan selecttotalandnumandmaxtotal(String parperid, String studentid) {
+        return sectionexamparperservice.selecttotalandnumandmaxtotal(parperid, studentid);
     }
 
-
+    
 }

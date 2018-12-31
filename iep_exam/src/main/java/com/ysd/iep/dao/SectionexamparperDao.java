@@ -47,4 +47,7 @@ public interface SectionexamparperDao extends JpaRepository<Sectionexamparper, S
 
 
 
+
+
+
 }
