@@ -162,6 +162,10 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
     public SectionexamQuery selectsectionandparper(Integer courseid) {
         com.ysd.iep.util.Result<List<Chapters>> chaptersList = teacherfeign.queryParentChapter(courseid);
         List<Sectionexamparper> sectionexamparperList = sectionexamparperdao.selectsectionparperwherecourseid(courseid);
+        for (int i = 0; i < sectionexamparperList.size(); i++) {
+            sectionexamparperList.get(i).setSectionexamrubricslist(null);
+        }
+
         return new SectionexamQuery(sectionexamparperList, chaptersList);
     }
 
@@ -179,7 +183,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
         /**
          * 最高的成绩
          */
-        Integer[] cc = new Integer[performanceList.size()];
+        /*List<Integer> totallist =*/
 
 
         return null;
