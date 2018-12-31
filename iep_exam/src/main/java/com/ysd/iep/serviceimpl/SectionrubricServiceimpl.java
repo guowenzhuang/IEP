@@ -536,11 +536,15 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         Arrays.sort(answerid);
                         Arrays.sort(answerider);
 
+                        System.out.println("**************" + answerid);
+                        System.out.println("**************" + answerider);
+
+                        System.out.println(Arrays.equals(answerid, answerider));
+
                         if (Arrays.equals(answerid, answerider)) {
                             score = examUltimately.getScore();
                         } else {
                             score = 0;
-
                         }
                     }
 
@@ -559,6 +563,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                     studentexamlog.setStudentid(examUltimately.getStudentId());
                     studentexamlog.setSectionexamrubricid(examUltimately.getExamrubricId());
                     studentexamlog.setSectionid(examUltimately.getSectionid());
+
 
                     sectionexamlogdao.save(studentexamlog);
 
@@ -601,6 +606,8 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                         Sectionexamrubric examrubric = sectionexamrubricdao.findById(examUltimately.getExamrubricId()).orElse(null);
                         String[] answeridsan = examrubric.getAnswerId().split(",");
                         String[] answeridsi = examUltimately.getSelectanswerId().split(",");
+                        Arrays.sort(answeridsan);
+                        Arrays.sort(answeridsi);
 
                         if (Arrays.equals(answeridsan, answeridsi)) {
                             score = examUltimately.getScore();
