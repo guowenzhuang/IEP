@@ -15,11 +15,14 @@ import java.util.List;
 public interface PerformanceDao extends JpaRepository<Performance, String> {
 
     @Query(value = "SELECT * from performance_tb where parper_id =?1 and student_id =?2", nativeQuery = true)
-    List<Performance> selectperformanforparperidandstudentid(String parperid, String studentid);
+    Performance selectperformanforparperidandstudentid(String parperid, String studentid);
 
 
     @Query(value = "SELECT * from performance_tb where parper_id =?1", nativeQuery = true)
     List<Performance> selectperformanforparperid(String parperid);
+
+    @Query(value = "SELECT * from performance_tb where parper_id =?1 and student_id =?2", nativeQuery = true)
+    List<Performance> selectperformanforparperidandstudentider(String parperid, String studentid);
 
 
 }
