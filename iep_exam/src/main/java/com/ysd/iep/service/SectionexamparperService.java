@@ -34,6 +34,11 @@ public interface SectionexamparperService {
      */
     SectionexamQuery selectsectionandparper(Integer courseid);
 
+    /**
+     * 根据课程id 章节id 查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
+     */
+
+
 
 }
 

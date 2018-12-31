@@ -54,10 +54,14 @@ public class SectionexamparperController {
     /**
      * 根据课程查询所有的父章节   以及根据课程id查询所有的试卷
      */
-    @RequestMapping(value = "/selectsectionparperrubric", method = RequestMethod.POST)
-    public SectionexamQuery selectsectionandparper(Integer courseid) {
+    @RequestMapping(value = "/selectsectionparperrubricer", method = RequestMethod.POST)
+    public SectionexamQuery selectsectionparperrubricer(Integer courseid) {
         return sectionexamparperservice.selectsectionandparper(courseid);
     }
+
+    /**
+     * 根据课程id 章节id 查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
+     */
 
 
 }
