@@ -1,6 +1,8 @@
 package com.ysd.iep.serviceimpl;
 
+import com.ysd.iep.dao.PerformanceDao;
 import com.ysd.iep.dao.SectionexamparperDao;
+import com.ysd.iep.entity.Performance;
 import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
 import com.ysd.iep.entity.parameter.Chapters;
@@ -27,6 +29,8 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
     SectionexamparperDao sectionexamparperdao;
     @Autowired(required = false)
     private TeacherFeign teacherfeign;
+    @Autowired
+    PerformanceDao performancedao;
 
 
     /**
@@ -166,6 +170,21 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      */
     @Override
     public Object selecttotalandnumandmaxtotal(String parperid, String studentid) {
+
+        List<Performance> performanceList = performancedao.selectperformanforparperidandstudentider(parperid, studentid);
+        /**
+         * 成绩表中的这个学生的考试次数
+         */
+        Integer examnum = performanceList.size();
+
+        /**
+         * 最高的成绩
+         */
+
+
+
+
+
 
         return null;
     }
