@@ -212,6 +212,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
         List<permanceFan> permanceFanList = new ArrayList<>();
 
         permanceFan p = new permanceFan(examnum, min, s.format(time));
+        permanceFanList.add(p);
 
 
         return permanceFanList;
