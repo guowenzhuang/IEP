@@ -45,4 +45,6 @@ public interface SectionexamparperDao extends JpaRepository<Sectionexamparper, S
     List<Sectionexamparper> selectsectionparperwherecourseid(Integer course);
 
 
+
+
 }

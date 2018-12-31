@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Chapters implements Serializable {
+public class Chapters {
     private Integer chaId;
     private Integer chaParentid;
     private String chaName;
