@@ -5,6 +5,7 @@ import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
 import com.ysd.iep.entity.dto.*;
+import com.ysd.iep.entity.po.ClassesDB;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
@@ -16,24 +17,27 @@ import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
+import com.ysd.iep.util.ExcelUtil;
 import com.ysd.iep.util.PasswordEncrypt;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -52,28 +56,28 @@ public class UsersService {
     @Autowired(required = false)
     private TeacherFeign teacherFeign;
 
-    public PagingResult<UsersTeaDTO> get(UsersRoleQuery usersRoleQuery){
+    public PagingResult<UsersTeaDTO> get(UsersRoleQuery usersRoleQuery) {
         //获取角色id
-        String roleId=rolesDao.findByName(usersRoleQuery.getRoleName()).getId();
+        String roleId = rolesDao.findByName(usersRoleQuery.getRoleName()).getId();
         //分页查询
         Pageable pageable = PageRequest.of(usersRoleQuery.getPage() - 1, usersRoleQuery.getRows());
         Page<UsersDB> byRole = null;
-        if(EmptyUtil.stringE(usersRoleQuery.getName())){
-            byRole=usersDao.findByRole(usersRoleQuery.getName(),roleId,pageable);
-        }else{
-            byRole=usersDao.findByRole(roleId,pageable);
+        if (EmptyUtil.stringE(usersRoleQuery.getName())) {
+            byRole = usersDao.findByRole(usersRoleQuery.getName(), roleId, pageable);
+        } else {
+            byRole = usersDao.findByRole(roleId, pageable);
         }
         List<UsersDB> usersDBS = byRole.getContent();
-        List<String>  userIds=usersDBS.stream().map(UsersDB::getId).collect(Collectors.toList());
+        List<String> userIds = usersDBS.stream().map(UsersDB::getId).collect(Collectors.toList());
         String ids = StringUtils.join(userIds, ",");
-        Result<List<UsersTeaDTO>> result=teacherFeign.get(ids);
-        List<UsersTeaDTO> usersTeaDTOS=result.getMessage();
+        Result<List<UsersTeaDTO>> result = teacherFeign.get(ids);
+        List<UsersTeaDTO> usersTeaDTOS = result.getMessage();
         for (int i = 0; i < usersTeaDTOS.size(); i++) {
-            UsersTeaDTO ut=usersTeaDTOS.get(i);
-            UsersDB u=usersDBS.get(i);
-            BeanConverterUtil.copyObject(u,ut);
+            UsersTeaDTO ut = usersTeaDTOS.get(i);
+            UsersDB u = usersDBS.get(i);
+            BeanConverterUtil.copyObject(u, ut);
         }
-        PagingResult pagingResult=new PagingResult();
+        PagingResult pagingResult = new PagingResult();
         pagingResult.setTotal(byRole.getTotalElements());
         pagingResult.setRows(usersTeaDTOS);
         return pagingResult;
@@ -83,6 +87,32 @@ public class UsersService {
     @PreAuthorize("hasAuthority('user:query')")
     @PermissionMethod("查询")
     public PagingResult<UsersVo> query(UsersQuery usersQuery) {
+
+        Specification<UsersDB> specification = where(usersQuery);
+        //排序分页
+        Pageable pageable = null;
+        if (EmptyUtil.stringE(usersQuery.getOrder())) {
+            Sort sort = new Sort(Sort.Direction.ASC, usersQuery.getOrder());
+            pageable = PageRequest.of(usersQuery.getPage() - 1, usersQuery.getRows(), sort);
+        } else {
+            pageable = PageRequest.of(usersQuery.getPage() - 1, usersQuery.getRows());
+        }
+        Page<UsersDB> users = usersDao.findAll(specification, pageable);
+        List<UsersDB> usersDBS = users.getContent();
+        PagingResult<UsersVo> pagingResult = new PagingResult<UsersVo>();
+        pagingResult
+                .setTotal(users.getTotalElements())
+                .setRows(BeanConverterUtil.copyList(usersDBS, UsersVo.class));
+        return pagingResult;
+    }
+
+    /**
+     * 根据用户查询封装条件
+     *
+     * @param usersQuery
+     * @return
+     */
+    private Specification<UsersDB> where(UsersQuery usersQuery) {
         Specification<UsersDB> specification = new Specification<UsersDB>() {
             @Override
             public Predicate toPredicate(Root<UsersDB> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -124,22 +154,7 @@ public class UsersService {
                 return criteriaBuilder.and(predicates.toArray(p));
             }
         };
-
-        //排序分页
-        Pageable pageable = null;
-        if (EmptyUtil.stringE(usersQuery.getOrder())) {
-            Sort sort = new Sort(Sort.Direction.ASC, usersQuery.getOrder());
-            pageable = PageRequest.of(usersQuery.getPage() - 1, usersQuery.getRows(), sort);
-        } else {
-            pageable = PageRequest.of(usersQuery.getPage() - 1, usersQuery.getRows());
-        }
-        Page<UsersDB> users = usersDao.findAll(specification, pageable);
-        List<UsersDB> usersDBS = users.getContent();
-        PagingResult<UsersVo> pagingResult = new PagingResult<UsersVo>();
-        pagingResult
-                .setTotal(users.getTotalElements())
-                .setRows(BeanConverterUtil.copyList(usersDBS, UsersVo.class));
-        return pagingResult;
+        return specification;
     }
 
     /**
@@ -156,7 +171,7 @@ public class UsersService {
 
     public List<UsersDTO> userById(String ids) {
         List<UsersDB> usersDB = usersDao.findAllById(Arrays.asList(ids.split(",")));
-        List<UsersDTO> usersDTOS=BeanConverterUtil.copyList(usersDB,UsersDTO.class);
+        List<UsersDTO> usersDTOS = BeanConverterUtil.copyList(usersDB, UsersDTO.class);
         return usersDTOS;
     }
 
@@ -191,7 +206,7 @@ public class UsersService {
     @PreAuthorize("hasAuthority('user:setRole')")
     @PermissionMethod("设置角色")
     public void setRoles(String uuid, String roleIds, String direction) {
-        System.out.println("uuid==>"+uuid);
+        System.out.println("uuid==>" + uuid);
         String[] ids = roleIds.split(",");
         //新增角色
         if (direction.equals("right")) {
@@ -200,9 +215,8 @@ public class UsersService {
                 if (rolesDB.getName().equals("学生")) {
                     StudentDTO studentDTO = new StudentDTO().setSid(uuid);
                     studentFeign.add(studentDTO);
-                }
-                else if(rolesDB.getName().equals("老师")){
-                    TeacherDTO teacherDTO=new TeacherDTO().setTeaId(uuid);
+                } else if (rolesDB.getName().equals("老师")) {
+                    TeacherDTO teacherDTO = new TeacherDTO().setTeaId(uuid);
                     System.out.println(teacherDTO);
                     teacherFeign.AddTeacher(uuid);
                 }
@@ -215,8 +229,7 @@ public class UsersService {
                 RolesDB rolesDB = rolesDao.findById(id).get();
                 if (rolesDB.getName().equals("学生")) {
                     studentFeign.delete(uuid);
-                }
-                else if(rolesDB.getName().equals("老师")){
+                } else if (rolesDB.getName().equals("老师")) {
                     teacherFeign.deleteTeacherById(uuid);
                 }
                 usersDao.deleteRole(uuid, id);
@@ -232,12 +245,17 @@ public class UsersService {
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:add')")
     @PermissionMethod("新增用户")
-    public void add(UsersDB usersDB) {
-        String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
-        usersDB.setPassword(password);
-        usersDB.setStatus(0);
-        usersDB.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        usersDao.save(usersDB);
+    public void add(UsersDB usersDB) throws DataIntegrityViolationException {
+        UsersDB byLoginName = usersDao.findTopByLoginName(usersDB.getLoginName());
+        if (byLoginName != null) {
+            throw new DataIntegrityViolationException("编号重复");
+        } else {
+            String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
+            usersDB.setPassword(password);
+            usersDB.setStatus(0);
+            usersDB.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            usersDao.save(usersDB);
+        }
     }
 
     /**
@@ -267,13 +285,39 @@ public class UsersService {
     }
 
     /**
-     *根据用户id修改用户的手机号和邮箱
+     * 根据用户id修改用户的手机号和邮箱
+     *
      * @param user
      */
     public void updateUserById(UsersUpdateDTO user) {
-        UsersDB usersDB=usersDao.findById(user.getId()).get();
+        UsersDB usersDB = usersDao.findById(user.getId()).get();
         usersDB.setProtectMTel(user.getProtectMTel());
         usersDB.setProtectEMail(user.getProtectEMail());
         usersDao.save(usersDB);
+    }
+
+    public List<UsersDB> exports(UsersQuery usersQuery) {
+        Specification<UsersDB> where = where(usersQuery);
+        List<UsersDB> all = usersDao.findAll(where);
+        return all;
+    }
+
+    @Transactional(rollbackOn = Exception.class)
+    public void importUser(MultipartFile file) throws IOException, InstantiationException, IllegalAccessException,RuntimeException {
+        ExcelUtil excelUtil = ExcelUtil.getInstance();
+        InputStream inputStream = file.getInputStream();
+        List usersDBS = excelUtil.importExcel(UsersDB.class, inputStream, item -> {
+            UsersDB usersDB = (UsersDB) item;
+            UsersDB byLoginName = usersDao.findTopByLoginName(usersDB.getLoginName());
+            if (byLoginName != null) {
+                return null;
+            }
+            String password = PasswordEncrypt.encryptPassword(SystemProperties.INIT_PASSWORD);
+            usersDB.setPassword(password);
+            usersDB.setStatus(0);
+            usersDB.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            return usersDB;
+        });
+        usersDao.saveAll(usersDBS);
     }
 }

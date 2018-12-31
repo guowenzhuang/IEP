@@ -1,5 +1,6 @@
 package com.ysd.iep.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ysd.iep.annotation.ExcelField;
 import com.ysd.iep.dao.BaseDao;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -22,12 +24,25 @@ import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * 表格工具类
  */
 @Data
 public class ExcelUtil {
+
+    private ExcelUtil() {
+    }
+
+    private static class ExcelUtilClassInstance {
+        private static final ExcelUtil instance = new ExcelUtil();
+    }
+
+    public static ExcelUtil getInstance() {
+        return ExcelUtilClassInstance.instance;
+    }
 
     /**
      * 导出表格
@@ -101,6 +116,11 @@ public class ExcelUtil {
         outputStream.close();
     }
 
+    public List importExcel(Class clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException,RuntimeException {
+        List list = importExcel(clazz, inputStream, null);
+        return list;
+    }
+
     /**
      * 导入表格返回生成的列名集合和参数集合
      *
@@ -108,14 +128,14 @@ public class ExcelUtil {
      * @param inputStream 输入流
      * @return map对象 (fieldNames:列名集合,类型:List<String>) (fieldValues 参数集合 类型:List<Object[]>)
      */
-    public List<T> importExcel(Class<T> clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException {
+    public List<T> importExcel(Class clazz, InputStream inputStream, Function consumer) throws IOException, IllegalAccessException, InstantiationException,RuntimeException {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         XSSFRow row;
         String cell;
         List<Field> fields = Arrays.asList(clazz.getDeclaredFields());
         int rows = sheet.getRow(0).getPhysicalNumberOfCells();
-        List<String> fieldNames = new ArrayList<>();
+        List<Field> fieldNames = new ArrayList<>();
         row = sheet.getRow(0);
         //循环第一行 找到所有的列字段
         for (int j = row.getFirstCellNum(); j < row.getPhysicalNumberOfCells(); j++) {
@@ -123,12 +143,12 @@ public class ExcelUtil {
             for (Field f : fields) {
                 f.setAccessible(true);
                 if (f.getName().equals(cell)) {
-                    fieldNames.add(f.getName());
+                    fieldNames.add(f);
                     break;
                 }
                 ExcelField excelField = f.getDeclaredAnnotation(ExcelField.class);
                 if (excelField != null && excelField.value().equals(cell)) {
-                    fieldNames.add(f.getName());
+                    fieldNames.add(f);
                     break;
                 }
             }
@@ -138,10 +158,10 @@ public class ExcelUtil {
             return new ArrayList<>();
         }
 
-        List<T> list = new ArrayList();
+        List list = new ArrayList();
         for (int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++) {
             row = sheet.getRow(i);
-            T t = clazz.newInstance();
+            Object t = clazz.newInstance();
             for (int j = 0; j < rows; j++) {
                 XSSFCell xssfCell = row.getCell(j);
                 if (xssfCell == null) {
@@ -152,8 +172,16 @@ public class ExcelUtil {
                     continue;
                 } else {
                     String result = parseExcel(xssfCell);
-                    Field field = fields.get(j);
+                    Field field = fieldNames.get(j);
                     field.set(t, result);
+                }
+            }
+            if (consumer != null) {
+
+                Object apply = consumer.apply(t);
+                if(apply==null){
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    throw new RuntimeException(objectMapper.writeValueAsString(t));
                 }
             }
             list.add(t);
