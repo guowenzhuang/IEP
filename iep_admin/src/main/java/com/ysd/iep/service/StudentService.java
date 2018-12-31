@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,7 +113,7 @@ public class StudentService {
             StudentAddDTO studentDTO= (StudentAddDTO) BeanConverterUtil.copyObject(usersStuDTO,StudentAddDTO.class);
             studentDTO.setSid(usersDB.getId());
             studentFeign.add(studentDTO);
-        }
+         }
     }
 
     public void delete(String id) {
