@@ -176,14 +176,10 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
          * 成绩表中的这个学生的考试次数
          */
         Integer examnum = performanceList.size();
-
         /**
          * 最高的成绩
          */
-
-
-
-
+        Integer[] cc = new Integer[performanceList.size()];
 
 
         return null;

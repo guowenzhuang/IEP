@@ -22,11 +22,7 @@ public interface TeacherFeign {
      * 根据课程id查询父章节
      */
     @GetMapping("/chapter/queryParentChapter")
-    Result<List<Chapters>> queryParentChapter(Integer courId);
-
-
-
-
+    Result<List<Chapters>> queryParentChapter(@RequestParam("courId") Integer courId);
 
 
 }
