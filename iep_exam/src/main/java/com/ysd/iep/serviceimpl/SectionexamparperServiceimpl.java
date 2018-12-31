@@ -2,6 +2,7 @@ package com.ysd.iep.serviceimpl;
 
 import com.ysd.iep.dao.PerformanceDao;
 import com.ysd.iep.dao.SectionexamparperDao;
+import com.ysd.iep.dao.SectionexamrubricDao;
 import com.ysd.iep.entity.Performance;
 import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.Sectionexamrubric;
@@ -30,6 +31,8 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
     private TeacherFeign teacherfeign;
     @Autowired
     PerformanceDao performancedao;
+    @Autowired
+    SectionexamrubricDao sectionexamrubricdao;
 
 
     /**
@@ -72,9 +75,11 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
 
         Sectionexamparper sectionexamparper = sectionexamparperdao.findById(parperid).orElse(null);
 
-        List<Sectionexamrubric> sectionexamrubricList = sectionexamparper.getSectionexamrubricslist();
+        /*List<Sectionexamrubric> sectionexamrubricList = sectionexamparper.getSectionexamrubricslist();*/
+        List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(parperid);
 
         List<LookparperQuery> lookparperQueries = new ArrayList<>();
+        System.out.println("题目数量****************" + sectionexamrubricList.size());
 
         for (int i = 0; i < sectionexamrubricList.size(); i++) {
 
@@ -172,7 +177,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      * 根据章节测试卷子id 学生id查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
      */
     @Override
-    public permanceFan selecttotalandnumandmaxtotal(String parperid, String studentid) {
+    public List<permanceFan> selecttotalandnumandmaxtotal(String parperid, String studentid) {
 
         List<Performance> performanceList = performancedao.selectperformanforparperidandstudentider(parperid, studentid);
         /**
@@ -204,7 +209,12 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
         Date time = performance.getCreatetime();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
 
-        return new permanceFan(examnum, min, s.format(time));
+        List<permanceFan> permanceFanList = new ArrayList<>();
+
+        permanceFan p = new permanceFan(examnum, min, s.format(time));
+
+
+        return permanceFanList;
     }
 
 

@@ -64,7 +64,7 @@ public class SectionexamparperController {
      * 根据章节测试卷子id 学生id查询出所有的成绩记录,返回测验的次数  以及最高的分数 ,以及最近一次提交的时间
      */
     @RequestMapping(value = "/selecttotalandnumandmaxtotal", method = RequestMethod.POST)
-    public permanceFan selecttotalandnumandmaxtotal(String parperid, String studentid) {
+    public List<permanceFan> selecttotalandnumandmaxtotal(String parperid, String studentid) {
         System.out.println("卷子id*********" + parperid);
         System.out.println("学生id*********" + studentid);
         return sectionexamparperservice.selecttotalandnumandmaxtotal(parperid, studentid);
