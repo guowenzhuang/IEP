@@ -29,7 +29,7 @@ public class TypeController {
 	/**
 	 * 模糊查询
 	 * @param typeName
-	 * @returnss
+	 * @returns
 	 */
 	@RequestMapping(value="queryByTypeName",method=RequestMethod.POST)
 	public Object queryByTypeName(String typeName) {
@@ -40,7 +40,7 @@ public class TypeController {
 	/**
 	 * 添加一个类型
 	 * @param typeId
-	 * @returnss
+	 * @returns
 	 */
 	@RequestMapping(value="addOneType",method=RequestMethod.POST)
 	public Object addType(String typeName,String typeDescribe) {
@@ -56,7 +56,7 @@ public class TypeController {
 	/**
 	 * 根据类型id删除类型
 	 * @param typeId
-	 * @returnss
+	 * @returns
 	 */
 	@RequestMapping(value="delType",method=RequestMethod.POST)
 	public Object delType(Integer typeId) {
@@ -80,7 +80,7 @@ public class TypeController {
 	/**
 	 * 根据类型查询帖子
 	 * @param typeId
-	 * @returnss
+	 * @returns
 	 */
 	@RequestMapping(value="upType" ,method=RequestMethod.POST)
 	public Object upType(Integer typeId,String typeName,String typeDescribe) {

@@ -67,6 +67,9 @@ public class CoursePostServiceImpl implements CoursePostService {
 		if ("replyReportnum".equals(postQuery.getOrderBy())) {
 			orderBySql.append(" , r.reply_reportnum desc");
 		}
+		if("replyNum".equals(postQuery.getOrderBy())) {
+			orderBySql.append(" , p.reply_num desc");
+		}
 
 		// 组装sql语句
 		dataSql.append(whereSql).append(orderBySql);
