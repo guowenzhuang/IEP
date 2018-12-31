@@ -13,8 +13,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class Teachers  implements Serializable{
 	@Id
 	@Column(name = "teaId", nullable = false, length = 100)
-	@GenericGenerator(name="idGenerator", strategy="uuid")
-	@GeneratedValue(generator="idGenerator")
 	private String teaId;//教师Id
 	@Column(columnDefinition="int  NULL comment '备注:教师工号'")
 	private Integer teaNumber;//教师工号
