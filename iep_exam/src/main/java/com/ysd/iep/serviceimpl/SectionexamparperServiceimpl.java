@@ -2,11 +2,17 @@ package com.ysd.iep.serviceimpl;
 
 import com.ysd.iep.dao.SectionexamparperDao;
 import com.ysd.iep.entity.Sectionexamparper;
+import com.ysd.iep.entity.Sectionexamrubric;
+import com.ysd.iep.entity.parameter.Chapters;
+import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Result;
+import com.ysd.iep.entity.parameter.SectionexamQuery;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.SectionexamparperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +25,9 @@ import java.util.List;
 public class SectionexamparperServiceimpl implements SectionexamparperService {
     @Autowired
     SectionexamparperDao sectionexamparperdao;
+    @Autowired(required = false)
+    private TeacherFeign teacherfeign;
+
 
     /**
      * 根据课程id 章节id查询 章节测试试卷
@@ -52,4 +61,106 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
             return new Result(false, "移除章节测试试卷失败", null);
         }
     }
+
+    /**
+     * 根据章节考试试卷id 查看章节测试题目
+     */
+    @Override
+    public List<LookparperQuery> selectsectionparperrubric(String parperid) {
+
+        Sectionexamparper sectionexamparper = sectionexamparperdao.findById(parperid).orElse(null);
+
+        List<Sectionexamrubric> sectionexamrubricList = sectionexamparper.getSectionexamrubricslist();
+
+        List<LookparperQuery> lookparperQueries = new ArrayList<>();
+
+        for (int i = 0; i < sectionexamrubricList.size(); i++) {
+
+            StringBuilder duoid = new StringBuilder();
+            LookparperQuery lookparperQuery = new LookparperQuery();
+            lookparperQuery.setRubrictype(sectionexamrubricList.get(i).getRubricttype());
+            lookparperQuery.setIndex(i + 1);//题目编号
+            lookparperQuery.setScore(sectionexamrubricList.get(i).getScore());//题目分数
+            lookparperQuery.setContent(sectionexamrubricList.get(i).getContent());
+
+
+            if (sectionexamrubricList.get(i).getRubricttype().equals("单选题")) {
+                lookparperQuery.setSeen(true);
+                System.out.println("此为单选题");
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("A")) {
+                        lookparperQuery.setAnswerA(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("B")) {
+                        lookparperQuery.setAnswerB(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("C")) {
+                        lookparperQuery.setAnswerC(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("D")) {
+                        lookparperQuery.setAnswerD(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+
+                    if (sectionexamrubricList.get(i).getAnswerId().equals(sectionexamrubricList.get(i).getExamanswers().get(j).getId())) {
+                        lookparperQuery.setAnswer(sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones());
+                    }
+
+                }
+
+            } else if (sectionexamrubricList.get(i).getRubricttype().equals("多选题")) {
+                lookparperQuery.setSeen(true);
+                for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("A")) {
+                        lookparperQuery.setAnswerA(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("B")) {
+                        lookparperQuery.setAnswerB(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("C")) {
+                        lookparperQuery.setAnswerC(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+                    if (sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones().equals("D")) {
+                        lookparperQuery.setAnswerD(sectionexamrubricList.get(i).getExamanswers().get(j).getContent());
+                    }
+
+                    String[] split = sectionexamrubricList.get(i).getAnswerId().split(",");
+
+
+                    for (int q = 0; q < split.length; q++) {
+                        if (split[q].equals(sectionexamrubricList.get(i).getExamanswers().get(j).getId())) {
+                            /* lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getId());*/
+                            duoid.append(sectionexamrubricList.get(i).getExamanswers().get(j).getOptiones() + " ");
+
+                        }
+                        lookparperQuery.setAnswer(duoid.toString());
+                    }
+
+                }
+
+
+            } else {
+                lookparperQuery.setSeen(false);
+                lookparperQuery.setAnswer(sectionexamrubricList.get(i).getAnswerId());
+            }
+
+            lookparperQueries.add(lookparperQuery);
+        }
+
+
+        return lookparperQueries;
+    }
+
+
+    /**
+     * 根据课程查询所有的父章节   以及根据课程id查询所有的试卷
+     */
+    @Override
+    public SectionexamQuery selectsectionandparper(Integer courseid) {
+        com.ysd.iep.util.Result<List<Chapters>> chaptersList = teacherfeign.queryParentChapter(courseid);
+        List<Sectionexamparper> sectionexamparperList = sectionexamparperdao.selectsectionparperwherecourseid(courseid);
+        return new SectionexamQuery(sectionexamparperList, chaptersList);
+
+    }
+
 }

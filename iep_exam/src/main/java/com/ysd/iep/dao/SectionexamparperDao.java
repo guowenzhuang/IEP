@@ -37,4 +37,12 @@ public interface SectionexamparperDao extends JpaRepository<Sectionexamparper, S
     @Transactional
     public Integer deletsectionforcourseidandsectionidparperid(Integer courseid, Integer sectionid, String parperid);
 
+
+    /**
+     * 根据课程查询章节下所有的章节测试
+     */
+    @Query(value = "select *from  sectionexamparper_tb  where course_id=?1", nativeQuery = true)
+    List<Sectionexamparper> selectsectionparperwherecourseid(Integer course);
+
+
 }

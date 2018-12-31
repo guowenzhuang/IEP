@@ -35,6 +35,8 @@ public class Sectionexamparper {
     private String CourseId;//课程id
     @Column(name = "createtime")
     private Date createtime;//试卷生成时间
+    @Column(name = "total", nullable = false, length = 20)
+    private Integer total;
     @Column(name = "title", nullable = false, length = 50)
     private String title;//课程id
 

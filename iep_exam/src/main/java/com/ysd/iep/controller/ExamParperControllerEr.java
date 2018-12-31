@@ -76,7 +76,7 @@ public class ExamParperControllerEr {
         try {
             String id = UUIDUtils.getUUID();
             /*弄出来一个新的考试试卷对象*/
-            Sectionexamparper sectionexamparper = sectionexamparperdao.save(new Sectionexamparper(id, examParperSerch.getSectionId(), examParperSerch.getSubject(), new Date(), examParperSerch.getTitle(), null));
+            Sectionexamparper sectionexamparper = sectionexamparperdao.save(new Sectionexamparper(id, examParperSerch.getSectionId(), examParperSerch.getSubject(), new Date(), null, examParperSerch.getTitle(), null));
             /*将考试试卷的考试试题集合置空*/
             sectionexamparper.setSectionexamrubricslist(null);
 
@@ -127,7 +127,6 @@ public class ExamParperControllerEr {
      */
     @RequestMapping(value = "/queryexamendparperwherestudentid", method = RequestMethod.POST)
     public List<Examparper> queryexamendparperwherestudentid(String studentid, Integer courseid) {
-
         return examparperserviceer.queryexamendparperwherestudentid(studentid, courseid);
     }
 
