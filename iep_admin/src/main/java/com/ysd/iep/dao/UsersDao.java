@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -45,6 +47,20 @@ public interface UsersDao extends BaseDao<UsersDB,String> {
     @Query(value = "update users set `status`=1 where id=:uuid",nativeQuery = true)
     void deleteStatus(@Param("uuid") String uuid);
 
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId and u.loginName like CONCAT('%',:name,'%')",nativeQuery = true)
+    List<UsersDB> findByRole(@Param("name") String userName,@Param("roleId") String roleId);
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId",nativeQuery = true)
+    List<UsersDB> findByRole(@Param("roleId") String roleId);
     /**
      * 根据角色id和用户姓名 分页查询
      * @param roleId
