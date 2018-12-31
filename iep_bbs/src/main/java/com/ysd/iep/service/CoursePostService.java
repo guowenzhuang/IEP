@@ -17,6 +17,13 @@ public interface CoursePostService {
 	public CourseReply getPostDetails(Integer postId, Integer parentId);
 	
 	public Integer getLikeNum(Integer replyId);
+	/**
+	 * 更新帖子点赞数
+	 * 
+	 * @param replyId
+	 * @return
+	 */
+	public Integer updateLikeNum(Integer replyId, Integer likeNum);
 	
 	/**
 	 * 发表帖子
@@ -33,5 +40,25 @@ public interface CoursePostService {
 	 * @return
 	 */
 	public List<CoursePost> getHotPost(List<Integer> courseIds);
+
+	/**
+	 * 通过帖子id获取帖子
+	 * @param postId
+	 * @return
+	 */
+	public CoursePost getPostByPostId(Integer postId);
+
+	/**
+	 * 查询帖子回复数
+	 * @param postId
+	 * @return
+	 */
+	public Integer getReplyNum(Integer postId);
+	/**
+	 * 更新帖子回复数
+	 * @param replynum
+	 * @param postId
+	 */
+	public Integer updateReplyNum(Integer replynum, Integer postId);
 
 }
