@@ -61,6 +61,14 @@ public class StudentRecordService {
             Integer cId=courseRecord.getChaid();
             List<Integer> chaIds = courseRecord.getChaIds();
             int i=chaIds.indexOf(cId);
+            List<StudentRecord> bySidAndCid = studentRecordDao.findBySidAndCid(courseRecord.getSid(), courseRecord.getCid());
+            List<Integer> chaId = bySidAndCid.stream().map(StudentRecord::getChaid).collect(Collectors.toList());
+            for (Integer c:chaId) {
+                int index=chaIds.indexOf(c);
+                if(index>i){
+                    i=index;
+                }
+            }
             courseRecord.setChaIndex(i);
         });
 

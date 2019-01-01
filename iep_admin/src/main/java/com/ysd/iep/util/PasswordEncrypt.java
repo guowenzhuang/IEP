@@ -17,4 +17,8 @@ public class PasswordEncrypt {
         String newPassword = passwordEncoder.encode(password);
         return newPassword;
     }
+
+    public static boolean judgePass(String password,String encodedPassword){
+        return passwordEncoder.matches(password,encodedPassword);
+    }
 }
