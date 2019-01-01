@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author gaohzongye
@@ -683,6 +681,7 @@ public class SectionrubricServiceimpl implements SectionrubricService {
      */
     @Override
     public Object examination(ExamUltimately examUltimately) {
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
 
 
 /*
@@ -711,12 +710,14 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 performance.setId(Id);
                 performance.setParperId(examUltimately.getExamparperId());
                 performance.setStudentId(examUltimately.getStudentId());
+                performance.setCreatetime(new Date());
                 performance.setTotal(total);
 
             } else {
                 performance.setId(Id);
                 performance.setParperId(examUltimately.getExamparperId());
                 performance.setStudentId(examUltimately.getStudentId());
+                performance.setCreatetime(new Date());
                 performance.setTotal(0);
 
             }
@@ -773,19 +774,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             e.printStackTrace();
             return new ResultEr(false, "成绩记录失败", null, null);
         }
-       /* } else {
-            Integer total = 0;
-            List<Sectionexamlog> studentexamlogs = sectionexamlogdao.selectsectionlogforparperid(examUltimately.getExamparperId());
-
-            for (int i = 0; i < studentexamlogs.size(); i++) {
-                total += studentexamlogs.get(i).getPerformance();
-            }
-            performanceer.setTotal(total);
-            performancedao.save(performanceer);
-
-
-            return new Result(true, "成绩修改成功", total);
-        }*/
 
 
     }
