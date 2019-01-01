@@ -107,17 +107,6 @@ public class UsersController {
         return usersService.query(usersQuery);
     }
 
-    @GetMapping(value="exports")
-    public void exports(UsersQuery usersQuery, HttpServletResponse response){
-        List<UsersDB> exports = usersService.exports(usersQuery);
-        try {
-            ExcelUtil.exportExcel(response,"用户.xlsx",exports);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
     @PutMapping("/updateUserField/{uuid}")
     public Result updateUserField(@PathVariable("uuid") String uuid,String fieldName,String fieldValue){
@@ -151,6 +140,19 @@ public class UsersController {
             e.printStackTrace();
         }
     }
+
+    @GetMapping(value="exports")
+    public void exports(UsersQuery usersQuery, HttpServletResponse response){
+        List<UsersDB> exports = usersService.exports(usersQuery);
+        try {
+            ExcelUtil.exportExcel(response,"用户.xlsx",exports);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     @PostMapping("import")
     public Result importUser(MultipartFile file) throws IOException {
         try {

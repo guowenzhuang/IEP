@@ -99,4 +99,6 @@ public class TeachersServiceImpl implements TeachersService {
 	public void addteacher(Teachers tea) {
 		teacherRepository.save(tea);
 	}
+
+	
 }
