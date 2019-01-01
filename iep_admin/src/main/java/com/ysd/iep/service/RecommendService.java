@@ -37,5 +37,10 @@ public class RecommendService {
         recommendDao.del(coursetId, ids);
     }
 
+    @Transactional(rollbackOn = Exception.class)
+    public void del(String coursetId){
+        recommendDao.del(coursetId);
+    }
+
 
 }

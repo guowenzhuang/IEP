@@ -68,4 +68,10 @@ public class RecommendController {
         return new Result<String>(true,"删除成功");
     }
 
+    @DeleteMapping("/delByCourId")
+    public Result<String> delByCourId(@RequestParam("coursetId") String coursetId){
+        recommendService.del(coursetId);
+        return new Result<String>(true,"删除成功");
+    }
+
 }
