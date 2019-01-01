@@ -169,8 +169,11 @@ public class TeacherService {
                 return null;
             }else{
                 String name = usersTeaDTO.getTeaDepartmentid();
-                DepartmentDB departmentDB = depDao.findByName(name);
-                usersTeaDTO.setTeaDepartmentid(departmentDB.getDepartmentId());
+                if(name!=null && (!"".equals(name.trim()))){
+                    DepartmentDB departmentDB = depDao.findByName(name);
+                    usersTeaDTO.setTeaDepartmentid(departmentDB.getDepartmentId());
+                }
+
             }
             return usersTeaDTO;
         });
