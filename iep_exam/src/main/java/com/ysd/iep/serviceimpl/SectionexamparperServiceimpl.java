@@ -179,43 +179,51 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
     @Override
     public List<permanceFan> selecttotalandnumandmaxtotal(String parperid, String studentid) {
 
-        List<Performance> performanceList = performancedao.selectperformanforparperidandstudentider(parperid, studentid);
-        /**
-         * 成绩表中的这个学生的考试次数
-         */
-        Integer examnum = performanceList.size();
-        /**
-         * 最高的成绩min
-         */
-        List<Integer> totallist = new ArrayList<>();
 
-        for (int i = 0; i < performanceList.size(); i++) {
-            totallist.add(performanceList.get(i).getTotal());
-        }
+        try {
 
 
-        Integer min = totallist.get(0);
+            List<Performance> performanceList = performancedao.selectperformanforparperidandstudentider(parperid, studentid);
+            /**
+             * 成绩表中的这个学生的考试次数
+             */
+            Integer examnum = performanceList.size();
+            /**
+             * 最高的成绩min
+             */
+            List<Integer> totallist = new ArrayList<>();
 
-        for (Integer item : totallist) {
-            if (item.intValue() > min) {
-                min = item;
+            for (int i = 0; i < performanceList.size(); i++) {
+                totallist.add(performanceList.get(i).getTotal());
             }
+
+
+            Integer min = totallist.get(0);
+
+            for (Integer item : totallist) {
+                if (item.intValue() > min) {
+                    min = item;
+                }
+            }
+            /**
+             * 取出距离当前时间最近的一次的考试记录
+             */
+            Performance performance = performancedao.mintimenowperformance(studentid, parperid);
+
+            Date time = performance.getCreatetime();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
+
+            List<permanceFan> permanceFanList = new ArrayList<>();
+
+            permanceFan p = new permanceFan(examnum, min, s.format(time));
+            permanceFanList.add(p);
+
+            return permanceFanList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        /**
-         * 取出距离当前时间最近的一次的考试记录
-         */
-        Performance performance = performancedao.mintimenowperformance(studentid, parperid);
-
-        Date time = performance.getCreatetime();
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
-
-        List<permanceFan> permanceFanList = new ArrayList<>();
-
-        permanceFan p = new permanceFan(examnum, min, s.format(time));
-        permanceFanList.add(p);
-
-
-        return permanceFanList;
     }
 
 
