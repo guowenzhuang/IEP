@@ -52,7 +52,6 @@ public class StudentRecordService {
         //查询课程
         List<StudentRecord> studentRecords = studentRecordPage.getContent();
         List<Integer> cidList = studentRecords.stream().map(StudentRecord::getCid).collect(Collectors.toList());
-        ;
         String cids = StringUtils.join(cidList, ",");
         List<Course> courses = teacherFeign.getCoursedetails(cids);
 
