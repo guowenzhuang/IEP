@@ -95,7 +95,7 @@ public class StudentService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    private void addNoCheck(UsersStuDTO usersStuDTO){
+    public void addNoCheck(UsersStuDTO usersStuDTO){
         //用户表新增
         UsersDB usersDB= (UsersDB) BeanConverterUtil.copyObject(usersStuDTO,UsersDB.class);
         RolesDB rolesDB = rolesDao.findByName("学生");
