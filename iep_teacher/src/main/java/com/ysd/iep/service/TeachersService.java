@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
-import com.ysd.iep.entity.dto.TeacherDTO;
 import com.ysd.iep.entity.dto.TeacherUserDTO;
 
 public interface TeachersService {

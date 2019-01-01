@@ -3,6 +3,11 @@ package com.ysd.iep.entity.dto;
 import javax.persistence.Column;
 
 import lombok.Data;
+/**
+ * 教师管理
+ * @author TingTing
+ *
+ */
 @Data
 public class TeacherAddDTO {
 

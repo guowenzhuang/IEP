@@ -1,5 +1,7 @@
 package com.ysd.iep.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +17,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ysd.iep.dao.DepartmentDao;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
-import com.ysd.iep.entity.dto.Result;
-import com.ysd.iep.entity.dto.StudentAddDTO;
-import com.ysd.iep.entity.dto.TeacherAddDTO;
-import com.ysd.iep.entity.dto.UsersStuDTO;
-import com.ysd.iep.entity.dto.UsersTeaDTO;
+import com.ysd.iep.entity.dto.*;
+import com.ysd.iep.entity.po.DepartmentDB;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
@@ -32,6 +33,7 @@ import com.ysd.iep.entity.vo.PagingResult;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
+import com.ysd.iep.util.ExcelUtil;
 import com.ysd.iep.util.PasswordEncrypt;
 
 @Service
@@ -41,6 +43,8 @@ public class TeacherService {
     private UsersDao usersDao;
     @Autowired
     private RolesDao rolesDao;
+    @Autowired 
+    private DepartmentDao depDao;
     @Autowired(required = false)
     private TeacherFeign teacherFeign;
     
@@ -70,12 +74,20 @@ public class TeacherService {
         pagingResult.setRows(usersTeaDTOS);
         return pagingResult;
     }
+    
+    
     @Transactional(rollbackOn = Exception.class)
     public void addTeacher(UsersTeaDTO usersteaDTO) {
     	UsersDB users = usersDao.findTopByLoginName(usersteaDTO.getLoginName());
     	if (users != null) {
             throw new DataIntegrityViolationException("用户名重复");
         }else {
+        	addNoCheck(usersteaDTO);
+        }
+    }
+    
+    @Transactional(rollbackOn = Exception.class)
+    public void addNoCheck(UsersTeaDTO usersteaDTO) {
         	//用户表新增
         	UsersDB usersDB= (UsersDB) BeanConverterUtil.copyObject(usersteaDTO,UsersDB.class);
         	RolesDB rolesDB = rolesDao.findByName("老师");
@@ -94,7 +106,7 @@ public class TeacherService {
             teacherDTO.setTeaId(save.getId());
             System.out.println("教师信息 teacherDTO.toString()ssssss>>>>>>>"+teacherDTO.toString());
             teacherFeign.addTeacher(teacherDTO);
-        }
+        
     }
     
     @Transactional(rollbackOn = Exception.class)
@@ -115,5 +127,56 @@ public class TeacherService {
     public void delete(String id) {
         usersDao.deleteById(id);
         teacherFeign.deleteTeacherById(id);
+    }
+    
+    public List<UsersTeaDTO> exports(TeacherQuery teacherQuery) {
+        String roleId=rolesDao.findByName("老师").getId();
+        List<UsersDB> usersDBS = null;
+        if(EmptyUtil.stringE(teacherQuery.getName())){
+            usersDBS=usersDao.findByRole(teacherQuery.getName(),roleId);
+        }else{
+            usersDBS=usersDao.findByRole(roleId);
+        }
+        List<String>  userIds=usersDBS.stream().map(UsersDB::getId).collect(Collectors.toList());
+        String ids = StringUtils.join(userIds, ",");
+        Result<List<UsersTeaDTO>> result = teacherFeign.get(ids);
+        List<UsersTeaDTO> usersTeaDTOS=result.getMessage();
+        for (int i = 0; i < usersTeaDTOS.size(); i++) {
+        	UsersTeaDTO ut=usersTeaDTOS.get(i);
+            UsersDB u=usersDBS.get(i);
+            BeanConverterUtil.copyObject(u,ut);
+            String depid = ut.getTeaDepartmentid();
+            if(depid!=null && (!depid.equals(""))){
+                DepartmentDB depDB = depDao.findById(depid).get();
+              //  ut.setDepName(DepartmentDB.getName());
+                ut.setTeaDepartmentid(ut.getDepName());
+            }
+        }
+        return usersTeaDTOS;
+    }
+    
+    @Transactional(rollbackOn = Exception.class)
+    public void importTeacher(MultipartFile file) throws IOException, InstantiationException, IllegalAccessException,RuntimeException {
+        ExcelUtil excelUtil = ExcelUtil.getInstance();
+        InputStream inputStream = file.getInputStream();
+        List usersTeaDTOs = excelUtil.importExcel(UsersTeaDTO.class, inputStream, item -> {
+        	UsersTeaDTO usersTeaDTO = (UsersTeaDTO) item;
+            UsersDB byLoginName = usersDao.findTopByLoginName(usersTeaDTO.getLoginName());
+            if (byLoginName != null) {
+                return null;
+            }else{
+                String name = usersTeaDTO.getTeaDepartmentid();
+                DepartmentDB departmentDB = depDao.findByName(name);
+               // usersTeaDTO.setTeaDepartmentid(DepartmentDB.getDepartmentId());
+            }
+            return usersTeaDTO;
+        });
+        importTeacher(usersTeaDTOs);
+    }
+    
+    private void importTeacher(List<UsersTeaDTO> usersTeaDTOS){
+    	usersTeaDTOS.forEach(item ->{
+            addNoCheck(item);
+        });
     }
 }
