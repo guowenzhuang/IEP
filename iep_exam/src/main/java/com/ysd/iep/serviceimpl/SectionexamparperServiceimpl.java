@@ -221,7 +221,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
             return permanceFanList;
 
         } catch (Exception e) {
-            e.printStackTrace();
+           /* e.printStackTrace();*/
             return null;
         }
     }
