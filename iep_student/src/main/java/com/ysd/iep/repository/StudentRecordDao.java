@@ -17,6 +17,9 @@ public interface StudentRecordDao extends JpaRepository<StudentRecord ,Integer> 
     @Query(value = "select * from studentrecordtb where (cid ,chaid) in (select  cid,max(chaid) chaid FROM studentrecordtb group by cid) and sid =:id order by starttime desc",nativeQuery = true)
     Page<StudentRecord> findAllMaxCha(@Param("id") String id, Pageable pageable);
 
+    List<StudentRecord> findBySidAndCid(String sid,Integer cid);
+
+
     /**
      * 根据学生id 课程id 章节id  查询学生的已经观看时间
      * @param id   学生id

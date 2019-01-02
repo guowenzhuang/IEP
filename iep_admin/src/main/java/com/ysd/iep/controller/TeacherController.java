@@ -46,7 +46,6 @@ public class TeacherController {
 	@GetMapping("/teacherQuery")
     @ApiOperation("根据教师分页查询")
     public  PagingResult<UsersTeaDTO> getTeacher(TeacherQuery teacherQuery){
-        System.out.println(teacherQuery);
         return teaService.get(teacherQuery);
     }
 	

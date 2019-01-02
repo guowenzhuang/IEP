@@ -101,6 +101,20 @@ public interface ReplyService {
 	 */
 	public Page<Reply> queryReplyByUserId(String userId,Pageable pageable);
 	
+	/**
+	 * 修改是否删除状态为1（软删除）
+	 * @param replyId
+	 * @return
+	 */
+	public Integer upReplyIsDel(Integer replyId);
+	
+	/**
+	 * 修改是否删除状态为0（还原）
+	 * @param replyId
+	 * @return
+	 */
+	public Integer upReplyIsDelO(Integer replyId);
+	
 	
 
 }

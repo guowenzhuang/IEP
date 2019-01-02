@@ -21,7 +21,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -116,7 +118,7 @@ public class ExcelUtil {
         outputStream.close();
     }
 
-    public List importExcel(Class clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException,RuntimeException {
+    public List importExcel(Class clazz, InputStream inputStream) throws IOException, IllegalAccessException, InstantiationException, RuntimeException {
         List list = importExcel(clazz, inputStream, null);
         return list;
     }
@@ -128,7 +130,7 @@ public class ExcelUtil {
      * @param inputStream 输入流
      * @return map对象 (fieldNames:列名集合,类型:List<String>) (fieldValues 参数集合 类型:List<Object[]>)
      */
-    public List<T> importExcel(Class clazz, InputStream inputStream, Function consumer) throws IOException, IllegalAccessException, InstantiationException,RuntimeException {
+    public List<T> importExcel(Class clazz, InputStream inputStream, Function function) throws IOException, IllegalAccessException, InstantiationException, RuntimeException {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         XSSFRow row;
@@ -173,13 +175,15 @@ public class ExcelUtil {
                 } else {
                     String result = parseExcel(xssfCell);
                     Field field = fieldNames.get(j);
-                    field.set(t, result);
+                    Class<?> type = field.getType();
+                    Object r = stringTo(result, type);
+                    field.set(t, r);
                 }
             }
-            if (consumer != null) {
+            if (function != null) {
 
-                Object apply = consumer.apply(t);
-                if(apply==null){
+                Object apply = function.apply(t);
+                if (apply == null) {
                     ObjectMapper objectMapper = new ObjectMapper();
                     throw new RuntimeException(objectMapper.writeValueAsString(t));
                 }
@@ -189,6 +193,33 @@ public class ExcelUtil {
         return list;
     }
 
+    /**
+     * 字符串转成指定类型
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public Object stringTo(String str, Class c) {
+        if (c == Integer.class) {
+            return Integer.valueOf(str);
+        } else if(c==Double.class){
+            return Double.valueOf(str);
+        }else if (c == String.class) {
+            return str;
+        } else if (c == Timestamp.class || c == Date.class) {
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date parse = simpleDateFormat.parse(str);
+                return parse;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
 
     /**
      * 日期转换

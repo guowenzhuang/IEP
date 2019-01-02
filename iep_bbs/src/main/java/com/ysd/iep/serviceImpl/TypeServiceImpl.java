@@ -72,5 +72,11 @@ public class TypeServiceImpl implements TypeService{
 	public Integer queryptype(Integer typeId) {
 		return typeRepository.queryptype(typeId);
 	}
+	
+	@Override
+	public Integer queryByName(String typeName) {
+		// TODO Auto-generated method stub
+		return typeRepository.queryByName(typeName);
+	}
 
 }

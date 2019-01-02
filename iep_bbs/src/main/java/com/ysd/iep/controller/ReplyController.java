@@ -231,6 +231,45 @@ public class ReplyController {
 		map.put("rows", list);
 		return map;
 	}
+	
+	/**
+	 * 软删除
+	 * @param replyId
+	 * @return
+	 */
+	@RequestMapping(value="/upReplyIsDel", method = RequestMethod.POST)
+	public Object upReplyIsDel(Integer replyId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n=replyService.upReplyIsDel(replyId);
+		if (n > 0) {
+			map.put("success", true);
+			map.put("message", "删除成功");
+		} else {
+			map.put("success", false);
+			map.put("message", "删除失败");
+		}
+		return map;
+		
+	}
+	/**
+	 * 删除后还原
+	 * @param replyId
+	 * @return
+	 */
+	@RequestMapping(value="/restoreReply", method = RequestMethod.POST)
+	public Object restoreReply(Integer replyId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n=replyService.upReplyIsDelO(replyId);
+		if (n > 0) {
+			map.put("success", true);
+			map.put("message", "还原成功");
+		} else {
+			map.put("success", false);
+			map.put("message", "还原失败");
+		}
+		return map;
+		
+	}
 
 
 }

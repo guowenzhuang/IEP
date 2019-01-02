@@ -177,5 +177,19 @@ public class ReplyServiceImpl implements ReplyService {
 				: Collections.<Reply>emptyList();
 		return new PageImpl<>(content2, pageable, total);
 	}
+	
+	
+	@Override
+	public Integer upReplyIsDel(Integer replyId) {
+		// TODO Auto-generated method stub
+		return replyRepository.upReplyIsDel(replyId);
+	}
+
+	@Override
+	public Integer upReplyIsDelO(Integer replyId) {
+		// TODO Auto-generated method stub
+		return replyRepository.upReplyIsDelO(replyId);
+	}
+
 
 }

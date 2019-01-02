@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.ysd.iep.entity.po.ClassesDB;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -68,6 +69,11 @@ public class TeacherService {
             UsersTeaDTO ut=usersTeaDTOS.get(i);
             UsersDB u=usersDBS.get(i);
             BeanConverterUtil.copyObject(u,ut);
+            String teaDepartmentid = ut.getTeaDepartmentid();
+            if(teaDepartmentid!=null && (!teaDepartmentid.equals(""))){
+                DepartmentDB departmentDB = depDao.findById(teaDepartmentid).get();
+                ut.setDepName(departmentDB.getName());
+            }
         }
         PagingResult pagingResult=new PagingResult();
         pagingResult.setTotal(byRole.getTotalElements());
@@ -102,9 +108,7 @@ public class TeacherService {
             
           //教师表新增
             TeacherAddDTO teacherDTO= (TeacherAddDTO) BeanConverterUtil.copyObject(usersteaDTO,TeacherAddDTO.class);
-            System.out.println("教师信息 teacherDTO.toString()>>>>>>>"+teacherDTO.toString());
             teacherDTO.setTeaId(save.getId());
-            System.out.println("教师信息 teacherDTO.toString()ssssss>>>>>>>"+teacherDTO.toString());
             teacherFeign.addTeacher(teacherDTO);
         
     }
@@ -148,8 +152,7 @@ public class TeacherService {
             String depid = ut.getTeaDepartmentid();
             if(depid!=null && (!depid.equals(""))){
                 DepartmentDB depDB = depDao.findById(depid).get();
-              //  ut.setDepName(DepartmentDB.getName());
-                ut.setTeaDepartmentid(ut.getDepName());
+                ut.setTeaDepartmentid(depDB.getName());
             }
         }
         return usersTeaDTOS;
@@ -166,8 +169,11 @@ public class TeacherService {
                 return null;
             }else{
                 String name = usersTeaDTO.getTeaDepartmentid();
-                DepartmentDB departmentDB = depDao.findByName(name);
-               // usersTeaDTO.setTeaDepartmentid(DepartmentDB.getDepartmentId());
+                if(name!=null && (!"".equals(name.trim()))){
+                    DepartmentDB departmentDB = depDao.findByName(name);
+                    usersTeaDTO.setTeaDepartmentid(departmentDB.getDepartmentId());
+                }
+
             }
             return usersTeaDTO;
         });

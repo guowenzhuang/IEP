@@ -69,8 +69,9 @@ public class CourseController {
 
     @ApiOperation(value = "删除课程")
     @DeleteMapping("/deleteCourseById")
-    public void deleteC(@RequestParam("courId") Integer courId) {
+    public Result deleteC(@RequestParam("courId") Integer courId) {
         courseService.deleteById(courId);
+        return new Result(true);
     }
 
     @ApiOperation(value = "增加课程")
