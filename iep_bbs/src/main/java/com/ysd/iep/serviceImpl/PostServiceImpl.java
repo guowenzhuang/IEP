@@ -167,5 +167,21 @@ public class PostServiceImpl implements PostService {
 		return new PageImpl<>(content2, pageable, total);
 		
 	}
+	
+	/**
+	 * 置顶帖子
+	 */
+	@Override
+	public Integer stickPost(Integer postId) {
+		return postRepository.stickPost(postId);
+	}
+
+	/**
+	 * 取消置顶
+	 */
+	@Override
+	public Integer cancelStick(Integer postId) {
+		return postRepository.cancelStick(postId);
+	}
 
 }

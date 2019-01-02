@@ -44,12 +44,18 @@ public class TypeController {
 	 */
 	@RequestMapping(value="addOneType",method=RequestMethod.POST)
 	public Object addType(String typeName,String typeDescribe) {
-		int n=typeService.addType(typeName,typeDescribe);
-		if(n>0) {
-			return new Result(true,"新增成功");
-		}else {
-			return new Result(false,"新增失败");
+		int sf = typeService.queryByName(typeName);
+		if (sf > 0) {
+			return new Result(false, "新增失败,类型不能相同");
+		} else {
+			int n = typeService.addType(typeName, typeDescribe);
+			if (n > 0) {
+				return new Result(true, "新增成功");
+			} else {
+				return new Result(false, "新增失败");
+			}
 		}
+
 	}
 	
 	
@@ -76,7 +82,6 @@ public class TypeController {
 		}
 	}
 	
-	//修改类型
 	/**
 	 * 根据类型查询帖子
 	 * @param typeId

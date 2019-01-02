@@ -54,8 +54,6 @@ public class Post {
 	private List<Posttype> posttypeList; //帖子分类列表
 	
 	@Transient
-	private String posttypeName;  //帖子分类名称
-	@Transient
 	private Integer replyId;
 	@Transient
 	private String replyContent;

@@ -67,5 +67,12 @@ public interface TypeService {
 	 * @return
 	 */
 	public Integer queryptype(Integer typeId);
+	
+	/**
+	 *   查询分类下名字是否相同
+	 * @param typeName
+	 * @return
+	 */
+	public Integer queryByName(String typeName);
 
 }

@@ -147,5 +147,41 @@ public class PostController {
 		map.put("rows", list);
 		return map;
 	}
+	/**
+	 * 置顶帖子 （管理员功能）
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="stickPost")
+	public Object stickPost(Integer postId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n=postService.stickPost(postId);
+		if (n > 0) {
+			map.put("success", true);
+			map.put("message", "置顶成功");
+		} else {
+			map.put("success", false);
+			map.put("message", "置顶失败");
+		}
+		return map;
+	}
 	
+	/**
+	 * 取消置顶 （管理员功能）
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="cancelStick")
+	public Object cancelStick(Integer postId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n=postService.cancelStick(postId);
+		if (n > 0) {
+			map.put("success", true);
+			map.put("message", "置顶成功");
+		} else {
+			map.put("success", false);
+			map.put("message", "置顶失败");
+		}
+		return map;
+	}
 }

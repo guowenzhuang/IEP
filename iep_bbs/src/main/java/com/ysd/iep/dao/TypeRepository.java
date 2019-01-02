@@ -81,5 +81,11 @@ public interface TypeRepository extends JpaRepository<Typetb, Integer>{
 		 */
 		@Query(value = "SELECT COUNT(1) FROM posttypetb WHERE type_id=?1", nativeQuery = true)
 		public Integer queryptype(Integer typeId);
+		
+		// 判断类型名字是否一样
+		@Query(value = "SELECT COUNT(*) FROM typetb WHERE type_name=?1", nativeQuery = true)
+		@Modifying
+		@Transactional
+		public Integer queryByName(String typeName);
 
 }
