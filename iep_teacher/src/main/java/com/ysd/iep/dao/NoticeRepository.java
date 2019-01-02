@@ -8,6 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import com.ysd.iep.entity.notice;
 
 public interface NoticeRepository extends JpaRepository<notice, Integer>{
+	/**
+	 * 根据课程id查询课程公告信息
+	 * @param courId
+	 * @return
+	 */
 	 @Query(value = "SELECT * FROM noticetb WHERE no_courid =?1 ORDER BY no_creattime DESC", nativeQuery = true)
 		public List<notice> queryNoticeByCourId(Integer courId);
 }
