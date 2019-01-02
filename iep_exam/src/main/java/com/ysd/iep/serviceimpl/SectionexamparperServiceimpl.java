@@ -75,7 +75,7 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
 
         Sectionexamparper sectionexamparper = sectionexamparperdao.findById(parperid).orElse(null);
 
-        /*List<Sectionexamrubric> sectionexamrubricList = sectionexamparper.getSectionexamrubricslist();*/
+
         List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(parperid);
 
         List<LookparperQuery> lookparperQueries = new ArrayList<>();
