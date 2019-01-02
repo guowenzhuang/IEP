@@ -221,9 +221,39 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
             return permanceFanList;
 
         } catch (Exception e) {
-           /* e.printStackTrace();*/
+            /* e.printStackTrace();*/
             return null;
         }
+    }
+
+    /**
+     * 整个试卷创建完之后操作(将总的分更新到试卷信息中)
+     */
+    @Override
+    public Object endsectionparper(String parperid) {
+        try {
+
+
+            Integer total = 0;
+            List<Sectionexamrubric> sectionexamrubricList = sectionexamrubricdao.selectsectionrubricforparperid(parperid);
+
+
+            for (int i = 0; i < sectionexamrubricList.size(); i++) {
+                total += sectionexamrubricList.get(i).getScore();
+            }
+
+            Sectionexamparper sectionexamparper = sectionexamparperdao.findById(parperid).orElse(null);
+
+            sectionexamparper.setTotal(total);
+            sectionexamparperdao.save(sectionexamparper);
+            return new Result(true, "修改成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "修改失败", null);
+
+        }
+
+
     }
 
 

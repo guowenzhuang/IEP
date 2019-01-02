@@ -297,8 +297,10 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 String answerid = "";
                 if (addrubricquery.getAnswerid().equals("true")) {
                     answerid = "正确";
+                    System.out.println("正确**********");
                 } else if (addrubricquery.getAnswerid().equals("false")) {
                     answerid = "错误";
+                    System.out.println("错误**********");
                 }
 
                 Examrubric rubric = new Examrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
@@ -912,6 +914,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         }
 
     }
+
+
+
 
 
 }
