@@ -34,4 +34,5 @@ public class CourseDTO {
     private String Ext2;
     private Integer countChaSum;
     private List<Integer> chaIds;
+
 }
