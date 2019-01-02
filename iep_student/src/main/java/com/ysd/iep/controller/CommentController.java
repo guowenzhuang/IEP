@@ -3,6 +3,7 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.CommentDTO;
 import com.ysd.iep.entity.CommentLog;
 import com.ysd.iep.entity.StudentComment;
+import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.repository.CommentLogRepository;
 import com.ysd.iep.service.CommentService;
 import com.ysd.iep.util.Result;
@@ -29,6 +30,9 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private CommentLogRepository commentLogRepository;
+    @Autowired
+    private AdminFeign adminFeign;
+
     @GetMapping("/queryOrder")
     public Page<CommentDTO> queryOrder(@RequestParam("page") Integer page,@RequestParam("size") Integer size,@RequestParam("orderBy") String orderBy){
         return commentService.queryAllPage(page, size, orderBy);
@@ -42,6 +46,11 @@ public class CommentController {
     public Object queryCommentByCid(Integer cid, Integer page, Integer size){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
+        for (StudentComment comment : rows) {
+            // 通过用户id获取用户信息
+            Result user = adminFeign.getNameById(comment.getSid());
+            comment.setUserName(user.getMessage());
+        }
         Long total = pageStu.getTotalElements();
         Map<String, Object> map = new HashMap<>();
         map.put("total", total);

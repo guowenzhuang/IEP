@@ -5,6 +5,7 @@ import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.service.SectionrubricService;
 import com.ysd.iep.util.UUIDUtils;
+import org.apache.tomcat.jni.Thread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -271,14 +272,14 @@ public class SectionrubricServiceimpl implements SectionrubricService {
 
             System.out.println("这是判断题");
             try {
-                String answerid = "";
+               /* String answerid = "";
                 if (addrubricquery.getAnswerid().equals("true")) {
                     answerid = "正确";
                 } else if (addrubricquery.getAnswerid().equals("false")) {
                     answerid = "错误";
-                }
+                }*/
 
-                Sectionexamrubric rubric = new Sectionexamrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
+                Sectionexamrubric rubric = new Sectionexamrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), addrubricquery.getAnswerid(), addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());
                 rubric.setSectionexamparper(sectionexamparperdao.findById(addrubricquery.getParperid()).get());
                 sectionexamrubricdao.save(rubric);
                 return new Result(true, "新增判断题到考试题库成功", null);
@@ -681,13 +682,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
      */
     @Override
     public Object examination(ExamUltimately examUltimately) {
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
-
-
-/*
-        Performance performanceer = performancedao.selectperformanforparperidandstudentid(examUltimately.getExamparperId(), examUltimately.getStudentId());
-*/
-        /* if (performanceer == null) {*/
 
         System.out.println("考试成绩表中记录************");
 
@@ -702,8 +696,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             List<Sectionexamlog> studentexamlogs = sectionexamlogdao.selectsectionlogforparperid(examUltimately.getExamparperId());
 
             if (studentexamlogs != null) {
-
-
                 for (int i = 0; i < studentexamlogs.size(); i++) {
                     total += studentexamlogs.get(i).getPerformance();
                 }
@@ -766,8 +758,6 @@ public class SectionrubricServiceimpl implements SectionrubricService {
             /**
              * 根据章节测试试卷id删除章节测试做题记录
              */
-
-
             return new ResultEr(true, "成绩记录成功,总分", total, sectionexamrubricList);
 
         } catch (Exception e) {

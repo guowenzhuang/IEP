@@ -165,6 +165,13 @@ public class UsersController {
             return new Result(false,e.getMessage());
         }
         return new Result(true,"导入成功");
+    }
 
+
+    @PutMapping("/updatePassword/{id}")
+    public Result<String> updatePassword(@PathVariable("id") String id,
+                                         @RequestParam("oldPass") String oldPass,
+                                         @RequestParam("password") String password){
+        return usersService.updatePassword(id, oldPass, password);
     }
 }

@@ -16,4 +16,6 @@ import java.util.List;
 public interface AdminFeign {
     @GetMapping("/user/getUserById")
     Result<List<UsersDTO>> get(@RequestParam("ids") String ids);
+    @GetMapping("/user/getNameById")
+    Result getNameById(@RequestParam("id") String id);
 }

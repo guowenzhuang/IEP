@@ -19,6 +19,7 @@ import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import com.ysd.iep.util.ExcelUtil;
 import com.ysd.iep.util.PasswordEncrypt;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
  * @author 80795
  * @date 2018/11/12 8:55
  */
+@Slf4j
 @PermissionType("用户")
 @Service
 public class UsersService {
@@ -319,5 +321,24 @@ public class UsersService {
             return usersDB;
         });
         usersDao.saveAll(usersDBS);
+    }
+
+    /**
+     * 修改密码
+     * @param id 用户id
+     * @param oldPass  旧密码
+     * @param password 新密码
+     * @return
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public  Result<String> updatePassword(String id,String oldPass,String password){
+        UsersDB usersDB = usersDao.findById(id).get();
+        if(!PasswordEncrypt.judgePass(oldPass,usersDB.getPassword())){
+            return new Result<>(false,"原密码错误");
+        }
+        password = PasswordEncrypt.encryptPassword(password);
+        //密码加密
+        usersDB.setPassword(password);
+        return new Result<>(true,"修改成功");
     }
 }

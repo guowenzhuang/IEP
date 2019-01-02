@@ -84,6 +84,19 @@ public interface PostService {
 	 * @return
 	 */
 	public Page<Post> queryPostByUserId(String userId,Pageable pageable);
+	
+	/**
+	 * 置顶帖子
+	 * @param postId
+	 * @return
+	 */
+	public Integer stickPost(Integer postId);
+	/**
+	 * 取消置顶
+	 * @param postId
+	 * @return
+	 */
+	public Integer cancelStick(Integer postId);
 
 
 }

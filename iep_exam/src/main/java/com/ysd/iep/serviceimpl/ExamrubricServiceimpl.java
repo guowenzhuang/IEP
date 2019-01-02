@@ -295,10 +295,19 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             System.out.println("这是判断题");
             try {
                 String answerid = "";
-                if (addrubricquery.getAnswerid().equals("true")) {
-                    answerid = "正确";
-                } else if (addrubricquery.getAnswerid().equals("false")) {
-                    answerid = "错误";
+
+                if (addrubricquery.getAnswerid().equals("true") || addrubricquery.getAnswerid().equals("false")) {
+
+
+                    if (addrubricquery.getAnswerid().equals("true")) {
+                        answerid = "正确";
+                        System.out.println("正确**********");
+                    } else if (addrubricquery.getAnswerid().equals("false")) {
+                        answerid = "错误";
+                        System.out.println("错误**********");
+                    }
+                } else {
+                    answerid = addrubricquery.getAnswerid();
                 }
 
                 Examrubric rubric = new Examrubric(UUIDUtils.getUUID(), null, addrubricquery.getCourse(), answerid, addrubricquery.getAddrubric(), addrubricquery.getUserid(), addrubricquery.getScore(), addrubricquery.getRubrictype());

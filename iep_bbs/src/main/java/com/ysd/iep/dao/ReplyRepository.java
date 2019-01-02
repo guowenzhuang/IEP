@@ -78,5 +78,16 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT user_id FROM replytb WHERE reply_id=?1", nativeQuery = true)
 	public String queryUserIdByReplyId(Integer replyId);
 	
+	//软删除
+	@Query(value="UPDATE replytb SET is_delete=1 WHERE reply_id=?1",nativeQuery= true)
+	@Modifying
+	@Transactional
+	public Integer upReplyIsDel(Integer replyId);
+	
+	@Query(value="UPDATE replytb SET is_delete=0 WHERE reply_id=?1",nativeQuery= true)
+	@Modifying
+	@Transactional
+	public Integer upReplyIsDelO(Integer replyId);
+	
 
 }

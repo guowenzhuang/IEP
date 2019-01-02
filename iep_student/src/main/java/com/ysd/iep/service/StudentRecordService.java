@@ -61,6 +61,14 @@ public class StudentRecordService {
             Integer cId=courseRecord.getChaid();
             List<Integer> chaIds = courseRecord.getChaIds();
             int i=chaIds.indexOf(cId);
+            List<StudentRecord> bySidAndCid = studentRecordDao.findBySidAndCid(courseRecord.getSid(), courseRecord.getCid());
+            List<Integer> chaId = bySidAndCid.stream().map(StudentRecord::getChaid).collect(Collectors.toList());
+            for (Integer c:chaId) {
+                int index=chaIds.indexOf(c);
+                if(index>i){
+                    i=index;
+                }
+            }
             courseRecord.setChaIndex(i);
         });
 
@@ -92,23 +100,25 @@ public class StudentRecordService {
             for (StudentRecord s:sr) {
                 if(s.getChaid().equals(chapter.getChaId())){
                     watch=s.getWatchtime();
+                    System.out.println(chapter);
+                    String sumTime=chapter.getChaTime();
+                    String[] split = sumTime.split("-");
+                    //小时
+                    Double hour=Double.valueOf(split[0]);
+                    //分钟
+                    Double points=Double.valueOf(split[1]);
+                    //秒
+                    Double seconds=Double.valueOf(split[2]);
+                    points+=hour*60;
+                    //总秒数
+                    seconds+=points*60;
+                    //已观看的秒数
+                    Double w=Double.valueOf(watch);
+                    chapter.setWatch(w);
+                    chapter.setProgress(w/seconds*100);
                 }
             }
-            String sumTime=chapter.getChaTime();
-            String[] split = sumTime.split("-");
-            //小时
-            Double hour=Double.valueOf(split[0]);
-            //分钟
-            Double points=Double.valueOf(split[1]);
-            //秒
-            Double seconds=Double.valueOf(split[2]);
-            points+=hour*60;
-            //总秒数
-            seconds+=points*60;
-            //已观看的秒数
-            Double w=Double.valueOf(watch);
-            chapter.setWatch(w);
-            chapter.setProgress(w/seconds*100);
+
         }else{
             List<Chapters> list=chapter.getChildren();
             list.forEach(item ->{

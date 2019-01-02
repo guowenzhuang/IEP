@@ -40,6 +40,12 @@ public interface SectionexamparperService {
      */
     List<permanceFan> selecttotalandnumandmaxtotal(String parperid, String studentid);
 
+    /**
+     * 整个试卷创建完之后操作(将总的分更新到试卷信息中)
+     */
+    Object endsectionparper(String parperid);
+
+
 
 }
 

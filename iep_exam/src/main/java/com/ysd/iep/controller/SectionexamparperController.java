@@ -70,5 +70,13 @@ public class SectionexamparperController {
         return sectionexamparperservice.selecttotalandnumandmaxtotal(parperid, studentid);
     }
 
+    /**
+     * 整个试卷创建完之后操作(将总的分更新到试卷信息中)
+     */
+    @RequestMapping(value = "/endsectionparper", method = RequestMethod.POST)
+    public Object endsectionparper(String parperid) {
+        return sectionexamparperservice.endsectionparper(parperid);
+    }
+
 
 }
