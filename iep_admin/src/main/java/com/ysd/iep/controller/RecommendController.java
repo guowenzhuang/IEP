@@ -74,4 +74,13 @@ public class RecommendController {
         return new Result<String>(true,"删除成功");
     }
 
+    @ApiOperation("根据课程id判断是否有推荐")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cid",value = "课程id",required = true,paramType = "query",dataType = "String")
+    })
+    @GetMapping("isRecommend")
+    public Result<String> isRecommend(Integer cid){
+        return recommendService.get(cid);
+    }
+
 }

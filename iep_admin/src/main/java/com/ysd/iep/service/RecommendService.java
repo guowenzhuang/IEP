@@ -2,6 +2,7 @@ package com.ysd.iep.service;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.ysd.iep.dao.RecommendDao;
+import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.po.PositionDB;
 import com.ysd.iep.entity.po.RecommendDB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,17 @@ public class RecommendService {
         recommendDao.del(coursetId);
     }
 
+    /**
+     * 根据课程id判断能不能删除
+     * @param cid
+     * @return
+     */
+    public Result<String> get(Integer cid){
+        RecommendDB byCoursetId = recommendDao.findByCoursetId(cid);
+        if(byCoursetId!=null){
+         return new Result<>(false,"课程正在推荐,请先移除推荐");
+        }
+        return new Result<>(true);
+    }
 
 }
