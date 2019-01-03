@@ -1,9 +1,13 @@
 package com.ysd.iep.dao;
 
 import com.ysd.iep.entity.po.UsersDB;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * @author 80795
@@ -42,5 +46,46 @@ public interface UsersDao extends BaseDao<UsersDB,String> {
     @Modifying
     @Query(value = "update users set `status`=1 where id=:uuid",nativeQuery = true)
     void deleteStatus(@Param("uuid") String uuid);
+
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId and u.loginName like CONCAT('%',:name,'%')",nativeQuery = true)
+    List<UsersDB> findByRole(@Param("name") String userName,@Param("roleId") String roleId);
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId",nativeQuery = true)
+    List<UsersDB> findByRole(@Param("roleId") String roleId);
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId and u.loginName like CONCAT('%',:name,'%')",nativeQuery = true)
+    Page<UsersDB> findByRole(@Param("name") String userName,@Param("roleId") String roleId,Pageable pageable);
+    /**
+     * 根据角色id和用户姓名 分页查询
+     * @param roleId
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select * from users u left join userroles u2 on u.Id = u2.UserId where u2.RoleId=:roleId",nativeQuery = true)
+    Page<UsersDB> findByRole(@Param("roleId") String roleId,Pageable pageable);
+
+    /**
+     * 根据id修改用户信息
+     * @param email
+     * @param id
+     * @return
+     */
+    @Modifying
+    @Query(value = "update users set protectEMail=:email,protectMTel=:tel WHERE Id=:id",nativeQuery = true)
+    void updateUserById(@Param("email")String email,@Param("tel")String tel,@Param("id")String id);
 
 }

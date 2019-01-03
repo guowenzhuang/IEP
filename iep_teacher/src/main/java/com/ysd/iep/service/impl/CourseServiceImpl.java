@@ -1,10 +1,14 @@
 package com.ysd.iep.service.impl;
 
+import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.dao.CourseRepository;
+import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.Course;
+import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
+import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,13 +20,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository coursedao;
+    @Autowired
+    private ChapterRepository chapterRepository;
 
     @Override
     /**
@@ -38,6 +44,10 @@ public class CourseServiceImpl implements CourseService {
                 if (EmptyUtil.stringE(courseQuery.getCourName())) {
                     predicates.add(cb.like(cardNoPath, "%" + courseQuery.getCourName() + "%"));
                 }
+                if (EmptyUtil.stringE(courseQuery.getCourTeaid())) {
+                    Path<String> teaPath = root.get("courTeaid");
+                    predicates.add(cb.equal(teaPath,courseQuery.getCourTeaid()));
+                }
                 Predicate[] p = new Predicate[predicates.size()];
                 return cb.and(predicates.toArray(p));
 
@@ -50,9 +60,9 @@ public class CourseServiceImpl implements CourseService {
         PageRequest pageRequest = null;
         if (EmptyUtil.stringE(courseQuery.getOrderBy())) {
             Sort sort = new Sort(Sort.Direction.DESC, courseQuery.getOrderBy());
-            pageRequest = PageRequest.of(courseQuery.getPage()-1, courseQuery.getPageSize(), sort);
-        }else{
-            pageRequest = PageRequest.of(courseQuery.getPage()-1, courseQuery.getPageSize());
+            pageRequest = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize(), sort);
+        } else {
+            pageRequest = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
         }
         Page<Course> c = coursedao.findAll(specification, pageRequest);
         return c;
@@ -60,16 +70,13 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-    @Override
-    public void deleteById(Integer courId) {
-        coursedao.deleteById(courId);
-    }
+
 
     /**
      * 前台课程显示
      */
     @Override
-     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
+    public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
         Specification<Course> specification = new Specification<Course>() {
 
             @Override
@@ -92,11 +99,20 @@ public class CourseServiceImpl implements CourseService {
             pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
         }
         Page<Course> course = coursedao.findAll(specification, pageable);
-         return  course;
+        return course;
 
 
     }
-
+    @Override
+    public Result deleteById(Integer courId) {
+             coursedao.deleteById(courId);
+             return new Result(true);
+    }
+    @Override
+    public Result queryChaCourid(Integer chaCourId) {
+        coursedao.queryChaCourid(chaCourId);
+        return new Result(true);
+    }
     @Override
     public Result insertCourse(Course course) {
         coursedao.save(course);
@@ -104,21 +120,63 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findByCourseId(String courId) {
-        List<Course> dd = new ArrayList<Course>();
+    public Result updateCourse(Course course) {
+
+        Course c = coursedao.getOne(course.getCourId());
+        if(EmptyUtil.stringE(course.getCourName()));
+            c.setCourName(course.getCourName());
+        if(EmptyUtil.doubleE(course.getCourPrice()));
+        c.setCourPrice(course.getCourPrice());
+        if(EmptyUtil.stringE(course.getCourPicurl()));
+        c.setCourPicurl(course.getCourPicurl());
+        if(EmptyUtil.stringE(course.getCourContent()));
+        c.setCourContent(course.getCourContent());
+        coursedao.save(c);
+        return new Result(true);
+    }
+
+    @Override
+    public List<CourseDTO> findByCourseId(String courId) {
+        List dd = new ArrayList<CourseDTO>();
         if (courId != null && courId != "") {
             String[] s = courId.split(",");
-            int[] idss = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                idss[i] = Integer.parseInt(s[i]);
-            }
-            for (Integer id : idss) {
-                Course dingyi = coursedao.findByCourseId(id);
-                dd.add(dingyi);
-            }
 
+            List<Course> byCourseIds = coursedao.findByCourseIds(s);
+            List<String> list = Arrays.asList(s);
+            byCourseIds.sort((o1, o2) -> {
+                int i1=list.indexOf(o1.getCourId()+"");
+                int i2=list.indexOf(o2.getCourId()+"");
+                System.out.println("i1"+i1);
+                System.out.println("i2"+i2);
+                return i1-i2;
+            });
+            System.out.println(byCourseIds);
+            dd= BeanConverterUtil.copyList(byCourseIds,CourseDTO.class,item -> {
+                CourseDTO courseDTO= (CourseDTO) item;
+                List<Integer> chaIds = chapterRepository.queryCountById(courseDTO.getCourId());
+                List<Integer> ids=new ArrayList<>();
+                chaIds.forEach(action -> {
+                    queryChaId(action,ids,null);
+                });
+                courseDTO.setCountChaSum(ids.size());
+                courseDTO.setChaIds(ids);
+            });
         }
         return dd;
+    }
+
+    private void queryChaId(Integer parId,List<Integer> ids,List<Integer> parIds){
+        List<Integer> list = chapterRepository.queryIdByParentId(parId);
+        if((list==null || list.size()==0) && parIds!=null){
+            if(!ids.containsAll(parIds)){
+                ids.addAll(parIds);
+            }
+        }else{
+            list.forEach(item -> {
+                queryChaId(item,ids,list);
+            });
+        }
+
     }
 
     /**
@@ -133,6 +191,13 @@ public class CourseServiceImpl implements CourseService {
         return list;
 
     }
+
+    @Override
+    public List<Integer> queryCourByteaId(List<String> teaid) {
+        return coursedao.findByCourTeaidIn(teaid).stream().map(Course::getCourId).collect(Collectors.toList());
+    }
+
+
 
 
 }

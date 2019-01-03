@@ -1,5 +1,7 @@
 package com.ysd.iep.feign;
 
+import com.ysd.iep.entity.CourseDTO;
+import com.ysd.iep.entity.parameter.Chapters;
 import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,5 +14,15 @@ import java.util.List;
 public interface TeacherFeign {
     @GetMapping("/course/queryCourByteaId")
     Result<List<Course>> getCouse(@RequestParam("teaId") String teaId);
+
+    @GetMapping("/course/findCourseById")
+    List<CourseDTO> getcoursefrocourseid(@RequestParam("teaId") String courId);
+
+    /**
+     * 根据课程id查询父章节
+     */
+    @GetMapping("/chapter/queryParentChapter")
+    Result<List<Chapters>> queryParentChapter(@RequestParam("courId") Integer courId);
+
 
 }

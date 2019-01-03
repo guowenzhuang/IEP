@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class CourseQuery {
+    private String courTeaid;
     /**
      * 院系Id
      */

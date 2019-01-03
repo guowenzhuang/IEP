@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 院系
@@ -23,4 +24,6 @@ public class DepartmentDB {
     private String departmentId;
     private String name;
     private Integer weight;
+    @OneToMany(mappedBy = "departmentDB")
+    private List<ClassesDB> classesDBS;
 }

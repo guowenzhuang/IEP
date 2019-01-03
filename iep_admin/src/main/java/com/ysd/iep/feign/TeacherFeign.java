@@ -2,12 +2,10 @@ package com.ysd.iep.feign;
 
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
-import com.ysd.iep.entity.dto.TeacherDTO;
-import com.ysd.iep.entity.query.CourseQuery;
+import com.ysd.iep.entity.dto.TeacherAddDTO;
+import com.ysd.iep.entity.dto.UsersTeaDTO;
 import com.ysd.iep.entity.vo.PagingResult;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +17,9 @@ import java.util.Map;
  */
 @FeignClient("IEP-TEACHER")
 public interface TeacherFeign {
+
+    @GetMapping("/tea")
+    Result<List<UsersTeaDTO>> get(@RequestParam("teaid") String teaids);
     /**
      * 根据课程id查询课程
      *
@@ -51,4 +52,7 @@ public interface TeacherFeign {
      */
     @DeleteMapping("/tea/deleteTeacherById")
     Result<String> deleteTeacherById(@RequestParam("teacherId") String teacherId);
+    
+    @PostMapping("/tea/addTeachers")
+    public Result<String> addTeacher(@RequestBody TeacherAddDTO tea);
 }

@@ -3,8 +3,7 @@ package com.ysd.iep.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ysd.iep.entity.notice;
 import com.ysd.iep.entity.dto.Result;
@@ -25,10 +24,42 @@ public class NoticeController {
      * @return
      */
     @ApiOperation(value = " 根据课程id查询课程公告信息")
-    @RequestMapping("/queryNoticeByCourId")
-    public Result<List<notice>> queryNoticeByCourId(Integer courId) {
-    	return new Result<List<notice>>(true,noticeService.queryNoticeByCourId(courId));  
+    @GetMapping("/queryNoticeByCourId")
+    public Result<List<notice>> queryNoticeByCourId(@RequestParam("courId")Integer courId) {
+    	return new Result<List<notice>>(true,noticeService.queryNoticeByCourId(courId));
+    }
+    
+    /**
+     * 发布公告(添加)
+     * @param notice
+     * @return
+     */
+    @ApiOperation(value = "教师发布公告")
+    @PostMapping("/insertNotice")
+    public Result insertNotice(notice notice) {
+    	noticeService.insertNotice(notice);
+    	return new Result(true);
+    }
+    
+    /**
+     * 根据id删除公告
+     * @param noId
+     */
+    @ApiOperation(value = "教师删除公告")
+    @DeleteMapping("/deleteNoticeBynoId")
+    public void deleteNoticeBynoId(@RequestParam("noId")Integer noId) {
+    	noticeService.deleteNoticeBynoId(noId);
     }
 
-
+    /**
+     * 修改公告
+     * @param notice
+     * @return
+     */
+    @ApiOperation(value = "教师修改公告")
+    @PutMapping("/updateNotice")
+    public Result updateNotice(notice notice) {
+    	noticeService.updateNotice(notice);
+    	return new Result(true);
+    }
 }

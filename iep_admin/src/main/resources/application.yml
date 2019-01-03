@@ -27,6 +27,7 @@ eureka:
     prefer-ip-address: true
 ribbon.ReadTimeout: 120000
 ribbon.ConnectTimeout: 30000
+
 #debug
 #logging:
 #  level:

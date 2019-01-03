@@ -24,7 +24,8 @@ eureka:
   cloud:
     config:
       allow-override: true
-
+ribbon.ReadTimeout: 120000
+ribbon.ConnectTimeout: 30000
 
 #debug
 #logging:

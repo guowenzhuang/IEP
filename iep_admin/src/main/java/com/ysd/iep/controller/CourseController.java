@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+
 /**
  * @author 80795
  * @date 2018/11/12 8:55
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CourseController {
     @Autowired
     private CourseService service;
+
     @ApiOperation("分页查询课程")
     @GetMapping
     public PagingResult<CourseDTO> query(CourseQuery courseQuery) {

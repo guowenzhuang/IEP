@@ -76,5 +76,9 @@ public class CourseDTO {
      * 课程评价
      */
     private Integer courCommentcount;
+    /**
+     * 是否推荐
+     */
+    private Boolean isRecommend;
 
 }

@@ -250,7 +250,7 @@ public class RubricServiceimpl implements RubricService {
      * @return
      */
     @Override
-    public Object addrubric(AddrubricQuery addrubricquery) {
+    public Result addrubric(AddrubricQuery addrubricquery) {
         if (addrubricquery.getRubrictype().equals("单选题")) {
             String answerid = null;
             List<String> idlist = new ArrayList<>();

@@ -8,10 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity          //使用默认类名
 @Table(name = "coursetb")
@@ -25,8 +23,6 @@ public class Course implements Serializable{
 	private String courName;
 	@Column(columnDefinition="varchar(100) not NULL comment '备注:课程所属用户(教师)'")
 	private String courTeaid;
-	@Column(columnDefinition="varchar(100)  not null comment '备注:院系Id(外键)'")
-	private String courDepid;
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:课程图片地址'")
 	private String courPicurl;
 	@Column(columnDefinition="double  NULL  DEFAULT 0.0 comment '备注:课程价格'")
@@ -49,8 +45,16 @@ public class Course implements Serializable{
 	private String courPropaedeutics;//预备知识
 	@Column(columnDefinition="char(2) DEFAULT 0  NULL comment '备注:是否上架(0:否 1:是)'")
 	private String courIsputaway;//是否上架
-	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'")
+	@Column(columnDefinition="varchar(50)  NULL comment '备注:开课时间'")
+	private String courOpentime;//开课时间
+	@Column(columnDefinition="varchar(50)  NULL comment '备注:学 时'")
+	private String courClasshour;//学时
+	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'") 
 	private Integer courCommentcount;//课程评价数量
+	@Column(columnDefinition="int DEFAULT 0  NULL comment '备注:报名人数'")
+	private Integer courStudypeople;//报名人数
+	@Column(columnDefinition="int   NULL comment '备注:学分'") 
+	private Integer courMark;
 	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 

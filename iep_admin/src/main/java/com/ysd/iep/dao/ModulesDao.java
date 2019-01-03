@@ -46,6 +46,6 @@ public interface ModulesDao extends BaseDao<ModulesDB,Integer> {
     List<Integer> findModuleIds(@Param(("roleId")) String roleId);
 
     @Modifying
-    @Query("update modules set status =1 where id=:id")
-    void deleteModule(@Param("id") Integer id);
+    @Query("update ModulesDB set status=1 where id=:id")
+    void deleteModule(@Param("id")Integer id);
 }

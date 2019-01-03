@@ -1,26 +1,40 @@
 package com.ysd.iep.controller;
 
+import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.Result;
-
+import com.ysd.iep.entity.dto.TeacherDTO;
+import com.ysd.iep.entity.dto.TeacherUserDTO;
+import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.TeachersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Api(value="/tea", tags="教师")
 @RestController
 @RequestMapping("/tea")
 public class TeachersController {
     @Autowired
-  private TeachersService teachersService;
+    private TeachersService teachersService;
+    @Autowired
+    private AdminFeign adminFeign;
+    @Autowired
+    private TeacherRepository teaRep;
+
+    @GetMapping
+    public Result<List<Teachers>> get(@RequestParam("teaid") String teaids){
+        String[] ids=teaids.split(",");
+        List<Teachers> teachers=teaRep.findById(ids);
+        return new Result<List<Teachers>>(true,teachers);
+    }
+
     @ApiOperation(value = "增加老师")
     @PostMapping("/addTeacher")
     public Result<String> AddTeacher(@RequestParam("teaId") String teaId){
@@ -30,7 +44,7 @@ public class TeachersController {
     	}else {
     		return new Result(false,"失败");
     	}
-        
+      
     }
     @ApiOperation(value = "根据id删除老师")
     @DeleteMapping("/deleteTeacherById")
@@ -39,4 +53,39 @@ public class TeachersController {
 		return new Result(true).setMessage("成功");
     	
     }
+
+    @ApiOperation(value = "查询老师信息")
+    @GetMapping("/QueryTeacher")
+    public Result<List<TeacherUserDTO>> QueryTeacher() { 
+		return new Result(true,teachersService.getTeaUser());
+    }
+    
+    @ApiOperation(value = "根据教师Id查询老师信息")
+    @GetMapping("/QueryTeacherByid")
+    public Result<TeacherUserDTO> QueryTeacherByid(String id) {
+		return new Result(true,teachersService.queryTeaUserById(id));
+    }
+
+    @ApiOperation(value = "根据教师Id修改老师信息")
+    @PutMapping("/updateTeacher")
+    public Result<String> updateTeacher(@RequestBody TeacherUserDTO teauser){
+    	System.out.println(teauser);
+    	Result<String> user = adminFeign.updateUserById(teauser.getId(),teauser);
+    	 teachersService.updateTeacher(teauser);
+		return new Result(true).setMessage("成功");
+    }
+    
+    @ApiOperation(value = "新增教师信息(管理员)")
+    @PostMapping("/addTeachers")
+    public Result<String> addTeacher(@RequestBody Teachers tea){
+    	System.out.println(tea);
+    	try {
+    		teachersService.addteacher(tea);
+			return new Result(true, "添加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(true, "添加失败");
+		}
+    }
+
 }

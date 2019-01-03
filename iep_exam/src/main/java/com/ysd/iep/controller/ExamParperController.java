@@ -1,11 +1,14 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.Examparper;
+import com.ysd.iep.entity.parameter.Chapters;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entitySerch.ExamParperSerch;
 import com.ysd.iep.feign.Course;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.ExamparperService;
+import com.ysd.iep.serviceimpl.ExamparperServiceImpl;
+import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,8 @@ public class ExamParperController {
 
     @Autowired
     private TeacherFeign teacherFeign;
+    @Autowired
+    private ExamparperServiceImpl examparperServiceImpl;
 
     /***
      * 试卷管理的多条件分页显示
@@ -84,6 +89,29 @@ public class ExamParperController {
     public com.ysd.iep.util.Result<List<Course>> getCouse(String userid) {
         return teacherFeign.getCouse(userid);
     }
+
+    /**
+     * 根据课程id获取父章节
+     *
+     * @param courId
+     * @return
+     */
+    @GetMapping("queryParentChapter")
+    public com.ysd.iep.util.Result<List<Chapters>> getsection(Integer courId) {
+        return teacherFeign.queryParentChapter(courId);
+    }
+
+
+    /***
+     * 查询本门课程下未开考的试卷
+     * @param subject
+     * @return
+     */
+    @GetMapping("/querySubjectType")
+    public Object querySubjectType(String subject) {
+        return examparperServiceImpl.querySubjectType(subject);
+    }
+
 
 
 }
