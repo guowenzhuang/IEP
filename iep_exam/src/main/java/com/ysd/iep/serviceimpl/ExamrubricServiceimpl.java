@@ -4,6 +4,10 @@ package com.ysd.iep.serviceimpl;
 import com.ysd.iep.dao.*;
 import com.ysd.iep.entity.*;
 import com.ysd.iep.entity.parameter.*;
+import com.ysd.iep.feign.AdminFrign;
+import com.ysd.iep.feign.Course;
+import com.ysd.iep.feign.StudentFrign;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.service.ExamrubricService;
 import com.ysd.iep.util.SecondformDate;
 import com.ysd.iep.util.UUIDUtils;
@@ -37,6 +41,10 @@ public class ExamrubricServiceimpl implements ExamrubricService {
     StudentexamlogDao studentexamlogdao;
     @Autowired
     PerformanceDao performancedao;
+    @Autowired(required = false)
+    private StudentFrign studentFrign;
+    @Autowired(required = false)
+    private TeacherFeign teacherFeign;
 
 
     /**
@@ -898,9 +906,16 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                         //成绩合格
                         performance.setIsqualified("合格");
                         qualified = "合格";
+                        com.ysd.iep.util.Result<Course> result = teacherFeign.queryCourByid(examUltimately.getCourseid());
+                        int stuscore = result.getMessage().getCourMark();
+
+                        //记录学生学分
+                        studentFrign.updateCredits(stuscore, examUltimately.getStudentId());
+
                     } else {
                         performance.setIsqualified("不合格");
                         qualified = "不合格";
+                        studentFrign.updateCredits(0, examUltimately.getStudentId());
                     }
                     Map<Integer, String> ccc = new HashMap<>();
                     ccc.put(total, qualified);
@@ -926,9 +941,15 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 if (total > examparper1.getPassingScore()) {
                     performanceer.setIsqualified("合格");
                     qualified = "合格";
+                    com.ysd.iep.util.Result<Course> result = teacherFeign.queryCourByid(examUltimately.getCourseid());
+                    int stuscore = result.getMessage().getCourMark();
+
+                    //记录学生学分
+                    studentFrign.updateCredits(stuscore, examUltimately.getStudentId());
                 } else {
                     performanceer.setIsqualified("不合格");
                     qualified = "不合格";
+                    studentFrign.updateCredits(0, examUltimately.getStudentId());
                 }
                 Map<Integer, String> ccc = new HashMap<>();
                 ccc.put(total, qualified);
