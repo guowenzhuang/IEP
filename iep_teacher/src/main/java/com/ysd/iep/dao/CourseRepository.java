@@ -1,6 +1,8 @@
 package com.ysd.iep.dao;
 
 
+import com.ysd.iep.entity.dto.CourseDTO;
+import com.ysd.iep.entity.dto.Result;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -53,6 +55,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	public List<Course> queryCourByDepId(List<String> teaids);
 
 	List<Course> findByCourTeaidIn(List<String> teaid);
-
+	/**
+	 * 查询课程下的章节
+	 *//*
+	@Query(value = "select cour_id from coursetb where cour_id  in  (select cha_courid from chaptertb)",nativeQuery = true)
+   public List<Course> queryCourseChidCha(Integer courId, Integer chacourid);*/
 
 }

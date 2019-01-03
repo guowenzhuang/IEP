@@ -21,9 +21,9 @@ public interface CourseService {
 
     /**
      * 删除课程
-     * @param courId 课程id
+     * @param
      */
-     void deleteById(Integer courId);
+    Result deleteById(Integer courId);
 
      /**
       * 课程的分页查询(前台)

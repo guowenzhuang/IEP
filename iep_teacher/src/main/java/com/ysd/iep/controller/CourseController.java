@@ -10,6 +10,7 @@ import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.service.TeachersService;
+import com.ysd.iep.util.EmptyUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -69,9 +70,10 @@ public class CourseController {
 
     @ApiOperation(value = "删除课程")
     @DeleteMapping("/deleteCourseById")
-    public Result deleteC(@RequestParam("courId") Integer courId) {
+    public Result deleteC(Integer courId) {
+
         courseService.deleteById(courId);
-        return new Result(true);
+           return new Result(true);
     }
 
     @ApiOperation(value = "增加课程")
