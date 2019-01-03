@@ -46,5 +46,13 @@ public interface ChapterRepository extends JpaRepository<Chapters, Integer>{
     @Query(value = "SELECT cha_id FROM chaptertb WHERE cha_parentid=?1 order by cha_id", nativeQuery = true)
     List<Integer> queryIdByParentId(Integer parentId);
 
+	/**
+	 * 根据课程id查询是否有
+	 * @param courId
+	 * @return
+	 */
+	@Query(value = "SELECT cha_id FROM chaptertb WHERE cha_courid=:courId", nativeQuery = true)
+	List<Integer> findByChaCourid(@Param("courId") Integer courId);
+
 
 }

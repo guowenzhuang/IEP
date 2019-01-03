@@ -44,4 +44,11 @@ public interface ChapterService {
 	Result queryCountById(Integer chaCourid);
 
     Chapters get(Integer id);
+
+	/**
+	 * 根据课程id判断是否有章节
+	 * @param cid
+	 * @return
+	 */
+    Result<String> findByCid(Integer cid);
 }

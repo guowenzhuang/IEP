@@ -212,7 +212,8 @@ public class ExamparperServiceImpl implements ExamparperService {
                 .setFillnum(examParperSerch.getFillnum())
                 .setMultiplenum(examParperSerch.getMultiplenum())
                 .setTecherId(examParperSerch.getTeacherId())
-                .setCreatetime(new Date());
+                .setCreatetime(new Date())
+                .setPassingScore(examParperSerch.getPassingScore());
         Examparper examparper1 = examparperDao.save(examparper);//新增一个试卷
         Result result = this.randomrubric(examparper1, examParperSerch);//调用随机生成试题方法
         if (result.isSuccess()) {

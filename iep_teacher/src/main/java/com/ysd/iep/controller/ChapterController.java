@@ -69,4 +69,9 @@ public class ChapterController {
         chapterService.queryCountById(chaCourid);
         return new Result(true);
     }
+
+    @GetMapping("/judgeChapter")
+    public Result<String> judgeChapter(Integer cid){
+        return chapterService.findByCid(cid);
+    }
 }

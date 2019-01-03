@@ -64,4 +64,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Query(value = "select cha_id from chaptertb where  cha_courid=?1 ", nativeQuery = true)
 	Integer queryChaCourid(Integer chaCourId);
 
+
 }

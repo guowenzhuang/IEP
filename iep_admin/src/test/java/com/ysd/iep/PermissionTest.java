@@ -19,19 +19,19 @@ import java.util.List;
  * @author 80795
  * @date 2018/11/12 8:55
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class PermissionTest {
-    @Autowired
+  /*  @Autowired
     private PermissionService permissionService;
     @Autowired
     private PermissionDao permissionDao;
     @Autowired
     private RolesDao rolesDao;
 
-    /**
+    *//**
      * 更新所有权限
-     */
+     *//*
     @Test
     public void contextLoads() {
         System.out.println("执行前");
@@ -39,9 +39,9 @@ public class PermissionTest {
         System.out.println("执行结束");
     }
 
-    /**
+    *//**
      * 给管理员增加全部权限
-     */
+     *//*
     @Test
     public void initPermission(){
         //管理员id
@@ -59,5 +59,5 @@ public class PermissionTest {
         for (Method method:methods) {
             System.out.println(method);
         }
-    }
+    }*/
 }

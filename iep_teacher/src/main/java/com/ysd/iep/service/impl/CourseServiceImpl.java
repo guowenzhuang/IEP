@@ -108,11 +108,7 @@ public class CourseServiceImpl implements CourseService {
              coursedao.deleteById(courId);
              return new Result(true);
     }
-    @Override
-    public Result queryChaCourid(Integer chaCourId) {
-        coursedao.queryChaCourid(chaCourId);
-        return new Result(true);
-    }
+
     @Override
     public Result insertCourse(Course course) {
         coursedao.save(course);
@@ -127,6 +123,8 @@ public class CourseServiceImpl implements CourseService {
             c.setCourName(course.getCourName());
         if(EmptyUtil.doubleE(course.getCourPrice()));
         c.setCourPrice(course.getCourPrice());
+        if(EmptyUtil.intE(course.getCourMark()));
+        c.setCourMark(course.getCourMark());
         if(EmptyUtil.stringE(course.getCourPicurl()));
         c.setCourPicurl(course.getCourPicurl());
         if(EmptyUtil.stringE(course.getCourContent()));

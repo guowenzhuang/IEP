@@ -32,6 +32,10 @@ public class Performance {
     private String parperId;//考试试卷id(章节测试试卷id)
     @Column(name = "createtime", nullable = true, length = 50)
     private Date createtime;//考试试卷id(章节测试试卷id)
+    @Column(name = "isqualified", nullable = true, length = 50)
+    private String isqualified;//考试是否合格()
+
+
 
 
     public Performance(String id, String studentId, Integer total, String parperId) {

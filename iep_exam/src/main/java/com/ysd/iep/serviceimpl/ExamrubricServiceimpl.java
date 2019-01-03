@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author gaozhongye
@@ -886,19 +883,30 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                         performance.setParperId(examUltimately.getExamparperId());
                         performance.setStudentId(examUltimately.getStudentId());
                         performance.setTotal(total);
-
                     } else {
                         performance.setId(Id);
                         performance.setParperId(examUltimately.getExamparperId());
                         performance.setStudentId(examUltimately.getStudentId());
                         performance.setTotal(0);
-
                     }
                     /**
                      * 记录考试总成绩
                      */
+                    Examparper examparper1 = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
+                    String qualified = "";
+                    if (total > examparper1.getPassingScore()) {
+                        //成绩合格
+                        performance.setIsqualified("合格");
+                        qualified = "合格";
+                    } else {
+                        performance.setIsqualified("不合格");
+                        qualified = "不合格";
+                    }
+                    Map<Integer, String> ccc = new HashMap<>();
+                    ccc.put(total, qualified);
+
                     performancedao.save(performance);
-                    return new Result(true, "成绩记录成功,总分", total);
+                    return new Result(true, "成绩记录成功,总分", ccc);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -912,8 +920,22 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     total += studentexamlogs.get(i).getPerformance();
                 }
                 performanceer.setTotal(total);
+                String qualified = "";
+                Examparper examparper1 = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
+
+                if (total > examparper1.getPassingScore()) {
+                    performanceer.setIsqualified("合格");
+                    qualified = "合格";
+                } else {
+                    performanceer.setIsqualified("不合格");
+                    qualified = "不合格";
+                }
+                Map<Integer, String> ccc = new HashMap<>();
+                ccc.put(total, qualified);
+
                 performancedao.save(performanceer);
-                return new Result(true, "成绩修改成功", null);
+
+                return new Result(true, "成绩修改成功", ccc);
             }
 
         } else {

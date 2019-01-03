@@ -31,6 +31,5 @@ public class StudentTest {
         studentRecord.setChaid(2);
         studentRecord.setCredits(10);
         studentRecord.setStarttime(new Date());
-        studentRecordDao.save(studentRecord);
     }
 }
