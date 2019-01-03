@@ -21,9 +21,9 @@ public interface CourseService {
 
     /**
      * 删除课程
-     * @param courId 课程id
+     * @param
      */
-     void deleteById(Integer courId);
+    Result deleteById(Integer courId);
 
      /**
       * 课程的分页查询(前台)
@@ -63,4 +63,11 @@ public interface CourseService {
 
 
     List<Integer> queryCourByteaId(List<String> teaIdByDepartmentId);
+
+    /**
+     * 根据课程id查询有咩有章节
+     * @param chaCourId
+     * @return
+     */
+    Result queryChaCourid(Integer chaCourId);
 }

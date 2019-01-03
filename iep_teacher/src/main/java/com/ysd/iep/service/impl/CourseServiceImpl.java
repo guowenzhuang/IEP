@@ -2,6 +2,7 @@ package com.ysd.iep.service.impl;
 
 import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.dao.CourseRepository;
+import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
@@ -69,10 +70,7 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-    @Override
-    public void deleteById(Integer courId) {
-        coursedao.deleteById(courId);
-    }
+
 
     /**
      * 前台课程显示
@@ -105,7 +103,16 @@ public class CourseServiceImpl implements CourseService {
 
 
     }
-
+    @Override
+    public Result deleteById(Integer courId) {
+             coursedao.deleteById(courId);
+             return new Result(true);
+    }
+    @Override
+    public Result queryChaCourid(Integer chaCourId) {
+        coursedao.queryChaCourid(chaCourId);
+        return new Result(true);
+    }
     @Override
     public Result insertCourse(Course course) {
         coursedao.save(course);
@@ -189,6 +196,8 @@ public class CourseServiceImpl implements CourseService {
     public List<Integer> queryCourByteaId(List<String> teaid) {
         return coursedao.findByCourTeaidIn(teaid).stream().map(Course::getCourId).collect(Collectors.toList());
     }
+
+
 
 
 }

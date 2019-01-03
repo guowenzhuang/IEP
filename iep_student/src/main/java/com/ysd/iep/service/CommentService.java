@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import com.ysd.iep.entity.CommentDTO;
 import com.ysd.iep.entity.StudentComment;
 
+import java.util.List;
+
 /**
  * 课程评价
  * @author ASUS
@@ -44,7 +46,7 @@ public interface CommentService {
 	 * @return
 	 */
 	public int updatePraise(Integer mid, Integer praise);
-	
-	
+
+	public List<StudentComment> findByCid(Integer cid);
 
 }

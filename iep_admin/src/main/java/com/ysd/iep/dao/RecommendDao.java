@@ -50,6 +50,12 @@ public interface RecommendDao extends BaseDao<RecommendDB, String> {
     @Query(value = "delete from recommend where coursetId=:cid",nativeQuery = true)
     void del(@Param("cid") String coursetId);
 
+    /**
+     * 根据课程id查找推荐
+     * @param cid
+     * @return
+     */
+    RecommendDB findByCoursetId(Integer cid);
 
 
 }

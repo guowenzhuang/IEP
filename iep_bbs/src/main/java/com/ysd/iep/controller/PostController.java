@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysd.iep.entity.CoursePost;
+import com.ysd.iep.entity.CourseReply;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
@@ -66,11 +68,6 @@ public class PostController {
 			// 通过用户id获取用户信息
 			Result user = adminFeign.getNameById(post.getUserId());
 			post.setUserName(user.getMessage());
-			//如果帖子被删除显示该贴已被删除，不能查看
-			if(post.getIsDelete()) {
-				post.setPostTitle("该贴已被删除，不能查看");
-				post.setReplyContent("该贴已被删除，不能查看");
-			}
 		}
 		map.put("total", total);
 		map.put("rows", list);
@@ -189,4 +186,19 @@ public class PostController {
 		}
 		return map;
 	}
+	
+	@RequestMapping(value="getPostDetailsByPostId")
+	public Object getPostDetailsByPostId(Integer postId) {
+		
+		Post post=postService.getPostByPostId(postId);
+		Reply postDetails = postService.getPostDetails(postId, 0);
+		BeanUtils.copyProperties(postDetails, post);
+		Result user = adminFeign.getNameById(postDetails.getUserId());
+		post.setUserName(user.getMessage());
+		
+		Integer replynum=postService.getReplyNum(postId);
+		post.setReplyNum(replynum);
+		return post;
+	}
+	
 }

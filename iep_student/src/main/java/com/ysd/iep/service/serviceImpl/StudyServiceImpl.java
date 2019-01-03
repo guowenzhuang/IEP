@@ -6,6 +6,8 @@ import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudyServiceImpl implements StudyService {
     @Autowired
@@ -30,6 +32,10 @@ public class StudyServiceImpl implements StudyService {
       }catch (Exception e){
           return new Result(true,"学习记录失败");
       }
+    }
+
+    public List<StudentRecord> findByCid(Integer cid){
+        return studyRepository.findByCid(cid);
     }
 
 }

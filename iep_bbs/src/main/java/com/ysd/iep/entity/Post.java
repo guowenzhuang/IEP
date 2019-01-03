@@ -74,6 +74,8 @@ public class Post {
 	private Object userName;
 	@Transient
 	private Boolean isDelete;
+	@Transient
+	private Integer replyNum;
 	
 	
 	

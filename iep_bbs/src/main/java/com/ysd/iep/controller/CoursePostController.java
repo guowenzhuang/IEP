@@ -77,7 +77,7 @@ public class CoursePostController {
 	}
 	
 	/**
-	 * 根据帖子id获取帖子详情
+	 *   根据帖子id获取帖子详情
 	 * @return
 	 */
 	@RequestMapping(value="getPostDetailsByPostId")
@@ -142,5 +142,6 @@ public class CoursePostController {
 		}
 		return postList;
 	}
+	
 
 }

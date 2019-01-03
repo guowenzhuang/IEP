@@ -89,5 +89,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Transactional
 	public Integer upReplyIsDelO(Integer replyId);
 	
+	@Query(value = "SELECT COUNT(1) FROM replytb r WHERE r.reply_parentid <> 0 AND  r.post_id=?1", nativeQuery = true)
+	public Integer getReplyNum(Integer postId);
+	
 
 }

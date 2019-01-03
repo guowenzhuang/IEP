@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -148,6 +149,21 @@ public class CourseReplyController {
 			}	
 		}
 		return map;
+	}
+	
+	/**
+	 * 判断课程下是否有讨论
+	 * @param courseId
+	 * @return
+	 */
+	@GetMapping(value = "getCoursePostNum")
+	public Object getCoursePostNum(Integer courseId) {
+		int n=replyService.getCoursePostNum(courseId);
+		if(n>0) {
+			return new Result(false, "此课程有讨论，不能删除！");
+		}else {
+			return new Result(true, "此课程可以删除！");
+		}
 	}
 
 }

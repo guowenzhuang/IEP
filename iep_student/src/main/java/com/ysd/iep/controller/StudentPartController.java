@@ -5,6 +5,7 @@ import com.ysd.iep.entity.StudentPartCid;
 import com.ysd.iep.service.StudentPartService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,5 +89,8 @@ public class StudentPartController {
 			return new Result(false, "删除失败");
 		}
 	}
+
+
+
 
 }
