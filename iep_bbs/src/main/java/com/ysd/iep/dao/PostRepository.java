@@ -21,5 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>, JpaSpecifi
 	 @Modifying
 	 @Transactional
 	 public Integer cancelStick(Integer postId);
+	 
+	 public Post findByPostId(Integer postId);
 
 }

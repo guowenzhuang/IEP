@@ -58,4 +58,7 @@ public interface CourseReplyRepository extends JpaRepository<CourseReply, Intege
 	
 	@Query(value = "SELECT COUNT(1) FROM coursereplytb r WHERE r.reply_parentid <> 0 AND  r.post_id=?1", nativeQuery = true)
 	public Integer getReplyNum(Integer postId);
+	
+	@Query(value = "SELECT COUNT(1) FROM coursereplytb WHERE course_id=?1", nativeQuery = true)
+	public Integer getCoursePostNum(Integer courseId);
 }

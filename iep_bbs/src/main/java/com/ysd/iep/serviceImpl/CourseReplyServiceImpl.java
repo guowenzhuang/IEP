@@ -123,5 +123,10 @@ public class CourseReplyServiceImpl implements CourseReplyService {
 	public Integer deleteLike(String userId, Integer replyId) {
 		return replyRepository.deleteLike(userId, replyId);
 	}
+	
+	@Override
+	public Integer getCoursePostNum(Integer courseId) {
+		return replyRepository.getCoursePostNum(courseId);
+	}
 
 }
