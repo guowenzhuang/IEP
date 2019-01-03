@@ -108,11 +108,7 @@ public class CourseServiceImpl implements CourseService {
              coursedao.deleteById(courId);
              return new Result(true);
     }
-    @Override
-    public Result queryChaCourid(Integer chaCourId) {
-        coursedao.queryChaCourid(chaCourId);
-        return new Result(true);
-    }
+
     @Override
     public Result insertCourse(Course course) {
         coursedao.save(course);

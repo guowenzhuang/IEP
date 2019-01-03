@@ -56,12 +56,4 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 
 	List<Course> findByCourTeaidIn(List<String> teaid);
 
-	/**
-	 * 根据课程id查询章节id
-	 * @param
-	 * @return
-	 */
-	@Query(value = "select cha_id from chaptertb where  cha_courid=?1 ", nativeQuery = true)
-	Integer queryChaCourid(Integer chaCourId);
-
 }

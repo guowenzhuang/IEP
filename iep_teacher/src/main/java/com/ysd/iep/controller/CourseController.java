@@ -71,10 +71,8 @@ public class CourseController {
     @ApiOperation(value = "删除课程")
     @DeleteMapping("/deleteCourseById")
     public Result deleteC(Integer courId,Integer chaCourId) {
-        courseService.queryChaCourid(chaCourId);
-        if(chaCourId.equals(courId)){
-            return new Result(false);
-        }
+
+
         courseService.deleteById(courId);
            return new Result(true);
     }
