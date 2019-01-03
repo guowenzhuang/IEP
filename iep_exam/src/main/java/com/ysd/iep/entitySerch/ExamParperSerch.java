@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 
 @Data
 @AllArgsConstructor
@@ -26,6 +28,7 @@ public class ExamParperSerch {
     private Integer multiplenum;//多选题数量
     private Integer multiplenumresource;//多选题每题分数
     private String teacherId;//教师id
+    private Integer passingScore;//及格分数
     private Integer page;
     private Integer rows;
     private Integer sectionId;//章节id

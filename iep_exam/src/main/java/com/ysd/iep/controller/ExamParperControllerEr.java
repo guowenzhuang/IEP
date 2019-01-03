@@ -52,7 +52,7 @@ public class ExamParperControllerEr {
         try {
             String id = UUIDUtils.getUUID();
             /*弄出来一个新的考试试卷对象*/
-            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), examParperSerch.getDuration(), "未开放", examParperSerch.getTotal(), null, examParperSerch.getTeacherId(), new Date(), null, null, null, null, null, examParperSerch.getExamshortesttime(), null));
+            Examparper examparper = examparperdao.save(new Examparper(id, examParperSerch.getType(), examParperSerch.getTitle(), examParperSerch.getSubject(), examParperSerch.getDuration(), "未开放", examParperSerch.getTotal(), null, examParperSerch.getTeacherId(), new Date(), null, null, null, null, null, null,examParperSerch.getExamshortesttime(), null));
             /*将考试试卷的考试试题集合置空*/
             examparper.setExamrubricslist(null);
 
