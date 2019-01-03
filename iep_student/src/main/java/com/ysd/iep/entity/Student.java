@@ -1,23 +1,11 @@
 package com.ysd.iep.entity;
 
-import java.util.List;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
 
 
 @Entity
@@ -53,6 +41,9 @@ public class Student {
 	 */
 	@Column(columnDefinition="int NULL comment '备注:所属班级id'  ")
 	private String cid;
+
+	@Column(columnDefinition="int DEFAULT 0  NULL comment '备注:学分'")
+	private Integer credits;
 
 
 	/*@JsonIgnore

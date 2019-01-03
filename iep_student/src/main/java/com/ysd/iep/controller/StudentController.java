@@ -82,6 +82,19 @@ public class StudentController {
 		List<Student> byIds = studentService.getByIds(ids);
 		return new Result<>(true,byIds);
 	}
-	
+
+	@ApiOperation(value = "根据学生id")
+	@PutMapping("/updateCredits")
+	public Result updateCredits(@RequestParam("credits") Integer credits,@RequestParam("sid") String sid){
+		try {
+			studentService.updateCredits(credits,sid);
+			return new Result(true,"修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(true,"修改失败");
+		}
+	}
+
+
 
 }

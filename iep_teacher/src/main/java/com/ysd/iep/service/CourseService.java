@@ -63,6 +63,8 @@ public interface CourseService {
 
 
     List<Integer> queryCourByteaId(List<String> teaIdByDepartmentId);
+    
+    public Course queryCourByid(Integer courid);
 
 
 }

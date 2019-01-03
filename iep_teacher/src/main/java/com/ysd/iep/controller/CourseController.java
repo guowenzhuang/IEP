@@ -146,6 +146,13 @@ public class CourseController {
         List<Course> list = courseRepository.queryCourByDepId(teaIdByDepartmentId);
         return new Result<List<Course>>(true,list);
     }
+    
+    @ApiOperation(value = "提供  提供根据课程id查询单个课程信息")
+    @GetMapping("queryCourByid")
+    public Result<Course> queryCourByid(@RequestParam("courid") Integer courid){
+        Course cour = courseService.queryCourByid(courid);
+        return new Result<Course>(true,cour);
+    }
 
 
 }

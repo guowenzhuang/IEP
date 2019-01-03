@@ -12,9 +12,8 @@ import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -84,6 +83,10 @@ public class StudentService {
 		String[] idsSplit = ids.split(",");
 		List<Student> allById = studentRepository.findBySidIn(idsSplit);
 		return allById;
+	}
+
+	public void updateCredits(Integer credits,String sid){
+		studentRepository.updateCredits(credits,sid);
 	}
 
 
