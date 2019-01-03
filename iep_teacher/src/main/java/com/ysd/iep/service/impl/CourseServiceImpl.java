@@ -197,5 +197,16 @@ public class CourseServiceImpl implements CourseService {
 
 
 
+    /**
+     * 提供根据课程id查询单个课程信息
+     */
+	@Override
+	public Course queryCourByid(Integer courid) {
+		// TODO Auto-generated method stub
+		return coursedao.findByCourseId(courid);
+	}
+
+
+
 
 }
