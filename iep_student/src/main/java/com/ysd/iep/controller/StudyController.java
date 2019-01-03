@@ -72,15 +72,7 @@ public class StudyController {
         return studyService.insertChapters(studentRecord);
     }
 
-    @ApiOperation(value = "根据课程id查询学习记录判断是否删除")
-    @GetMapping("getStudyByCid")
-    public Result<String> getStudyByCid(@RequestParam("cid") Integer cid){
-        if(studyService.findByCid(cid).size()>0){
-            return new Result<>(false,"该课程有学生正在学习，无法删除!");
-        }else{
-            return new Result<>(true);
-        }
-    }
+
 
 
 

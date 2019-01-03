@@ -8,7 +8,6 @@ import com.ysd.iep.repository.CommentLogRepository;
 import com.ysd.iep.service.CommentService;
 import com.ysd.iep.util.Result;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -109,21 +108,6 @@ public class CommentController {
                    return "发生异常";
                }
         }
-
-    /**
-     * 根据课程id判断能不能删除
-     * @param cid
-     * @return
-     */
-    @ApiOperation(value = "根据课程id查询评价记录判断是否删除")
-    @GetMapping("getCommentByCid")
-    public Result<String> getCommentByCid(@RequestParam("cid") Integer cid){
-           if(commentService.findByCid(cid).size()>0){
-               return new Result<>(false,"该课程下有评价，请先移除评价!");
-           }else{
-               return new Result<>(true);
-           }
-    }
 
 
 }

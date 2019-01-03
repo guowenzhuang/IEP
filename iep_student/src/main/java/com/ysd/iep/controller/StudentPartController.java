@@ -91,19 +91,6 @@ public class StudentPartController {
 	}
 
 
-	/**
-	 * 根据课程id判断能不能删除
-	 * @param cid
-	 * @return
-	 */
-	@ApiOperation(value = "根据课程id查询报名记录判断是否删除")
-	@GetMapping("getStudentPartByCid")
-	public Result<String> getStudentPartByCid(@RequestParam("cid") Integer cid){
-		if(s.findByCid(cid).size()>0){
-			return new Result<>(false,"该课程已有学生报名，无法删除!");
-		}else{
-			return new Result<>(true);
-		}
-	}
+
 
 }
