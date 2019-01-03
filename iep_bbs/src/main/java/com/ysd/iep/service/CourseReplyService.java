@@ -70,5 +70,12 @@ public interface CourseReplyService {
 	 * @return
 	 */
 	public Integer deleteLike(String userId,Integer replyId);
+	
+	/**
+	 *  获取课程下帖子的数量
+	 * @param courseId
+	 * @return
+	 */
+	public Integer getCoursePostNum(Integer courseId);
 
 }

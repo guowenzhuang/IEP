@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.ysd.iep.entity.CoursePost;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
@@ -97,6 +98,20 @@ public interface PostService {
 	 * @return
 	 */
 	public Integer cancelStick(Integer postId);
+	
+	/**
+	 * 通过帖子id获取帖子
+	 * @param postId
+	 * @return
+	 */
+	public Post getPostByPostId(Integer postId);
+	/**
+	 * 获取回复数
+	 * @param postId
+	 * @return
+	 */
+	Integer getReplyNum(Integer postId);
+	
 
 
 }

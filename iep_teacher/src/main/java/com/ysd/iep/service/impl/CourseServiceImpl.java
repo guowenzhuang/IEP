@@ -105,8 +105,13 @@ public class CourseServiceImpl implements CourseService {
     }
     @Override
     public Result deleteById(Integer courId) {
-              coursedao.deleteById(courId);
+             coursedao.deleteById(courId);
              return new Result(true);
+    }
+    @Override
+    public Result queryChaCourid(Integer chaCourId) {
+        coursedao.queryChaCourid(chaCourId);
+        return new Result(true);
     }
     @Override
     public Result insertCourse(Course course) {
@@ -191,6 +196,8 @@ public class CourseServiceImpl implements CourseService {
     public List<Integer> queryCourByteaId(List<String> teaid) {
         return coursedao.findByCourTeaidIn(teaid).stream().map(Course::getCourId).collect(Collectors.toList());
     }
+
+
 
 
 }

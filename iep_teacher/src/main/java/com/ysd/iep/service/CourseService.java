@@ -63,4 +63,11 @@ public interface CourseService {
 
 
     List<Integer> queryCourByteaId(List<String> teaIdByDepartmentId);
+
+    /**
+     * 根据课程id查询有咩有章节
+     * @param chaCourId
+     * @return
+     */
+    Result queryChaCourid(Integer chaCourId);
 }
