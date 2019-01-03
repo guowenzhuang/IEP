@@ -65,7 +65,8 @@ public class Examparper {
     private Integer fillnum;//填空数量
     @Column(name = "Judgenum", length = 20)
     private Integer judgenum;//判断数量
-
+    @Column(name = "passingScore", length = 20)
+    private Integer passingScore;//及格分数
     @Column(name = "examshortesttime",  length = 20)
     private Integer examshortesttime;//考试最短可交卷时间
 
