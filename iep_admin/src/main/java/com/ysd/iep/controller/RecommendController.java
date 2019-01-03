@@ -79,7 +79,7 @@ public class RecommendController {
             @ApiImplicitParam(name = "cid",value = "课程id",required = true,paramType = "query",dataType = "String")
     })
     @GetMapping("isRecommend")
-    public Result<String> isRecommend(Integer cid){
+    public Result<String> isRecommend(@RequestParam("cid") Integer cid){
         return recommendService.get(cid);
     }
 
