@@ -1,6 +1,7 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.entity.Student;
+import com.ysd.iep.entity.dto.StudentUserDTO;
 import com.ysd.iep.entity.dto.UsersDTO;
 import com.ysd.iep.entity.vo.StudentVo;
 import com.ysd.iep.feign.AdminFeign;
@@ -10,10 +11,10 @@ import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 @Service
 public class StudentService {
@@ -24,6 +25,32 @@ public class StudentService {
 	private AdminFeign adminFeign;
     @Autowired(required = false)
     private BbsFeign bbsFeign;
+    
+    /**
+	 * 修改学生信息
+	 */
+	@Transactional(rollbackOn = Exception.class)
+	public void updateStudent(StudentUserDTO stuUser) {
+		Student s = (Student) BeanConverterUtil.copyObject(stuUser, Student.class);
+		s.setSid(stuUser.getId());
+		studentRepository.save(s);
+		}
+    
+    /**
+     * 根据学生id查询学生信息
+     * @param sid
+     * @return
+     */
+    public List<StudentUserDTO> queryStuUserById(String sid){
+    Student stu  =	studentRepository.findBySid(sid);
+    Result<List<StudentUserDTO>> result = adminFeign.getUserById(sid);
+    List<StudentUserDTO> studentUser = result.getMessage();
+    for (int i = 0; i < studentUser.size(); i++) {
+    	StudentUserDTO tu=studentUser.get(i);
+        BeanConverterUtil.copyObject(stu,tu);
+    }
+		return studentUser;
+    }
 
 
 	/**

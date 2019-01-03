@@ -20,7 +20,10 @@ public interface StudentPartRepository extends JpaRepository<StudentPart, Intege
 	//报名此课程的人数
 	@Query(value=" SELECT COUNT(*) FROM  StudentPart s WHERE s.cid=?1 ")
 	public int count(Integer cid);
-	
 
+	/**
+	 * 根据课程id查询报名记录
+	 */
+    public List<StudentPart> findByCid(Integer cid);
 	
 }

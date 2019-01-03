@@ -1,12 +1,17 @@
 package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.vo.StudentVo;
+import com.ysd.iep.feign.AdminFeign;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.ysd.iep.entity.Student;
+import com.ysd.iep.entity.dto.StudentUserDTO;
 import com.ysd.iep.service.StudentService;
 import com.ysd.iep.util.Result;
+
+import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
 
@@ -16,6 +21,23 @@ public class StudentController {
 	
 	@Autowired
 	private StudentService studentService;
+	@Autowired(required = false)
+	private AdminFeign adminFeign;
+	
+	@ApiOperation(value = "根据学生Id修改用户信息")
+    @PutMapping("/updateStudent")
+    public Result<String> updateStudent(@RequestBody StudentUserDTO stuUser){
+    	System.out.println(stuUser);
+    	Result<String> user = adminFeign.updateUserById(stuUser.getId(),stuUser);
+    	studentService.updateStudent(stuUser);
+		return new Result(true).setMessage("成功");
+    }
+	
+	 @ApiOperation(value = "根据学生Id查询学生信息")
+	 @GetMapping("/QueryStudentByid")
+	 public Result<StudentUserDTO> QueryStudentByid(String sid) {
+		return new Result(true,studentService.queryStuUserById(sid));
+	 }
 	
 	/***
 	 * 添加

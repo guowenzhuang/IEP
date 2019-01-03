@@ -53,6 +53,8 @@ public class Course implements Serializable{
 	private Integer courCommentcount;//课程评价数量
 	@Column(columnDefinition="int DEFAULT 0  NULL comment '备注:报名人数'")
 	private Integer courStudypeople;//报名人数
+	@Column(columnDefinition="int   NULL comment '备注:学分'") 
+	private Integer courMark;
 	@Column(columnDefinition="int   NULL comment '备注:预留1'") 
 	private Integer Ext1;
 	@Column(columnDefinition="varchar(200)   NULL comment '备注:预留2'") 
