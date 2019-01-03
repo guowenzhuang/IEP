@@ -1,15 +1,14 @@
 package com.ysd.iep.service.serviceImpl;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ysd.iep.entity.StudentPart;
 import com.ysd.iep.entity.StudentPartCid;
 import com.ysd.iep.repository.StudentPartRepository;
 import com.ysd.iep.service.StudentPartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class StudentPartServiceImpl implements StudentPartService {
@@ -43,5 +42,10 @@ public class StudentPartServiceImpl implements StudentPartService {
 		return partRepository.count(cid);
 	}
 
+	@Override
+	public List<StudentPart> findByCid(Integer cid){
+
+		return partRepository.findByCid(cid);
+	}
 
 }

@@ -5,6 +5,7 @@ import com.ysd.iep.entity.StudentPartCid;
 import com.ysd.iep.service.StudentPartService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +87,22 @@ public class StudentPartController {
 			return new Result(true, "删除成功");
 		} catch (Exception e) {
 			return new Result(false, "删除失败");
+		}
+	}
+
+
+	/**
+	 * 根据课程id判断能不能删除
+	 * @param cid
+	 * @return
+	 */
+	@ApiOperation(value = "根据课程id查询报名记录判断是否删除")
+	@GetMapping("getStudentPartByCid")
+	public Result<String> getStudentPartByCid(@RequestParam("cid") Integer cid){
+		if(s.findByCid(cid).size()>0){
+			return new Result<>(false,"该课程已有学生报名，无法删除!");
+		}else{
+			return new Result<>(true);
 		}
 	}
 

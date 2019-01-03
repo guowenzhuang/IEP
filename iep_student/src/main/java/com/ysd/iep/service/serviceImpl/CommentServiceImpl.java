@@ -1,11 +1,10 @@
 package com.ysd.iep.service.serviceImpl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-
+import com.ysd.iep.entity.CommentDTO;
+import com.ysd.iep.entity.StudentComment;
 import com.ysd.iep.repository.CommentLogRepository;
+import com.ysd.iep.repository.CommentRepository;
+import com.ysd.iep.service.CommentService;
 import com.ysd.iep.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,10 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ysd.iep.entity.CommentDTO;
-import com.ysd.iep.entity.StudentComment;
-import com.ysd.iep.repository.CommentRepository;
-import com.ysd.iep.service.CommentService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -79,7 +78,10 @@ public class CommentServiceImpl implements CommentService {
 
 		return commentRepository.updatePraise(mid,praise);
 	}
-	
-	
+
+	@Override
+	public List<StudentComment> findByCid(Integer cid){
+		return commentRepository.findByCid(cid);
+	}
 
 }
