@@ -49,11 +49,11 @@ public class RecommendService {
      * @return
      */
     public Result<String> get(Integer cid){
-        RecommendDB byCoursetId = recommendDao.findByCoursetId(cid);
-        if(byCoursetId!=null){
-         return new Result<>(false,"课程正在推荐,请先移除推荐");
+        List<RecommendDB> byCoursetId = recommendDao.findByCoursetId(cid);
+        if(byCoursetId==null || byCoursetId.size()==0){
+            return new Result<>(true);
         }
-        return new Result<>(true);
+        return new Result<>(false,"课程正在推荐,请先移除推荐");
     }
 
 }

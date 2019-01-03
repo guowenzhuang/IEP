@@ -129,7 +129,15 @@ public class ChapterServiceImpl implements ChapterService {
         return chaperRepo.findById(id).get();
     }
 
-	
+    @Override
+    public Result<String> findByCid(Integer cid) {
+        List<Integer> byChaCourid = chaperRepo.findByChaCourid(cid);
+        if(byChaCourid==null || byChaCourid.size()==0){
+            return new Result<>(true);
+        }else{
+            return new Result<>(false,"此课程有章节不能删除");
+        }
+    }
 
 
 }

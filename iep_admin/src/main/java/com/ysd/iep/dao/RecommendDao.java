@@ -55,7 +55,7 @@ public interface RecommendDao extends BaseDao<RecommendDB, String> {
      * @param cid
      * @return
      */
-    RecommendDB findByCoursetId(Integer cid);
+    List<RecommendDB> findByCoursetId(Integer cid);
 
 
 }
