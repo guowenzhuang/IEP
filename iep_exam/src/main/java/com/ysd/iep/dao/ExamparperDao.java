@@ -32,4 +32,11 @@ public interface ExamparperDao extends JpaRepository<Examparper, String>, JpaSpe
     @Query(value = "SELECT *from examparper_tb where state='考试结束' AND techer_id=?1", nativeQuery = true)
     List<Examparper> queryexamendforuserid(String userid);
 
+    /***
+     * 根据课程Id查询试卷
+     * @param coureId
+     * @return
+     */
+    List<Examparper> findBySubject(String coureId);
+
 }
