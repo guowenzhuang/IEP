@@ -8,6 +8,10 @@ import com.ysd.iep.entity.po.PermissionDB;
 import com.ysd.iep.entity.vo.PermissionChildrenVo;
 import com.ysd.iep.entity.vo.PermissionTreeVo;
 import com.ysd.iep.entity.vo.PermissionVo;
+import com.ysd.iep.feign.BbsFeign;
+import com.ysd.iep.feign.ExamFeign;
+import com.ysd.iep.feign.StudentFeign;
+import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +43,14 @@ public class PermissionService {
 
     @Autowired
     private PermissionDao permissionDao;
-
+    @Autowired(required = false)
+    private BbsFeign bbsFeign;
+    @Autowired(required = false)
+    private ExamFeign examFeign;
+    @Autowired(required = false)
+    private StudentFeign studentFeign;
+    @Autowired(required = false)
+    private TeacherFeign teacherFeign;
 
     /**
      * 获取角色拥有的所有的权限id
@@ -74,7 +85,8 @@ public class PermissionService {
     public Result collectPermission() {
         Set<Class<?>> clazzs = FileUtil.getClasses("com.ysd.iep.service");
         Integer[] rows = new Integer[]{0};
-        List<PermissionDB> permissions = new ArrayList<>();
+        //admin项目权限
+        List<PermissionDB> adminPermissions = new ArrayList<>();
         clazzs.forEach(item -> {
             Method[] methods = item.getDeclaredMethods();
             log.info("检查类{}", item.getName());
@@ -94,36 +106,49 @@ public class PermissionService {
                 String methodName = permissionMethod.value();
                 //类型名称
                 String typeName = item.getAnnotation(PermissionType.class).value();
-                log.info("{} 开始插入数据库", value);
                 PermissionDB permission = new PermissionDB()
                         .setPermissionValue(value)
                         .setTypeName(typeName)
                         .setMethodName(methodName);
-                //.setPermissionId(UUID.randomUUID().toString());
-                try {
-                    Example<PermissionDB> example = Example.of(permission);
-                    if (!permissionDao.exists(example)) {
-                        log.info("检查是否存在:{} 可以插入", false);
-                        permissionDao.save(permission);
-                        rows[0]++;
-                    } else {
-                        log.info("检查是否存在:{} 忽略", true);
-                    }
-                } catch (Exception e) {
-                    log.info("此记录已存在");
-                }
             }
         });
+        //论坛权限
+        Result<List<PermissionDB>> bbsPermission = bbsFeign.collectPermission();
+        //考试权限
+        Result<List<PermissionDB>> examPermission = examFeign.collectPermission();
+        //学生权限
+        Result<List<PermissionDB>> studentPermission = studentFeign.collectPermission();
+        //老师权限
+        Result<List<PermissionDB>> teacherPermission = teacherFeign.collectPermission();
+        adminPermissions.addAll(bbsPermission.getMessage());
+        adminPermissions.addAll(examPermission.getMessage());
+        adminPermissions.addAll(studentPermission.getMessage());
+        adminPermissions.addAll(teacherPermission.getMessage());
+
         log.info("收集权限完成,共收集{}条权限信息", rows[0]);
         return new Result(true, rows[0]);
     }
 
     public Result judgePermission(Collection<? extends GrantedAuthority> authorities, String value) {
         List<String> auths = authorities.stream().map(item -> ((GrantedAuthority) item).getAuthority()).collect(Collectors.toList());
-        if(auths.contains(value)){
+        if (auths.contains(value)) {
             return new Result(Boolean.TRUE);
         }
         return new Result(Boolean.FALSE);
     }
 
+/**
+ try {
+ Example<PermissionDB> example = Example.of(permission);
+ if (!permissionDao.exists(example)) {
+ log.info("检查是否存在:{} 可以插入", false);
+ permissionDao.save(permission);
+ rows[0]++;
+ } else {
+ log.info("检查是否存在:{} 忽略", true);
+ }
+ } catch (Exception e) {
+ log.info("此记录已存在");
+ }
+ */
 }
