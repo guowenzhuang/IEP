@@ -1,15 +1,16 @@
 package com.ysd.iep.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-import com.ysd.iep.entity.CoursePost;
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 
+@PermissionType("帖子")
 public interface PostService {
 	/**
 	 * 带条件分页查询帖子
@@ -45,6 +46,8 @@ public interface PostService {
 	 * @param replyId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:updateLikeNum')")
+    @PermissionMethod("更新帖子点赞数")
 	public Integer updateLikeNum(Integer replyId, Integer likeNum);
 	/**
 	 *   获取帖子举报数
