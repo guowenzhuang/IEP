@@ -89,5 +89,7 @@ public class StudentService {
 		studentRepository.updateCredits(credits,sid);
 	}
 
-
+	public Student getphotoByIds(String id){
+		return studentRepository.findBySid(id);
+	}
 }

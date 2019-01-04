@@ -2,10 +2,12 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.CommentDTO;
 import com.ysd.iep.entity.CommentLog;
+import com.ysd.iep.entity.Student;
 import com.ysd.iep.entity.StudentComment;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.repository.CommentLogRepository;
 import com.ysd.iep.service.CommentService;
+import com.ysd.iep.service.StudentService;
 import com.ysd.iep.util.Result;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,10 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private CommentLogRepository commentLogRepository;
-    @Autowired
+    @Autowired(required = false)
     private AdminFeign adminFeign;
+    @Autowired
+    private StudentService student;
 
     @GetMapping("/queryOrder")
     public Page<CommentDTO> queryOrder(@RequestParam("page") Integer page,@RequestParam("size") Integer size,@RequestParam("orderBy") String orderBy){
@@ -48,6 +52,8 @@ public class CommentController {
             // 通过用户id获取用户信息
             Result user = adminFeign.getNameById(comment.getSid());
             comment.setUserName(user.getMessage());
+            Student photo=student.getphotoByIds(comment.getSid());
+            comment.setPhoto(photo.getPhoto());
         }
         Long total = pageStu.getTotalElements();
         Map<String, Object> map = new HashMap<>();

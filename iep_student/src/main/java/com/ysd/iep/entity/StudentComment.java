@@ -45,5 +45,8 @@ public class StudentComment {
 	private Boolean isLike;		//判断用户是否点赞
 	@Transient
 	private Object userName;	//发帖人姓名
+	@Transient
+	private String photo;	//发帖人头像
+
 
 }
