@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.ReplyQuery;
 
-
+@PermissionType("回复")
 public interface ReplyService {
 	/**
 	 * 查询回复列表
@@ -106,6 +109,8 @@ public interface ReplyService {
 	 * @param replyId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('reply:upReplyIsDel')")
+    @PermissionMethod("软删除操作")
 	public Integer upReplyIsDel(Integer replyId);
 	
 	/**
@@ -113,6 +118,8 @@ public interface ReplyService {
 	 * @param replyId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('reply:upReplyIsDelO')")
+    @PermissionMethod("还原操作")
 	public Integer upReplyIsDelO(Integer replyId);
 	
 	

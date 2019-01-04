@@ -94,12 +94,16 @@ public interface PostService {
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:stickPost')")
+    @PermissionMethod("置顶帖子")
 	public Integer stickPost(Integer postId);
 	/**
 	 * 取消置顶
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:cancelStick')")
+    @PermissionMethod("取消帖子置顶")
 	public Integer cancelStick(Integer postId);
 	
 	/**
