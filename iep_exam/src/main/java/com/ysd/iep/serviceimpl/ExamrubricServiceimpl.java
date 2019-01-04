@@ -488,11 +488,17 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         rubricquery.setExamparper(parperid);
         List<Examrubric> examrubricslist = this.getExamrubricforparperid(rubricquery);
 
+
+
+        int total=0;
         int dannum = 0;
         int duonum = 0;
         int packnum = 0;
         int judgenum = 0;
         for (int i = 0; i < examrubricslist.size(); i++) {
+            total+=examrubricslist.get(i).getScore();
+
+
             if (examrubricslist.get(i).getRubricttype().equals("单选题")) {
                 dannum++;
             }
@@ -517,6 +523,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         examparper.setNum(packnum + judgenum + dannum + duonum);
 
         try {
+            /*if(total==){
+
+            }*/
             examparperdao.save(examparper);
             return new Result(true, "创建成功", null);
         } catch (Exception e) {
