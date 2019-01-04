@@ -67,6 +67,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.6.RELEASE</version>
+                <configuration>
+                    <mainClass>com.ysd.iep.ZuulApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -76,6 +79,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>iep_zuul</finalName>
+        <finalName>zuul</finalName>
     </build>
 </project>

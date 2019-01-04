@@ -56,6 +56,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.6.RELEASE</version>
+                <configuration>
+                    <mainClass>com.ysd.iep.AdminApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

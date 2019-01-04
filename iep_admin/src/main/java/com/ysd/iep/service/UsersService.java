@@ -298,12 +298,16 @@ public class UsersService {
         usersDao.save(usersDB);
     }
 
+    @PreAuthorize("hasAuthority('user:exports')")
+    @PermissionMethod("用户导出")
     public List<UsersDB> exports(UsersQuery usersQuery) {
         Specification<UsersDB> where = where(usersQuery);
         List<UsersDB> all = usersDao.findAll(where);
         return all;
     }
 
+    @PreAuthorize("hasAuthority('user:import')")
+    @PermissionMethod("用户导入")
     @Transactional(rollbackOn = Exception.class)
     public void importUser(MultipartFile file) throws IOException, InstantiationException, IllegalAccessException,RuntimeException {
         ExcelUtil excelUtil = ExcelUtil.getInstance();
