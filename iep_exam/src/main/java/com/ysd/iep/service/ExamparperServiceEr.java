@@ -17,6 +17,7 @@ import java.util.List;
  * 考试试卷Service
  */
 
+@PermissionType("考试卷子")
 public interface ExamparperServiceEr {
 
     /**
