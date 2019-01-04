@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.ysd.iep.entity.notice;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.NoticeQuery;
 import com.ysd.iep.service.NoticeService;
 
 import io.swagger.annotations.Api;
@@ -30,15 +32,24 @@ public class NoticeController {
     }
     
     /**
+     * 
+     * @return
+     */
+    @ApiOperation(value = "条件分页查询公告")
+    @GetMapping("/query")
+    public PagingResult<notice> query(NoticeQuery noticeQuery){
+    	return noticeService.query(noticeQuery);
+    }
+    /**
      * 发布公告(添加)
      * @param notice
      * @return
      */
     @ApiOperation(value = "教师发布公告")
     @PostMapping("/insertNotice")
-    public Result insertNotice(notice notice) {
+    public Result<String> insertNotice(notice notice) {
     	noticeService.insertNotice(notice);
-    	return new Result(true);
+    	return new Result(true).setMessage("发布成功！");
     }
     
     /**
@@ -47,8 +58,9 @@ public class NoticeController {
      */
     @ApiOperation(value = "教师删除公告")
     @DeleteMapping("/deleteNoticeBynoId")
-    public void deleteNoticeBynoId(@RequestParam("noId")Integer noId) {
+    public Result<String> deleteNoticeBynoId(@RequestParam("noId")Integer noId) {
     	noticeService.deleteNoticeBynoId(noId);
+    	return new Result(true).setMessage("删除成功！");
     }
 
     /**
@@ -58,8 +70,9 @@ public class NoticeController {
      */
     @ApiOperation(value = "教师修改公告")
     @PutMapping("/updateNotice")
-    public Result updateNotice(notice notice) {
+    public Result<String> updateNotice(@RequestBody notice notice) {
+    	System.out.println(notice);
     	noticeService.updateNotice(notice);
-    	return new Result(true);
+    	return new Result(true).setMessage("修改成功！");
     }
 }
