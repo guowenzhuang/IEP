@@ -3,27 +3,30 @@ package com.ysd.iep.test;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 一个for循环打印出九九乘法表
+ */
 public class Test4 {
 
 
     public static void main(String[] args) {
 
-
-        List<Integer> list = new ArrayList<Integer>();
-
-        list.add(13);
-        list.add(5);
-        list.add(127);
-
-        Integer min = list.get(0);
-
-        for (Integer item : list) {
-            if (item.intValue() > min) {
-                min = item;
+        int i, j;
+        for (i = 1, j = 1; j <= 9; ) {
+            if (i < j) {
+                i++;
+                j = 1;
+                System.out.println(" ");
+            } else {
+                System.out.print(j + "*" + i * j + " ");
+                if (i * j < 10) {
+                    System.out.print(" ");
+                }
+                j++;
             }
+
+
         }
-
-        System.out.println(min);
-
     }
 }

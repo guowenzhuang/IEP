@@ -917,8 +917,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                         qualified = "不合格";
                         studentFrign.updateCredits(0, examUltimately.getStudentId());
                     }
-                    Map<Integer, String> ccc = new HashMap<>();
-                    ccc.put(total, qualified);
+                    ScoreFan ccc = new ScoreFan(total, qualified);
+                    //Map<Integer, String> ccc = new HashMap<>();
+                    //ccc.put(total, qualified);
 
                     performancedao.save(performance);
                     return new Result(true, "成绩记录成功,总分", ccc);
@@ -951,8 +952,9 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                     qualified = "不合格";
                     studentFrign.updateCredits(0, examUltimately.getStudentId());
                 }
-                Map<Integer, String> ccc = new HashMap<>();
-                ccc.put(total, qualified);
+                ScoreFan ccc = new ScoreFan(total, qualified);
+                /*Map<Integer, String> ccc = new HashMap<>();
+                ccc.put(total, qualified);*/
 
                 performancedao.save(performanceer);
 
