@@ -78,7 +78,7 @@ public class StudyController {
     }
     @ApiOperation(value = "获取用户信息（头像）")
     @PostMapping("/getphotoByIds")
-    public Student getphotoByIds(String id){
+    public Object getphotoByIds(String id){
        return student.getphotoByIds(id);
     }
 

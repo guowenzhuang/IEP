@@ -124,7 +124,20 @@ public class PermissionService {
         adminPermissions.addAll(examPermission.getMessage());
         adminPermissions.addAll(studentPermission.getMessage());
         adminPermissions.addAll(teacherPermission.getMessage());
-
+        adminPermissions.forEach(item -> {
+            try {
+                Example<PermissionDB> example = Example.of(item);
+                if (!permissionDao.exists(example)) {
+                    log.info("检查是否存在:{} 可以插入", false);
+                    permissionDao.save(item);
+                    rows[0]++;
+                } else {
+                    log.info("检查是否存在:{} 忽略", true);
+                }
+            } catch (Exception e) {
+                log.info("此记录已存在");
+            }
+        });
         log.info("收集权限完成,共收集{}条权限信息", rows[0]);
         return new Result(true, rows[0]);
     }
@@ -137,18 +150,7 @@ public class PermissionService {
         return new Result(Boolean.FALSE);
     }
 
-/**
- try {
- Example<PermissionDB> example = Example.of(permission);
- if (!permissionDao.exists(example)) {
- log.info("检查是否存在:{} 可以插入", false);
- permissionDao.save(permission);
- rows[0]++;
- } else {
- log.info("检查是否存在:{} 忽略", true);
- }
- } catch (Exception e) {
- log.info("此记录已存在");
- }
- */
+
+
+
 }

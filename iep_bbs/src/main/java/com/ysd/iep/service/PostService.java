@@ -46,8 +46,6 @@ public interface PostService {
 	 * @param replyId
 	 * @return
 	 */
-	@PreAuthorize("hasAuthority('post:updateLikeNum')")
-    @PermissionMethod("更新帖子点赞数")
 	public Integer updateLikeNum(Integer replyId, Integer likeNum);
 	/**
 	 *   获取帖子举报数
@@ -94,12 +92,16 @@ public interface PostService {
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:stickPost')")
+    @PermissionMethod("置顶帖子")
 	public Integer stickPost(Integer postId);
 	/**
 	 * 取消置顶
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:cancelStick')")
+    @PermissionMethod("取消帖子置顶")
 	public Integer cancelStick(Integer postId);
 	
 	/**

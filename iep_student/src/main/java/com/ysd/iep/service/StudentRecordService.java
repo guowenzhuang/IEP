@@ -98,7 +98,7 @@ public class StudentRecordService {
             //最后的子节点
             String watch = "0";
             for (StudentRecord s:sr) {
-                if(s.getChaid().equals(chapter.getChaId())){
+                if(s.getChaid().equals(chapter.getChaId()) && chapter.getChaViurl()!=null){
                     watch=s.getWatchtime();
                     System.out.println(chapter);
                     String sumTime=chapter.getChaTime();
