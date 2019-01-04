@@ -1,10 +1,13 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.DepartmentDao;
 import com.ysd.iep.entity.dto.DepartmentDTO;
 import com.ysd.iep.entity.po.DepartmentDB;
+import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.query.DepartmentQuery;
 import com.ysd.iep.entity.vo.PagingResult;
+import com.ysd.iep.entity.vo.UsersVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import java.util.List;
  * @date 2018/11/12 8:55
  */
 @Service
+@PermissionType("院系")
 public class DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;

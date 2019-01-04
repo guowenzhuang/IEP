@@ -1,8 +1,11 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.RolesDao;
 import com.ysd.iep.dao.UsersDao;
 import com.ysd.iep.entity.dto.*;
+import com.ysd.iep.entity.po.ClassesDB;
 import com.ysd.iep.entity.po.RolesDB;
 import com.ysd.iep.entity.po.UsersDB;
 import com.ysd.iep.entity.properties.SystemProperties;
@@ -18,6 +21,7 @@ import com.ysd.iep.util.ExcelUtil;
 import com.ysd.iep.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -42,6 +46,7 @@ import java.util.stream.Collectors;
  * @date 2018/11/12 8:55
  */
 @Slf4j
+@PermissionType("用户")
 @Service
 public class UsersService {
     @Autowired
@@ -82,6 +87,7 @@ public class UsersService {
 
 
     @PreAuthorize("hasAuthority('user:query')")
+    @PermissionMethod("查询")
     public PagingResult<UsersVo> query(UsersQuery usersQuery) {
 
         Specification<UsersDB> specification = where(usersQuery);
@@ -181,6 +187,7 @@ public class UsersService {
      */
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:updateUserField')")
+    @PermissionMethod("修改某一字段")
     public Result updateUserField(String uuid, String fieldName, String fieldValue) {
         UsersDB usersDB = usersDao.findById(uuid).get();
         Result result = new Result().setSuccess(false);
@@ -199,6 +206,7 @@ public class UsersService {
 
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:setRole')")
+    @PermissionMethod("设置角色")
     public void setRoles(String uuid, String roleIds, String direction) {
         System.out.println("uuid==>" + uuid);
         String[] ids = roleIds.split(",");
@@ -238,6 +246,7 @@ public class UsersService {
      */
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:add')")
+    @PermissionMethod("新增用户")
     public void add(UsersDB usersDB) throws DataIntegrityViolationException {
         UsersDB byLoginName = usersDao.findTopByLoginName(usersDB.getLoginName());
         if (byLoginName != null) {
@@ -258,6 +267,7 @@ public class UsersService {
      */
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:delete')")
+    @PermissionMethod("用户删除")
     public void delete(String uuid) {
         usersDao.deleteStatus(uuid);
     }
@@ -269,6 +279,7 @@ public class UsersService {
      */
     @Transactional(rollbackOn = Exception.class)
     @PreAuthorize("hasAuthority('user:update')")
+    @PermissionMethod("用户修改")
     public void update(UsersUpdateDTO usersUpdateDTO) {
         UsersDB usersDB = usersDao.findTopByLoginName(usersUpdateDTO.getLoginName());
         usersDB.setProtectEMail(usersUpdateDTO.getProtectEMail());
@@ -288,6 +299,7 @@ public class UsersService {
     }
 
     @PreAuthorize("hasAuthority('user:exports')")
+    @PermissionMethod("用户导出")
     public List<UsersDB> exports(UsersQuery usersQuery) {
         Specification<UsersDB> where = where(usersQuery);
         List<UsersDB> all = usersDao.findAll(where);
@@ -295,6 +307,7 @@ public class UsersService {
     }
 
     @PreAuthorize("hasAuthority('user:import')")
+    @PermissionMethod("用户导入")
     @Transactional(rollbackOn = Exception.class)
     public void importUser(MultipartFile file) throws IOException, InstantiationException, IllegalAccessException,RuntimeException {
         ExcelUtil excelUtil = ExcelUtil.getInstance();
