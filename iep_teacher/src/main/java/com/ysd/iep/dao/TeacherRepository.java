@@ -15,6 +15,10 @@ import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teachers, String> , JpaSpecificationExecutor<Teachers> {
 
+	@Query(value = "SELECT tea_id FROM teachertb WHERE tea_departmentid=:ids",nativeQuery = true)
+	List<String> findByteaIds(@Param("ids") String ids);
+	
+	
 	@Query(value = "from Teachers where teaId in (:ids)")
 	List<Teachers> findById(@Param("ids") String[] ids);
 	@Query(value = "INSERT INTO teachertb (tea_id)VALUES(?1)", nativeQuery = true)

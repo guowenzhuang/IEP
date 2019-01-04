@@ -1,10 +1,13 @@
 package com.ysd.iep.service;
 
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Examparper;
 import com.ysd.iep.entity.Studentexamlog;
 import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import java.util.List;
  * @date 2018/12/16
  * 考试试卷Service
  */
+
 public interface ExamparperServiceEr {
 
     /**

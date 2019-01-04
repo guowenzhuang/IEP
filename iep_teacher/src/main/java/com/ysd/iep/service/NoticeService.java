@@ -3,9 +3,12 @@ package com.ysd.iep.service;
 import java.util.List;
 
 import com.ysd.iep.entity.notice;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
+import com.ysd.iep.entity.query.NoticeQuery;
 
 public interface NoticeService {
+	
 	
 	 /**
      * 根据课程id查询课程公告信息
@@ -13,6 +16,13 @@ public interface NoticeService {
     * @return
     */
 	List<notice> queryNoticeByCourId(Integer courId);
+	
+	/**
+	 * 条件分页查询
+	 * @param noticeQuery
+	 * @return
+	 */
+	public PagingResult<notice> query(NoticeQuery noticeQuery);
 	
 	/**
 	 * 发布公告(添加)
