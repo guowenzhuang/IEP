@@ -8,6 +8,7 @@ import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.entitySerch.ExamParperSerch;
+import com.ysd.iep.rabbit.producer.FanoutProducer;
 import com.ysd.iep.service.ExamrubricService;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.UUIDUtils;
@@ -36,7 +37,8 @@ public class ExamrubricController {
     ExamrubricService examrubricservice;
     @Autowired
     RubricService rubricservice;
-
+    @Autowired
+    FanoutProducer fanoutProducer;
     /**
      * 多条件分页查询所有考试试题
      */
@@ -220,6 +222,21 @@ public class ExamrubricController {
     public Object examend(ExamUltimately examUltimately) {
         return examrubricservice.examend(examUltimately);
     }
+    /**
+     * RabbitMQ消息队列___考试过之后成绩处理(单题的改卷处理)
+     */
+  /*  @RequestMapping(value = "/examend", method = RequestMethod.POST)
+    public Object examend(ExamUltimately examUltimately) {
+
+        try {
+            fanoutProducer.sendTestLog(examUltimately);
+return new Result(true,"已发送到消息队列",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"发送失败",null);
+        }
+
+    }*/
 
     /**
      * 整个试卷做完之后点击交卷时候
