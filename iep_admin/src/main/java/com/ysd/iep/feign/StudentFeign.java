@@ -1,6 +1,8 @@
 package com.ysd.iep.feign;
 
 import com.ysd.iep.entity.dto.*;
+import com.ysd.iep.entity.po.PermissionDB;
+import com.ysd.iep.util.Tright;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,13 @@ import java.util.List;
  */
 @FeignClient("IEP-STUDENT")
 public interface StudentFeign {
+
+    /**
+     * 收集权限
+     * @return
+     */
+    @GetMapping("/generalTright/collectPermission")
+    Result<List<PermissionDB>> collectPermission();
 
     /**
      * 设置角色新增学生

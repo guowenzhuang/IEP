@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2018/12/16
  * 考试试卷Service
  */
-@PermissionType("考试卷子Service")
+@PermissionType("考试卷子")
 public interface ExamparperServiceEr {
 
     /**

@@ -4,7 +4,9 @@ import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.dto.TeacherAddDTO;
 import com.ysd.iep.entity.dto.UsersTeaDTO;
+import com.ysd.iep.entity.po.PermissionDB;
 import com.ysd.iep.entity.vo.PagingResult;
+import com.ysd.iep.util.Tright;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,13 @@ import java.util.Map;
  */
 @FeignClient("IEP-TEACHER")
 public interface TeacherFeign {
+
+    /**
+     * 收集权限
+     * @return
+     */
+    @GetMapping("/generalTright/collectPermission")
+    Result<List<PermissionDB>> collectPermission();
 
     @GetMapping("/tea")
     Result<List<UsersTeaDTO>> get(@RequestParam("teaid") String teaids);
