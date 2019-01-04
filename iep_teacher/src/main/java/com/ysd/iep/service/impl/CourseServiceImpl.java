@@ -2,9 +2,11 @@ package com.ysd.iep.service.impl;
 
 import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.dao.CourseRepository;
+import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.CourseDTO;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
@@ -29,6 +31,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository coursedao;
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     @Override
     /**
@@ -204,6 +208,15 @@ public class CourseServiceImpl implements CourseService {
 	public Course queryCourByid(Integer courid) {
 		// TODO Auto-generated method stub
 		return coursedao.findByCourseId(courid);
+	}
+
+
+
+	@Override
+	public PagingResult<Course> queryCourseBydepid(CourseQuery courseQuery) {
+		List<String> teaids = teacherRepository.findByteaIds(courseQuery.getCourDepid());
+		
+		return null;
 	}
 
 

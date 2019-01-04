@@ -4,6 +4,7 @@ import com.ysd.iep.annotation.PermissionMethod;
 import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.CourseDTO;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import org.springframework.data.domain.Page;
@@ -72,6 +73,9 @@ public interface CourseService {
     List<Integer> queryCourByteaId(List<String> teaIdByDepartmentId);
     
     public Course queryCourByid(Integer courid);
+    
+    PagingResult<Course> queryCourseBydepid(CourseQuery courseQuery);
+    
 
 
 }
