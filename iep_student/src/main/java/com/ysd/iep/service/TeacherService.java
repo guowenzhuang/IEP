@@ -1,6 +1,7 @@
 package com.ysd.iep.service;
 
 import com.ysd.iep.entity.dto.Course;
+import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.util.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,10 @@ public interface TeacherService {
 	@GetMapping("/course/getByDepartId")
 	public List<Integer> getCourseIdBy(@RequestParam("departmentId")String depid);
 
-
+	/**
+	 * 调模糊查询
+	 */
+	@GetMapping ("/course/getPaginate")
+	public Object homeSearch(CourseQuery courseQuery);
 
 }

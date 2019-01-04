@@ -16,6 +16,8 @@ public class CourseQuery {
      * 排序字段
      */
     private String orderBy;
+
+    private String courName;
     /**
      * 第几页 条数  偏移量
      */
