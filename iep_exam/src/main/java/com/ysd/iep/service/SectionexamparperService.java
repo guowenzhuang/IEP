@@ -1,10 +1,13 @@
 package com.ysd.iep.service;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Sectionexamparper;
 import com.ysd.iep.entity.parameter.LookparperQuery;
 import com.ysd.iep.entity.parameter.Result;
 import com.ysd.iep.entity.parameter.SectionexamQuery;
 import com.ysd.iep.entity.parameter.permanceFan;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import java.util.List;
  * @date 2018/12/30
  * 章节测试试卷service
  */
+@PermissionType("章节测试试卷")
 public interface SectionexamparperService {
 
     /**
@@ -23,6 +27,8 @@ public interface SectionexamparperService {
     /**
      * 根据课程id 章节id 章节测试parperid 删除卷子
      */
+    @PreAuthorize("hasAuthority('sectionparper:deletesectionparper')")
+    @PermissionMethod("删除章节测试试卷")
     Result deletsectionforcourseidandsectionidparperid(Integer courseid, Integer sectionid, String parperid);
 
     /**
@@ -44,7 +50,6 @@ public interface SectionexamparperService {
      * 整个试卷创建完之后操作(将总的分更新到试卷信息中)
      */
     Object endsectionparper(String parperid);
-
 
 
 }

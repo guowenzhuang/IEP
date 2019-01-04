@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2018/12/16
  * 考试试卷Service
  */
-@PermissionType("考试卷子Service")
+
 public interface ExamparperServiceEr {
 
     /**
@@ -45,8 +45,6 @@ public interface ExamparperServiceEr {
     /**
      * 查看考试结束的考试卷子列表(此学生参加过的考试卷子)
      */
-    @PreAuthorize("hasAuthority('student:queryexamendparperwherestudentid')")
-    @PermissionMethod("查看此学生参加过的考试卷子")
     List<Examparper> queryexamendparperwherestudentid(String studentid, Integer courseid);
 
 }
