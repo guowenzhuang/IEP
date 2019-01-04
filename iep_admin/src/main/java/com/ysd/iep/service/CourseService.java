@@ -1,7 +1,5 @@
 package com.ysd.iep.service;
 
-import com.ysd.iep.annotation.PermissionMethod;
-import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.RecommendDao;
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.po.RecommendDB;
@@ -22,7 +20,6 @@ import java.util.stream.Collectors;
  * @date 2018/11/12 8:55
  */
 @Service
-@PermissionType("课程")
 public class CourseService {
     @Autowired(required = false)
     private TeacherFeign teacherFeign;
@@ -30,7 +27,6 @@ public class CourseService {
     private RecommendDao recommendDao;
 
     @PreAuthorize("hasAuthority('cource:query')")
-    @PermissionMethod("课程查询")
     public PagingResult<CourseDTO> query(CourseQuery courseQuery){
 
         Map map= BeanConverterUtil.objectToMap(courseQuery);

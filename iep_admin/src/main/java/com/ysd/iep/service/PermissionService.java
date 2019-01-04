@@ -1,29 +1,19 @@
 package com.ysd.iep.service;
 
-import com.ysd.iep.annotation.PermissionMethod;
-import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.dao.PermissionDao;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.po.PermissionDB;
 import com.ysd.iep.entity.vo.PermissionChildrenVo;
-import com.ysd.iep.entity.vo.PermissionTreeVo;
 import com.ysd.iep.entity.vo.PermissionVo;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Example;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.transaction.Transactional;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +24,6 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-@PermissionType("权限")
 public class PermissionService {
 
     @Autowired
