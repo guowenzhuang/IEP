@@ -61,7 +61,7 @@ public class ReplyController {
 				}else {		//用户未点赞
 					reply.setIsLike(false);
 				}
-				//查询用户是否
+				//查询用户是否举报
 				int m=replyService.userIsReport(loginUserId, reply.getReplyId());
 				if(m>0) {	
 					reply.setIsReport(true);;		//用户已举报过该回复

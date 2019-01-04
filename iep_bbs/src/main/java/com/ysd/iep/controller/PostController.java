@@ -68,6 +68,9 @@ public class PostController {
 			// 通过用户id获取用户信息
 			Result user = adminFeign.getNameById(post.getUserId());
 			post.setUserName(user.getMessage());
+			
+			Integer replynum=postService.getReplyNum(post.getPostId());
+			post.setReplyNum(replynum);
 		}
 		map.put("total", total);
 		map.put("rows", list);
@@ -186,7 +189,11 @@ public class PostController {
 		}
 		return map;
 	}
-	
+	/**
+	 * 根据帖子id获取帖子详情
+	 * @param postId
+	 * @return
+	 */
 	@RequestMapping(value="getPostDetailsByPostId")
 	public Object getPostDetailsByPostId(Integer postId) {
 		
