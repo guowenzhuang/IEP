@@ -46,8 +46,6 @@ public interface PostService {
 	 * @param replyId
 	 * @return
 	 */
-	@PreAuthorize("hasAuthority('post:updateLikeNum')")
-    @PermissionMethod("更新帖子点赞数")
 	public Integer updateLikeNum(Integer replyId, Integer likeNum);
 	/**
 	 *   获取帖子举报数

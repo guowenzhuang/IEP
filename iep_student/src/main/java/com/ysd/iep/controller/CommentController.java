@@ -45,7 +45,7 @@ public class CommentController {
      * http://localhost:80/api/student/comment/queryCommentByCid
      */
     @GetMapping("/queryCommentByCid")
-    public Object queryCommentByCid(Integer cid, Integer page, Integer size){
+    public Object queryCommentByCid(Integer cid, Integer page, Integer size,String sid){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
         for (StudentComment comment : rows) {
@@ -53,7 +53,13 @@ public class CommentController {
             Result user = adminFeign.getNameById(comment.getSid());
             comment.setUserName(user.getMessage());
             Student photo=student.getphotoByIds(comment.getSid());
-            comment.setPhoto(photo.getPhoto());
+            comment.setPhoto(photo.getPhoto());//头像
+            CommentLog commentIsLike = commentLogRepository.findByMidAndSid(comment.getMid(),sid);
+            if(commentIsLike!=null){
+                comment.setIsLike(true);
+            }else{
+                comment.setIsLike(false);
+            }
         }
         Long total = pageStu.getTotalElements();
         Map<String, Object> map = new HashMap<>();
@@ -98,14 +104,17 @@ public class CommentController {
     @PutMapping ("/updateComment")
     public Object updateComment(Integer mid, Integer praise,String sid ) {
         CommentLog comment = commentLogRepository.findByMidAndSid(mid, sid);
+
                try{
                    if (comment == null) {
                     CommentLog commentLog = new CommentLog();
                     commentLog.setSid(sid);
                     commentLog.setMid(mid);
+
                     commentLogRepository.save(commentLog);
                     return commentService.updatePraise(mid, praise+1);
                 } else {
+                       System.out.println("comment!=null=>"+comment.getSid());
                   commentLogRepository.deleteById(comment.getCommentLogId());
                        commentService.updatePraise(mid, praise-1);
                     return "取消点赞";
