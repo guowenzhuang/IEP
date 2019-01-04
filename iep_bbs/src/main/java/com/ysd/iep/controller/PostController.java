@@ -3,6 +3,7 @@ package com.ysd.iep.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,26 @@ public class PostController {
 	@RequestMapping(value = "getAllPost", method = RequestMethod.POST)
 	public Object getAllPost(PostQuery postQuery, Integer page, Integer rows) {
 		
-		Pageable pageable = new PageRequest(page - 1, rows);
+		Pageable pageable = PageRequest.of(page - 1, rows);
 		Page<Post> posts = postService.queryAllPage(postQuery, pageable);
 		Map<String, Object> map = new HashMap<String, Object>();
 		long total = posts.getTotalElements();
 		List<Post> list = posts.getContent();
+		/*List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
+		List<Integer> replyIds = list.stream().map(Post::getReplyId).collect(Collectors.toList());
+		//批量查询帖子详情
+		//批量查询点赞记录
+		//
+		//
+		//
+		for (int i = 0; i < list.size(); i++) {
+			Post post = list.get(i);
+			// 帖子详情当前数据
+			//BeanUtils.copyProperties(postDetails, post);
+			//点赞记录当前数据
+
+		}*/
+
 		for (Post post : list) {
 			// 查询出帖子详情添加进帖子对象
 			Reply postDetails = postService.getPostDetails(post.getPostId(), 0);
