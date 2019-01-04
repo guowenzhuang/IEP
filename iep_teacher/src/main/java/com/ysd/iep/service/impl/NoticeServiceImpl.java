@@ -1,6 +1,5 @@
 package com.ysd.iep.service.impl;
 
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +29,12 @@ import com.ysd.iep.util.EmptyUtil;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
-	    @Autowired
-	   private NoticeRepository noticedao;
+	@Autowired
+	private NoticeRepository noticedao;
 
-	  /**
-     * 根据课程id查询课程公告信息
-    */
+	/**
+	 * 根据课程id查询课程公告信息
+	 */
 	@Override
 	public List<notice> queryNoticeByCourId(Integer courId) {
 		// TODO Auto-generated method stub
@@ -78,63 +77,77 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public PagingResult<notice> query(NoticeQuery noticeQuery) {
 		Specification<notice> specification = where(noticeQuery);
-        //排序分页
-        Pageable pageable = null;
-        if (EmptyUtil.stringE(noticeQuery.getOrder())) {
-            Sort sort = new Sort(Sort.Direction.DESC, noticeQuery.getOrder());
-            pageable = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows(), sort);
-        } else {
-            pageable = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows());
-        }
-        Page<notice> nitices = noticedao.findAll(specification, pageable);
-        List<notice> noticeList = nitices.getContent();
-        PagingResult<notice> pagingResult = new PagingResult<notice>();
-        pagingResult
-                .setTotal(nitices.getTotalElements())
-                .setRows(BeanConverterUtil.copyList(noticeList, notice.class));
-        return pagingResult;
+		// 排序分页
+		Pageable pageable = null;
+		if (EmptyUtil.stringE(noticeQuery.getOrder())) {
+			Sort sort = new Sort(Sort.Direction.DESC, noticeQuery.getOrder());
+			pageable = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows(), sort);
+		} else {
+			pageable = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows());
+		}
+		Page<notice> nitices = noticedao.findAll(specification, pageable);
+		List<notice> noticeList = nitices.getContent();
+		PagingResult<notice> pagingResult = new PagingResult<notice>();
+		pagingResult.setTotal(nitices.getTotalElements()).setRows(BeanConverterUtil.copyList(noticeList, notice.class));
+		return pagingResult;
 	}
-	/**
-     * 条件查询公告封装条件
-     *
-     * @param noticeQuery
-     * @return
-     */
-    private Specification<notice> where(NoticeQuery noticeQuery) {
-    	Specification<notice> specification=new Specification<notice>(){
-    		 @Override
-             public Predicate toPredicate(Root<notice> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                 List<Predicate> predicates = new ArrayList<Predicate>();
-                 //标题模糊查询
-                 if (EmptyUtil.stringE(noticeQuery.getNoTitle())) {
-                     Path<String> titlePath = root.get("noTitle");
-                     predicates.add(criteriaBuilder.like(titlePath, "%" + noticeQuery.getNoTitle() + "%"));
-                 }
-                 if (noticeQuery.getNoCourid()!=null) {
-                     Path<Integer> noCourid = root.get("noCourid");
-                     predicates.add(criteriaBuilder.equal(noCourid, noticeQuery.getNoCourid()));
-                 }
-                 //创建时间查询
-                 Path<Timestamp> createTimePath = root.get("noCreattime");
-                 if (EmptyUtil.dateE(noticeQuery.getBeginCreateTime())) {
-                     predicates.add(criteriaBuilder.greaterThanOrEqualTo(createTimePath, noticeQuery.getBeginCreateTime()));
-                 }
-                 if (EmptyUtil.dateE(noticeQuery.getEndCreateTime())) {
-                     predicates.add(criteriaBuilder.lessThanOrEqualTo(createTimePath, noticeQuery.getEndCreateTime()));
-                 }
 
-                 Predicate[] p = new Predicate[predicates.size()];
-                 return criteriaBuilder.and(predicates.toArray(p));
-             }
-         };
-         PageRequest pageRequest = null;
-         if (EmptyUtil.stringE(noticeQuery.getOrder())) {
-             Sort sort = new Sort(Sort.Direction.DESC, noticeQuery.getOrder());
-             pageRequest = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows(), sort);
-         } else {
-             pageRequest = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows());
-         }
-         return specification;
-    }
+	/**
+	 * 条件查询公告封装条件
+	 * 
+	 * @param noticeQuery
+	 * @return
+	 */
+	private Specification<notice> where(NoticeQuery noticeQuery) {
+		Specification<notice> specification = new Specification<notice>() {
+			@Override
+			public Predicate toPredicate(Root<notice> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>();
+				// 标题模糊查询
+				if (EmptyUtil.stringE(noticeQuery.getNoTitle())) {
+					Path<String> titlePath = root.get("noTitle");
+					predicates.add(criteriaBuilder.like(titlePath, "%" + noticeQuery.getNoTitle() + "%"));
+				}
+				if (noticeQuery.getNoCourid() != null) {
+					Path<Integer> noCourid = root.get("noCourid");
+					predicates.add(criteriaBuilder.equal(noCourid, noticeQuery.getNoCourid()));
+				}
+				// 创建时间查询
+				Path<Timestamp> createTimePath = root.get("noCreattime");
+				if (EmptyUtil.dateE(noticeQuery.getBeginCreateTime())) {
+					predicates.add(
+							criteriaBuilder.greaterThanOrEqualTo(createTimePath, noticeQuery.getBeginCreateTime()));
+				}
+				if (EmptyUtil.dateE(noticeQuery.getEndCreateTime())) {
+					predicates.add(criteriaBuilder.lessThanOrEqualTo(createTimePath, noticeQuery.getEndCreateTime()));
+				}
+
+				Predicate[] p = new Predicate[predicates.size()];
+				return criteriaBuilder.and(predicates.toArray(p));
+			}
+		};
+		PageRequest pageRequest = null;
+		if (EmptyUtil.stringE(noticeQuery.getOrder())) {
+			Sort sort = new Sort(Sort.Direction.DESC, noticeQuery.getOrder());
+			pageRequest = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows(), sort);
+		} else {
+			pageRequest = PageRequest.of(noticeQuery.getPage() - 1, noticeQuery.getRows());
+		}
+		return specification;
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public Result<String> findByCourId(Integer courId) {
+		 List<Integer> byNoCourid = noticedao.findByCourId(courId);
+		 System.out.println(byNoCourid+"aaaaaaaaaa");
+	        if(byNoCourid==null || byNoCourid.size()==0){
+	            return new Result<>(true);
+	        }else{
+	            return new Result<>(false,"此课程有公告不能删除");
+	        }
+	}
 
 }
