@@ -12,6 +12,7 @@ import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -86,14 +87,14 @@ public class CourseServiceImpl implements CourseService {
             @Override
             public Predicate toPredicate(Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<Predicate>();
-                // 名称模糊查询
+            // 名称模糊查询
                 if (EmptyUtil.stringE(courseQuery.getCourDepid())) {
-                    Path<String> namePath = root.get("courDepid");
-                    predicates.add(criteriaBuilder.like(namePath, "%" + courseQuery.getCourDepid() + "%"));
-                }
-                Predicate[] p = new Predicate[predicates.size()];
-                return criteriaBuilder.and(predicates.toArray(p));
+                Path<String> namePath = root.get("courDepid");
+                predicates.add(criteriaBuilder.like(namePath, "%" + courseQuery.getCourDepid() + "%"));
             }
+            Predicate[] p = new Predicate[predicates.size()];
+                return criteriaBuilder.and(predicates.toArray(p));
+        }
         };
         Pageable pageable = null;
         if (EmptyUtil.stringE(courseQuery.getOrderBy())) {
@@ -215,8 +216,24 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public PagingResult<Course> queryCourseBydepid(CourseQuery courseQuery) {
 		List<String> teaids = teacherRepository.findByteaIds(courseQuery.getCourDepid());
-		
-		return null;
+        System.out.println("teaids>>>"+teaids);
+        String teaid = StringUtils.join(teaids,",");
+        System.out.println("teaid*****"+teaid);
+        courseQuery.setCourTeaid(teaid);
+        System.out.println("courseQuery.setCourTeaid(teaid)"+courseQuery.getCourTeaid());
+        //分页查询
+        Pageable pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
+        Page<Course> course = null;
+        if (EmptyUtil.stringE(courseQuery.getCourDepid())){
+            course = coursedao.findByteaIds(teaid,pageable);
+        }else{
+            course = coursedao.findAll(pageable);
+        }
+        List<Course> courseList = course.getContent();
+        PagingResult pagingResult = new PagingResult();
+        pagingResult.setTotal(course.getTotalElements());
+        pagingResult.setRows(courseList);
+        return pagingResult;
 	}
 
 

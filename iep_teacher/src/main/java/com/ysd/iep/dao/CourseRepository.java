@@ -1,5 +1,7 @@
 package com.ysd.iep.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -63,5 +65,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 	@Query(value = "select cha_id from chaptertb where  cha_courid=?1 ", nativeQuery = true)
 	Integer queryChaCourid(Integer chaCourId);
 
+	@Query(value = "select * from coursetb where cour_teaid in(:ids)",nativeQuery = true)
+	Page<Course> findByteaIds(@Param("ids") String ids, Pageable pageable);
 
 }
