@@ -1,5 +1,24 @@
 package com.ysd.iep.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ysd.iep.entity.CoursePost;
+import com.ysd.iep.entity.CourseReply;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
@@ -7,17 +26,6 @@ import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "post")
@@ -32,7 +40,7 @@ public class PostController {
 
 	/**
 	 * 动态分页查询
-	 * 
+	 *
 	 * @param postQuery
 	 * @param page
 	 * @param rows
@@ -40,7 +48,7 @@ public class PostController {
 	 */
 	@RequestMapping(value = "getAllPost", method = RequestMethod.POST)
 	public Object getAllPost(PostQuery postQuery, Integer page, Integer rows) {
-		
+
 		Pageable pageable = PageRequest.of(page - 1, rows);
 		Page<Post> posts = postService.queryAllPage(postQuery, pageable);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -77,7 +85,7 @@ public class PostController {
 			// 通过用户id获取用户信息
 			Result user = adminFeign.getNameById(post.getUserId());
 			post.setUserName(user.getMessage());
-			
+
 			Integer replynum=postService.getReplyNum(post.getPostId());
 			post.setReplyNum(replynum);
 		}
@@ -131,7 +139,7 @@ public class PostController {
 
 	/**
 	 * 通过用户id获取用户信息
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping("/getNameById")
@@ -179,7 +187,7 @@ public class PostController {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 取消置顶 （管理员功能）
 	 * @param postId
@@ -206,16 +214,16 @@ public class PostController {
 	 */
 	@RequestMapping(value="getPostDetailsByPostId")
 	public Object getPostDetailsByPostId(Integer postId) {
-		
+
 		Post post=postService.getPostByPostId(postId);
 		Reply postDetails = postService.getPostDetails(postId, 0);
 		BeanUtils.copyProperties(postDetails, post);
 		Result user = adminFeign.getNameById(postDetails.getUserId());
 		post.setUserName(user.getMessage());
-		
+
 		Integer replynum=postService.getReplyNum(postId);
 		post.setReplyNum(replynum);
 		return post;
 	}
-	
+
 }
