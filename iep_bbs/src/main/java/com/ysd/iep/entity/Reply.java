@@ -82,5 +82,7 @@ public class Reply {
 	private Object replyUsername;	//回复人姓名
 	@Transient
 	private Object byUsername;	//被回复人姓名
+	@Transient
+	private Boolean isMy;
 
 }

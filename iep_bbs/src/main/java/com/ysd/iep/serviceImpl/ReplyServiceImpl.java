@@ -191,5 +191,29 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyRepository.upReplyIsDelO(replyId);
 	}
 
+	@Override
+	public List<Reply> getPostList(List<Integer> postIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getPostList(postIds);
+	}
+
+	@Override
+	public List<Integer> getLikeNumList(List<Integer> replyIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getLikeNumList(replyIds);
+	}
+
+	@Override
+	public List<Integer> getReportNumList(List<Integer> replyIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getReportNumList(replyIds);
+	}
+
+	@Override
+	public List<Integer> getReplyNumList(List<Integer> postIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getReplyNumList(postIds);
+	}
+
 
 }
