@@ -12,67 +12,67 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 public class ElkCourse {
 	@Id
-	private Integer cour_id;  //课程ID
+	private Integer courId;  //课程ID
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_name;//课程名称
+	private String courName;//课程名称
 
 	@Field(type = FieldType.Keyword)
-	private String cour_teaid;//教师id
+	private String courTeaid;//教师id
 
 	@Field(type = FieldType.Keyword)
-	private String cour_picurl;//课程图片url
+	private String courPicurl;//课程图片url
 
 	@Field(type = FieldType.Double)
-	private Double cour_price;//课程价格
+	private Double courPrice;//课程价格
 
 	@Field(type = FieldType.Double)
-	private Double cour_nocount;//课程优惠价格
+	private Double courNocount;//课程优惠价格
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_content;//课程描述
+	private String courContent;//课程描述
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_details;//课程详情
+	private String courDetails;//课程详情
 
 	@Field(type=FieldType.Integer)
-	private Integer cour_pageview;//浏览量
+	private Integer courPageview;//浏览量
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_score;//评分标准
+	private String courScore;//评分标准
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_target;//课程目标
+	private String courTarget;//课程目标
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_resources;//参考资料
+	private String courResources;//参考资料
 
 	@Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	private String cour_propaedeutics;//预备知识
+	private String courPropaedeutics;//预备知识
 
 	@Field(type = FieldType.Keyword)
-	private String cour_isputaway;//是否上架
+	private String courIsputaway;//是否上架
 
 	@Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private String cour_closetime;//开课时间
+	private String courOpentime;//开课时间
 
 	@Field(type = FieldType.Keyword)
-	private String cour_classhour;//学时
+	private String courClasshour;//学时
 
 	@Field(type = FieldType.Integer)
-	private Integer cour_commentcount;//课程评价数量
+	private Integer courCommentcount;//课程评价数量
 
 	@Field(type = FieldType.Integer)
-	private Integer cour_studypeople;//报名人数
+	private Integer courStudypeople;//报名人数
 
 	@Field(type = FieldType.Integer)
-	private Integer cour_mark;//学分
+	private Integer courMark;//学分
 
 	@Field(type = FieldType.Integer)
-	private Integer ext1;
+	private Integer Ext1;
 	@Field(type = FieldType.Keyword)
-	private String ext2;
+	private String Ext2;
 }
 	
 	
