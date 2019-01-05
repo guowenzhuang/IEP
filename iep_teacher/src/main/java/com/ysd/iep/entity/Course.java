@@ -1,6 +1,7 @@
 package com.ysd.iep.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Course implements Serializable{
 	private Double courPrice;
 	@Column(columnDefinition="double  NULL  DEFAULT 0.0 comment '备注:课程优惠价格'")
 	private Double courNocount;//
-	@Column(columnDefinition="varchar(500)  NULL comment '备注:课程描述'")
+	@Column(columnDefinition="varchar(500)  NULL comment '备注:课程内容'")
 	private String courContent;
 	@Column(columnDefinition="varchar(1000)  NULL comment '备注:课程描述'")
 	private String courDetails;
@@ -45,8 +46,10 @@ public class Course implements Serializable{
 	private String courPropaedeutics;//预备知识
 	@Column(columnDefinition="char(2) DEFAULT 0  NULL comment '备注:是否上架(0:否 1:是)'")
 	private String courIsputaway;//是否上架
-	@Column(columnDefinition="varchar(50)  NULL comment '备注:开课时间'")
-	private String courOpentime;//开课时间
+	@Column(columnDefinition="datetime  NULL comment '备注:开课时间'")
+	private Date courOpentime;//开课时间
+	@Column(columnDefinition="datetime  NULL comment '备注:开课时间'")
+	private Date courClosetime;//开课时间
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:学 时'")
 	private String courClasshour;//学时
 	@Column(columnDefinition="int  NULL comment '备注:课程评价数量'") 
