@@ -146,5 +146,11 @@ public interface ReplyService {
 	 * @return
 	 */
 	public List<Integer> getReplyNumList(List<Integer> postIds);
+	/**
+	 * 	删除回复
+	 * @param replyId
+	 * @return
+	 */
+	public int deleteReply(Integer replyId);
 
 }

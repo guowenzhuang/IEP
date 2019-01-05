@@ -215,5 +215,16 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyRepository.getReplyNumList(postIds);
 	}
 
+	@Override
+	public int deleteReply(Integer replyId) {
+		try {
+			replyRepository.deleteById(replyId);
+			return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return 0;
+		}
+	}
+
 
 }

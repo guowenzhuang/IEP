@@ -52,7 +52,7 @@ public class PostController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long total = posts.getTotalElements();
 		List<Post> list = posts.getContent();
-		List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
+		/*List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
 		// 批量查询帖子详情
 		List<Reply> postDetails = replyService.getPostList(postIds);
 		List<Integer> replyIds = new ArrayList<Integer>();
@@ -83,27 +83,30 @@ public class PostController {
 			post.setReplyReportnum(reportNums.get(i));
 			post.setReplyNum(replyNums.get(i));
 
-		}
+		}*/
 
-		/*
-		 * for (Post post : list) { // 查询出帖子详情添加进帖子对象 Reply postDetails =
-		 * postService.getPostDetails(post.getPostId(), 0);
-		 * BeanUtils.copyProperties(postDetails, post); // 从点赞记录表中查询每个帖子的点赞数添加到属性里 int
-		 * likeNum = postService.getLikeNum(post.getReplyId());
-		 * post.setReplyLikenum(likeNum); // 将点赞数更新到数据库的字段里
-		 * postService.updateLikeNum(post.getReplyId(), likeNum); // 查询每个帖子举报数 int
-		 * reportNum = postService.getReportNum(post.getReplyId());
-		 * post.setReplyReportnum(reportNum);
-		 * postService.updateReportNum(post.getReplyId(), reportNum); // 通过用户id获取用户信息
-		 * Result user = adminFeign.getNameById(post.getUserId());
-		 * post.setUserName(user.getMessage());
-		 * 
-		 * Integer replynum=postService.getReplyNum(post.getPostId());
-		 * post.setReplyNum(replynum);
-		 * 
-		 * 
-		 * }
-		 */
+		
+		  for (Post post : list) { 
+			  // 查询出帖子详情添加进帖子对象 
+			  Reply postDetails =postService.getPostDetails(post.getPostId(), 0);
+			  BeanUtils.copyProperties(postDetails, post); 
+			  // 从点赞记录表中查询每个帖子的点赞数添加到属性里 
+			  int likeNum = postService.getLikeNum(post.getReplyId());
+			  post.setReplyLikenum(likeNum); 
+			  // 将点赞数更新到数据库的字段里
+			  postService.updateLikeNum(post.getReplyId(), likeNum); 
+			  // 查询每个帖子举报数
+			  int reportNum = postService.getReportNum(post.getReplyId());
+			  post.setReplyReportnum(reportNum);
+			  postService.updateReportNum(post.getReplyId(), reportNum);
+			  // 通过用户id获取用户信息
+			  Result user = adminFeign.getNameById(post.getUserId());
+			  post.setUserName(user.getMessage());
+		  
+			  Integer replynum=postService.getReplyNum(post.getPostId());
+			  post.setReplyNum(replynum);		 		 
+		 }
+		 
 		map.put("total", total);
 		map.put("rows", list);
 		return map;
@@ -247,6 +250,22 @@ public class PostController {
 			post.setIsMy(true);
 		}
 		return post;
+	}
+	/**
+	 *删除帖子
+	 * @param postId
+	 * @return
+	 */
+	@RequestMapping(value="deletePost")
+	public Object deletePost(Integer postId,Integer replyId) {
+		Integer replynum = postService.getReplyNum(postId);
+		if(replynum>0) {
+			int n=replyService.upReplyIsDel(replyId);
+		}else {
+			int x=replyService.deleteReply(replyId);
+			//int y=postService.deletePost();
+		}
+		return null;
 	}
 
 }
