@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Api(value = "/course", tags = "课程")
 @RestController
@@ -41,12 +39,12 @@ public class CourseController {
      * @param courseQuery
      * @return
      */
-    @ApiOperation(value = "前台课程分页")
+  /*  @ApiOperation(value = "前台课程分页")
     @GetMapping("/getCourUIPage")
-    public PagingResult getCourUIPage(@RequestBody CourseQuery courseQuery){
+    public PagingResult getCourUIPage(CourseQuery courseQuery){
         System.out.println(courseQuery);
         return courseService.queryCourseBydepid(courseQuery);
-    }
+    }*/
 
 
     @GetMapping("/getByDepartId")
@@ -116,12 +114,19 @@ public class CourseController {
      * @param
      * @param
      * @return
-     *//*
+     */
     @ApiOperation(value = "前台课程分页")
     @GetMapping("/getCourUIPage")
-    public Result<Page<Course>> getCourUIPage(CourseQuery courseQuery) {
-        return new Result<Page<Course>>(true, courseService.queryCourseDepidAllPage(courseQuery));
-    }*/
+    public Result getCourUIPage(CourseQuery courseQuery) {
+        Page<Course> courses = courseService.queryCourseDepidAllPage(courseQuery);
+        if(courses==null){
+            Map map=new HashMap<>();
+            map.put("content",new Object[0]);
+            map.put("totalElements",0);
+            return new Result<Map>(true, map);
+        }
+        return new Result<Page<Course>>(true, courses);
+    }
 
     @ApiOperation(value = "根据课程id查询课程信息")
     @GetMapping("/findCourseById")
