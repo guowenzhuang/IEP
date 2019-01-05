@@ -4,15 +4,17 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.Recommend;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
-import com.ysd.iep.entity.query.CourseQuery;
+import com.ysd.iep.entity.elk.ElkCourse;
 import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.feign.BbsFeign;
 import com.ysd.iep.service.AdminService;
+import com.ysd.iep.service.ElkCourseService;
 import com.ysd.iep.service.TeacherService;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +39,9 @@ public class HomeController {
 
 	@Autowired
     private BbsFeign bbsFeign;
+
+	@Autowired
+	private ElkCourseService elkCourseService;
 
 	/**
 	 * @GetMapping 查询
@@ -144,10 +149,12 @@ public class HomeController {
 	 */
 	@ApiOperation(value = "首页检索")
 	@GetMapping("/homeSearch")
-	public Object homeSearch(CourseQuery courseQuery){
-		System.out.println("取到的搜索条件:"+courseQuery.getCourName());
+	public Object homeSearch(String value,Integer page,Integer size){
 
-		return  teacherService.homeSearch(courseQuery);
+		Page<ElkCourse> pagelist=elkCourseService.findAllCourseMatchQuery(value, page, size);
+        long total=pagelist.getTotalElements();
+        List<ElkCourse> rows=pagelist.getContent();
+		return  rows;
 	}
 
 
