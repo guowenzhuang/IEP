@@ -8,7 +8,8 @@ public class StudentUserDTO {
     private String loginName;
     private String protectEMail;
     private String protectMTel;
-    private String card ;//教师工号
-    private String photo;//教师头像
-    private String sex;//老师性别
+    private String card ;//学生工号
+    private String photo;//学生头像
+    private String sex;//学生性别
+    private Integer credits;
 }

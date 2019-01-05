@@ -35,6 +35,20 @@ public class CourseController {
     @Autowired
     private TeachersService teachersService;
 
+    /**
+     * course/getCourUIPage
+     *  课程的分页查询(前台 )
+     * @param courseQuery
+     * @return
+     */
+    @ApiOperation(value = "前台课程分页")
+    @GetMapping("/getCourUIPage")
+    public PagingResult getCourUIPage(@RequestBody CourseQuery courseQuery){
+        System.out.println(courseQuery);
+        return courseService.queryCourseBydepid(courseQuery);
+    }
+
+
     @GetMapping("/getByDepartId")
     public List<Integer> get(@RequestParam("departmentId") String departmentId){
         List<String> teaIdByDepartmentId = teachersService.getTeaIdByDepartmentId(departmentId);
@@ -101,12 +115,12 @@ public class CourseController {
      * @param
      * @param
      * @return
-     */
+     *//*
     @ApiOperation(value = "前台课程分页")
     @GetMapping("/getCourUIPage")
     public Result<Page<Course>> getCourUIPage(CourseQuery courseQuery) {
         return new Result<Page<Course>>(true, courseService.queryCourseDepidAllPage(courseQuery));
-    }
+    }*/
 
     @ApiOperation(value = "根据课程id查询课程信息")
     @GetMapping("/findCourseById")

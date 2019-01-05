@@ -8,14 +8,21 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ysd.iep.entity.notice;
 
-public interface NoticeRepository extends JpaRepository<notice, Integer>,JpaSpecificationExecutor<notice>{
+public interface NoticeRepository extends JpaRepository<notice, Integer>, JpaSpecificationExecutor<notice> {
 	/**
 	 * 根据课程id查询课程公告信息
+	 * 
 	 * @param courId
 	 * @return
 	 */
-	 @Query(value = "SELECT * FROM noticetb WHERE no_courid =?1 ORDER BY no_creattime DESC", nativeQuery = true)
-		public List<notice> queryNoticeByCourId(Integer courId);
-		
-		
+	@Query(value = "SELECT * FROM noticetb WHERE no_courid =?1 ORDER BY no_creattime DESC", nativeQuery = true)
+	public List<notice> queryNoticeByCourId(Integer courId);
+
+	/**
+	 * 根据课程id查询该公告是否属于某课程
+	 * @param courId
+	 * @return
+	 */
+	@Query(value = "SELECT no_id FROM noticetb WHERE no_courid=?1", nativeQuery = true)
+	public List<Integer> findByCourId(Integer courId);
 }
