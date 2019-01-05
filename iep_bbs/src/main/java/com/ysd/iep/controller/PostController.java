@@ -1,23 +1,5 @@
 package com.ysd.iep.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ysd.iep.entity.CoursePost;
-import com.ysd.iep.entity.CourseReply;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
@@ -25,6 +7,17 @@ import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "post")
@@ -193,8 +186,9 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value="cancelStick")
-	public Object cancelStick(Integer postId) {
+	public Object cancelStick(Integer postId, Authentication authentication) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(authentication);
 		int n=postService.cancelStick(postId);
 		if (n > 0) {
 			map.put("success", true);
