@@ -122,6 +122,29 @@ public interface ReplyService {
     @PermissionMethod("还原操作")
 	public Integer upReplyIsDelO(Integer replyId);
 	
+	/**
+	 * 获取帖子详情集合
+	 * @return
+	 */
+	public List<Reply> getPostList(List<Integer> postIds);
+	/**
+	 * 获取点赞数集合
+	 * @param replyIds
+	 * @return
+	 */
+	public List<Integer> getLikeNumList(List<Integer> replyIds);
+	/**
+	 * 获取举报数集合
+	 * @param replyIds
+	 * @return
+	 */
+	public List<Integer> getReportNumList(List<Integer> replyIds);
 	
+	/**
+	 * 获取回复数集合
+	 * @param postIds
+	 * @return
+	 */
+	public List<Integer> getReplyNumList(List<Integer> postIds);
 
 }

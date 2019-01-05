@@ -92,5 +92,19 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer>, JpaSpeci
 	@Query(value = "SELECT COUNT(1) FROM replytb r WHERE r.reply_parentid <> 0 AND  r.post_id=?1", nativeQuery = true)
 	public Integer getReplyNum(Integer postId);
 	
+	@Query(value = "SELECT * FROM replytb WHERE reply_parentid=0 AND post_id IN (?1)", nativeQuery = true)
+	public List<Reply> getPostList(List<Integer> postIds);
+	
+	@Query(value = "SELECT COUNT(1) FROM liketb WHERE reply_id IN (?1)\r\n" + 
+			"GROUP BY reply_id", nativeQuery = true)
+	public List<Integer> getLikeNumList(List<Integer> replyIds);
+	
+	@Query(value = "SELECT COUNT(1) FROM reporttb WHERE reply_id IN (?1)\r\n" + 
+			"GROUP BY reply_id", nativeQuery = true)
+	public List<Integer> getReportNumList(List<Integer> replyIds);
+	
+	@Query(value = "SELECT COUNT(1) FROM replytb WHERE post_id IN (?1) AND reply_parentid<>0\r\n" + 
+			"GROUP BY post_id", nativeQuery = true)
+	public List<Integer> getReplyNumList(List<Integer> postIds);
 
 }

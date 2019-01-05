@@ -69,6 +69,13 @@ public class ReplyController {
 					reply.setIsReport(false);;	//用户未举报过
 				}
 			}
+			if(loginUserId.equals(reply.getUserId())) {
+				reply.setIsMy(true);
+			}
+			int likeNum = postService.getLikeNum(reply.getReplyId());
+			reply.setReplyLikenum(likeNum);
+			// 将点赞数更新到数据库的字段里
+			postService.updateLikeNum(reply.getReplyId(), likeNum);
 			
 		}
 		return replylist;
@@ -192,7 +199,6 @@ public class ReplyController {
 			int reportNum=postService.getReportNum(reply.getReplyId());
 			reply.setReplyReportnum(reportNum);
 			postService.updateReportNum(reply.getReplyId(), reportNum);
-			
 			reply.setReplyUsername(adminFeign.getNameById(reply.getUserId()).getMessage());
 		}
 		map.put("total", total);
