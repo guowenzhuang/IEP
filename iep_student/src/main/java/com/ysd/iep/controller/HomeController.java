@@ -4,6 +4,7 @@ package com.ysd.iep.controller;
 import com.ysd.iep.entity.Recommend;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.RecommendIndexDTO;
+import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.entity.query.UsersRoleQuery;
 import com.ysd.iep.feign.BbsFeign;
 import com.ysd.iep.service.AdminService;
@@ -136,9 +137,18 @@ public class HomeController {
         List<Integer> cids=teacherService.getCourseIdBy(depid);
         System.out.println("得到的id："+cids);
         return new Result(true,bbsFeign.getDiscuss(cids));
-
     }
 
+	/**
+	 * 首页检索
+	 */
+	@ApiOperation(value = "首页检索")
+	@GetMapping("/homeSearch")
+	public Object homeSearch(CourseQuery courseQuery){
+		System.out.println("取到的搜索条件:"+courseQuery.getCourName());
+
+		return  teacherService.homeSearch(courseQuery);
+	}
 
 
 

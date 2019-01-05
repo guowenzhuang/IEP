@@ -13,6 +13,7 @@ public interface StudentPartService {
 	public int count(Integer cid);
 	
     //添加学生课程报名信息
+	//@PreAuthorize("hasAuthority('studentPart:addstudentPart')")
 	public void add(Integer courId, String sid);
 	
 	//删除学生课程报名信息

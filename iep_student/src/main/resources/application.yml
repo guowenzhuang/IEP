@@ -9,6 +9,12 @@ server:
 spring:
   application:
     name: iep-student #指定服务名
+  data:
+    elasticsearch:
+      ####集群名称默认elasticsearch
+      #     cluster-name: elasticsearch
+      ####地址java访问端口默认9300
+      cluster-nodes: 127.0.0.1:9300
   jpa:
     database: MySQL
     show-sql: true
