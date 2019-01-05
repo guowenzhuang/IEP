@@ -103,6 +103,7 @@ public class CourseController {
     @ApiOperation(value = "修改课程")
     @PostMapping("updateCourseAll")
     public Result updateCourseAll(Course course) {
+    	System.err.println("课程>>>>"+course);
         Result add = courseService.updateCourse(course);
         return new Result(true);
     }
