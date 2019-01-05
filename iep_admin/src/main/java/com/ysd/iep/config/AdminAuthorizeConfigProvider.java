@@ -17,6 +17,7 @@ public class AdminAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 .antMatchers("/recommend",
                         "/recommend/index",
                         "/user/getNameById",
+                        "/user/getNameByIds",
                         "/user/getByRole",
                         "/depart/getIdByNames")
                 .permitAll();

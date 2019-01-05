@@ -1,5 +1,6 @@
 package com.ysd.iep.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -145,7 +146,7 @@ public interface ReplyService {
 	 * @param postIds
 	 * @return
 	 */
-	public List<Integer> getReplyNumList(List<Integer> postIds);
+	public List<BigInteger> getReplyNumList(List<Integer> postIds);
 	/**
 	 * 	删除回复
 	 * @param replyId

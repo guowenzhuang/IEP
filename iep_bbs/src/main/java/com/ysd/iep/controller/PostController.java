@@ -1,11 +1,13 @@
 package com.ysd.iep.controller;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +35,7 @@ public class PostController {
 	private PostService postService;
 	@Autowired
 	private ReplyService replyService;
-	@Autowired
+	@Autowired(required = false)
 	private AdminFeign adminFeign;
 
 	/**
@@ -52,40 +54,39 @@ public class PostController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long total = posts.getTotalElements();
 		List<Post> list = posts.getContent();
-		/*List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
+		List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
 		// 批量查询帖子详情
 		List<Reply> postDetails = replyService.getPostList(postIds);
-		List<Integer> replyIds = new ArrayList<Integer>();
-		for (Reply postDetail : postDetails) {
-			replyIds.add(postDetail.getReplyId());
-		}
+		List<Integer> replyIds = postDetails.stream().map(Reply::getReplyId).collect(Collectors.toList());;
 		System.out.println("replyIds" + replyIds);
 		// 批量查询点赞记录
-		List<Integer> likeNums = replyService.getLikeNumList(replyIds);
+		//List<Integer> likeNums = replyService.getLikeNumList(replyIds);
+
 		// 批量查询举报记录
-		List<Integer> reportNums = replyService.getReportNumList(replyIds);
+		//List<Integer> reportNums = replyService.getReportNumList(replyIds);
 		// 批量查询回复数
-		List<Integer> replyNums = replyService.getReplyNumList(postIds);
+		List<BigInteger> replyNums = replyService.getReplyNumList(postIds);
 
-		List<Object> userNames = new ArrayList<Object>();
-		for (Reply postDetail : postDetails) {
-			userNames.add(adminFeign.getNameById(postDetail.getUserId()).getMessage());
-		}
-
+		List<String> userids = postDetails.stream().map(Reply::getUserId).collect(Collectors.toList());
+		String useridsStr = StringUtils.join(userids, ",");
+		Result<List<String>> namesResult = adminFeign.getNameByIds(useridsStr);
+		List<String> userNames = namesResult.getMessage();
+		System.out.println(userNames);
 		for (int i = 0; i < list.size(); i++) {
 			Post post = list.get(i);
+			Reply reply = postDetails.get(i);
+			String name=userNames.get(i);
 			// 帖子详情当前数据
-			BeanUtils.copyProperties(postDetails, post);
+			BeanUtils.copyProperties(reply, post);
+			post.setUserName(name);
 			// 点赞记录当前数据
 			post.setReplyId(replyIds.get(i));
+			BigInteger reNum = replyNums.get(i);
+			post.setReplyNum(reNum.intValue());
 
-			post.setReplyLikenum(likeNums.get(i));
-			post.setReplyReportnum(reportNums.get(i));
-			post.setReplyNum(replyNums.get(i));
+		}
 
-		}*/
-
-		
+		/*
 		  for (Post post : list) { 
 			  // 查询出帖子详情添加进帖子对象 
 			  Reply postDetails =postService.getPostDetails(post.getPostId(), 0);
@@ -105,7 +106,7 @@ public class PostController {
 		  
 			  Integer replynum=postService.getReplyNum(post.getPostId());
 			  post.setReplyNum(replynum);		 		 
-		 }
+		 }*/
 		 
 		map.put("total", total);
 		map.put("rows", list);

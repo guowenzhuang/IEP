@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
+
+import com.ysd.iep.dao.PostRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,6 +96,7 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer replyLike(Integer replyId, String userId) {
+		replyRepository.addLike(replyId);
 		return replyRepository.replyLike(replyId, userId);
 	}
 
@@ -107,6 +110,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public Integer deleteLike(String userId, Integer replyId) {
+		replyRepository.reduceLike(replyId);
 		return replyRepository.deleteLike(userId, replyId);
 	}
 
@@ -139,6 +143,7 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer userReport(String userId, Integer replyId, String reportReason) {
+		replyRepository.addReplyReportnum(replyId);
 		return replyRepository.userReport(userId, replyId, reportReason);
 	}
 
@@ -210,7 +215,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<Integer> getReplyNumList(List<Integer> postIds) {
+	public List<BigInteger> getReplyNumList(List<Integer> postIds) {
 		// TODO Auto-generated method stub
 		return replyRepository.getReplyNumList(postIds);
 	}
