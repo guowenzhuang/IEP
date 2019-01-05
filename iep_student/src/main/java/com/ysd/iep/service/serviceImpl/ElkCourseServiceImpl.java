@@ -21,7 +21,7 @@ public class ElkCourseServiceImpl implements ElkCourseService {
     @Override
     public Page<ElkCourse> findAllCourseMatchQuery(ElkCourseQuery elkCourseQuery){
         Sort sort =null;
-            if(!elkCourseQuery.getOrderby().equalsIgnoreCase("desc")){
+            if(elkCourseQuery.getOrderby().equalsIgnoreCase("asc")){
                 sort= new Sort(Sort.Direction.ASC, elkCourseQuery.getConditions());
             }else{
                 sort= new Sort(Sort.Direction.DESC, elkCourseQuery.getConditions());
