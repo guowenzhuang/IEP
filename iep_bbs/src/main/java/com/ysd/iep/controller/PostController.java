@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -193,8 +194,9 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value="cancelStick")
-	public Object cancelStick(Integer postId) {
+	public Object cancelStick(Integer postId, Authentication authentication) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(authentication);
 		int n=postService.cancelStick(postId);
 		if (n > 0) {
 			map.put("success", true);

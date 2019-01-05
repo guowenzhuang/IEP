@@ -3,6 +3,7 @@ package com.ysd.iep.service.serviceImpl;
 import com.ysd.iep.entity.elk.ElkCourse;
 import com.ysd.iep.repository.ElkCourseRepository;
 import com.ysd.iep.service.ElkCourseService;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +23,8 @@ public class ElkCourseServiceImpl implements ElkCourseService {
         Sort sort = new Sort(Sort.Direction.DESC, "courStudypeople");
         Pageable pageable = PageRequest.of(page-1, size, sort);
 
-        //elkCourseRepository.search(QueryBuilders.matchQuery(courName,courName),pageable);
-
-        return elkCourseRepository.search(QueryBuilders.multiMatchQuery(value,"cour_name","cour_content","cour_details"),pageable);
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(value, "cour_name", "cour_content", "cour_details");
+        Page<ElkCourse> search = elkCourseRepository.search(multiMatchQueryBuilder,pageable);
+        return search;
     }
 }
