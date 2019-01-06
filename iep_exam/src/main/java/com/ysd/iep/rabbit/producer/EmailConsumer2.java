@@ -1,4 +1,4 @@
-/*
+
 package com.ysd.iep.rabbit.producer;
 
 import com.ysd.iep.dao.ExamrubricDao;
@@ -27,13 +27,13 @@ public class EmailConsumer2 {
 	ExamrubricDao examrubricdao;
 	@Autowired
 	StudentexamlogDao studentexamlogdao;
-	*/
+
 /**
 	 * 考试做题记录成绩记录表中
 	 *//*
 
 	*/
-/*@RabbitListener(queues = "new_fanout_user_queue", containerFactory="rabbitListenerContainerFactory")
+ @RabbitListener(queues = "new_fanout_user_queue", containerFactory="rabbitListenerContainerFactory")
 	public void examend(@Payload ExamUltimately examUltimately) {
 		String Ider = UUIDUtils.getUUID();
 
@@ -42,22 +42,16 @@ public class EmailConsumer2 {
 
 		if (examrubricbig.getRubricttype().equals("单选题") || examrubricbig.getRubricttype().equals("多选题")) {
 			System.out.println("单选或者多选");
-			*//*
-*/
+
 /**
 			 * 根据考试题干id查询本条做题记录
-			 *//*
-*/
-/*
+			 */
 			Studentexamlog studentexamloger = studentexamlogdao.selectlogforexamrubricid(examUltimately.getExamrubricId(), examUltimately.getStudentId(), examUltimately.getExamparperId());
 
-			*//*
-*/
+
 /**
 			 * 判断根据考试题干查询的考试记录是否为空
-			 *//*
-*/
-/*
+			 */
 			if (studentexamloger == null) {
 
 
@@ -65,17 +59,13 @@ public class EmailConsumer2 {
 					String Id = UUIDUtils.getUUID();
 
 
-					*//*
-*/
 /**
 					 * (根据考试试卷id将试卷的所有试题查询出来,
 					 *  从中单独取出来试题的题干中的答案id[answerId],
 					 *  遍历该id集合,使之与学生所选的答案id比较.
 					 *  在根据答案id的外键关系可以获取到考试试卷的id,
 					 *  再根据考试试卷id,对试题进行加分.)
-					 *//*
-*/
-/*
+					 */
 					RubricQuery rubricQuery = new RubricQuery();
 					rubricQuery.setExamparper(examUltimately.getExamparperId());
 					List<Examrubric> examrubricList = this.getExamrubricforparperid(rubricQuery);
@@ -106,13 +96,10 @@ public class EmailConsumer2 {
 						}
 					}
 
-					*//*
-*/
+
 /**
 					 * 声明一个新下考试记录对象
-					 *//*
-*/
-/*
+					 */
 					Studentexamlog studentexamlog = new Studentexamlog();
 					studentexamlog.setId(Id);
 					studentexamlog.setCourseId(examUltimately.getCourseid());
@@ -123,13 +110,10 @@ public class EmailConsumer2 {
 					studentexamlog.setPerformance(score);
 					studentexamlogdao.save(studentexamlog);
 
-					*//*
-*/
+
 /**
 					 * 判断是否存在试卷的成绩记录
-					 *//*
-*/
-/*
+					 */
 
 					System.out.println("记录成功");
 					//return new Result(true, "记录成功", null);
@@ -141,16 +125,13 @@ public class EmailConsumer2 {
 				}
 
 			} else {
-				*//*
-*/
-/**
+
+                 /**
 				 * 记录中有这条做题记录的情况
 				 * (1)先取出本条考试记录  studentexamlogerdsa
 				 * (2)再将前端传来的所选的答案id
 				 *
-				 *//*
-*/
-/*
+				 */
 				System.out.println("记录表中步步为空**************");
 				try {
 					RubricQuery rubricQuery = new RubricQuery();
@@ -207,13 +188,12 @@ public class EmailConsumer2 {
 
 			}
 		} else {
-			*//*
-*/
+
+
 /**
 			 * 填空题,判断题的处理方式
-			 *//*
-*/
-/*
+			 */
+
 			try {
 				Integer score = 0;
 				String Id = UUIDUtils.getUUID();
@@ -255,18 +235,16 @@ public class EmailConsumer2 {
 				//return new Result(false, "修改记录失败", null);
 			}
 		}
-		*//*
-*/
+
 /**
 		 * 多条件查询(where条件拼接)
 		 *
 		 * @param rubricquery
 		 * @return
-		 *//*
-*/
-/*
+		 */
 
-	}*//*
+
+	}
 
 	public Specification<Examrubric> getWhereClause(final RubricQuery rubricquery) {
 		return new Specification<Examrubric>() {
@@ -301,21 +279,21 @@ public class EmailConsumer2 {
 			}
 		};
 	}
-	*/
+
 /**
 	 * 根据试卷id查询考试试题
-	 *//*
+	 */
 
 	public List<Examrubric> getExamrubricforparperid(RubricQuery rubricquery) {
 		return examrubricdao.findAll(this.getWhereClause(rubricquery));
 	}
-	*/
+
 /*@RabbitHandler
 	public void process(Users users) {
 		System.out.println("邮件消费者获取生产者消息msg:" + users);
-	}*//*
+	}*/
 
-	*/
+
 /*@RabbitHandler
 	public void process(Users user) {
 
@@ -344,8 +322,8 @@ public class EmailConsumer2 {
 			e.printStackTrace();
 		}
 		return obj;
-	}*//*
+	}*/
 
 
 }
-*/
+

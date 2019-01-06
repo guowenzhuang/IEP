@@ -1,4 +1,4 @@
-/*
+
 package com.ysd.iep.rabbit.config;
 
 
@@ -13,12 +13,12 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-*/
+
 /**
  * RabbitMQ配置类
  * 发布订阅模式 
  * 配置的交换机类型为 fanout
- *//*
+ */
 
 @Component
 public class FanoutConfig {
@@ -60,38 +60,38 @@ public class FanoutConfig {
 
 	
 	// 3.邮件队列和交换机进行绑定 参数名称和定义队列和交换机方法名称一致
-	*/
+
 /**
 	 * 把 Fanout交换机 与 短信队列 绑定
 	 * @param fanoutEmailQueue 必须与定义定义 短信队列 方法名称一致
 	 * @param fanoutExchange 必须与定义定义 定义Fanout交换机 方法名称一致
 	 * @return
-	 *//*
+	 */
 
 	@Bean
     Binding bindingExchangeEamil(Queue fanoutEmailQueue, FanoutExchange fanoutExchange) {
 		return BindingBuilder.bind(fanoutEmailQueue).to(fanoutExchange);
 	}
-	*/
+
 /**
 	 * 把 Fanout交换机 与 短信队列 绑定
 	 * @param fanoutUserQueue 必须与定义定义 短信队列 方法名称一致
 	 * @param fanoutExchange 必须与定义定义 定义Fanout交换机 方法名称一致
 	 * @return
-	 *//*
+	 */
 
 	@Bean
     Binding bindingExchangeUser(Queue fanoutUserQueue, FanoutExchange fanoutExchange) {
 		return BindingBuilder.bind(fanoutUserQueue).to(fanoutExchange);
 	}
 	
-	*/
+
 /**
 	 * 把 Fanout交换机 与 邮件队列 绑定
 	 * @param fanoutSmsQueue 必须与定义定义 短信队列 方法名称一致
 	 * @param fanoutExchange 必须与定义定义 定义Fanout交换机 方法名称一致
 	 * @return
-	 *//*
+	 */
 
 	@Bean
     Binding bindingExchangeSms(Queue fanoutSmsQueue, FanoutExchange fanoutExchange) {
@@ -113,4 +113,3 @@ public class FanoutConfig {
 	}
 }
 
-*/
