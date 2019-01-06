@@ -20,21 +20,21 @@ spring:
   cloud:
     config:
       allow-override: true
-  rabbitmq:
+  # rabbitmq:
     ####连接地址
-    host: 127.0.0.1
+    # host: 127.0.0.1
     ####端口号
-    port: 5672
+    # port: 5672
     ####用户账号
-    username: cuiyijie
+    # username: cuiyijie
     ####用户密码
-    password: cui19960228
+    # password: cui19960228
     ### 虚拟服务地址
-    virtual-host: /springcloud-virtual-host
+    # virtual-host: /springcloud-virtual-host
 eureka:
-    instance:
-      instance-id: iep-exam9030
-      prefer-ip-address: true
+  instance:
+    instance-id: iep-exam9030
+    prefer-ip-address: true
 
 
 #debug

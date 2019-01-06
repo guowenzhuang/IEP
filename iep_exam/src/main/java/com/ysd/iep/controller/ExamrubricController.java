@@ -8,7 +8,7 @@ import com.ysd.iep.entity.Examrubric;
 import com.ysd.iep.entity.Rubric;
 import com.ysd.iep.entity.parameter.*;
 import com.ysd.iep.entitySerch.ExamParperSerch;
-import com.ysd.iep.rabbit.producer.FanoutProducer;
+
 import com.ysd.iep.service.ExamrubricService;
 import com.ysd.iep.service.RubricService;
 import com.ysd.iep.util.UUIDUtils;
@@ -37,8 +37,8 @@ public class ExamrubricController {
     ExamrubricService examrubricservice;
     @Autowired
     RubricService rubricservice;
-    @Autowired
-    FanoutProducer fanoutProducer;
+   /* @Autowired
+    FanoutProducer fanoutProducer;*/
     /**
      * 多条件分页查询所有考试试题
      */
