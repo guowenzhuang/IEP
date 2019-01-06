@@ -86,5 +86,7 @@ public class Reply {
 	private Object byUsername;	//被回复人姓名
 	@Transient
 	private Boolean isMy;
+	@Transient
+	private Object userImg;
 
 }

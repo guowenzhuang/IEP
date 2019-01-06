@@ -192,4 +192,16 @@ public class PostServiceImpl implements PostService {
 		return replyRepository.getReplyNum(postId);
 	}
 
+	@Override
+	public int deletePost(Integer postId) {
+		try {
+			replyRepository.deleteById(postId);
+			return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return 0;
+		}
+
+	}
+
 }

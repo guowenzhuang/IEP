@@ -23,6 +23,7 @@ import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.feign.AdminFeign;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
@@ -37,6 +38,8 @@ public class PostController {
 	private ReplyService replyService;
 	@Autowired(required = false)
 	private AdminFeign adminFeign;
+	@Autowired(required = false)
+	private StudentFeign studentFeign;
 
 	/**
 	 * 动态分页查询
@@ -57,16 +60,17 @@ public class PostController {
 		List<Integer> postIds = list.stream().map(Post::getPostId).collect(Collectors.toList());
 		// 批量查询帖子详情
 		List<Reply> postDetails = replyService.getPostList(postIds);
-		List<Integer> replyIds = postDetails.stream().map(Reply::getReplyId).collect(Collectors.toList());;
+		List<Integer> replyIds = postDetails.stream().map(Reply::getReplyId).collect(Collectors.toList());
+		;
 		System.out.println("replyIds" + replyIds);
 		System.out.println("postIds" + postIds);
 		// 批量查询点赞记录
-		//List<Integer> likeNums = replyService.getLikeNumList(replyIds);
+		// List<Integer> likeNums = replyService.getLikeNumList(replyIds);
 
 		// 批量查询举报记录
-		//List<Integer> reportNums = replyService.getReportNumList(replyIds);
+		// List<Integer> reportNums = replyService.getReportNumList(replyIds);
 		// 批量查询回复数
-		//List<BigInteger> replyNums = replyService.getReplyNumList(postIds);
+		// List<BigInteger> replyNums = replyService.getReplyNumList(postIds);
 
 		List<String> userids = postDetails.stream().map(Reply::getUserId).collect(Collectors.toList());
 		String useridsStr = StringUtils.join(userids, ",");
@@ -75,39 +79,36 @@ public class PostController {
 		System.out.println(userNames);
 		for (int i = 0; i < list.size(); i++) {
 			Post post = list.get(i);
-			Reply reply = postDetails.get(i);
-			String name=userNames.get(i);
+			//Reply reply = postDetails.get(i);
+			String name = userNames.get(i);
+			String userImg = studentFeign.getphotoByIds(userids.get(i));
 			// 帖子详情当前数据
-			BeanUtils.copyProperties(reply, post);
+			for (Reply postDetail : postDetails) {
+				if(postDetail.getPost().getPostId()==post.getPostId()) {
+					BeanUtils.copyProperties(postDetail, post);
+				}
+			}			
 			post.setUserName(name);
-			
-			/*post.setReplyId(replyIds.get(i));
-			BigInteger reNum = replyNums.get(i);
-			post.setReplyNum(reNum.intValue());*/
+			post.setUserImg(userImg);
 		}
-		
+
 		/*
-		  for (Post post : list) { 
-			  // 查询出帖子详情添加进帖子对象 
-			  Reply postDetails =postService.getPostDetails(post.getPostId(), 0);
-			  BeanUtils.copyProperties(postDetails, post); 
-			  // 从点赞记录表中查询每个帖子的点赞数添加到属性里 
-			  int likeNum = postService.getLikeNum(post.getReplyId());
-			  post.setReplyLikenum(likeNum); 
-			  // 将点赞数更新到数据库的字段里
-			  postService.updateLikeNum(post.getReplyId(), likeNum); 
-			  // 查询每个帖子举报数
-			  int reportNum = postService.getReportNum(post.getReplyId());
-			  post.setReplyReportnum(reportNum);
-			  postService.updateReportNum(post.getReplyId(), reportNum);
-			  // 通过用户id获取用户信息
-			  Result user = adminFeign.getNameById(post.getUserId());
-			  post.setUserName(user.getMessage());
-		  
-			  Integer replynum=postService.getReplyNum(post.getPostId());
-			  post.setReplyNum(replynum);		 		 
-		 }*/
-		 
+		 * for (Post post : list) { // 查询出帖子详情添加进帖子对象 Reply postDetails
+		 * =postService.getPostDetails(post.getPostId(), 0);
+		 * BeanUtils.copyProperties(postDetails, post); // 从点赞记录表中查询每个帖子的点赞数添加到属性里 int
+		 * likeNum = postService.getLikeNum(post.getReplyId());
+		 * post.setReplyLikenum(likeNum); // 将点赞数更新到数据库的字段里
+		 * postService.updateLikeNum(post.getReplyId(), likeNum); // 查询每个帖子举报数 int
+		 * reportNum = postService.getReportNum(post.getReplyId());
+		 * post.setReplyReportnum(reportNum);
+		 * postService.updateReportNum(post.getReplyId(), reportNum); // 通过用户id获取用户信息
+		 * Result user = adminFeign.getNameById(post.getUserId());
+		 * post.setUserName(user.getMessage());
+		 * 
+		 * Integer replynum=postService.getReplyNum(post.getPostId());
+		 * post.setReplyNum(replynum); }
+		 */
+
 		map.put("total", total);
 		map.put("rows", list);
 		return map;
@@ -244,6 +245,9 @@ public class PostController {
 		BeanUtils.copyProperties(postDetails, post);
 		Result user = adminFeign.getNameById(postDetails.getUserId());
 		post.setUserName(user.getMessage());
+		
+		String userImg = studentFeign.getphotoByIds(userId);
+		post.setUserImg(userImg);
 
 		Integer replynum = postService.getReplyNum(postId);
 		post.setReplyNum(replynum);
@@ -252,21 +256,38 @@ public class PostController {
 		}
 		return post;
 	}
+
 	/**
-	 *删除帖子
+	 * 删除帖子
+	 * 
 	 * @param postId
 	 * @return
 	 */
-	@RequestMapping(value="deletePost")
-	public Object deletePost(Integer postId,Integer replyId) {
+	@RequestMapping(value = "deletePost")
+	public Object deletePost(Integer postId, Integer replyId) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		Integer replynum = postService.getReplyNum(postId);
-		if(replynum>0) {
-			int n=replyService.upReplyIsDel(replyId);
-		}else {
-			int x=replyService.deleteReply(replyId);
-			//int y=postService.deletePost();
+		if (replynum > 0) {
+			int n = replyService.updateReplyIsDel(replyId);
+			if (n > 0) {
+				map.put("success", true);
+				map.put("message", "删除成功");
+			} else {
+				map.put("success", false);
+				map.put("message", "删除失败");
+			}
+		} else {
+			int x = replyService.deleteReply(replyId);
+			int y = postService.deletePost(postId);
+			if (x > 0 && y > 0) {
+				map.put("success", true);
+				map.put("message", "删除成功");
+			} else {
+				map.put("success", false);
+				map.put("message", "删除失败");
+			}
 		}
-		return null;
+		return map;
 	}
 
 }
