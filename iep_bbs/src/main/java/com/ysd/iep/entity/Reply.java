@@ -53,6 +53,8 @@ public class Reply {
 	private Integer replyLikenum;
 	@Column(columnDefinition="int DEFAULT 0 comment '备注:举报数' ")
 	private Integer replyReportnum;
+	@Column(columnDefinition="int DEFAULT 0 comment '备注:回复数' ")
+	private Integer replyNum;
 	@Column(columnDefinition="tinyint(1) DEFAULT 0  comment '备注:是否被删除' ")
 	private Boolean isDelete;
 	

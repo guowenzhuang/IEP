@@ -59,13 +59,14 @@ public class PostController {
 		List<Reply> postDetails = replyService.getPostList(postIds);
 		List<Integer> replyIds = postDetails.stream().map(Reply::getReplyId).collect(Collectors.toList());;
 		System.out.println("replyIds" + replyIds);
+		System.out.println("postIds" + postIds);
 		// 批量查询点赞记录
 		//List<Integer> likeNums = replyService.getLikeNumList(replyIds);
 
 		// 批量查询举报记录
 		//List<Integer> reportNums = replyService.getReportNumList(replyIds);
 		// 批量查询回复数
-		List<BigInteger> replyNums = replyService.getReplyNumList(postIds);
+		//List<BigInteger> replyNums = replyService.getReplyNumList(postIds);
 
 		List<String> userids = postDetails.stream().map(Reply::getUserId).collect(Collectors.toList());
 		String useridsStr = StringUtils.join(userids, ",");
@@ -79,13 +80,12 @@ public class PostController {
 			// 帖子详情当前数据
 			BeanUtils.copyProperties(reply, post);
 			post.setUserName(name);
-			// 点赞记录当前数据
-			post.setReplyId(replyIds.get(i));
+			
+			/*post.setReplyId(replyIds.get(i));
 			BigInteger reNum = replyNums.get(i);
-			post.setReplyNum(reNum.intValue());
-
+			post.setReplyNum(reNum.intValue());*/
 		}
-
+		
 		/*
 		  for (Post post : list) { 
 			  // 查询出帖子详情添加进帖子对象 

@@ -153,5 +153,11 @@ public interface ReplyService {
 	 * @return
 	 */
 	public int deleteReply(Integer replyId);
+	/**
+	 * 更新帖子回复数
+	 * @param postId
+	 * @return
+	 */
+	Integer updatePostReplyNum(Integer postId);
 
 }

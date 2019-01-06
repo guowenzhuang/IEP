@@ -119,7 +119,19 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer insertReply(String replyContent, Integer parentId, Integer postId, String userId) {
+		replyRepository.updateReplyNum(parentId,postId);
+		//replyRepository.updatePostReplyNum(postId);
 		return replyRepository.insertReply(replyContent, parentId, postId, userId);
+	}
+	
+	/**
+	 * 更新帖子回复数
+	 * @return 
+	 * 
+	 */
+	@Override
+	public Integer updatePostReplyNum(Integer postId) {
+		return replyRepository.updatePostReplyNum(postId);
 	}
 
 	/**

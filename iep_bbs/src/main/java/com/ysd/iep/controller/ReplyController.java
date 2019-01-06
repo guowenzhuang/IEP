@@ -137,6 +137,7 @@ public class ReplyController {
 		Integer parentId;
 		if(pId==0) {
 			parentId=replyService.queryReplyIdByPostIdAndParentId(postId, 0);
+			replyService.updatePostReplyNum(postId);
 		}else {
 			parentId=pId;
 		}
