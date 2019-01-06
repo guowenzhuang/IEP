@@ -282,6 +282,24 @@ public class ReplyController {
 		}
 		return map;		
 	}
+	/**
+	 * 删除回复
+	 * @param replyId
+	 * @return
+	 */
+	@RequestMapping(value="/deleteReply", method = RequestMethod.POST)
+	public Object deleteReply(Integer replyId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n = replyService.updateReplyIsDel(replyId);
+		if (n > 0) {
+			map.put("success", true);
+			map.put("message", "删除成功");
+		} else {
+			map.put("success", false);
+			map.put("message", "删除失败");
+		}
+		return map;
+	}
 
 
 }
