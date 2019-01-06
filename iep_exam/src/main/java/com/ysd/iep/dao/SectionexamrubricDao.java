@@ -34,4 +34,6 @@ public interface SectionexamrubricDao extends JpaRepository<Sectionexamrubric, S
     @Query(value = "SELECT * from sectionexamrubric_tb where sectionexamrubric_sectionexamparper_id =?1", nativeQuery = true)
     List<Sectionexamrubric> selectsectionrubricforparperid(String parperid);
 
+
+
 }

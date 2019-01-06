@@ -450,6 +450,12 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
                     sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
                 }
+                List<Sectionexamanswer> sectionexamanswerList = sectionexamanswerdao.sectionanswerasc(sectionexamrubricList.get(i).getId());
+                for (int j = 0; j < sectionexamanswerList.size(); j++) {
+                    sectionexamanswerList.get(j).setSectionexamrubric(null);
+                }
+                sectionexamrubricList.get(i).setExamanswers(null);
+                sectionexamrubricList.get(i).setExamanswers(sectionexamanswerList);
                 Sectionexamrubric radiorubric = new Sectionexamrubric();
                 radiorubricList.add(sectionexamrubricList.get(i));
             }
@@ -457,6 +463,12 @@ public class SectionrubricServiceimpl implements SectionrubricService {
                 for (int j = 0; j < sectionexamrubricList.get(i).getExamanswers().size(); j++) {
                     sectionexamrubricList.get(i).getExamanswers().get(j).setSectionexamrubric(null);
                 }
+                List<Sectionexamanswer> sectionexamanswerList = sectionexamanswerdao.sectionanswerasc(sectionexamrubricList.get(i).getId());
+                for (int j = 0; j < sectionexamanswerList.size(); j++) {
+                    sectionexamanswerList.get(j).setSectionexamrubric(null);
+                }
+                sectionexamrubricList.get(i).setExamanswers(null);
+                sectionexamrubricList.get(i).setExamanswers(sectionexamanswerList);
                 Sectionexamrubric duorubric = new Sectionexamrubric();
                 duorubricList.add(sectionexamrubricList.get(i));
             }
