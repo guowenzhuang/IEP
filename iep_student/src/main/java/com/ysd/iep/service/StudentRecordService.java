@@ -4,24 +4,19 @@ import com.ysd.iep.entity.StudentRecord;
 import com.ysd.iep.entity.dto.Chapters;
 import com.ysd.iep.entity.dto.Course;
 import com.ysd.iep.entity.dto.CourseRecord;
-import com.ysd.iep.feign.CourseFeign;
 import com.ysd.iep.feign.TeacherFeign;
 import com.ysd.iep.repository.StudentRecordDao;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.PagingResult;
-import com.ysd.iep.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,7 +93,7 @@ public class StudentRecordService {
             //最后的子节点
             String watch = "0";
             for (StudentRecord s:sr) {
-                if(s.getChaid().equals(chapter.getChaId())){
+                if(s.getChaid().equals(chapter.getChaId()) && chapter.getChaViurl()!=null){
                     watch=s.getWatchtime();
                     System.out.println(chapter);
                     String sumTime=chapter.getChaTime();
@@ -133,6 +128,7 @@ public class StudentRecordService {
      * @param cid  课程id
      * @param chaId 章节id
      */
+
     @Transactional(rollbackOn = Exception.class)
     public void recordStuCha(String id,Integer cid,Integer chaId,Double watch){
         StudentRecord record = studentRecordDao.findRecord(id, cid, chaId);

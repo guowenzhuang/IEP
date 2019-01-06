@@ -177,6 +177,29 @@ public class UsersService {
         return usersDTOS;
     }
 
+
+    public List<UsersDTO> userByIds(String ids) {
+        List<String> userIds = Arrays.asList(ids.split(","));
+        List<UsersDB> usersDBs = new ArrayList<>();
+        for (int i = 0; i < userIds.size(); i++) {
+            String id=userIds.get(i);
+            List<String> byuserIds = usersDBs.stream().map(UsersDB::getId).collect(Collectors.toList());
+            if(byuserIds.contains(id)){
+                int index = byuserIds.indexOf(id);
+                UsersDB usersDB = usersDBs.get(index);
+                usersDBs.add(usersDB);
+            }else{
+                UsersDB user = usersDao.findById(id).get();
+                usersDBs.add(user);
+            }
+
+        }
+
+        List<UsersDTO> usersDTOS = BeanConverterUtil.copyList(usersDBs, UsersDTO.class);
+
+        return usersDTOS;
+    }
+
     /**
      * 修改用户某一列的值
      *

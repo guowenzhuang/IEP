@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
+
+import com.ysd.iep.dao.PostRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,6 +96,7 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer replyLike(Integer replyId, String userId) {
+		replyRepository.addLike(replyId);
 		return replyRepository.replyLike(replyId, userId);
 	}
 
@@ -107,6 +110,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public Integer deleteLike(String userId, Integer replyId) {
+		replyRepository.reduceLike(replyId);
 		return replyRepository.deleteLike(userId, replyId);
 	}
 
@@ -115,7 +119,19 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer insertReply(String replyContent, Integer parentId, Integer postId, String userId) {
+		replyRepository.updateReplyNum(parentId,postId);
+		//replyRepository.updatePostReplyNum(postId);
 		return replyRepository.insertReply(replyContent, parentId, postId, userId);
+	}
+	
+	/**
+	 * 更新帖子回复数
+	 * @return 
+	 * 
+	 */
+	@Override
+	public Integer updatePostReplyNum(Integer postId) {
+		return replyRepository.updatePostReplyNum(postId);
 	}
 
 	/**
@@ -139,6 +155,7 @@ public class ReplyServiceImpl implements ReplyService {
 	 */
 	@Override
 	public Integer userReport(String userId, Integer replyId, String reportReason) {
+		replyRepository.addReplyReportnum(replyId);
 		return replyRepository.userReport(userId, replyId, reportReason);
 	}
 
@@ -189,6 +206,41 @@ public class ReplyServiceImpl implements ReplyService {
 	public Integer upReplyIsDelO(Integer replyId) {
 		// TODO Auto-generated method stub
 		return replyRepository.upReplyIsDelO(replyId);
+	}
+
+	@Override
+	public List<Reply> getPostList(List<Integer> postIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getPostList(postIds);
+	}
+
+	@Override
+	public List<Integer> getLikeNumList(List<Integer> replyIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getLikeNumList(replyIds);
+	}
+
+	@Override
+	public List<Integer> getReportNumList(List<Integer> replyIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getReportNumList(replyIds);
+	}
+
+	@Override
+	public List<BigInteger> getReplyNumList(List<Integer> postIds) {
+		// TODO Auto-generated method stub
+		return replyRepository.getReplyNumList(postIds);
+	}
+
+	@Override
+	public int deleteReply(Integer replyId) {
+		try {
+			replyRepository.deleteById(replyId);
+			return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return 0;
+		}
 	}
 
 

@@ -1,14 +1,18 @@
 package com.ysd.iep.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.ReplyQuery;
 
-
+@PermissionType("回复")
 public interface ReplyService {
 	/**
 	 * 查询回复列表
@@ -106,6 +110,8 @@ public interface ReplyService {
 	 * @param replyId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('reply:upReplyIsDel')")
+    @PermissionMethod("软删除操作")
 	public Integer upReplyIsDel(Integer replyId);
 	
 	/**
@@ -113,8 +119,45 @@ public interface ReplyService {
 	 * @param replyId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('reply:upReplyIsDelO')")
+    @PermissionMethod("还原操作")
 	public Integer upReplyIsDelO(Integer replyId);
 	
+	/**
+	 * 获取帖子详情集合
+	 * @return
+	 */
+	public List<Reply> getPostList(List<Integer> postIds);
+	/**
+	 * 获取点赞数集合
+	 * @param replyIds
+	 * @return
+	 */
+	public List<Integer> getLikeNumList(List<Integer> replyIds);
+	/**
+	 * 获取举报数集合
+	 * @param replyIds
+	 * @return
+	 */
+	public List<Integer> getReportNumList(List<Integer> replyIds);
 	
+	/**
+	 * 获取回复数集合
+	 * @param postIds
+	 * @return
+	 */
+	public List<BigInteger> getReplyNumList(List<Integer> postIds);
+	/**
+	 * 	删除回复
+	 * @param replyId
+	 * @return
+	 */
+	public int deleteReply(Integer replyId);
+	/**
+	 * 更新帖子回复数
+	 * @param postId
+	 * @return
+	 */
+	Integer updatePostReplyNum(Integer postId);
 
 }

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author 80795
@@ -77,6 +78,11 @@ public class UsersController {
     public Result<String> getNameById(@RequestParam("id") String id){
         List<UsersDTO> usersDTOS=usersService.userById(id);
         return new Result<>(true,usersDTOS.get(0).getLoginName());
+    }
+    @GetMapping("/getNameByIds")
+    public Result<List<String>> getNameByIds(@RequestParam("ids") String ids){
+        List<UsersDTO> usersDTOS=usersService.userByIds(ids);
+        return new Result<List<String>>(true,usersDTOS.stream().map(UsersDTO::getLoginName).collect(Collectors.toList()));
     }
 
     @PostMapping

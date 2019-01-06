@@ -76,6 +76,8 @@ public class Post {
 	private Boolean isDelete;
 	@Transient
 	private Integer replyNum;
+	@Transient
+	private Boolean isMy;
 	
 	
 	

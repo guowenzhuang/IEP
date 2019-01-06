@@ -1,15 +1,16 @@
 package com.ysd.iep.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-import com.ysd.iep.entity.CoursePost;
+import com.ysd.iep.annotation.PermissionMethod;
+import com.ysd.iep.annotation.PermissionType;
 import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.PostQuery;
 import com.ysd.iep.entity.Reply;
 
+@PermissionType("帖子")
 public interface PostService {
 	/**
 	 * 带条件分页查询帖子
@@ -91,12 +92,16 @@ public interface PostService {
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:stickPost')")
+    @PermissionMethod("置顶帖子")
 	public Integer stickPost(Integer postId);
 	/**
 	 * 取消置顶
 	 * @param postId
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('post:cancelStick')")
+    @PermissionMethod("取消帖子置顶")
 	public Integer cancelStick(Integer postId);
 	
 	/**

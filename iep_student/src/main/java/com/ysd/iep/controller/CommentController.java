@@ -2,10 +2,12 @@ package com.ysd.iep.controller;
 
 import com.ysd.iep.entity.CommentDTO;
 import com.ysd.iep.entity.CommentLog;
+import com.ysd.iep.entity.Student;
 import com.ysd.iep.entity.StudentComment;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.repository.CommentLogRepository;
 import com.ysd.iep.service.CommentService;
+import com.ysd.iep.service.StudentService;
 import com.ysd.iep.util.Result;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,10 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private CommentLogRepository commentLogRepository;
-    @Autowired
+    @Autowired(required = false)
     private AdminFeign adminFeign;
+    @Autowired
+    private StudentService student;
 
     @GetMapping("/queryOrder")
     public Page<CommentDTO> queryOrder(@RequestParam("page") Integer page,@RequestParam("size") Integer size,@RequestParam("orderBy") String orderBy){
@@ -41,13 +45,21 @@ public class CommentController {
      * http://localhost:80/api/student/comment/queryCommentByCid
      */
     @GetMapping("/queryCommentByCid")
-    public Object queryCommentByCid(Integer cid, Integer page, Integer size){
+    public Object queryCommentByCid(Integer cid, Integer page, Integer size,String sid){
         Page<StudentComment> pageStu=commentService.queryCommentByCid(cid,page,size);
         List<StudentComment> rows=pageStu.getContent();
         for (StudentComment comment : rows) {
             // 通过用户id获取用户信息
             Result user = adminFeign.getNameById(comment.getSid());
             comment.setUserName(user.getMessage());
+            Student photo=student.getphotoByIds(comment.getSid());
+            comment.setPhoto(photo.getPhoto());//头像
+            CommentLog commentIsLike = commentLogRepository.findByMidAndSid(comment.getMid(),sid);
+            if(commentIsLike!=null){
+                comment.setIsLike(true);
+            }else{
+                comment.setIsLike(false);
+            }
         }
         Long total = pageStu.getTotalElements();
         Map<String, Object> map = new HashMap<>();
@@ -92,14 +104,17 @@ public class CommentController {
     @PutMapping ("/updateComment")
     public Object updateComment(Integer mid, Integer praise,String sid ) {
         CommentLog comment = commentLogRepository.findByMidAndSid(mid, sid);
+
                try{
                    if (comment == null) {
                     CommentLog commentLog = new CommentLog();
                     commentLog.setSid(sid);
                     commentLog.setMid(mid);
+
                     commentLogRepository.save(commentLog);
                     return commentService.updatePraise(mid, praise+1);
                 } else {
+                       System.out.println("comment!=null=>"+comment.getSid());
                   commentLogRepository.deleteById(comment.getCommentLogId());
                        commentService.updatePraise(mid, praise-1);
                     return "取消点赞";

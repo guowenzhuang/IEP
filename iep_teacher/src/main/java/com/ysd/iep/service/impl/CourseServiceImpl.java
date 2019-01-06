@@ -2,14 +2,17 @@ package com.ysd.iep.service.impl;
 
 import com.ysd.iep.dao.ChapterRepository;
 import com.ysd.iep.dao.CourseRepository;
+import com.ysd.iep.dao.TeacherRepository;
 import com.ysd.iep.entity.Chapters;
 import com.ysd.iep.entity.Course;
 import com.ysd.iep.entity.dto.CourseDTO;
+import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
 import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.util.BeanConverterUtil;
 import com.ysd.iep.util.EmptyUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +32,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository coursedao;
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     @Override
     /**
@@ -77,19 +82,31 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public Page<Course> queryCourseDepidAllPage(CourseQuery courseQuery) {
+        System.out.println("courseQuery==>"+courseQuery);
+        List<String> teacherIds=new ArrayList<>();
+        if(courseQuery.getCourDepid()!=null){
+            String courDepid = courseQuery.getCourDepid();
+             teacherIds = teacherRepository.findByteaIds(courDepid);
+            if(teacherIds==null || teacherIds.size()==0){
+                return null;
+            }
+        }
+        List<String> finalTeacherIds = teacherIds;
         Specification<Course> specification = new Specification<Course>() {
-
             @Override
             public Predicate toPredicate(Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<Predicate>();
-                // 名称模糊查询
+            // 名称模糊查询
                 if (EmptyUtil.stringE(courseQuery.getCourDepid())) {
-                    Path<String> namePath = root.get("courDepid");
-                    predicates.add(criteriaBuilder.like(namePath, "%" + courseQuery.getCourDepid() + "%"));
+                    CriteriaBuilder.In<Object> courTeaid = criteriaBuilder.in(root.get("courTeaid"));
+                    for (String id : finalTeacherIds) {
+                        courTeaid.value(id);
+                    }
+                    predicates.add(courTeaid);
                 }
-                Predicate[] p = new Predicate[predicates.size()];
-                return criteriaBuilder.and(predicates.toArray(p));
-            }
+            Predicate[] p = new Predicate[predicates.size()];
+            return criteriaBuilder.and(predicates.toArray(p));
+        }
         };
         Pageable pageable = null;
         if (EmptyUtil.stringE(courseQuery.getOrderBy())) {
@@ -99,6 +116,7 @@ public class CourseServiceImpl implements CourseService {
             pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
         }
         Page<Course> course = coursedao.findAll(specification, pageable);
+
         return course;
 
 
@@ -204,6 +222,30 @@ public class CourseServiceImpl implements CourseService {
 	public Course queryCourByid(Integer courid) {
 		// TODO Auto-generated method stub
 		return coursedao.findByCourseId(courid);
+	}
+
+
+
+	@Override
+	public PagingResult<Course> queryCourseBydepid(CourseQuery courseQuery) {
+		List<String> teaids = teacherRepository.findByteaIds(courseQuery.getCourDepid());
+        System.out.println("teaids>>>"+teaids);
+        String teaid = StringUtils.join(teaids,",");
+        System.out.println("teaid*****"+teaid);
+        courseQuery.setCourTeaid(teaid);
+        //分页查询
+        Pageable pageable = PageRequest.of(courseQuery.getPage() - 1, courseQuery.getPageSize());
+        Page<Course> course = null;
+        if (EmptyUtil.stringE(courseQuery.getCourDepid())){
+            course = coursedao.findByteaIds(teaid,pageable);
+        }else{
+            course = coursedao.findAll(pageable);
+        }
+        List<Course> courseList = course.getContent();
+        PagingResult pagingResult = new PagingResult();
+        pagingResult.setTotal(course.getTotalElements());
+        pagingResult.setRows(courseList);
+        return pagingResult;
 	}
 
 
