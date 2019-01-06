@@ -77,7 +77,7 @@ public class StudyController {
         return studyService.insertChapters(studentRecord);
     }
     @ApiOperation(value = "获取用户信息（头像）")
-    @PostMapping("/getphotoByIds")
+    @GetMapping("/getphotoByIds")
     public Object getphotoByIds(String id){
        return student.getphotoByIds(id).getPhoto();
     }
