@@ -106,8 +106,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
         }
 
         for (int k = 0; k < examrubricslist.size(); k++) {
-            StringBuilder duoid = new StringBuilder();
-            StringBuilder duoider = new StringBuilder();
+
 
             LookparperQuery lookparperQuery = new LookparperQuery();
             lookparperQuery.setSname(sname);
@@ -150,6 +149,8 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                     }
                 }
             } else if (examrubricslist.get(k).getRubricttype().equals("多选题")) {
+                StringBuilder duoid = new StringBuilder();
+                StringBuilder duoider = new StringBuilder();
                 lookparperQuery.setSeen(true);
                 for (int m = 0; m < examrubricslist.get(k).getExamanswers().size(); m++) {
                     if (examrubricslist.get(k).getExamanswers().get(m).getOptiones().equals("A")) {
@@ -167,7 +168,6 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                     String[] split = examrubricslist.get(k).getAnswerId().split(",");
                     for (int q = 0; q < split.length; q++) {
                         if (split[q].equals(examrubricslist.get(k).getExamanswers().get(m).getId())) {
-                            /* lookparperQuery.setAnswer(examrubricslist.get(i).getExamanswers().get(j).getId());*/
                             duoid.append(examrubricslist.get(k).getExamanswers().get(m).getOptiones() + " ");
                         }
                     }
@@ -177,7 +177,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
 
                         if (studentexamlogList.get(n).getExamrubricId().equals(examrubricslist.get(k).getId())) {
                             for (int r = 0; r < spliter.length; r++) {
-                                if (split[r].equals(examrubricslist.get(k).getExamanswers().get(m).getId())) {
+                                if (spliter[r].equals(examrubricslist.get(k).getExamanswers().get(m).getId())) {
                                     duoider.append(examrubricslist.get(k).getExamanswers().get(m).getOptiones() + " ");
                                 }
                             }
@@ -186,6 +186,7 @@ public class ExamparperServiceimplEr implements ExamparperServiceEr {
                     }
 
                 }
+                System.out.println("正確答案"+duoider.toString());
                 lookparperQuery.setAnswer(duoid.toString());
                 lookparperQuery.setSelectanswer(duoider.toString());
 
