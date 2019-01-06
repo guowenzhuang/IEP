@@ -16,6 +16,7 @@ import com.ysd.iep.entity.Post;
 import com.ysd.iep.entity.Reply;
 import com.ysd.iep.entity.ReplyQuery;
 import com.ysd.iep.feign.AdminFeign;
+import com.ysd.iep.feign.StudentFeign;
 import com.ysd.iep.service.PostService;
 import com.ysd.iep.service.ReplyService;
 import com.ysd.iep.tools.Result;
@@ -30,6 +31,8 @@ public class ReplyController {
 	private PostService postService;
 	@Autowired
 	private AdminFeign adminFeign;
+	@Autowired(required = false)
+	private StudentFeign studentFeign;
 
 	/**
 	 * 查询帖子下的回复列表
@@ -76,6 +79,9 @@ public class ReplyController {
 			reply.setReplyLikenum(likeNum);
 			// 将点赞数更新到数据库的字段里
 			postService.updateLikeNum(reply.getReplyId(), likeNum);
+			
+			String userImg = studentFeign.getphotoByIds(reply.getUserId());
+			reply.setUserImg(userImg);
 			
 		}
 		return replylist;
@@ -274,8 +280,7 @@ public class ReplyController {
 			map.put("success", false);
 			map.put("message", "还原失败");
 		}
-		return map;
-		
+		return map;		
 	}
 
 

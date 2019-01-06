@@ -201,6 +201,12 @@ public class ReplyServiceImpl implements ReplyService {
 		// TODO Auto-generated method stub
 		return replyRepository.upReplyIsDel(replyId);
 	}
+	
+	@Override
+	public Integer updateReplyIsDel(Integer replyId) {
+		// TODO Auto-generated method stub
+		return replyRepository.upReplyIsDel(replyId);
+	}
 
 	@Override
 	public Integer upReplyIsDelO(Integer replyId) {

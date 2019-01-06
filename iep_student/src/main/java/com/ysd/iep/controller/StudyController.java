@@ -78,7 +78,7 @@ public class StudyController {
     }
     @ApiOperation(value = "获取用户信息（头像）")
     @GetMapping("/getphotoByIds")
-    public Object getphotoByIds(String id){
+    public String getphotoByIds(String id){
        return student.getphotoByIds(id).getPhoto();
     }
 

@@ -159,5 +159,8 @@ public interface ReplyService {
 	 * @return
 	 */
 	Integer updatePostReplyNum(Integer postId);
+	
+	
+	Integer updateReplyIsDel(Integer replyId);
 
 }

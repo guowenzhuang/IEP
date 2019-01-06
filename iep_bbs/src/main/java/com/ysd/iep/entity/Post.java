@@ -78,6 +78,8 @@ public class Post {
 	private Integer replyNum;
 	@Transient
 	private Boolean isMy;
+	@Transient
+	private Object userImg;
 	
 	
 	

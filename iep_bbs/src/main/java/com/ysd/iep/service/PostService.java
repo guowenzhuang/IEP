@@ -116,6 +116,11 @@ public interface PostService {
 	 * @return
 	 */
 	Integer getReplyNum(Integer postId);
+	/**
+	 * 删除帖子
+	 * @return
+	 */
+	public int deletePost(Integer postId);
 	
 
 
