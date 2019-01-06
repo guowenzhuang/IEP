@@ -489,14 +489,13 @@ public class ExamrubricServiceimpl implements ExamrubricService {
         List<Examrubric> examrubricslist = this.getExamrubricforparperid(rubricquery);
 
 
-
-        int total=0;
+        int total = 0;
         int dannum = 0;
         int duonum = 0;
         int packnum = 0;
         int judgenum = 0;
         for (int i = 0; i < examrubricslist.size(); i++) {
-            total+=examrubricslist.get(i).getScore();
+            total += examrubricslist.get(i).getScore();
 
 
             if (examrubricslist.get(i).getRubricttype().equals("单选题")) {
@@ -635,10 +634,26 @@ public class ExamrubricServiceimpl implements ExamrubricService {
             }
             if (examrubricList.get(i).getRubricttype().equals("单选题")) {
                 Examrubric radiorubric = new Examrubric();
+
+                List<Examanswer> examanswerList = examanswerdao.answerasc(examrubricList.get(i).getId());
+                for (int j = 0; j < examanswerList.size(); j++) {
+                    examanswerList.get(j).setExamrubric(null);
+                }
+                examrubricList.get(i).setExamanswers(null);
+                examrubricList.get(i).setExamanswers(examanswerList);
                 radiorubricList.add(examrubricList.get(i));
+
             }
             if (examrubricList.get(i).getRubricttype().equals("多选题")) {
                 Examrubric duorubric = new Examrubric();
+
+                List<Examanswer> examanswerList = examanswerdao.answerasc(examrubricList.get(i).getId());
+                for (int j = 0; j < examanswerList.size(); j++) {
+                    examanswerList.get(j).setExamrubric(null);
+                }
+                examrubricList.get(i).setExamanswers(null);
+                examrubricList.get(i).setExamanswers(examanswerList);
+
                 duorubricList.add(examrubricList.get(i));
             }
             if (examrubricList.get(i).getRubricttype().equals("填空题")) {
@@ -911,7 +926,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                      */
                     Examparper examparper1 = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
                     String qualified = "";
-                    if (total > examparper1.getPassingScore()) {
+                    if (total >= examparper1.getPassingScore()) {
                         //成绩合格
                         performance.setIsqualified("合格");
                         qualified = "合格";
@@ -948,7 +963,7 @@ public class ExamrubricServiceimpl implements ExamrubricService {
                 String qualified = "";
                 Examparper examparper1 = examparperdao.findById(examUltimately.getExamparperId()).orElse(null);
 
-                if (total > examparper1.getPassingScore()) {
+                if (total >= examparper1.getPassingScore()) {
                     performanceer.setIsqualified("合格");
                     qualified = "合格";
                     com.ysd.iep.util.Result<Course> result = teacherFeign.queryCourByid(examUltimately.getCourseid());

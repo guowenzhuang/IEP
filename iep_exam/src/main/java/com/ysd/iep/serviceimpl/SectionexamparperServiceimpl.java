@@ -59,10 +59,13 @@ public class SectionexamparperServiceimpl implements SectionexamparperService {
      */
     @Override
     public Result deletsectionforcourseidandsectionidparperid(Integer courseid, Integer sectionid, String parperid) {
-        int r = sectionexamparperdao.deletsectionforcourseidandsectionidparperid(courseid, sectionid, parperid);
-        if (r > 0) {
+
+
+        try {
+            sectionexamparperdao.deleteById(parperid);
             return new Result(true, "移除章节测试试卷成功", null);
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             return new Result(false, "移除章节测试试卷失败", null);
         }
     }
