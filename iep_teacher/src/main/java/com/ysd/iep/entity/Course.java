@@ -48,10 +48,10 @@ public class Course implements Serializable{
 	@Column(columnDefinition="char(2) DEFAULT 0  NULL comment '备注:是否上架(0:否 1:是)'")
 	private String courIsputaway;//是否上架
 	@Column(columnDefinition="datetime  NULL comment '备注:开课时间'")
-	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+//	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 	private Date courOpentime;//开课时间
 	@Column(columnDefinition="datetime  NULL comment '备注:开课时间'")
-	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+//	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 	private Date courClosetime;//开课时间
 	@Column(columnDefinition="varchar(50)  NULL comment '备注:学 时'")
 	private String courClasshour;//学时
