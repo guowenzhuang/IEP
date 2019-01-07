@@ -216,17 +216,17 @@ public class ExamrubricController {
         return examrubricservice.queryexamrubric(rubricQuery);
     }
 
-   /* *//**
+  /**
      * 考试过之后成绩处理(单题的改卷处理)
-     *//*
+     */
     @RequestMapping(value = "/examend", method = RequestMethod.POST)
     public Object examend(ExamUltimately examUltimately) {
         return examrubricservice.examend(examUltimately);
-    }*/
+    }
     /**
      * RabbitMQ消息队列___考试过之后成绩处理(单题的改卷处理)
      */
-   @RequestMapping(value = "/examend", method = RequestMethod.POST)
+  /* @RequestMapping(value = "/examend", method = RequestMethod.POST)
     public Object examend(ExamUltimately examUltimately) {
 
         try {
@@ -237,7 +237,7 @@ return new Result(true,"已发送到消息队列",null);
             return new Result(false,"发送失败",null);
         }
 
-    }
+    }*/
 
     /**
      * 整个试卷做完之后点击交卷时候

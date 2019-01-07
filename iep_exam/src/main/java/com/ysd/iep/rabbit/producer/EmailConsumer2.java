@@ -33,7 +33,7 @@ public class EmailConsumer2 {
 	 *//*
 
 	*/
- @RabbitListener(queues = "new_fanout_user_queue", containerFactory="rabbitListenerContainerFactory")
+// @RabbitListener(queues = "new_fanout_user_queue", containerFactory="rabbitListenerContainerFactory")
 	public void examend(@Payload ExamUltimately examUltimately) {
 		String Ider = UUIDUtils.getUUID();
 
