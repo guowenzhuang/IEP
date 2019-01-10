@@ -143,7 +143,12 @@ public class HomeController {
 
         List<Integer> cids=teacherService.getCourseIdBy(depid);
         System.out.println("得到的id："+cids);
-        return new Result(true,bbsFeign.getDiscuss(cids));
+        if(cids.size()>0){
+			return new Result(true,bbsFeign.getDiscuss(cids));
+		}else{
+        	 return new Result(true,"暂无讨论！");
+		}
+
     }
 
 	/**
