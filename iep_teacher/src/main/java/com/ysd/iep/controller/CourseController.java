@@ -1,8 +1,29 @@
 package com.ysd.iep.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ysd.iep.dao.CourseRepository;
 import com.ysd.iep.entity.Course;
-import com.ysd.iep.entity.Teachers;
 import com.ysd.iep.entity.dto.CourseDTO;
 import com.ysd.iep.entity.dto.PagingResult;
 import com.ysd.iep.entity.dto.Result;
@@ -10,20 +31,15 @@ import com.ysd.iep.entity.query.CourseQuery;
 import com.ysd.iep.feign.AdminFeign;
 import com.ysd.iep.service.CourseService;
 import com.ysd.iep.service.TeachersService;
-import com.ysd.iep.util.EmptyUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @Api(value = "/course", tags = "课程")
 @RestController
 @RequestMapping("/course")
-public class CourseController {
+public class CourseController{
     @Autowired
     private CourseService courseService;
     @Autowired
@@ -101,7 +117,7 @@ public class CourseController {
     @ApiOperation(value = "修改课程")
     @PostMapping("updateCourseAll")
     public Result updateCourseAll(Course course) {
-    	System.err.println("课程>>>>"+course);
+    	System.out.println("课程>>>>"+course);
         Result add = courseService.updateCourse(course);
         return new Result(true);
     }
@@ -173,7 +189,7 @@ public class CourseController {
         Course cour = courseService.queryCourByid(courid);
         return new Result<Course>(true,cour);
     }
-
+   
 
 }
 
