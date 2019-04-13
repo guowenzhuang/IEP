@@ -2,15 +2,15 @@
 ---
 微服务划分
 
-iep_bbs  论坛   孟劭华组
+iep_bbs  论坛   
 
-iep_exam  考试  高中烨组
+iep_exam  考试  
 
-iep_student 学生   盛广杰组
+iep_student 学生   
 
-iep_teacher 老师   白婷婷组
+iep_teacher 老师   
 
-其他         郭文壮组
+其他         
 
 ## 启动项目之前:
 1. 从github上拉取项目  (使用sts/idea)
@@ -54,9 +54,9 @@ mybatis:
 
     spring:
       datasource:
-        url: 班级群里的mysql url
-        username: 班级群里的mysql 账号
-        password: 班级群里的mysql 密码
+        url: mysql url
+        username:mysql 账号
+        password: mysql 密码
       jpa:
         database: MySQL
         show-sql: true
@@ -145,8 +145,6 @@ axios访问示例
         })
 ## 注意事项
 1. 不要同时修改一个文件
-2. 不要提交其他组的文件
-使用sts的 提交的时候默认会把.clss文件也提交 
 
 解决:
 
