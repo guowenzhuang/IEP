@@ -21,28 +21,16 @@ public class IepAuthorizeConfigProvider implements AuthorizeConfigProvider {
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config
                 .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        securityProperties.getBrowser().getSignUpUrl(),
-                        SecurityConstants.DEFAULT_SESSION_INVALID_URL,
-                        SecurityConstants.DEFAULT_SESSION_INVALID_URL + ".html",
-                        securityProperties.getBrowser().getSignOutUrl(),
                         "/api/oauth/regist",
                         "/api/oauth/userRegist",
                         "/social/signUp",
-                        "/login",
                         "/oauth/check_token",
-                        "/hello",
                         "/api/student/**",
                         "/api/bbs/**",
                         "/swagger-ui.html",
                          "/swagger-resources/**",
                         "/webjars/**",
-                        "/v2/**",
-                        "/depart/get",
-                        "/depart/getTop7")
+                        "/v2/**")
                 .permitAll();
                 //.antMatchers("/student/*").hasRole("学生")
     }
