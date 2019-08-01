@@ -1,21 +1,38 @@
-智慧教学平台
+<h3 align="center">智慧教学平台</h3>
+
 ---
-微服务划分
 
-iep_bbs  论坛   
+<p align="center"> 
+    在线学习平台
+    <br> 
+</p>
 
-iep_exam  考试  
+## 📝 目录
 
-iep_student 学生   
+- [介绍](#about)
+- [运行](#run)
+- [图例](#tuli)
+- [作者](#author)
 
-iep_teacher 老师   
+## 🧐 介绍 <a name = "about"></a>
 
-其他         
+易课堂:学生在线学习平台
 
-## 启动项目之前:
-1. 从github上拉取项目  (使用sts/idea)
-2. 安装redis  端口设为6379 不用设置密码
-## 启动项目
+## 🏁 安装 <a name = "run"></a>
+
+### 1. 安装依赖环境
+
+- jdk8
+- redis
+- rabbitmq (非必须)
+- es (非必须)
+
+### 2.拉取项目
+
+### 3.导入依赖
+
+### 4.启动项目
+
 1. 运行redis server
 2. 启动 iep_eureka
 3. 启动 iep_config (需要等config完全启动后再启动以下的微服务)
@@ -25,137 +42,101 @@ iep_teacher 老师
 7. 启动 iep_exam
 8. 启动 iep_bbs
 9. 启动 iep_zuul
-10. 运行前端 [点这里](https://github.com/guowenzhuang/ieppage)
 
-4-9之间顺序可任意
+2-7之间顺序可任意
 
-## 内存调优
-如果项目启动太大 设置一下启动的参数
+没有先后顺序 
 
-    -Xms256M -Xmx512M
-## 开始编写之前
-### pom依赖
-根据自己组的选择 导入 jpa或者 mybatis依赖
+### 5. 启动前端
 
-jpa:
-    
-     <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-data-jpa</artifactId>
-     </dependency>
-mybatis:
+运行前端 [点这里](https://github.com/guowenzhuang/ieppage)
 
-    <dependency>
-        <groupId>org.mybatis.spring.boot</groupId>
-        <artifactId>mybatis-spring-boot-starter</artifactId>
-    </dependency>
-### 更改配置 application.yml
-配置数据库连接:
+## 🎨 图例 <a name = "tuli"></a>
 
-    spring:
-      datasource:
-        url: mysql url
-        username:mysql 账号
-        password: mysql 密码
-      jpa:
-        database: MySQL
-        show-sql: true
-        hibernate:
-          ddl-auto: update
-        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-## 如何进行测试Restful
-1. <a href="#dl">登录获得token</a>
-2. <a href="#fw">token存到头信息中测试</a>
-
-访问你项目的路径以/api开头
-
-列如访问 iep_student微服务下的Restful为/api/student/*
-
-路由匹配规则:
-
-    zuul:
-      routes:
-        teacher:
-          serviceId: IEP-TEACHER
-          path: /teacher/**
-        bbs:
-          serviceId: IEP-BBS
-          path: /bbs/**
-        exam:
-          serviceId: IEP-EXAM
-          path: /exam/**
-        student:
-          serviceId: IEP-STUDENT
-          path: /student/**
-        oss:
-          serviceId: IEP-OSS
-          path: /oss/**
-      ignored-services: "*"
-      prefix: "/api"
+![5d427e0e9197e10961](https://i.loli.net/2019/08/01/5d427e0e9197e10961.png)
 
 
-<h2 id="dl">登录获得token</h2>
-axios连接示例:
 
-    let params = new URLSearchParams();
-    //认证类型
-    params.append("grant_type", "password");
-    //用户名
-    params.append("username", username.value);
-    //密码
-    params.append("password", password.value);
-    //发送请求
-     axios({
-            method: 'post',
-            url: '/oauth/token',
-            data: params,
-            headers: {
-                //头信息
-                "Authorization": "Basic aWVwOmllcHNlY3JldA=="
-            }
-        })
-返回值示例:
-
-    
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLlvKDkuIkiLCJzY29wZSI6WyJhbGwiLCJyZWFkIiwid3JpdGUiXSwiY29tcGFueSI6ImllcCIsImV4cCI6MTU0NDI4Njc0MSwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVf5a2m55SfIn0seyJhdXRob3JpdHkiOiLmtYvor5XmnYPpmZAifV0sImp0aSI6IjRhNzFhM2I4LWJiZmItNGFkZi1iMGUyLWZiYWViMzUyMmU4ZSIsImNsaWVudF9pZCI6ImllcCJ9.b4IPGfD7yPMbYRdpljSMGz5t20mBUUDE4KkzE22NAaI",
-    "token_type": "bearer",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLlvKDkuIkiLCJzY29wZSI6WyJhbGwiLCJyZWFkIiwid3JpdGUiXSwiYXRpIjoiNGE3MWEzYjgtYmJmYi00YWRmLWIwZTItZmJhZWIzNTIyZThlIiwiY29tcGFueSI6ImllcCIsImV4cCI6MTU0Njg3MTU0MSwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVf5a2m55SfIn0seyJhdXRob3JpdHkiOiLmtYvor5XmnYPpmZAifV0sImp0aSI6ImRkMzVjMjUzLTg1ZTQtNGU1Ny1hM2JkLTRlMWM1YmNhYjA0NCIsImNsaWVudF9pZCI6ImllcCJ9.8q6LhCoUZA5zLFYd11J6j8fb04FGFPsNEDNo0m78sMg",
-    "expires_in": 7199,
-    "scope": "all read write",
-    "company": "iep",
-    "authorities": [
-    {
-    "authority": "ROLE_学生"
-    },
-    {
-    "authority": "测试权限"
-    }
-    ],
-    "jti": "4a71a3b8-bbfb-4adf-b0e2-fbaeb3522e8e"
-access_token  为你的登录token
-<h2 id="fw">token存到头信息中测试</h2>  
-axios访问示例
-
-      axios({
-            method: 'get',
-            url: '/api/oauth/me',
-            headers: {
-                "Authorization": "bearer "+你的token
-            }
-        })
-## 注意事项
-1. 不要同时修改一个文件
-
-解决:
-
-下载群里的 .gitignore文件 拉到IEP项目下 就能解决提交.class的问题  
-     
-## 疑问专区
-暂无 
-
-欢迎大家Issues  也可以QQ向我提问  
+![5d427e16b9e2d19558](https://i.loli.net/2019/08/01/5d427e16b9e2d19558.png)
 
 
-    
 
-   
+![5d427e1dc928273426](https://i.loli.net/2019/08/01/5d427e1dc928273426.png)
+
+
+
+![5d427e222e7db38108](https://i.loli.net/2019/08/01/5d427e222e7db38108.png)
+
+
+
+![5d427e270af5c21398](https://i.loli.net/2019/08/01/5d427e270af5c21398.png)
+
+
+
+![5d427e2aba3db43979](https://i.loli.net/2019/08/01/5d427e2aba3db43979.png)
+
+
+
+![5d427e2e4040a71031](https://i.loli.net/2019/08/01/5d427e2e4040a71031.png)
+
+
+
+![5d427e32950c477074](https://i.loli.net/2019/08/01/5d427e32950c477074.png)
+
+
+
+![5d427e37eb80d75262](https://i.loli.net/2019/08/01/5d427e37eb80d75262.png)
+
+
+
+![5d427e3b8d64752061](https://i.loli.net/2019/08/01/5d427e3b8d64752061.png)
+
+
+
+![5d427e4012d1221010](https://i.loli.net/2019/08/01/5d427e4012d1221010.png)
+
+
+
+![5d427e4418dfb58470](https://i.loli.net/2019/08/01/5d427e4418dfb58470.png)
+
+
+
+![5d427e47f279340883](https://i.loli.net/2019/08/01/5d427e47f279340883.png)
+
+
+
+![5d427e4a99e9447402](https://i.loli.net/2019/08/01/5d427e4a99e9447402.png)
+
+
+
+![5d427e58d877939498](https://i.loli.net/2019/08/01/5d427e58d877939498.png)
+
+
+
+![5d427e628055146533](https://i.loli.net/2019/08/01/5d427e628055146533.png)
+
+
+
+![5d427e67c6c4d64864](https://i.loli.net/2019/08/01/5d427e67c6c4d64864.png)
+
+
+
+![5d427e6c4b53184867](https://i.loli.net/2019/08/01/5d427e6c4b53184867.png)
+
+
+
+![5d427e6f5981546849](https://i.loli.net/2019/08/01/5d427e6f5981546849.png)
+
+
+
+![5d427e73a5f3081180](https://i.loli.net/2019/08/01/5d427e73a5f3081180.png)
+
+
+
+![5d427e780ebde53080](https://i.loli.net/2019/08/01/5d427e780ebde53080.png)
+
+
+
+## ✍️ 作者 <a name = "authors"></a>
+
+- 河工大16届05班全体成员 
