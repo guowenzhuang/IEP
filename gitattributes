@@ -1,1 +1,1 @@
-*.sql linguist-vendored
+db/* linguist-vendored
