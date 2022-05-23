@@ -7,8 +7,6 @@
     <br> 
 </p>
 
-## java交流群: 145381037
-
 ## 📝 目录
 
 - [介绍](#about)
@@ -146,3 +144,7 @@
 微信
 
 ![CdqxBRMuFAY614Z](https://i.loli.net/2019/09/06/CdqxBRMuFAY614Z.jpg)
+
+## java交流群
+
+![java交流群: 145381037](https://sm.ms/image/1od6XhYxVqBEyru)
